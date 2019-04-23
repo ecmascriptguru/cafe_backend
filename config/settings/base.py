@@ -57,7 +57,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -125,7 +125,7 @@ STATIC_URL = '/static/'
 
 #AUTHENTICATION SETTINGS
 AUTH_USER_MODEL = 'users.User'
-LOGIN_REDIRECT_URL = reverse_lazy('tenant_routes:home_view')
+LOGIN_REDIRECT_URL = reverse_lazy('settings:users:user_listview')
 LOGIN_URL = reverse_lazy('login')
 LOGOUT_REDIRECT_URL = reverse_lazy('login')
 
