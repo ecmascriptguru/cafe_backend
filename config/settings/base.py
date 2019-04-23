@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
 
     # Local apps
     'cafe_backend.apps.users',
+    'cafe_backend.apps.dishes',
 ]
 
 MIDDLEWARE = [
@@ -132,3 +134,10 @@ LOGOUT_REDIRECT_URL = reverse_lazy('login')
 # AUTHENTICATION_BACKENDS = (
 #     'dj_saas_blog.apps.users.backends.CustomModelBackend',
 # )
+
+
+# MULTI-Language model configure
+gettext = lambda s: s
+LANGUAGES = (
+    ('ko', gettext('Korean')),
+)

@@ -4,4 +4,6 @@ from django.urls import path, include
 urlpatterns = [
     path('tables/', include(('cafe_backend.apps.users.urls', 'cafe_backend.apps.users'),
         namespace='settings:users')),
+    path('categories/', include(('cafe_backend.apps.dishes.urls', 'cafe_backend.apps.dishes'),
+        namespace='settings:caregories')),
 ]
