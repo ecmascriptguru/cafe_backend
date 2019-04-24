@@ -5,5 +5,5 @@ from . import views
 app_name = 'cafe_backend.apps.dishes'
 
 urlpatterns = [
-    # path('', views.UserListView.as_view(), name='user_listview'),
+    # path('', views.CategoryListView.as_view(), name='category_listview'),
 ]
