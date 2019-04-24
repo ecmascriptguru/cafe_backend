@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -146,3 +147,11 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
+
+# MODELTRANSLATION CONFIG
+gettext = lambda s: s
+LANGUAGES = (
+    ('zh', gettext('Chinese')),
+    ('ko', gettext('Korean')),
+)
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'zh'
