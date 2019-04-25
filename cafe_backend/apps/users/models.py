@@ -14,3 +14,22 @@ class Table(TimeStampedModel):
     male = models.PositiveSmallIntegerField(default=0)
     female = models.PositiveSmallIntegerField(default=0)
     is_vip = models.BooleanField(default=False)
+
+    @property
+    def imei(self):
+        return self.user.username
+    
+    @imei.setter
+    def imei(self, value):
+        self.user.username = value
+        self.user.set_password(value)
+        self.user.save()
+    
+    @property
+    def name(self):
+        return self.user.first_name
+    
+    @name.setter
+    def name(self, value):
+        self.user.first_name = value
+        self.user.save()

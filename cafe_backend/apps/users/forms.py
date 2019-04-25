@@ -5,16 +5,19 @@ from .models import Table, User
 
 class TableForm(forms.ModelForm):
     imei = forms.CharField(max_length=16, min_length=14, strip=True, )
+    name = forms.CharField(max_length=12, )
+
     class Meta:
         model = Table
-        fields = ('imei', 'size', 'male', 'female', 'is_vip', )
+        fields = ('name', 'imei', 'size', 'male', 'female', 'is_vip', )
     
     def __init__(self, *args, **kwargs):
         super(TableForm, self).__init__(*args, **kwargs)
 
         self.fields['imei'].label = _('IMEI Code')
         if self.instance.pk:
-            self.fields['imei'].initial = self.instance.user.username
+            self.fields['name'].initial = self.instance.name
+            self.fields['imei'].initial = self.instance.imei
 
     def clean_male(self):
         male = self.cleaned_data['male']
@@ -35,4 +38,6 @@ class TableForm(forms.ModelForm):
                 self.cleaned_data['imei'], email=None,
                 password=self.cleaned_data['imei'], is_table=True)
             self.instance.user = user
+        self.instance.imei = self.cleaned_data['imei']
+        self.instance.name = self.cleaned_data['name']
         return super(TableForm, self).save(commit)
