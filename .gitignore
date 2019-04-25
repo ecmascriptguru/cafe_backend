@@ -2,3 +2,4 @@
 .vscode/*
 local_env.json
 *.pyc
+node_modules/*
