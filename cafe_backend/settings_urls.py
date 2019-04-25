@@ -3,7 +3,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('tables/', include(('cafe_backend.apps.users.urls', 'cafe_backend.apps.users'),
-        namespace='settings:users')),
+        namespace='tables')),
     path('categories/', include(('cafe_backend.apps.dishes.urls', 'cafe_backend.apps.dishes'),
-        namespace='settings:caregories')),
+        namespace='caregories')),
 ]

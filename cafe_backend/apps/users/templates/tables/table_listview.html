@@ -1,0 +1,3 @@
+{% for table in object_list %}
+<a href="{% url 'tables:table_updateview' pk=table.pk %}">{{ table.name }}</a>
+{% endfor %}

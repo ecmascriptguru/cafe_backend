@@ -3,7 +3,7 @@ from django import forms
 from .models import Table, User
 
 
-class TableForm(forms.ModelForm):
+class TableAdminForm(forms.ModelForm):
     imei = forms.CharField(max_length=16, min_length=14, strip=True, )
     name = forms.CharField(max_length=12, )
 
@@ -12,7 +12,7 @@ class TableForm(forms.ModelForm):
         fields = ('name', 'imei', 'size', 'male', 'female', 'is_vip', )
     
     def __init__(self, *args, **kwargs):
-        super(TableForm, self).__init__(*args, **kwargs)
+        super(TableAdminForm, self).__init__(*args, **kwargs)
 
         self.fields['imei'].label = _('IMEI Code')
         if self.instance.pk:
@@ -40,4 +40,10 @@ class TableForm(forms.ModelForm):
             self.instance.user = user
         self.instance.imei = self.cleaned_data['imei']
         self.instance.name = self.cleaned_data['name']
-        return super(TableForm, self).save(commit)
+        return super(TableAdminForm, self).save(commit)
+
+
+class TableForm(forms.ModelForm):
+    class Meta:
+        model = Table
+        fields = ('size', 'male', 'female', 'is_vip', )
