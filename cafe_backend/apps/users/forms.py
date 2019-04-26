@@ -1,5 +1,7 @@
 from django.utils.translation import ugettext_lazy as _
 from django import forms
+from crispy_forms.layout import Layout, Submit, ButtonHolder
+from crispy_forms.helper import FormHelper
 from .models import Table, User
 
 
@@ -47,4 +49,17 @@ class TableAdminForm(forms.ModelForm):
 class TableForm(forms.ModelForm):
     class Meta:
         model = Table
-        fields = ('size', 'male', 'female', 'is_vip', )
+        fields = ('male', 'female', 'is_vip', )
+
+    def __init__(self, *args, **kwargs):
+        super(TableForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            'male', 'female', 'is_vip',
+            ButtonHolder(
+                Submit(
+                    'submit', 'Submit',
+                    css_class='btn btn-primary pull-right'),
+                wrapper_class='form-group',
+            ),
+        )

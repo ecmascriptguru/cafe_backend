@@ -1,5 +1,25 @@
 {% extends 'layouts/adminlte_base.html' %}
 
-{% for table in object_list %}
-<a href="{% url 'tables:table_updateview' pk=table.pk %}">{{ table.name }}</a>
-{% endfor %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+        <i class="fa fa-key"></i>
+        Tables
+        <small>List view of tables</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>Settings</a></li>
+        <li><a href="#"><i class="fa fa-key"></i>Tables</a></li>
+        <li class="active">List</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        {% for table in object_list %}
+        {% include 'tables/_table_list_item.html' %}
+        {% endfor %}
+    </div>
+</section>
+{% endblock content %}

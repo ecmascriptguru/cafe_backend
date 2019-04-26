@@ -15,6 +15,10 @@ class Table(TimeStampedModel):
     female = models.PositiveSmallIntegerField(default=0)
     is_vip = models.BooleanField(default=False)
 
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('tables:table_updateview', args=[self.pk])
+
     @property
     def imei(self):
         return self.user.username

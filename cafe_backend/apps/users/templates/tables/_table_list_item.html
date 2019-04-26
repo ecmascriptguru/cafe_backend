@@ -1,0 +1,15 @@
+<div class="col-md-3 col-sm-4 col-xs-6">
+    <div class="small-box bg-aqua">
+        <div class="inner">
+            <h3>{{ table.name }}</h3>
+
+            <p>{{ table.size }}</p>
+        </div>
+        <div class="icon">
+            <!-- <i class="fa fa-shopping-cart"></i> -->
+        </div>
+        <a href="{% url 'tables:table_updateview' pk=table.pk %}" class="small-box-footer">
+            More info <i class="fa fa-arrow-circle-right"></i>
+        </a>
+    </div>
+</div>
