@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.conf.urls import url
 from django.urls import path, include
+from rest_framework_jwt.views import (
+    obtain_jwt_token, refresh_jwt_token, verify_jwt_token)
 
 urlpatterns = [
     path('api/', include('cafe_backend.api_urls')),
@@ -26,4 +28,7 @@ urlpatterns = [
     path('superadmin/', admin.site.urls),
     url(r'^api-auth/', include(
         'rest_framework.urls', namespace='rest_framework')),
+    url(r'^api-token-auth/', obtain_jwt_token),
+    url(r'^api-token-refresh/', refresh_jwt_token),
+    url(r'^api-token-verify/', verify_jwt_token),
 ]
