@@ -10,7 +10,7 @@ class TableAdminForm(forms.ModelForm):
     class Meta:
         model = Table
         fields = ('name', 'imei', 'size', 'male', 'female', 'is_vip', )
-    
+
     def __init__(self, *args, **kwargs):
         super(TableAdminForm, self).__init__(*args, **kwargs)
 
@@ -29,9 +29,10 @@ class TableAdminForm(forms.ModelForm):
         male = self.cleaned_data['male']
         female = self.cleaned_data['female']
         if male + female > self.cleaned_data['size']:
-            self.add_error('female', _('Male + Femail should not be greater than size!'))
+            self.add_error('female', _('Male + Femail should not be greater\
+                than size!'))
         return female
-    
+
     def save(self, commit=True):
         if self.instance.pk is None:
             user = User.objects.create_user(

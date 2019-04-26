@@ -23,5 +23,6 @@ urlpatterns = [
     path('settings/', include('cafe_backend.settings_urls')),
     path('auth/', include('django.contrib.auth.urls')),
     path('superadmin/', admin.site.urls),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api-auth/', include(
+        'rest_framework.urls', namespace='rest_framework')),
 ]
