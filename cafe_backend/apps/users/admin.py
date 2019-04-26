@@ -6,7 +6,10 @@ from .models import User, Table
 
 
 class RestaurantUserAdmin(UserAdmin):
-    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'is_table', )
+    list_display = (
+        'username', 'email', 'first_name', 'last_name',
+        'is_staff', 'is_table', )
+
     def get_queryset(self, *args, **kwargs):
         qs = super(RestaurantUserAdmin, self).get_queryset(*args, **kwargs)
         return qs.filter(is_table=False)
