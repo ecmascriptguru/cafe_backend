@@ -1,9 +1,16 @@
 window.$ = window.jQuery = require('jquery')
 
 require('bootstrap')
-require('adminlte')
+require('admin-lte')
 require('icheck')
 
-import '../stylesheets/layout.css'
-import '../images/user2-160x160.jpg'
-import '../images/user3-128x128.jpg'
+import { enableLiveView } from "./utils/live";
+
+window.EmailHunter = (() => {
+    $('.carousel').carousel()
+    return {
+        tools: {
+            enableLiveView
+        }
+    }
+})()
