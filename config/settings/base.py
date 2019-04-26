@@ -156,3 +156,4 @@ LANGUAGES = (
     ('ko', gettext('Korean')),
 )
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'zh'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
