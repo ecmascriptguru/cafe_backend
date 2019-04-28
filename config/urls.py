@@ -19,8 +19,10 @@ from django.conf.urls import url
 from django.urls import path, include
 from rest_framework_jwt.views import (
     obtain_jwt_token, refresh_jwt_token, verify_jwt_token)
+from cafe_backend.apps.users.views import TablesListView
 
 urlpatterns = [
+    path('', TablesListView.as_view(), name='root_url'),
     path('api/', include('cafe_backend.api_urls')),
     path('mgnt/', include('cafe_backend.mgnt_urls')),
     path('settings/', include('cafe_backend.settings_urls')),
