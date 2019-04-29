@@ -7,7 +7,9 @@ class DishSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Dish
-        fields = ('name', 'description', 'images', )
+        fields = (
+            'name', 'name_en', 'name_ko',
+            'description', 'description_en', 'description_ko', 'images', )
 
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
@@ -15,4 +17,4 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Category
-        fields = ('name', 'is_active', 'dishes', )
+        fields = ('name', 'name_en', 'name_ko', 'is_active', 'dishes', )

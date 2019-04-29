@@ -1,4 +1,4 @@
-from django.contrib import admin
+from cafe_backend.apps.dishes.admin import admin_site
 from django.contrib.admin import ModelAdmin
 from django.contrib.auth.admin import UserAdmin
 from .forms import TableAdminForm
@@ -19,5 +19,5 @@ class TableAdmin(ModelAdmin):
     list_display = ('name', 'imei', 'size', 'is_vip', )
     form = TableAdminForm
 
-admin.site.register(User, RestaurantUserAdmin)
-admin.site.register(Table, TableAdmin)
+admin_site.register(User, RestaurantUserAdmin)
+admin_site.register(Table, TableAdmin)

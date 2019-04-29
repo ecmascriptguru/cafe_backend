@@ -1,9 +1,8 @@
 from django import forms
-from modeltranslation.forms import TranslationModelForm
 from .models import Category, Dish, DishImage
 
 
-class CategoryForm(TranslationModelForm):
+class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields = ('name', 'name_zh', 'is_active', )
+        fields = ('name', 'name_en', 'name_ko', 'is_active', )

@@ -8,6 +8,8 @@ def dish_images_directory_path(instance, filename):
 
 class Category(TimeStampedModel):
     name = models.CharField(max_length=128)
+    name_en = models.CharField(max_length=128)
+    name_ko = models.CharField(max_length=128)
     is_active = models.BooleanField(default=True)
 
     class Meta:
@@ -22,7 +24,11 @@ class Dish(TimeStampedModel):
         Category, on_delete=models.SET_NULL, related_name='dishes',
         null=True)
     name = models.CharField(max_length=128)
+    name_en = models.CharField(max_length=128)
+    name_ko = models.CharField(max_length=128)
     description = models.TextField(max_length=1024)
+    description_en = models.TextField(max_length=1024)
+    description_ko = models.TextField(max_length=1024)
     price = models.FloatField()
     is_active = models.BooleanField(default=True)
 

@@ -21,6 +21,7 @@ from django.conf import settings
 from rest_framework_jwt.views import (
     obtain_jwt_token, refresh_jwt_token, verify_jwt_token)
 from cafe_backend.apps.users.views import TablesListView
+from cafe_backend.apps.dishes.admin import admin_site
 
 urlpatterns = [
     path('', TablesListView.as_view(), name='root_url'),
@@ -28,7 +29,7 @@ urlpatterns = [
     path('mgnt/', include('cafe_backend.mgnt_urls')),
     path('settings/', include('cafe_backend.settings_urls')),
     path('auth/', include('django.contrib.auth.urls')),
-    path('superadmin/', admin.site.urls),
+    path('superadmin/', admin_site.urls),
     url(r'^api-auth/', include(
         'rest_framework.urls', namespace='rest_framework')),
     url(r'^api-token-auth/', obtain_jwt_token),

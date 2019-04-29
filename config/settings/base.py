@@ -32,7 +32,6 @@ ALLOWED_HOSTS = ['192.168.0.145', 'localhost']
 # Application definition
 
 INSTALLED_APPS = [
-    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -154,7 +153,7 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.'
     'PageNumberPagination',
-    'PAGE_SIZE': 10,
+    'PAGE_SIZE': 2,
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
@@ -164,14 +163,12 @@ REST_FRAMEWORK = {
 
 
 def gettext(s):
-    # MODELTRANSLATION CONFIG
     return s
 
 LANGUAGES = (
     ('zh', gettext('Chinese')),
     ('ko', gettext('Korean')),
 )
-MODELTRANSLATION_DEFAULT_LANGUAGE = 'zh'
 # During development only
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
