@@ -10,8 +10,13 @@ class CategoryAdmin(ModelAdmin):
         model = Category
 
 
+class ImageInline(admin.TabularInline):
+    model = Image
+
+
 class DishAdmin(ModelAdmin):
     list_display = ('name', 'description', 'price', 'is_active', )
+    inlines = (ImageInline, )
 
     class Meta:
         model = Dish

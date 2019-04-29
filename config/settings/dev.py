@@ -79,6 +79,9 @@ AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
 }
 AWS_LOCATION = 'static'
+AWS_DEFAULT_ACL = None
+AWS_S3_ENCRYPTION = True
+AWS_S3_FILE_OVERWRITE = True
 
 if not AWS_ACCESS_KEY_ID or not AWS_SECRET_ACCESS_KEY or\
         not AWS_STORAGE_BUCKET_NAME:

@@ -3,7 +3,7 @@ from model_utils.models import TimeStampedModel
 
 
 def dish_images_directory_path(instance, filename):
-    return 'dishes/instance.id/%Y-%m-%d/'
+    return 'dishes/%d/%s' % (instance.dish.id, filename)
 
 
 class Category(TimeStampedModel):
@@ -27,4 +27,4 @@ class Dish(TimeStampedModel):
 class DishImage(TimeStampedModel):
     dish = models.ForeignKey(
         Dish, on_delete=models.CASCADE, related_name='images')
-    file = models.ImageField(upload_to=dish_images_directory_path)
+    file = models.ImageField(upload_to='dishes/%Y/%m/%d')
