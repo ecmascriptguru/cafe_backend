@@ -13,6 +13,9 @@ class Category(TimeStampedModel):
     class Meta:
         verbose_name_plural = "categories"
 
+    def __str__(self):
+        return self.name
+
 
 class Dish(TimeStampedModel):
     category = models.ForeignKey(
@@ -23,8 +26,14 @@ class Dish(TimeStampedModel):
     price = models.FloatField()
     is_active = models.BooleanField(default=True)
 
+    def __str__(self):
+        return "<dish(%d): %s>" % (self.pk, self.name)
+
 
 class DishImage(TimeStampedModel):
     dish = models.ForeignKey(
         Dish, on_delete=models.CASCADE, related_name='images')
     file = models.ImageField(upload_to='dishes/%Y/%m/%d')
+
+    def __str__(self):
+        return self.file.url

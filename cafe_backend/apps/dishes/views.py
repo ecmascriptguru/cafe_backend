@@ -1,15 +1,22 @@
 from django.views import generic
 from django.db.models import QuerySet
 from django.contrib.auth.mixins import LoginRequiredMixin
-from rest_framework import viewsets
-from .serializers import CategorySerializer
+from rest_framework import viewsets, permissions
+from .serializers import CategorySerializer, DishSerializer
 from .forms import CategoryForm
 from .models import Category, Dish
 
 
-class CategoryViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
+class CategoryViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CategorySerializer
-    queryset = Category.objects.all()
+    queryset = Category.objects.filter(is_active=True)
+
+
+class DishViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    serializer_class = DishSerializer
+    queryset = Dish.objects.filter(is_active=True)
 
 
 class CategoryListView(LoginRequiredMixin, generic.ListView):
