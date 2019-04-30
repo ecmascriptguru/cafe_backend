@@ -55,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'cafe_backend.libs.twilio.middlewares.TwilioNotificationsMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
