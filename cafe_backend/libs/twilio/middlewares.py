@@ -33,4 +33,4 @@ class TwilioNotificationsMiddleware(MiddlewareMixin):
 
         logger.info('Administrators notified')
 
-        return super().process_exception(request, exception)
+        return None
