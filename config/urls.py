@@ -15,15 +15,28 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django.conf.urls import url
+from django.conf.urls import url, static
 from django.urls import path, include
+from django.conf import settings
+from rest_framework_jwt.views import (
+    obtain_jwt_token, refresh_jwt_token, verify_jwt_token)
+from cafe_backend.apps.users.views import TablesListView
+from cafe_backend.apps.dishes.admin import admin_site
 
 urlpatterns = [
+    path('', TablesListView.as_view(), name='root_url'),
     path('api/', include('cafe_backend.api_urls')),
     path('mgnt/', include('cafe_backend.mgnt_urls')),
     path('settings/', include('cafe_backend.settings_urls')),
     path('auth/', include('django.contrib.auth.urls')),
-    path('superadmin/', admin.site.urls),
+    path('superadmin/', admin_site.urls),
     url(r'^api-auth/', include(
         'rest_framework.urls', namespace='rest_framework')),
+    url(r'^api-token-auth/', obtain_jwt_token),
+    url(r'^api-token-refresh/', refresh_jwt_token),
+    url(r'^api-token-verify/', verify_jwt_token),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static.static(
+        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

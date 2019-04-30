@@ -1,0 +1,8 @@
+{% extends 'layouts/adminlte_base.html' %}
+
+
+{% block content %}
+    {% for item in object_list %}
+    <a href="{% url 'dishes:category_updateview' pk=item.pk %}">{{ item.name }}</a>
+    {% endfor %}
+{% endblock %}

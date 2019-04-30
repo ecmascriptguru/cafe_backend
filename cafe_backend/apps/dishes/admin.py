@@ -1,11 +1,37 @@
 from django.contrib import admin
-from django.contrib.admin import ModelAdmin
-from .models import Category
+from django.contrib.admin import ModelAdmin, AdminSite
+from django.utils.translation import ugettext_lazy as _
+from .models import Category, Dish, DishImage as Image
+
+
+class CafeAdminSite(AdminSite):
+    site_header = _("Cafe Administration")
+    site_title = _("Cafe Admin")
+    index_title = _("Cafe Admin")
 
 
 class CategoryAdmin(ModelAdmin):
-    list_display = ('name', 'name_ko', 'is_active', )
+    list_display = ('name', 'name_en', 'name_ko', 'is_active', )
+
     class Meta:
         model = Category
 
-admin.site.register(Category, CategoryAdmin)
+
+class ImageInline(admin.TabularInline):
+    model = Image
+
+
+class DishAdmin(ModelAdmin):
+    list_display = (
+        'name', 'name_en', 'name_ko',
+        'description', 'description_en', 'description_ko',
+        'price', 'is_active', )
+    inlines = (ImageInline, )
+
+    class Meta:
+        model = Dish
+
+
+admin_site = CafeAdminSite()
+admin_site.register(Category, CategoryAdmin)
+admin_site.register(Dish, DishAdmin)
