@@ -31,7 +31,7 @@ pipelines:
             # Docker variables
             - export IMAGE_NAME="${DOCKER_HUB_USERNAME}/${BITBUCKET_REPO_SLUG}:${BITBUCKET_BUILD_NUMBER}"
             # ECS variables
-            - export ECS_CLUSTER_NAME="cafeback2"
+            - export ECS_CLUSTER_NAME="cafebackend"
             - export ECS_SERVICE_NAME="${BITBUCKET_REPO_SLUG}"
             - export ECS_TASK_NAME="${BITBUCKET_REPO_SLUG}"
             - export ECS_CONTAINER_INSTANCE_ID="${AWS_ECS_CONTAINER_INSTANCE}"
