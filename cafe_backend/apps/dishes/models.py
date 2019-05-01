@@ -1,5 +1,6 @@
 from django.db import models
 from model_utils.models import TimeStampedModel
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 def dish_images_directory_path(instance, filename):
@@ -32,8 +33,16 @@ class Dish(TimeStampedModel):
     price = models.FloatField()
     is_active = models.BooleanField(default=True)
 
+    class Meta:
+        ordering = ('-modified', )
+
     def __str__(self):
         return "<dish(%d): %s>" % (self.pk, self.name)
+
+    @property
+    def rate(self):
+        return "%.2f" % self.reviews.values('rate')\
+            .aggregate(models.Avg('rate')).get('rate__avg', 0.0)
 
 
 class DishImage(TimeStampedModel):
@@ -41,5 +50,24 @@ class DishImage(TimeStampedModel):
         Dish, on_delete=models.CASCADE, related_name='images')
     file = models.ImageField(upload_to='dishes/%Y/%m/%d')
 
+    class Meta:
+        ordering = ('-modified', )
+
     def __str__(self):
         return self.file.url
+
+
+class DishReview(TimeStampedModel):
+    SCORE_CHOICES = zip(range(1, 6), range(1, 6))
+    dish = models.ForeignKey(
+        Dish, on_delete=models.CASCADE, related_name='reviews')
+    rate = models.PositiveSmallIntegerField(
+        choices=SCORE_CHOICES,
+        default=5, validators=[MaxValueValidator(5), MinValueValidator(1)])
+    comment = models.TextField(max_length=1024)
+
+    class Meta:
+        ordering = ('-modified', )
+
+    def __str__(self):
+        return "%d (%s)" % (self.rate, self.comment)

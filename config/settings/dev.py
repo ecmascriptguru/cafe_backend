@@ -3,7 +3,7 @@ Configuration for development. Take care of env.json in project root folder.
 """
 import json
 from os import environ, path
-from django.core.exceptions import ImproperlyConfigured
+from django.core.exceptions import ImproperlyConfigured, MiddlewareNotUsed
 from .base import *
 
 
@@ -61,6 +61,14 @@ else:
 # EMAIL_HOST_PASSWORD = ENV_JSON.get('EMAIL_HOST_PASSWORD')
 # EMAIL_PORT = ENV_JSON.get('EMAIL_PORT')
 
+# TWILIO CONFIGURATION
+TWILIO_NUMBER = ENV_JSON.get('TWILIO_NUMBER')
+TWILIO_ACCOUNT_SID = ENV_JSON.get('TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN = ENV_JSON.get('TWILIO_AUTH_TOKEN')
+
+if not TWILIO_AUTH_TOKEN or not TWILIO_ACCOUNT_SID or not TWILIO_NUMBER:
+    raise MiddlewareNotUsed("Missing TWILIO configuration")
+
 # if not EMAIL_HOST or not EMAIL_HOST_USER or not EMAIL_HOST_PASSWORD or\
 #         not EMAIL_PORT or not EMAIL_USE_TLS:
 #     raise ImproperlyConfigured("SMTP Configuration Error!")
@@ -93,4 +101,5 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
-AWS_DEFAULT_ACL = None
+
+ADMINS = ENV_JSON.get('ADMINS', [])
