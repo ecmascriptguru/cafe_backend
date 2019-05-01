@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  djangoapp:
+  cafe_backend:
     build: .
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.dev

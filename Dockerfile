@@ -1,7 +1,7 @@
 FROM python:3.6-stretch
 
 # Set the file maintainer (your name - the file's author)
-MAINTAINER Perfect Delivery
+LABEL MAINTAINER Perfect Delivery
 
 # Set env variables used in this Dockerfile (add a unique prefix, such as DOCKYARD)
 # Local directory with project source
@@ -37,9 +37,9 @@ EXPOSE 80
 # Copy entrypoint script into the image
 WORKDIR $DOCKYARD_SRVPROJ
 COPY ./docker-entrypoint.sh /
-COPY ./config/nginx/conf.d/django_nginx.conf /etc/nginx/sites-available/
-COPY ./config/ssl-cert/web-hisect.key /etc/nginx/ssl/
-COPY ./config/ssl-cert/web-hisect.pem /etc/nginx/ssl/
+COPY ./deploy/nginx/conf.d/django_nginx.conf /etc/nginx/sites-available/
+COPY ./deploy/ssl-cert/web-hisect.key /etc/nginx/ssl/
+COPY ./deploy/ssl-cert/web-hisect.pem /etc/nginx/ssl/
 RUN ln -s /etc/nginx/sites-available/django_nginx.conf /etc/nginx/sites-enabled/
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 RUN rm /etc/nginx/sites-enabled/default
