@@ -19,6 +19,17 @@ class DishSerializer(serializers.HyperlinkedModelSerializer):
             'description', 'description_en', 'description_ko',
             'rate', 'images', 'reviews', )
 
+    def get_extra_kwargs(self):
+        extra_kwargs = super(DishSerializer, self).get_extra_kwargs()
+        action = self.context['view'].action
+
+        if action == 'create':
+            kwargs = extra_kwargs.get('ro_on_create_field', {})
+            kwargs['read_only'] = True
+            extra_kwargs['ro_on_create_field'] = kwargs
+
+        return extra_kwargs
+
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
     dishes = DishSerializer(many=True)

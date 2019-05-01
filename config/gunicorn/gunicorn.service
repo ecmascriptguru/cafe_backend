@@ -1,0 +1,20 @@
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+User=ec2-user
+Group=www-data
+WorkingDirectory=/srv/code/django_app
+ExecStart=/usr/local/bin/gunicorn \
+          --name django_hisect \ 
+          --access-logfile /srv/logs/access.log \
+          --log-file /srv/logs/gunicorn.log \
+          --log-level info \
+          --workers 3 \
+          --bind unix:/run/gunicorn.sock \
+          connect.wsgi:application
+
+[Install]
+WantedBy=multi-user.target

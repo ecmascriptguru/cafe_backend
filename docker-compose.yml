@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  djangoapp:
+    build: .
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings.dev
+    ports:
+      - "443:443"
+      - "8000:80"
+    depends_on:  # <-- wait for db to be "ready" before starting the app
+      - db
+    
+  db:
+    image: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./pg-init:/docker-entrypoint-initdb.d/
+    ports:
+      - "5432:5432"
+
+volumes:
+  pgdata:

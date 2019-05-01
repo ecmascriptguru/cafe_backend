@@ -18,6 +18,10 @@ class DishViewSet(viewsets.ModelViewSet):
     serializer_class = DishSerializer
     queryset = Dish.objects.filter(is_active=True)
 
+    def perform_create(self, serializer):
+        serializer.save(category_id=self.kwargs.get('category_pk'))
+        return super().perform_create(serializer)
+
 
 class DishReviewViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
