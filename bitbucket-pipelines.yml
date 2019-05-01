@@ -1,6 +1,6 @@
 pipelines:
   branches:
-    master:
+    dev:
       - step:
           name: build and publish docker image.
           services:
