@@ -9,7 +9,7 @@ gulp.task('sass', function(){
         .pipe(sass({
             includePaths: ['node_modules']
         })) // Converts Sass to CSS with gulp-sass
-        .pipe(gulp.dest('static/css'))
+        .pipe(gulp.dest('static/backend_theme/css'))
 });
 
 gulp.task('fonts', function() {
@@ -17,7 +17,7 @@ gulp.task('fonts', function() {
             'assets/fonts/*.*',
             'node_modules/font-awesome/fonts/fontawesome-webfont.*'
         ])
-        .pipe(gulp.dest('static/fonts/'));
+        .pipe(gulp.dest('static/backend_theme/fonts/'));
 });
 
 // Images
@@ -30,13 +30,13 @@ gulp.task('images', function () {
             progressive: true,
             interlaced: true
         })))
-        .pipe(gulp.dest('static/img'))
+        .pipe(gulp.dest('static/backend_theme/img'))
         .pipe($.size());
 });
 
 // Clean
 gulp.task('clean', function () {
-    return gulp.src(['static/css', 'static/fonts', 'static/js'], { read: false }).pipe($.clean());
+    return gulp.src(['static/backend_theme/css', 'static/backend_theme/fonts', 'static/backend_theme/js'], { read: false }).pipe($.clean());
 });
 
 gulp.task('build', ['sass', 'fonts', 'images'])

@@ -3,7 +3,7 @@ const config = {
     entry:  [__dirname + '/assets/scripts/index.js'],
     output: {
         path: __dirname,
-        filename: 'static/js/bundle.js',
+        filename: 'static/backend_theme/js/bundle.js',
     },
     resolve: {
         extensions: ['.js']
