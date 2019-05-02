@@ -9,6 +9,6 @@ hooks:
   #     timeout: 3
   #     runas: ubuntu
   AfterInstall:
-    - location: deploy/restart_server
+    - location: /deploy/restart_server
       timeout: 3
       runas: ubuntu
