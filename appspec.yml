@@ -7,8 +7,8 @@ hooks:
   BeforeInstall:
     - location: deploy/before_install
       timeout: 3
-      runas: ec2-user
+      runas: ubuntu
   AfterInstall:
     - location: deploy/restart_server
       timeout: 3
-      runas: ec2-user
+      runas: ubuntu
