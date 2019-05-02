@@ -1,14 +1,14 @@
 version: 0.0
 os: linux
 files:
-  - source: /deploy/index.html
-    destination: /var/www/html/
+  - source: /
+    destination: /home/ubuntu/temp/cafe_backend/
 hooks:
   BeforeInstall:
     - location: deploy/before_install
       timeout: 3
-      runas: ec2-user
+      runas: ubuntu
   AfterInstall:
     - location: deploy/restart_server
       timeout: 3
-      runas: ec2-user
+      runas: ubuntu

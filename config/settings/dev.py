@@ -7,29 +7,17 @@ from django.core.exceptions import ImproperlyConfigured, MiddlewareNotUsed
 from .base import *
 
 
-ON_STAGING_SERVER = 'STAGING_SERVER'
-ON_PRODUCTION_SERVER = 'PRODUCTION_SERVER'
 CURRENT_ENVIRONMENT = 'dev'
 STAGING_ENV_KEY = 'STAGING_ENV'
 IS_STAGING = False
 
 
-if ON_STAGING_SERVER in environ:
-    IS_STAGING = True
-
-if ON_PRODUCTION_SERVER in environ:
-    raise ImproperlyConfigured("You can't use dev configuration on production\
-        environment.")
-
-if IS_STAGING:
-    ENV_JSON = json.loads(environ.get(STAGING_ENV_KEY, None))
-else:
-    ENV_FILE = path.join(BASE_DIR, 'local_env.json')
-    if not path.exists(ENV_FILE):
-        raise ImproperlyConfigured("No local environment file was found in\
-            directory: {0}".format(BASE_DIR))
-    with open(ENV_FILE) as data_file:
-        ENV_JSON = json.load(data_file)
+ENV_FILE = path.join(path.dirname(BASE_DIR), 'local_env.json')
+if not path.exists(ENV_FILE):
+    raise ImproperlyConfigured("No local environment file was found in\
+        directory: {0}".format(BASE_DIR))
+with open(ENV_FILE) as data_file:
+    ENV_JSON = json.load(data_file)
 
 if not ENV_JSON:
     raise ImproperlyConfigured("No environment variables were found")
