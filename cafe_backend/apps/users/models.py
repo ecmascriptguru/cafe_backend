@@ -37,3 +37,6 @@ class Table(TimeStampedModel):
     def name(self, value):
         self.user.first_name = value
         self.user.save()
+
+    def __str__(self):
+        return self.name

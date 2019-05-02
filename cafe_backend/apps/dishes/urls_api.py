@@ -21,6 +21,8 @@ dish_router = routers.NestedDefaultRouter(
     router, r'dishes', lookup='dish')
 dish_router.register(r'reviews', views.DishReviewViewSet, base_name='reviews')
 
+router.register('reviews', views.DishReviewViewSet)
+
 urlpatterns = [
     path('', include(router.urls)),
     path('', include(category_router.urls)),

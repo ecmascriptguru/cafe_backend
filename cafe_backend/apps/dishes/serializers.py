@@ -2,22 +2,19 @@ from .models import Category, Dish, DishReview
 from rest_framework import serializers
 
 
-class ReviewSerializer(serializers.HyperlinkedModelSerializer):
+class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = DishReview
-        fields = ('id', 'rate', 'comment', )
+        fields = '__all__'
 
 
-class DishSerializer(serializers.HyperlinkedModelSerializer):
-    images = serializers.StringRelatedField(many=True)
+class DishSerializer(serializers.ModelSerializer):
+    images = serializers.StringRelatedField(many=True, read_only=True)
     reviews = ReviewSerializer(many=True)
 
     class Meta:
         model = Dish
-        fields = (
-            'id', 'name', 'name_en', 'name_ko',
-            'description', 'description_en', 'description_ko',
-            'rate', 'images', 'reviews', )
+        fields = '__all__'
 
     def get_extra_kwargs(self):
         extra_kwargs = super(DishSerializer, self).get_extra_kwargs()
@@ -31,9 +28,9 @@ class DishSerializer(serializers.HyperlinkedModelSerializer):
         return extra_kwargs
 
 
-class CategorySerializer(serializers.HyperlinkedModelSerializer):
+class CategorySerializer(serializers.ModelSerializer):
     dishes = DishSerializer(many=True)
 
     class Meta:
         model = Category
-        fields = ('id', 'name', 'name_en', 'name_ko', 'is_active', 'dishes', )
+        fields = '__all__'
