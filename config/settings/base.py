@@ -43,8 +43,12 @@ INSTALLED_APPS = [
     'storages',
 
     # Local apps
+    # apps
     'cafe_backend.apps.users',
     'cafe_backend.apps.dishes',
+
+    # mgnt
+    'cafe_backend.mgnt.orders',
 ]
 
 MIDDLEWARE = [
