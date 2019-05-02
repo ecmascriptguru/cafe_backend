@@ -1,13 +1,13 @@
 version: 0.0
 os: linux
-files:
-  - source: /
-    destination: /home/ubuntu/temp/cafe_backend/
+# files:
+#   - source: /deploy/restart_server
+#     destination: /home/ubuntu/temp/
 hooks:
-  BeforeInstall:
-    - location: deploy/before_install
-      timeout: 3
-      runas: ubuntu
+  # BeforeInstall:
+  #   - location: deploy/before_install
+  #     timeout: 3
+  #     runas: ubuntu
   AfterInstall:
     - location: deploy/restart_server
       timeout: 3
