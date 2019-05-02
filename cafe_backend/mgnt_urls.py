@@ -2,6 +2,7 @@ from django.conf.urls import url
 from django.urls import path, include
 
 urlpatterns = [
-    # path('users/', include(('cafe_backend.apps.users.urls',
-    #   'cafe_backend.apps.users'), namespace='users')),
+    path('orders/', include((
+            'cafe_backend.mgnt.orders.urls', 'cafe_backend.mgnt.orders'
+        ), namespace='orders')),
 ]
