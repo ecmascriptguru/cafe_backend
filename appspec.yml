@@ -6,9 +6,9 @@ files:
 hooks:
   BeforeInstall:
     - location: deploy/before_install
-      timeout: 3
+      timeout: 1
       runas: ubuntu
   AfterInstall:
     - location: deploy/restart_server
-      timeout: 3
+      timeout: 30
       runas: ubuntu
