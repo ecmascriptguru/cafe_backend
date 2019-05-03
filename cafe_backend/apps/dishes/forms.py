@@ -15,7 +15,7 @@ class DishImageForm(forms.ModelForm):
 
 DishImageFormSet = inlineformset_factory(
     Dish, DishImage, form=DishImageForm,
-    fields=['file'], extra=3, can_delete=True)
+    fields=['file'], extra=2, can_delete=True)
 
 
 class DishForm(forms.ModelForm):
@@ -30,9 +30,12 @@ class DishForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(DishForm, self).__init__(*args, **kwargs)
+        if self.instance:
+            self.instance = kwargs.pop('instance')
         self.helper = FormHelper()
         self.helper.form_tag = True
         self.helper.form_class = 'form-horizontal'
+        self.is_multipart = True
         self.helper.label_class = 'col-md-3 create-label'
         self.helper.field_class = 'col-md-9'
         self.helper.layout = Layout(

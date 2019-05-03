@@ -18,5 +18,8 @@ urlpatterns = [
     path('dishes/', views.DishListView.as_view(), name='dish_listview'),
     path(
         'dishes/new', views.DishCreateView.as_view(),
-        name='dish_createview')
+        name='dish_createview'),
+    path(
+        'dishes/<int:pk>', views.DishUpdateView.as_view(),
+        name='dish_updateview'),
 ]

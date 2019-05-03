@@ -85,14 +85,30 @@ class DishCreateView(LoginRequiredMixin, generic.CreateView):
         return reverse_lazy('dishes:dish_listview')
 
 
-class DishUpdateView(DishCreateView):
+class DishUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Dish
+    form_class = forms.DishForm
     template_name = 'dishes/dish_updateview.html'
+    success_url = None
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        images = context['images']
+        with transaction.atomic():
+            self.object = form.save()
+            if images.is_valid():
+                images.instance = self.object
+                images.save()
+        return super(DishUpdateView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('dishes:dish_listview')
 
     def get_context_data(self, *args, **kwargs):
         data = super(DishUpdateView, self).get_context_data(*args, **kwargs)
         if self.request.POST:
             data['images'] = forms.DishImageFormSet(
-                self.request.POST, instance=self.object)
+                self.request.POST, self.request.FILES, instance=self.object)
         else:
-            data['images'] = forms.DishImageFormSet()
+            data['images'] = forms.DishImageFormSet(instance=self.object)
         return data

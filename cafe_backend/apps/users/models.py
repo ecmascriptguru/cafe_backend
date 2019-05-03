@@ -6,6 +6,15 @@ from model_utils.models import TimeStampedModel
 class User(AbstractUser):
     is_table = models.BooleanField(default=False)
 
+    @property
+    def name(self):
+        if self.first_name and self.last_name:
+            return "%s %s" % (self.first_name, self.last_name)
+        elif self.first_name:
+            return self.first_name
+        else:
+            return self.username
+
 
 class Table(TimeStampedModel):
     user = models.OneToOneField(
