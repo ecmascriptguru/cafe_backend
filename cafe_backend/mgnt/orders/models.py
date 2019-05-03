@@ -60,6 +60,7 @@ class OrderItem(TimeStampedModel):
     discount_rate = models.FloatField(
         default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
     is_canceled = models.BooleanField(default=False)
+    is_delivered = models.BooleanField(default=False)
 
     def save(self, **kwargs):
         self.price = self.dish.price

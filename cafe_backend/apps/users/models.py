@@ -47,5 +47,12 @@ class Table(TimeStampedModel):
         self.user.first_name = value
         self.user.save()
 
+    @property
+    def order(self):
+        if len(self.orders.filter(is_archived=False).all()) > 0:
+            return self.orders.filter(is_archived=False).first()
+        else:
+            return None
+
     def __str__(self):
         return self.name

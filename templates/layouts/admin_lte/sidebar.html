@@ -65,14 +65,14 @@
       </li>
       <li class="treeview{% if request.path|startswith:'/mgnt/' %} active {% endif %}">
         <a href="#">
-          <i class="fa fa-folder-open-o"></i> <span>Storage</span>
+          <i class="fa fa-folder-open-o"></i> <span>Management</span>
           <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
           </span>
         </a>
         <ul class="treeview-menu">
-          <li class="{% if request.path|startswith:'/st/leads/' %} active {% endif %}">
-            <a href=""><i class="glyphicon glyphicon-user"></i> Leads</a>
+          <li class="{% if request.path|startswith:'/mgnt/orders/' %} active {% endif %}">
+            <a href="{% url 'orders:table_gridview' %}"><i class="fa fa-shopping-cart"></i> Orders</a>
           </li>
         </ul>
       </li>

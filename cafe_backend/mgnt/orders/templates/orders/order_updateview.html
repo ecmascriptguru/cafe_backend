@@ -1,0 +1,27 @@
+{% extends 'layouts/adminlte_base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+        <i class="fa fa-shopping-cart"></i>
+        Orders
+        <small>Update view of order</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-management"></i>Management</a></li>
+        <li><a href="#"><i class="fa fa-shopping-cart"></i>Orders</a></li>
+        <li class="active">Update</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="container">
+            {% crispy form %}
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
