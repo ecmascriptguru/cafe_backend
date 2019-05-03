@@ -16,4 +16,7 @@ urlpatterns = [
         name='category_updateview'),
 
     path('dishes/', views.DishListView.as_view(), name='dish_listview'),
+    path(
+        'dishes/new', views.DishCreateView.as_view(),
+        name='dish_createview')
 ]

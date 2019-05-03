@@ -1,9 +1,11 @@
 from django.views import generic
 from django.db.models import QuerySet
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+from django.db import transaction
 from rest_framework import viewsets, permissions
 from .serializers import CategorySerializer, DishSerializer, ReviewSerializer
-from .forms import CategoryForm
+from . import forms
 from .models import Category, Dish, DishReview
 
 
@@ -41,15 +43,56 @@ class CategoryListView(LoginRequiredMixin, generic.ListView):
 class CategoryUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Category
     template_name = 'categories/category_updateview.html'
-    form_class = CategoryForm
+    form_class = forms.CategoryForm
 
 
 class CategoryCreateView(LoginRequiredMixin, generic.CreateView):
     model = Category
     template_name = 'categories/category_createview.html'
-    form_class = CategoryForm
+    form_class = forms.CategoryForm
 
 
 class DishListView(LoginRequiredMixin, generic.ListView):
     model = Dish
     template_name = 'dishes/dish_listview.html'
+
+
+class DishCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Dish
+    form_class = forms.DishForm
+    template_name = 'dishes/dish_createview.html'
+    success_url = None
+
+    def get_context_data(self, *args, **kwargs):
+        data = super(DishCreateView, self).get_context_data(*args, **kwargs)
+        if self.request.POST:
+            data['images'] = forms.DishImageFormSet(self.request.POST)
+        else:
+            data['images'] = forms.DishImageFormSet()
+        return data
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        images = context['images']
+        with transaction.atomic():
+            self.object = form.save()
+            if images.is_valid():
+                images.instance = self.object
+                images.save()
+        return super(DishCreateView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('dishes:dish_listview')
+
+
+class DishUpdateView(DishCreateView):
+    template_name = 'dishes/dish_updateview.html'
+
+    def get_context_data(self, *args, **kwargs):
+        data = super(DishUpdateView, self).get_context_data(*args, **kwargs)
+        if self.request.POST:
+            data['images'] = forms.DishImageFormSet(
+                self.request.POST, instance=self.object)
+        else:
+            data['images'] = forms.DishImageFormSet()
+        return data

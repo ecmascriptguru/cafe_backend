@@ -2,7 +2,39 @@
 
 
 {% block content %}
-    {% for item in object_list %}
-    {{ item.name }}
-    {% endfor %}
-{% endblock %}
+<section class="content-header">
+    <h1>
+        <i class="fa fa-coffee"></i>
+        Dishes
+        <small>List view of dishes</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-cog"></i>Settings</a></li>
+        <li><a href="#"><i class="fa fa-coffee"></i>Dishes</a></li>
+        <li class="active">List</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        {% for item in object_list %}
+        {% include 'dishes/_dish_list_item.html' %}
+        {% endfor %}
+        <div class="col-md-3 col-sm-4 col-xs-6">
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>New</h3>
+        
+                    <p>Dish</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-plus"></i>
+                </div>
+                <a href="{% url 'dishes:dish_createview' %}" class="small-box-footer">
+                    Create Now <i class="fa fa-plus"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
