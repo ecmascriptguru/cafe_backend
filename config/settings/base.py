@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 
     # mgnt
     'cafe_backend.mgnt.orders',
+    'cafe_backend.mgnt.bookings',
 ]
 
 MIDDLEWARE = [
