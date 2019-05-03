@@ -41,8 +41,11 @@ class Dish(TimeStampedModel):
 
     @property
     def rate(self):
-        return "%.2f" % self.reviews.values('rate')\
-            .aggregate(models.Avg('rate')).get('rate__avg', 0.0)
+        if len(self.reviews.all()) > 0:
+            return "%.2f" % self.reviews.values('rate')\
+                .aggregate(models.Avg('rate')).get('rate__avg', 0.0)
+        else:
+            return 0.0
 
 
 class DishImage(TimeStampedModel):
