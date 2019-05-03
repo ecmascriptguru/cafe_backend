@@ -2,7 +2,39 @@
 
 
 {% block content %}
-    {% for item in object_list %}
-    <a href="{% url 'dishes:category_updateview' pk=item.pk %}">{{ item.name }}</a>
-    {% endfor %}
-{% endblock %}
+<section class="content-header">
+    <h1>
+        <i class="fa fa-puzzle-piece"></i>
+        Categories
+        <small>List view of categories</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>Settings</a></li>
+        <li><a href="#"><i class="fa fa-puzzle-piece"></i>Categories</a></li>
+        <li class="active">List</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        {% for item in object_list %}
+        {% include 'categories/_category_list_item.html' %}
+        {% endfor %}
+        <div class="col-md-3 col-sm-4 col-xs-6">
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>New</h3>
+        
+                    <p>Category</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-plus"></i>
+                </div>
+                <a href="{% url 'dishes:category_createview' %}" class="small-box-footer">
+                    Create Now <i class="fa fa-plus"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

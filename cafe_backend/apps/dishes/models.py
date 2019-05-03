@@ -59,6 +59,7 @@ class DishImage(TimeStampedModel):
 
 class DishReview(TimeStampedModel):
     SCORE_CHOICES = zip(range(1, 6), range(1, 6))
+    table = models.ForeignKey('users.Table', on_delete=models.CASCADE)
     dish = models.ForeignKey(
         Dish, on_delete=models.CASCADE, related_name='reviews')
     rate = models.PositiveSmallIntegerField(

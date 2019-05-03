@@ -44,6 +44,12 @@ class CategoryUpdateView(LoginRequiredMixin, generic.UpdateView):
     form_class = CategoryForm
 
 
+class CategoryCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Category
+    template_name = 'categories/category_createview.html'
+    form_class = CategoryForm
+
+
 class DishListView(LoginRequiredMixin, generic.ListView):
     model = Dish
     template_name = 'dishes/dish_listview.html'
