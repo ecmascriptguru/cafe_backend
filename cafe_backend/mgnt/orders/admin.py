@@ -6,13 +6,14 @@ from .models import Order, OrderItem
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
+    readonly_fields = ('price', )
 
 
 class OrderAdmin(ModelAdmin):
     class Meta:
         model = Order
 
-    list_display = ('table', 'is_complete', )
+    list_display = ('table', 'total_sum', 'is_complete', )
     inlines = (OrderItemInline, )
 
 

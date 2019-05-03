@@ -30,7 +30,6 @@ class Dish(TimeStampedModel):
     description = models.TextField(max_length=1024)
     description_en = models.TextField(max_length=1024)
     description_ko = models.TextField(max_length=1024)
-    price = models.FloatField()
     is_active = models.BooleanField(default=True)
 
     class Meta:
@@ -46,6 +45,18 @@ class Dish(TimeStampedModel):
                 .aggregate(models.Avg('rate')).get('rate__avg', 0.0)
         else:
             return 0.0
+
+    @property
+    def price(self):
+        if len(self.prices.all()) > 0:
+            return self.prices.first().price
+        else:
+            return None
+
+    @price.setter
+    def price(self, value):
+        if self.price != value:
+            self.prices.create(price=value)
 
 
 class DishImage(TimeStampedModel):
@@ -75,3 +86,12 @@ class DishReview(TimeStampedModel):
 
     def __str__(self):
         return "%d (%s)" % (self.rate, self.comment)
+
+
+class Price(TimeStampedModel):
+    dish = models.ForeignKey(
+        Dish, on_delete=models.CASCADE, related_name='prices')
+    price = models.FloatField(validators=[MinValueValidator(0)])
+
+    class Meta:
+        ordering = ('-created', )

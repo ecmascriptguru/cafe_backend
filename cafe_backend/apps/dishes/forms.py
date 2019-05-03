@@ -19,6 +19,8 @@ DishImageFormSet = inlineformset_factory(
 
 
 class DishForm(forms.ModelForm):
+    price = forms.FloatField(min_value=0)
+
     class Meta:
         model = Dish
         exclude = ('created', 'modified', )
@@ -30,8 +32,8 @@ class DishForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(DishForm, self).__init__(*args, **kwargs)
-        if self.instance:
-            self.instance = kwargs.pop('instance')
+        if self.instance.pk:
+            self.fields['price'].initial = self.instance.price
         self.helper = FormHelper()
         self.helper.form_tag = True
         self.helper.form_class = 'form-horizontal'
@@ -40,16 +42,20 @@ class DishForm(forms.ModelForm):
         self.helper.field_class = 'col-md-9'
         self.helper.layout = Layout(
             Div(Field('category'),
-                Field('name'), Field('description'),
+                Field('name'), Field('description'), Field('price'),
                 Field('name_en'), Field('description_en'),
                 Field('name_ko'), Field('description_ko'),
-                Field('price'), Field('is_active'),
+                Field('is_active'),
                 Fieldset(
                     'Add images', Formset('images'), css_class='form-group'),
                 HTML("<br>"),
                 ButtonHolder(Submit('submit', 'save')),
                 )
             )
+
+    def save(self, commit=True):
+        self.instance.price = self.cleaned_data['price']
+        return super(DishForm, self).save(commit=commit)
 
 
 class CategoryForm(forms.ModelForm):

@@ -13,4 +13,6 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = '__all__'
+        fields = (
+            'id', 'table', 'is_complete', 'is_archived', 'total_sum',
+            'order_items', 'created', 'modified', )
