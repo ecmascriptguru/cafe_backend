@@ -24,6 +24,13 @@ class DishViewSet(viewsets.ModelViewSet):
         serializer.save(category_id=self.kwargs.get('category_pk'))
         return super().perform_create(serializer)
 
+    def get_queryset(self, **kwargs):
+        if self.kwargs.get('category_pk'):
+            return self.queryset.filter(
+                category_id=self.kwargs.get('category_pk'))
+        else:
+            return self.queryset
+
 
 class DishReviewViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
@@ -33,6 +40,13 @@ class DishReviewViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(dish_id=self.kwargs.get('dish_pk'))
         return super().perform_create(serializer)
+
+    def get_queryset(self, **kwargs):
+        if self.kwargs.get('dish_pk'):
+            return self.queryset.filter(
+                dish_id=self.kwargs.get('dish_pk'))
+        else:
+            return self.queryset
 
 
 class CategoryListView(LoginRequiredMixin, generic.ListView):
