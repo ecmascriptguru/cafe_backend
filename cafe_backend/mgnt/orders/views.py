@@ -53,3 +53,10 @@ class OrderItemViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     serializer_class = serializers.OrderItemSerializer
     queryset = OrderItem.objects.all()
+
+    def get_queryset(self, **kwargs):
+        if self.kwargs.get('order_pk'):
+            return self.queryset.filter(
+                order_id=self.kwargs.get('order_pk'))
+        else:
+            return self.queryset

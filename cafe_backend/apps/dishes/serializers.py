@@ -11,6 +11,7 @@ class ReviewSerializer(serializers.ModelSerializer):
 class DishSerializer(serializers.ModelSerializer):
     images = serializers.StringRelatedField(many=True, read_only=True)
     reviews = ReviewSerializer(many=True)
+    price = serializers.ReadOnlyField()
 
     class Meta:
         model = Dish
