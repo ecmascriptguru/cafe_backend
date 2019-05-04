@@ -74,6 +74,9 @@
           <li class="{% if request.path|startswith:'/mgnt/orders/' %} active {% endif %}">
             <a href="{% url 'orders:table_gridview' %}"><i class="fa fa-shopping-cart"></i> Orders</a>
           </li>
+          <li class="{% if request.path|startswith:'/mgnt/bookings/' %} active {% endif %}">
+            <a href="{% url 'bookings:booking_listview' %}"><i class="fa fa-paperclip"></i> Bookings</a>
+          </li>
         </ul>
       </li>
 

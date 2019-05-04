@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'crispy_forms',
     'storages',
+    'django_tables2',
+    'bootstrap4',
 
     # Local apps
     # apps
@@ -49,6 +51,7 @@ INSTALLED_APPS = [
 
     # mgnt
     'cafe_backend.mgnt.orders',
+    'cafe_backend.mgnt.bookings',
 ]
 
 MIDDLEWARE = [
