@@ -13,9 +13,9 @@ class BOOKING_TYPE:
 
 BOOKING_TYPE_CHOICES = (
     (BOOKING_TYPE.contact, 'Contact'),
-    (BOOKING_TYPE.dish, 'dish'),
-    (BOOKING_TYPE.exchange, 'exchange'),
-    (BOOKING_TYPE.merge, 'merge'),
+    (BOOKING_TYPE.dish, 'Dish'),
+    (BOOKING_TYPE.exchange, 'Exchange'),
+    (BOOKING_TYPE.merge, 'Merge'),
 )
 
 
@@ -48,6 +48,22 @@ class Booking(TimeStampedModel):
     class Meta:
         ordering = ('-modified', )
 
+    def __str__(self):
+        return "<%s Booking from %s to %s>" % (
+            self.booking_type, self.requester.name, self.receiver.name)
+
+    @classmethod
+    def contacts(cls):
+        return cls.objects.filter(
+            booking_type__in=[
+                BOOKING_TYPE.contact, BOOKING_TYPE.dish])
+
+    @classmethod
+    def table_bookings(cls):
+        return cls.objects.filter(
+            booking_type__in=[
+                BOOKING_TYPE.exchange, BOOKING_TYPE.merge])
+
 
 class BookingMessage(TimeStampedModel):
     booking = models.ForeignKey(
@@ -55,3 +71,6 @@ class BookingMessage(TimeStampedModel):
     poster = models.ForeignKey(
         'users.Table', on_delete=models.CASCADE)
     content = models.TextField(max_length=65536)
+
+    class Meta:
+        ordering = ('-modified', )
