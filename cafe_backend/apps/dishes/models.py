@@ -51,7 +51,7 @@ class Dish(TimeStampedModel):
         if len(self.prices.all()) > 0:
             return self.prices.first().price
         else:
-            return None
+            return 0.0
 
     @price.setter
     def price(self, value):

@@ -63,5 +63,7 @@ class OrderItem(TimeStampedModel):
     is_delivered = models.BooleanField(default=False)
 
     def save(self, **kwargs):
+        if not self.to_table:
+            self.to_table = self.order.table
         self.price = self.dish.price
         return super(OrderItem, self).save(**kwargs)

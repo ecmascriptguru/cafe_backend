@@ -12,6 +12,8 @@ booking_router = routers.NestedSimpleRouter(
 booking_router.register(
     r'messages', views.BookingMessageViewSet, base_name='messages')
 
+# router.register('contacts', views.ContactViewSet)
+
 urlpatterns = [
     path('', include(router.urls)),
     path('', include(booking_router.urls)),

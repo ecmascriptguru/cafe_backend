@@ -30,7 +30,7 @@ class DishSerializer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    dishes = DishSerializer(many=True)
+    dishes = DishSerializer(source='dish_set', many=True, required=False)
 
     class Meta:
         model = Category

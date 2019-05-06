@@ -7,6 +7,8 @@ from .models import Booking, BookingMessage, BOOKING_TYPE, BOOKING_STATE
 class BookingTable(tables.Table):
     number = tables.Column(empty_values=(), verbose_name='Contact #')
     actions = tables.Column(empty_values=(), orderable=False)
+    messages = tables.Column(
+        empty_values=(), orderable=False, verbose_name='Messages')
     actions_template = 'bookings/_booking_table_actions_column.html'
 
     class Meta:
@@ -15,7 +17,7 @@ class BookingTable(tables.Table):
         exclude = ('created', 'modified', 'id', 'details', )
         sequence = (
             'number', 'requester', 'receiver', 'booking_type',
-            'state', 'actions', )
+            'messages', 'state', 'actions', )
 
     def __init__(self, *args, **kwargs):
         super(BookingTable, self).__init__(*args, **kwargs)
@@ -23,6 +25,9 @@ class BookingTable(tables.Table):
 
     def render_number(self):
         return next(self.counter)
+
+    def render_messages(self, record):
+        return len(record.messages.all())
 
     def render_actions(self, record):
         return render_to_string(
