@@ -4,6 +4,8 @@ from django.urls import reverse_lazy
 from django.db import transaction
 from rest_framework import viewsets
 from rest_framework import permissions
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from cafe_backend.core.apis.viewsets import CafeModelViewSet
 from cafe_backend.apps.users.models import Table
@@ -48,6 +50,13 @@ class OrderUpdateView(LoginRequiredMixin, generic.UpdateView):
 class OrderViewSet(CafeModelViewSet):
     serializer_class = serializers.OrderSerializer
     queryset = Order.objects.filter(is_archived=False)
+
+    @action(detail=False, methods=['get'])
+    def current(self, request, *args, **kwargs):
+        table = self.request.user.table
+        current = table.order
+        current_serializer = self.serializer_class(instance=current)
+        return Response(current_serializer.data)
 
 
 class OrderItemViewSet(CafeModelViewSet):
