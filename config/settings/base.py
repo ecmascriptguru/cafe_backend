@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'storages',
     'django_tables2',
     'bootstrap4',
+    'qr_code',
 
     # Local apps
     # apps
