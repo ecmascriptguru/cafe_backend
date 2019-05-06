@@ -70,9 +70,11 @@ class Booking(TimeStampedModel):
 
     @classmethod
     def contacts(cls):
-        return cls.objects.filter(
-            booking_type__in=[
-                BOOKING_TYPE.contact, BOOKING_TYPE.dish])
+        return cls.objects.filter(booking_type=BOOKING_TYPE.contact)
+
+    @classmethod
+    def dishes(cls):
+        return cls.objects.filter(booking_type=BOOKING_TYPE.dish)
 
     @classmethod
     def table_bookings(cls):

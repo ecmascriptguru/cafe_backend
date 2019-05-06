@@ -8,6 +8,7 @@ from rest_framework import permissions
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from cafe_backend.core.apis.viewsets import CafeModelViewSet
 from . import serializers
 from .models import Booking, BookingMessage, BOOKING_TYPE
 from .tables import BookingTable
@@ -40,42 +41,43 @@ class BookingDetailView(LoginRequiredMixin, generic.DetailView):
         return self.template_name
 
 
-class BookingViewSet(viewsets.ModelViewSet):
+class BookingViewSet(CafeModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     serializer_class = serializers.BookingSerializer
     queryset = Booking.objects.all()
 
+    BOOKING_REQUEST_OPTIONS = {
+        'contacts': [Booking.contacts(), serializers.ContactSerializer],
+        'dishes': [Booking.dishes(), serializers.DishBookingSerializer],
+        'seats': [Booking.table_bookings(), serializers.SeatBookingSerializer],
+    }
+
     @action(detail=False, methods=['get', 'post'], url_name='send_contact')
     def contacts(self, request):
-        if hasattr(request.data, 'dict'):
-            params = request.data.dict()
-        else:
-            params = request.data
+        return self.extra_action(request)
 
-        params['requester'] = self.request.user.table
+    @action(detail=False, methods=['get', 'post'], url_name='send_contact')
+    def dishes(self, request):
+        return self.extra_action(request)
 
-        serializer = serializers.ContactSerializer(data=params)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        else:
-            return Response(serializer.errors)
+    @action(detail=False, methods=['get', 'post'], url_name='send_contact')
+    def seats(self, request):
+        return self.extra_action(request)
+
+    def extra_action(self, request):
+        if request.method == 'GET':
+            return self.list(request)
+        elif request.method == 'POST':
+            return self.create(request)
 
     def get_serializer_class(self):
-        if self.action == 'contacts':
-            return serializers.ContactSerializer
-        return super().get_serializer_class()
+        if hasattr(self.BOOKING_REQUEST_OPTIONS, self.action):
+            return self.BOOKING_REQUEST_OPTIONS[self.action][1]
+        return self.serializer_class
 
-
-class ContactViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
-    serializer_class = serializers.ContactSerializer
-    queryset = Booking.contacts
-
-    def get_serializer_context(self, request, *args, **kwargs):
-        params = super(ContactViewSet, self).get_serializer_context(
-            request, *args, **kwargs)
-        return params
+    def get_queryset(self):
+        return self.BOOKING_REQUEST_OPTIONS[self.action][0].\
+            filter(requester=self.request.user.table)
 
 
 class BookingMessageViewSet(viewsets.ModelViewSet):
