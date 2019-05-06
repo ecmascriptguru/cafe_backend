@@ -5,7 +5,9 @@ from .models import Order, OrderItem
 class OrderItemSerializer(CafeModelSerializer):
     class Meta:
         model = OrderItem
-        fields = ('order', 'dish', 'amount', 'to_table', )
+        fields = (
+            'id', 'order', 'dish', 'amount', 'to_table',
+            'is_canceled', )
         extra_kwargs = {
             'to_table': {'required': False},
             'order': {'required': False},
@@ -46,3 +48,14 @@ class OrderSerializer(CafeModelSerializer):
         for item in items:
             order.order_items.create(**item)
         return order
+
+    def update(self, instance, validated_data):
+        super().update
+        items = validated_data.pop('order_items', [])
+        for item in items:
+            if item.get('order'):
+                order = item.pop('order')
+            dish = item.pop('dish')
+            order_item, created = instance.order_items.update_or_create(
+                dish=dish, defaults=item)
+        return instance
