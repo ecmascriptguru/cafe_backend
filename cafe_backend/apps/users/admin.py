@@ -16,7 +16,7 @@ class RestaurantUserAdmin(UserAdmin):
 
 
 class TableAdmin(ModelAdmin):
-    list_display = ('name', 'imei', 'size', 'is_vip', )
+    list_display = ('pk', 'name', 'imei', 'size', 'is_vip', )
     form = TableAdminForm
 
 admin_site.register(User, RestaurantUserAdmin)

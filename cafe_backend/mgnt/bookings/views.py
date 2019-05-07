@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 from django.views import generic
 from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
@@ -71,13 +72,17 @@ class BookingViewSet(CafeModelViewSet):
             return self.create(request)
 
     def get_serializer_class(self):
-        if hasattr(self.BOOKING_REQUEST_OPTIONS, self.action):
+        if self.BOOKING_REQUEST_OPTIONS.get(self.action):
             return self.BOOKING_REQUEST_OPTIONS[self.action][1]
         return self.serializer_class
 
     def get_queryset(self):
-        return self.BOOKING_REQUEST_OPTIONS[self.action][0].\
-            filter(requester=self.request.user.table)
+        if self.BOOKING_REQUEST_OPTIONS.get(self.action):
+            return self.BOOKING_REQUEST_OPTIONS[self.action][0].filter(
+                Q(requester=self.request.user.table) |
+                Q(receiver=self.request.user.table))
+        else:
+            return super(BookingViewSet, self).get_queryset()
 
 
 class BookingMessageViewSet(viewsets.ModelViewSet):

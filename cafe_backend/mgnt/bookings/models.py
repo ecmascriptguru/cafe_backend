@@ -93,6 +93,11 @@ class Booking(TimeStampedModel):
         else:
             return ''
 
+    @property
+    def order_items(self):
+        order_item_ids = self.details.get('order_items', [])
+        return self.requester.order.order_items.filter(pk__in=order_item_ids)
+
     @transition(
         field=state,
         source=BOOKING_STATE.default, target=BOOKING_STATE.approved)

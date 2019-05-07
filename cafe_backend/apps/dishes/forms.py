@@ -23,7 +23,10 @@ class DishForm(forms.ModelForm):
 
     class Meta:
         model = Dish
-        exclude = ('created', 'modified', )
+        fields = (
+            'category', 'name', 'description', 'price', 'is_active',
+            'name_en', 'description_en',
+            'name_ko', 'description_ko', )
         widgets = {
           'description': forms.Textarea(attrs={'rows': 3}),
           'description_en': forms.Textarea(attrs={'rows': 3}),

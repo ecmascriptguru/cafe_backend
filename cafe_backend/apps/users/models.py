@@ -55,4 +55,4 @@ class Table(TimeStampedModel):
             return None
 
     def __str__(self):
-        return self.name
+        return "<Table(%d): %s>" % (self.pk, self.name)

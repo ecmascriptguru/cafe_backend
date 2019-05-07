@@ -7,11 +7,16 @@ class OrderItemSerializer(CafeModelSerializer):
         model = OrderItem
         fields = (
             'id', 'order', 'dish', 'amount', 'to_table',
-            'is_canceled', )
+            'is_canceled', 'is_delivered', )
         extra_kwargs = {
             'to_table': {'required': False},
             'order': {'required': False},
         }
+
+    def validate(self, validated_data):
+        if not validated_data.get('to_table'):
+            validated_data['to_table'] = validated_data['order'].table
+        return validated_data
 
 
 class OrderSerializer(CafeModelSerializer):
@@ -56,6 +61,10 @@ class OrderSerializer(CafeModelSerializer):
             if item.get('order'):
                 order = item.pop('order')
             dish = item.pop('dish')
+            if not item.get('to_table'):
+                to_table = self.table
+            else:
+                to_table = item.pop('to_table')
             order_item, created = instance.order_items.update_or_create(
-                dish=dish, defaults=item)
+                dish=dish, to_table=to_table, defaults=item)
         return instance
