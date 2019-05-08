@@ -13,4 +13,8 @@ urlpatterns = [
     path('', include((
         'cafe_backend.mgnt.bookings.urls_api',
         'cafe_backend.mgnt.bookings'), namespace='api:bookings')),
+
+    path('', include((
+        'cafe_backend.apps.users.urls_api',
+        'cafe_backend.apps.users'), namespace='api:tables')),
 ]

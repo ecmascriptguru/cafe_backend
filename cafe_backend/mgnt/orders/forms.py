@@ -32,10 +32,10 @@ class OrderForm(forms.ModelForm):
         self.helper.field_class = 'col-md-9'
         self.helper.layout = Layout(
             Div(
-                Field('is_complete'), Field('is_archived'),
                 Fieldset(
                     'Order Items', Formset('order_items'),
                     css_class='form-group'),
+                Field('state'),
                 HTML("<br>"),
                 ButtonHolder(Submit('submit', 'Save Changes')),
                 )

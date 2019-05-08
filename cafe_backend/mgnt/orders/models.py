@@ -1,7 +1,19 @@
 from django.db import models
 from django.db.models import F
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django_fsm import FSMField
+from django_fsm import transition
 from model_utils.models import TimeStampedModel
+from cafe_backend.core.constants.states import (
+    DEFAULT_STATE, ORDER_STATE)
+
+
+ORDER_STATE_CHOICES = (
+    (ORDER_STATE.default, 'Requested'),
+    (ORDER_STATE.canceled, 'Canceled'),
+    (ORDER_STATE.delivered, 'Delivered'),
+    (ORDER_STATE.archived, 'Archived'),
+)
 
 
 class Order(TimeStampedModel):
@@ -11,8 +23,7 @@ class Order(TimeStampedModel):
     table = models.ForeignKey(
         'users.Table', on_delete=models.SET_NULL,
         related_name='orders', null=True)
-    is_complete = models.BooleanField(default=False)
-    is_archived = models.BooleanField(default=False)
+    state = FSMField(choices=ORDER_STATE_CHOICES, default=ORDER_STATE.default)
 
     @property
     def items(self):
@@ -41,6 +52,29 @@ class Order(TimeStampedModel):
                 ).get('total_price', 0.0)
         else:
             return 0.0
+
+    @classmethod
+    def all(cls):
+        return cls.objects.all().exclude(state__in=[
+            ORDER_STATE.canceled, ORDER_STATE.archived])
+
+    @transition(
+        field='state',
+        source=ORDER_STATE.default, target=ORDER_STATE.canceled)
+    def cancel(self):
+        pass
+
+    @transition(
+        field='state',
+        source=ORDER_STATE.default, target=ORDER_STATE.delivered)
+    def deliver(self):
+        pass
+
+    @transition(
+        field='state',
+        source=ORDER_STATE.delivered, target=ORDER_STATE.archived)
+    def archive(self):
+        pass
 
 
 class OrderItem(TimeStampedModel):
