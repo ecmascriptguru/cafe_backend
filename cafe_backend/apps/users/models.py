@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from model_utils.models import TimeStampedModel
+from cafe_backend.core.constants.states import ORDER_STATE
 
 
 class User(AbstractUser):
@@ -49,8 +50,10 @@ class Table(TimeStampedModel):
 
     @property
     def order(self):
-        if len(self.orders.filter(is_archived=False).all()) > 0:
-            return self.orders.filter(is_archived=False).first()
+        if len(self.orders.exclude(state__in=[
+                ORDER_STATE.canceled, ORDER_STATE.archieved]).all()) > 0:
+            return self.orders.exclude(state__in=[
+                ORDER_STATE.canceled, ORDER_STATE.archieved]).first()
         else:
             return None
 

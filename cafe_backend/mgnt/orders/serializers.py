@@ -26,15 +26,11 @@ class OrderSerializer(CafeModelSerializer):
         model = Order
         depth = 1
         fields = (
-            'id', 'is_complete', 'is_archived', 'total_sum',
+            'id', 'state', 'total_sum',
             'order_items', 'created', 'modified', )
         extra_kwargs = {
-            'is_complete': {
-                'read_only': True,
-            },
-            'is_archived': {
-                'read_only': True,
-            },
+            'id': {'read_only': True},
+            'state': {'read_only': True},
         }
 
     def validate(self, data):

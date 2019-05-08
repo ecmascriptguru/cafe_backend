@@ -1,7 +1,20 @@
 from django.db import models
 from django.db.models import F
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django_fsm import FSMField
 from model_utils.models import TimeStampedModel
+from cafe_backend.core.constants.states import (
+    DEFAULT_STATE, ORDER_STATE)
+
+
+ORDER_STATE_CHOICES = (
+    (ORDER_STATE.draft, 'Draft'),
+    (ORDER_STATE.default, 'Requested'),
+    (ORDER_STATE.in_progress, 'Processing'),
+    (ORDER_STATE.canceled, 'Canceled'),
+    (ORDER_STATE.delivered, 'Delivered'),
+    (ORDER_STATE.archieved, 'Archived'),
+)
 
 
 class Order(TimeStampedModel):
@@ -11,8 +24,7 @@ class Order(TimeStampedModel):
     table = models.ForeignKey(
         'users.Table', on_delete=models.SET_NULL,
         related_name='orders', null=True)
-    is_complete = models.BooleanField(default=False)
-    is_archived = models.BooleanField(default=False)
+    state = FSMField(choices=ORDER_STATE_CHOICES, default=ORDER_STATE.draft)
 
     @property
     def items(self):
@@ -41,6 +53,11 @@ class Order(TimeStampedModel):
                 ).get('total_price', 0.0)
         else:
             return 0.0
+
+    @classmethod
+    def all(cls):
+        return cls.objects.all().exclude(state__in=[
+            ORDER_STATE.canceled, ORDER_STATE.archieved])
 
 
 class OrderItem(TimeStampedModel):

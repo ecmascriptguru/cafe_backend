@@ -13,7 +13,7 @@ class OrderAdmin(ModelAdmin):
     class Meta:
         model = Order
 
-    list_display = ('table', 'total_sum', 'is_complete', )
+    list_display = ('table', 'total_sum', )
     inlines = (OrderItemInline, )
 
 

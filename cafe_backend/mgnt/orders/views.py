@@ -49,7 +49,7 @@ class OrderUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 class OrderViewSet(CafeModelViewSet):
     serializer_class = serializers.OrderSerializer
-    queryset = Order.objects.filter(is_archived=False)
+    queryset = Order.all()
 
     @action(detail=False, methods=['get'])
     def current(self, request, *args, **kwargs):
