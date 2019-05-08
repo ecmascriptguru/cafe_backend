@@ -26,7 +26,7 @@ class AdsCreateView(LoginRequiredMixin, generic.CreateView):
 
 class AdsDetailView(LoginRequiredMixin, generic.DetailView):
     model = Advertisement
-    template_name = 'ads/ads_formview.html'
+    template_name = 'ads/ads_detailview.html'
     success_url = reverse_lazy('ads:ads_listview')
 
 
@@ -38,5 +38,6 @@ class AdsUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 
 class AdsDeleteView(LoginRequiredMixin, generic.DeleteView):
-    model = AdsCreateView
+    model = Advertisement
+    template_name = 'ads/ads_deleteview.html'
     success_url = reverse_lazy('ads:ads_listview')

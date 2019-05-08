@@ -7,12 +7,12 @@
 <section class="content-header">
     <h1>
         <i class="fa fa-weixin"></i>
-        Ads
-        <small>Grid view of contacts</small>
+        {{ object.name }}
+        <small>Detail view of Ads</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-folder-open-o"></i>Management</a></li>
-        <li><a href="#"><i class="fa fa-weixin"></i>Contacts</a></li>
+        <li><a href="#"><i class="fa fa-folder-open-o"></i>Settings</a></li>
+        <li><a href="#"><i class="fa fa-weixin"></i>Advertisements</a></li>
         <li class="active">List</li>
     </ol>
 </section>
@@ -20,16 +20,7 @@
 <section class="content">
     <div class="row">
         <div class="col-sm-12">
-            {% if filter %}
-            <form action="" method="get" class="form form-inline">
-                {% bootstrap_form filter.form layout='inline' %}
-                {% bootstrap_button 'filter' %}
-                <a href="{% url 'ads:ads_createview' %}" class="btn btn-xs pull-right">New Ads</a>
-            </form>
-            {% endif %}
-        </div>
-        <div class="col-sm-12">
-            {% render_table table %}
+            <img src="{{ object.file.url }}" />
         </div>
     </div>
 </section>
