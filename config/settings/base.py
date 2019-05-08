@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 from django.urls import reverse_lazy
+from django.utils.translation import ugettext_lazy as _
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
     # apps
     'cafe_backend.apps.users',
     'cafe_backend.apps.dishes',
+    'cafe_backend.apps.advertisements',
 
     # mgnt
     'cafe_backend.mgnt.orders',
@@ -124,7 +126,14 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+
+# LANGUAGES = (
+#     ('en', _('English'))
+#     ('cn', _('Chinese')),
+#     ('ko', _('Korean')),
+# )
+
+LANGUAGE_CODE = 'en'
 
 TIME_ZONE = 'Asia/Shanghai'
 
@@ -171,13 +180,6 @@ REST_FRAMEWORK = {
 }
 
 
-def gettext(s):
-    return s
-
-LANGUAGES = (
-    ('zh', gettext('Chinese')),
-    ('ko', gettext('Korean')),
-)
 # During development only
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 

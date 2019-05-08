@@ -1,0 +1,25 @@
+{% extends 'layouts/adminlte_base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+        <i class="fa fa-weixin"></i>
+        New Ads
+        <small>Grid view of advertisements</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-folder-open-o"></i>Settings</a></li>
+        <li><a href="#"><i class="fa fa-weixin"></i>Advertisements</a></li>
+        <li class="active">Create</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12">
+            {% crispy form %}
+        </div>
+    </div>
+</section>
+{% endblock content %}
