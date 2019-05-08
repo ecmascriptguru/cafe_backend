@@ -12,9 +12,15 @@ class DEFAULT_STATE(object):
 
 
 class ORDER_STATE:
-    draft = DEFAULT_STATE.draft
     default = DEFAULT_STATE.default
-    in_progress = DEFAULT_STATE.in_progress
     canceled = DEFAULT_STATE.canceled
     delivered = DEFAULT_STATE.delivered
-    archieved = DEFAULT_STATE.archived
+    archived = DEFAULT_STATE.archived
+
+
+class BOOKING_STATE:
+    default = DEFAULT_STATE.default
+    approved = DEFAULT_STATE.approved
+    rejected = DEFAULT_STATE.rejected
+    canceled = DEFAULT_STATE.canceled
+    archived = DEFAULT_STATE.archived

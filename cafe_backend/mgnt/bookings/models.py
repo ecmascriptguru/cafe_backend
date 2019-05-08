@@ -3,7 +3,7 @@ from django.core.validators import ValidationError
 from django.contrib.postgres.fields import JSONField
 from django_fsm import FSMField, transition
 from model_utils.models import TimeStampedModel
-from cafe_backend.core.constants.states import DEFAULT_STATE
+from cafe_backend.core.constants.states import BOOKING_STATE
 
 
 class BOOKING_TYPE:
@@ -21,18 +21,12 @@ BOOKING_TYPE_CHOICES = (
 )
 
 
-class BOOKING_STATE:
-    default = DEFAULT_STATE.default
-    approved = DEFAULT_STATE.approved
-    rejected = DEFAULT_STATE.rejected
-    canceled = DEFAULT_STATE.canceled
-
-
 BOOKING_STATE_CHOICES = (
     (BOOKING_STATE.default, 'Requested'),
     (BOOKING_STATE.approved, 'Approved'),
     (BOOKING_STATE.rejected, 'Rejected'),
     (BOOKING_STATE.canceled, 'Canceled'),
+    (BOOKING_STATE.archived, 'Archived'),
 )
 
 
@@ -118,6 +112,16 @@ class Booking(TimeStampedModel):
         conditions=[])
     def reject(self, message):
         self.messages.create(poster=self.receiver, content=message)
+
+    @transition(
+        field=state,
+        source=BOOKING_STATE.default, target=BOOKING_STATE.canceled,
+        conditions=[])
+    def cancel(self, message):
+        self.messages.create(poster=self.receiver, content=message)
+
+    def archive(self):
+        self.state = BOOKING_STATE.archived
 
 
 class BookingMessage(TimeStampedModel):

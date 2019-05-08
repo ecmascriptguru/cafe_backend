@@ -25,6 +25,9 @@ class Table(TimeStampedModel):
     female = models.PositiveSmallIntegerField(default=0)
     is_vip = models.BooleanField(default=False)
 
+    def __str__(self):
+        return "<Table(%d): %s>" % (self.pk, self.name)
+
     def get_absolute_url(self):
         from django.urls import reverse
         return reverse('tables:table_updateview', args=[self.pk])
@@ -51,11 +54,20 @@ class Table(TimeStampedModel):
     @property
     def order(self):
         if len(self.orders.exclude(state__in=[
-                ORDER_STATE.canceled, ORDER_STATE.archieved]).all()) > 0:
+                ORDER_STATE.canceled, ORDER_STATE.archived]).all()) > 0:
             return self.orders.exclude(state__in=[
-                ORDER_STATE.canceled, ORDER_STATE.archieved]).first()
+                ORDER_STATE.canceled, ORDER_STATE.archived]).first()
         else:
             return None
 
-    def __str__(self):
-        return "<Table(%d): %s>" % (self.pk, self.name)
+    def clean_table(self):
+        if self.order.state != ORDER_STATE.archived:
+            self.order.archive()
+
+        # TODO: Clean bookings
+        for booking in self.bookings:
+            booking.archive()
+
+    @property
+    def bookings(self):
+        return self.requested_bookings.all() + self.requested_bookings.all()
