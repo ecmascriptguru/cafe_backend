@@ -50,8 +50,9 @@ class Booking(TimeStampedModel):
         ordering = ('-modified', )
 
     def __str__(self):
-        return "<%s Booking from %s to %s>" % (
-            self.booking_type, self.requester.name, self.receiver.name)
+        return "<%s Booking(%d) from %s to %s>" % (
+            self.booking_type, self.pk,
+            self.requester.name, self.receiver.name)
 
     def clean(self):
         super(Booking, self).clean()
@@ -64,7 +65,11 @@ class Booking(TimeStampedModel):
                 raise ValidationError({
                     'details': 'qr_code is required in contact booking.'})
         elif self.booking_type == BOOKING_TYPE.dish:
-            pass
+            if not self.details.get('order_items') or\
+                    not isinstance(self.details.get('order_items')) or\
+                    len(self.details.get('order_items')) == 0:
+                raise ValidationError({
+                    'details': 'A dish should be sent at least.'})
         else:
             pass
 
@@ -101,15 +106,15 @@ class Booking(TimeStampedModel):
     @transition(
         field=state,
         source=BOOKING_STATE.default, target=BOOKING_STATE.approved)
-    def approve(self):
-        pass
+    def approve(self, message):
+        self.messages.create(poster=self.receiver, content=message)
 
     @transition(
         field=state,
         source=BOOKING_STATE.default, target=BOOKING_STATE.rejected,
         conditions=[])
-    def reject(self):
-        pass
+    def reject(self, message):
+        self.messages.create(poster=self.receiver, content=message)
 
 
 class BookingMessage(TimeStampedModel):

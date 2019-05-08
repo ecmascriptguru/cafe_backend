@@ -51,19 +51,40 @@ class BookingViewSet(CafeModelViewSet):
         'contacts': [Booking.contacts(), serializers.ContactSerializer],
         'dishes': [Booking.dishes(), serializers.DishBookingSerializer],
         'seats': [Booking.table_bookings(), serializers.SeatBookingSerializer],
+        'accept': [
+            Booking.table_bookings(), serializers.SeatBookingActionSerializer],
+        'reject': [
+            Booking.table_bookings(), serializers.SeatBookingActionSerializer],
     }
 
     @action(detail=False, methods=['get', 'post'], url_name='send_contact')
     def contacts(self, request):
         return self.extra_action(request)
 
-    @action(detail=False, methods=['get', 'post'], url_name='send_contact')
+    @action(detail=False, methods=['get', 'post'], url_name='send_dishes')
     def dishes(self, request):
         return self.extra_action(request)
 
-    @action(detail=False, methods=['get', 'post'], url_name='send_contact')
+    @action(
+        detail=False, methods=['get', 'post'], url_name='send_seat_bookings')
     def seats(self, request):
         return self.extra_action(request)
+
+    @action(detail=True, methods=['post'], url_name='accept_booking')
+    def accept(self, request, *args, **kwargs):
+        serializer = self.get_serializer()
+        instance = Booking.objects.get(pk=self.kwargs.get('pk'))
+        instance = serializer.accept(
+            instance, request.data.dict(), *args, **kwargs)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['post'], url_name='accept_booking')
+    def reject(self, request, *args, **kwargs):
+        serializer = self.get_serializer()
+        instance = Booking.objects.get(pk=self.kwargs.get('pk'))
+        instance = serializer.reject(
+            instance, request.data.dict(), *args, **kwargs)
+        return Response(serializer.data)
 
     def extra_action(self, request):
         if request.method == 'GET':

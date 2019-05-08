@@ -63,3 +63,17 @@ class TableForm(forms.ModelForm):
                 wrapper_class='form-group',
             ),
         )
+
+    def clean_male(self):
+        male = self.cleaned_data['male']
+        if male > self.instance.size:
+            self.add_error('male', _("Male can't be greater than size!"))
+        return male
+
+    def clean_female(self):
+        male = self.cleaned_data['male']
+        female = self.cleaned_data['female']
+        if male + female > self.instance.size:
+            self.add_error('female', _('Male + Femail should not be greater\
+                than size!'))
+        return female

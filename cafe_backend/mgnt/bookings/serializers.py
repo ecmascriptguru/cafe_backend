@@ -5,13 +5,13 @@ from cafe_backend.mgnt.orders.serializers import OrderItemSerializer
 from .models import Booking, BookingMessage, BOOKING_TYPE
 
 
-class BookingMessageSerializer(serializers.ModelSerializer):
+class BookingMessageSerializer(CafeModelSerializer):
     class Meta:
         model = BookingMessage
         fields = '__all__'
 
 
-class BookingSerializer(serializers.ModelSerializer):
+class BookingSerializer(CafeModelSerializer):
     messages = BookingMessageSerializer(many=True)
 
     class Meta:
@@ -71,11 +71,6 @@ class DishBookingSerializer(CafeModelSerializer):
             item['to_table'] = validated_data['receiver']
             order_item = self.table.order.order_items.create(**item)
             details['order_items'].append(order_item.pk)
-            # order_item = OrderItemSerializer(data=item)
-            # if order_item.is_valid():
-            #     details['order_items'].append(order_item.save())
-            # else:
-            #     raise ValidationError('Invalid order item')
 
         validated_data['details'] = details
         instance = Booking.objects.create(**validated_data)
@@ -84,5 +79,49 @@ class DishBookingSerializer(CafeModelSerializer):
         return instance
 
 
+SEAT_BOOKING_TYPE_CHOICES = (
+    (BOOKING_TYPE.exchange, 'Exchange'),
+    (BOOKING_TYPE.merge, 'Merge'),
+)
+
+
 class SeatBookingSerializer(CafeModelSerializer):
-    pass
+    message = serializers.CharField()
+
+    class Meta:
+        model = Booking
+        fields = ('id', 'receiver', 'message', 'booking_type', 'state', )
+        extra_kwargs = {
+            'id': {'read_only': True},
+            'booking_type': {
+                'choices': SEAT_BOOKING_TYPE_CHOICES
+            }
+        }
+
+    def create(self, validated_data):
+        message = validated_data.pop('message')
+        validated_data['requester'] = self.table
+        instance = Booking.objects.create(**validated_data)
+        instance.messages.create(
+            poster=self.table, content=message)
+        return instance
+
+
+class SeatBookingActionSerializer(CafeModelSerializer):
+    message = serializers.CharField()
+
+    class Meta:
+        model = Booking
+        fields = ('message', )
+
+    def accept(self, instance, validated_data, *args, **kwargs):
+        message = validated_data.pop('message')
+        instance.approve(message)
+        instance.save()
+        return instance
+
+    def reject(self, instance, validated_data, *args, **kwargs):
+        message = validated_data.pop('message')
+        instance.reject(message)
+        instance.save()
+        return instance
