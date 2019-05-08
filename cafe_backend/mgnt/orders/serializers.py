@@ -14,8 +14,8 @@ class OrderItemSerializer(CafeModelSerializer):
         }
 
     def validate(self, validated_data):
-        if not validated_data.get('to_table'):
-            validated_data['to_table'] = validated_data['order'].table
+        if not validated_data.get('to_table') and hasattr(self, 'table'):
+            validated_data['to_table'] = self.table
         return validated_data
 
 
