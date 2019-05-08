@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     # apps
     'cafe_backend.apps.users',
     'cafe_backend.apps.dishes',
+    'cafe_backend.apps.advertisements',
 
     # mgnt
     'cafe_backend.mgnt.orders',
