@@ -4,21 +4,24 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.db import transaction
 from rest_framework import viewsets, permissions
+from cafe_backend.core.apis.viewsets import CafeModelViewSet
 from .serializers import CategorySerializer, DishSerializer, ReviewSerializer
 from . import forms
 from .models import Category, Dish, DishReview
 
 
-class CategoryViewSet(viewsets.ModelViewSet):
+class CategoryViewSet(CafeModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CategorySerializer
     queryset = Category.objects.filter(is_active=True)
+    http_method_names = ['get']
 
 
-class DishViewSet(viewsets.ModelViewSet):
+class DishViewSet(CafeModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = DishSerializer
     queryset = Dish.objects.filter(is_active=True)
+    http_method_names = ['get', ]
 
     def perform_create(self, serializer):
         serializer.save(category_id=self.kwargs.get('category_pk'))
@@ -32,7 +35,7 @@ class DishViewSet(viewsets.ModelViewSet):
             return self.queryset
 
 
-class DishReviewViewSet(viewsets.ModelViewSet):
+class DishReviewViewSet(CafeModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     serializer_class = ReviewSerializer
     queryset = DishReview.objects.all()

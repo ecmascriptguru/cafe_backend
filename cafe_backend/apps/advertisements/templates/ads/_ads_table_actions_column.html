@@ -1,5 +1,11 @@
 <div class="btn-block">
-    <a class="btn btn-xs" title="Edit" href="{% url 'bookings:booking_detailview' record.pk %}">
+    <a class="btn btn-xs" title="View" href="{% url 'ads:ads_detailview' record.pk %}">
         <i class="fa fa-eye"></i>
+    </a>
+    <a class="btn btn-xs" title="Edit" href="{% url 'ads:ads_updateview' record.pk %}">
+        <i class="fa fa-pencil"></i>
+    </a>
+    <a class="btn btn-xs" title="Delete" href="{% url 'ads:ads_deleteview' record.pk %}">
+        <i class="fa fa-trash"></i>
     </a>
 </div>

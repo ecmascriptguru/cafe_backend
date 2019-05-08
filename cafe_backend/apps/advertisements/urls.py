@@ -8,18 +8,16 @@ urlpatterns = [
     path(
         '', views.AdsListView.as_view(),
         name='ads_listview'),
-    # path(
-    #     'categories/new', views.CategoryCreateView.as_view(),
-    #     name='category_createview'),
-    # path(
-    #     'categories/<int:pk>', views.CategoryUpdateView.as_view(),
-    #     name='category_updateview'),
-
-    # path('dishes/', views.DishListView.as_view(), name='dish_listview'),
-    # path(
-    #     'dishes/new', views.DishCreateView.as_view(),
-    #     name='dish_createview'),
-    # path(
-    #     'dishes/<int:pk>', views.DishUpdateView.as_view(),
-    #     name='dish_updateview'),
+    path(
+        'new', views.AdsCreateView.as_view(),
+        name='ads_createview'),
+    path(
+        '<int:pk>', views.AdsDetailView.as_view(),
+        name='ads_detailview'),
+    path(
+        '<int:pk>/edit', views.AdsUpdateView.as_view(),
+        name='ads_updateview'),
+    path(
+        '<int:pk>/delete', views.AdsDeleteView.as_view(),
+        name='ads_deleteview'),
 ]

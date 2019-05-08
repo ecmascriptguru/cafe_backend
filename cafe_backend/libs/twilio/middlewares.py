@@ -29,7 +29,8 @@ class TwilioNotificationsMiddleware(MiddlewareMixin):
         message_to_send = MESSAGE % exception_message
 
         for admin in self.administrators:
-            self.client.send_message(message_to_send, admin['phone'])
+            # self.client.send_message(message_to_send, admin['phone'])
+            pass
 
         logger.info('Administrators notified')
 
