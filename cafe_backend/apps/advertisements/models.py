@@ -21,3 +21,7 @@ class Advertisement(TimeStampedModel):
 
     def __str__(self):
         return "<Ads(%d): %s>" % (self.pk, self.name)
+
+    @property
+    def url(self):
+        return self.file.url

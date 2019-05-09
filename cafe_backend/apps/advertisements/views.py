@@ -3,10 +3,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
 from django.urls import reverse_lazy
+from cafe_backend.core.apis.viewsets import CafeModelViewSet
 from .models import Advertisement
 from .tables import AdvertisementTable
 from .filters import AdvertisementFilter
 from .forms import AdsForm
+from .serializers import AdsSerializer
 
 
 class AdsListView(LoginRequiredMixin, SingleTableMixin, FilterView):
@@ -26,7 +28,7 @@ class AdsCreateView(LoginRequiredMixin, generic.CreateView):
 
 class AdsDetailView(LoginRequiredMixin, generic.DetailView):
     model = Advertisement
-    template_name = 'ads/ads_formview.html'
+    template_name = 'ads/ads_detailview.html'
     success_url = reverse_lazy('ads:ads_listview')
 
 
@@ -38,5 +40,12 @@ class AdsUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 
 class AdsDeleteView(LoginRequiredMixin, generic.DeleteView):
-    model = AdsCreateView
+    model = Advertisement
+    template_name = 'ads/ads_deleteview.html'
     success_url = reverse_lazy('ads:ads_listview')
+
+
+class AdsViewSet(CafeModelViewSet):
+    serializer_class = AdsSerializer
+    http_method_names = ('get', )
+    queryset = Advertisement.objects.filter(is_active=True)
