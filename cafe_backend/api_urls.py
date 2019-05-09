@@ -17,4 +17,8 @@ urlpatterns = [
     path('', include((
         'cafe_backend.apps.users.urls_api',
         'cafe_backend.apps.users'), namespace='api:tables')),
+
+    path('', include((
+        'cafe_backend.apps.advertisements.urls_api',
+        'cafe_backend.apps.advertisements'), namespace='api:ads')),
 ]
