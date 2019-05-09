@@ -48,4 +48,5 @@ class AdsDeleteView(LoginRequiredMixin, generic.DeleteView):
 class AdsViewSet(CafeModelViewSet):
     serializer_class = AdsSerializer
     http_method_names = ('get', )
+    pagination_class = None
     queryset = Advertisement.objects.filter(is_active=True)
