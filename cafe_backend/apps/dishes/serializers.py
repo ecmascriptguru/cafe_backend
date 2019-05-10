@@ -27,9 +27,9 @@ class DishSerializer(CafeModelSerializer):
 
     def get_extra_kwargs(self):
         extra_kwargs = super(DishSerializer, self).get_extra_kwargs()
-        action = self.context['view'].action
+        # action = self.context['view'].action
 
-        if action == 'create':
+        if self.context.get('view') and self.context['view'].action == 'create':
             kwargs = extra_kwargs.get('ro_on_create_field', {})
             kwargs['read_only'] = True
             extra_kwargs['ro_on_create_field'] = kwargs
