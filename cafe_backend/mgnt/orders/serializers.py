@@ -1,19 +1,24 @@
 from cafe_backend.core.apis.serializers import CafeModelSerializer, serializers
 from cafe_backend.apps.dishes.serializers import DishSerializer
+from cafe_backend.apps.dishes.models import Dish
 from .models import Order, OrderItem
 
 
 class OrderItemSerializer(CafeModelSerializer):
-    dish = DishSerializer()
+    dish_id = serializers.PrimaryKeyRelatedField(write_only=True,
+                                                 source='dish',
+                                                 queryset=Dish.objects.all())
+    dish = DishSerializer(read_only=True)
 
     class Meta:
         model = OrderItem
         fields = (
-            'id', 'order', 'dish', 'amount', 'to_table',
+            'id', 'order', 'dish_id', 'dish', 'amount', 'to_table',
             'is_canceled', 'is_delivered', )
         extra_kwargs = {
             'to_table': {'required': False},
             'order': {'required': False},
+            'dish_object': {'read_only': True, 'required': False},
         }
 
     def validate(self, validated_data):

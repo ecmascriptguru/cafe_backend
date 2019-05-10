@@ -1,4 +1,6 @@
+from django.utils.timezone import now
 from django.db import models
+from django.db.models import Q
 from django.core.exceptions import ValidationError
 from django_fsm import FSMField
 from django.contrib.postgres.fields import JSONField
@@ -39,4 +41,19 @@ class Event(TimeStampedModel):
 
     @classmethod
     def active_events(cls):
-        return cls.objects.all()
+        # TODO: Active Filtering
+        qs = cls.objects.filter(is_active=True)
+
+        # TODO: Date(From and To) Filter
+        qs = qs.filter(
+            Q(
+                Q(to_date=None) | Q(to_date__gte=now())
+            ),
+            Q(
+                Q(from_date=None) | Q(from_date__lte=now())
+            ))
+
+        # TODO: Repeat type filtering
+
+        # TODO: event time filtering
+        return qs
