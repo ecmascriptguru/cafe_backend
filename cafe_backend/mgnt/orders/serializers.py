@@ -1,8 +1,11 @@
 from cafe_backend.core.apis.serializers import CafeModelSerializer, serializers
+from cafe_backend.apps.dishes.serializers import DishSerializer
 from .models import Order, OrderItem
 
 
 class OrderItemSerializer(CafeModelSerializer):
+    dish = DishSerializer()
+
     class Meta:
         model = OrderItem
         fields = (

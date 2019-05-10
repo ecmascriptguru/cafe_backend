@@ -24,7 +24,7 @@ class AdvertisementTable(tables.Table):
 
     def render_number(self):
         return next(self.counter)
-    
+
     def render_image(self, record):
         return render_to_string(
             self.image_template, context={'record': record})

@@ -5,6 +5,9 @@ urlpatterns = [
     path('ads/', include((
         'cafe_backend.apps.advertisements.urls',
         'cafe_backend.apps.advertisements'), namespace='ads')),
+    path('events/', include((
+        'cafe_backend.apps.events.urls',
+        'cafe_backend.apps.events'), namespace='events')),
     path('tables/', include((
         'cafe_backend.apps.users.urls', 'cafe_backend.apps.users'),
         namespace='tables')),

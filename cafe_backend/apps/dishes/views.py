@@ -21,7 +21,7 @@ class DishViewSet(CafeModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = DishSerializer
     queryset = Dish.objects.filter(is_active=True)
-    http_method_names = ['get', ]
+    # http_method_names = ['get', ]
 
     def perform_create(self, serializer):
         serializer.save(category_id=self.kwargs.get('category_pk'))
