@@ -1,0 +1,27 @@
+{% extends 'layouts/adminlte_base.html' %}
+{% load render_table from django_tables2 %}
+{% load django_tables2 %}
+{% load bootstrap4 %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+        <i class="fa fa-weixin"></i>
+        {{ object.name }}
+        <small>Detail view of Ads</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-folder-open-o"></i>Settings</a></li>
+        <li><a href="#"><i class="fa fa-weixin"></i>Advertisements</a></li>
+        <li class="active">List</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <img src="{{ object.file.url }}" />
+        </div>
+    </div>
+</section>
+{% endblock content %}

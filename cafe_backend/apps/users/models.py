@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django_fsm import FSMField
 from model_utils.models import TimeStampedModel
-from cafe_backend.core.constants.states import ORDER_STATE
+from cafe_backend.core.constants.states import ORDER_STATE, TABLE_STATE
 
 
 class User(AbstractUser):
@@ -18,12 +19,20 @@ class User(AbstractUser):
 
 
 class Table(TimeStampedModel):
+    TABLE_STATE_OPTIONS = (
+        (TABLE_STATE.blank, 'Blank'),
+        (TABLE_STATE.using, 'Using'),
+        (TABLE_STATE.reserved, 'Reserved'),
+        (TABLE_STATE.waiting, 'Waiting'))
+
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, primary_key=True)
     size = models.PositiveSmallIntegerField()
     male = models.PositiveSmallIntegerField(default=0)
     female = models.PositiveSmallIntegerField(default=0)
     is_vip = models.BooleanField(default=False)
+    state = FSMField(
+        choices=TABLE_STATE_OPTIONS, default=TABLE_STATE.blank)
 
     def __str__(self):
         return "<Table(%d): %s>" % (self.pk, self.name)

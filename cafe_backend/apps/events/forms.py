@@ -46,17 +46,15 @@ class EventForm(forms.ModelForm):
         for week_day, value in WEEK_DAYS:
             self.fields[week_day].widget.attrs['disabled'] =\
                 (self.instance.repeat != EVENT_REPEAT_TYPE.every_week)
-            if value in self.instance.details.get('weekdays', []):
-                self.fields[week_day].widget.attrs['checked'] = True
+            self.fields[week_day].widget.attrs['checked'] =\
+                self.instance.details['weekdays'][week_day]
 
     def save(self, commit=True):
         if self.cleaned_data['repeat'] == EVENT_REPEAT_TYPE.every_week:
-            buffer = list()
+            buffer = dict()
             for week_day, value in WEEK_DAYS:
-                print(self.cleaned_data[week_day])
-                if self.cleaned_data[week_day] is True:
-                    buffer.append(value)
+                buffer[week_day] = self.cleaned_data[week_day]
             self.instance.details['weekdays'] = buffer
         else:
-            self.instance.details['weekdays'] = []
+            self.instance.details['weekdays'] = {}
         return super(EventForm, self).save(commit)

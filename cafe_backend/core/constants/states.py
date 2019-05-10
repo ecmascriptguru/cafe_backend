@@ -24,3 +24,10 @@ class BOOKING_STATE:
     rejected = DEFAULT_STATE.rejected
     canceled = DEFAULT_STATE.canceled
     archived = DEFAULT_STATE.archived
+
+
+class TABLE_STATE:
+    blank = 'b'
+    using = 'u'
+    reserved = 'r'
+    waiting = 'w'
