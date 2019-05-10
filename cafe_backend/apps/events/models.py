@@ -36,3 +36,7 @@ class Event(TimeStampedModel):
 
     def __str__(self):
         return "<Event(%d):%s>" % (self.pk, self.name)
+
+    @classmethod
+    def active_events(cls):
+        return cls.objects.all()

@@ -21,4 +21,8 @@ urlpatterns = [
     path('', include((
         'cafe_backend.apps.advertisements.urls_api',
         'cafe_backend.apps.advertisements'), namespace='api:ads')),
+
+    path('', include((
+        'cafe_backend.apps.events.urls_api',
+        'cafe_backend.apps.events'), namespace='api:events')),
 ]
