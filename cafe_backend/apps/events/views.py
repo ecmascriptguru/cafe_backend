@@ -14,8 +14,11 @@ from .tables import EventTable
 
 class EventViewSet(CafeModelViewSet):
     serializer_class = EventSerializer
-    queryset = Event.active_events()
+    queryset = Event.objects.all()
     http_method_names = ('get', )
+
+    def get_queryset(self):
+        return Event.active_events()
 
 
 class EventListView(LoginRequiredMixin, SingleTableMixin, FilterView):

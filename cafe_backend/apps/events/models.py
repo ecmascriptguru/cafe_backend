@@ -1,10 +1,10 @@
 from datetime import datetime, timedelta
-from django.utils.timezone import now
 from django.db import models
 from django.db.models import Q
 from django.core.exceptions import ValidationError
 from django_fsm import FSMField
 from django.contrib.postgres.fields import JSONField
+from django.conf import settings
 from model_utils.models import TimeStampedModel
 from cafe_backend.core.constants.types import EVENT_TYPE, EVENT_REPEAT_TYPE
 
@@ -56,14 +56,15 @@ class Event(TimeStampedModel):
         # TODO: Date(From and To) Filter
         qs = qs.filter(
             Q(
-                Q(to_date=None) | Q(to_date__gte=now())
+                Q(to_date=None) | Q(to_date__gte=datetime.now())
             ),
             Q(
-                Q(from_date=None) | Q(from_date__lte=now())
+                Q(from_date=None) | Q(from_date__lte=datetime.now())
             ))
 
         # TODO: Repeat type filtering
-        temp_keyword = "details__weekdays__%s" % now().strftime("%a").lower()
+        temp_keyword = "details__weekdays__%s" % datetime.now().\
+            strftime("%a").lower()
         weekday_kwargs = {temp_keyword: True}
         qs = qs.filter(
             Q(
@@ -78,7 +79,8 @@ class Event(TimeStampedModel):
 
         # TODO: event time filtering
         qs = qs.filter(
-            at__gte=now().time(),
-            at__lte=(now() + timedelta(minutes=1)).time()
+            at__gte=datetime.now().time(),
+            at__lte=(datetime.now() + timedelta(
+                minutes=settings.EVENT_QUERY_INTERVAL)).time()
         )
         return qs
