@@ -8,7 +8,7 @@ class EventAdmin(admin.ModelAdmin):
     form = EventForm
     fields = (
         'name', 'event_type', 'file', 'from_date', 'to_date',
-        'at', 'is_active', 'details', 'repeat', (
+        'at', 'event_date', 'is_active', 'details', 'repeat', (
             'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'))
 
     class Meta:

@@ -9,7 +9,7 @@ class CafeModelViewSet(ModelViewSet):
     def get_serializer_context(self):
         context = super(CafeModelViewSet, self).get_serializer_context()
 
-        if not self.request.user.table:
+        if not hasattr(self.request.user, 'table'):
             raise PermissionDenied()
 
         context['table'] = self.request.user.table

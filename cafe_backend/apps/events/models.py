@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from django.utils.timezone import now
 from django.db import models
 from django.db.models import Q
@@ -29,12 +30,20 @@ class Event(TimeStampedModel):
     to_date = models.DateField(null=True)
     repeat = FSMField(
         choices=EVENT_REPEAT_TYPE_CHOICES, default=EVENT_REPEAT_TYPE.only_once)
+    event_date = models.DateField(null=True, blank=True, default=None)
     at = models.TimeField()
     details = JSONField(default={}, blank=True)
     is_active = models.BooleanField(default=True)
 
     class Meta:
         ordering = ('at', )
+
+    def clean(self):
+        super(Event, self).clean()
+        if self.repeat == EVENT_REPEAT_TYPE.only_once and\
+                self.event_date is None:
+            raise ValidationError({
+                'event_date': 'Required for only once repeat type.'})
 
     def __str__(self):
         return "<Event(%d):%s>" % (self.pk, self.name)
@@ -54,6 +63,22 @@ class Event(TimeStampedModel):
             ))
 
         # TODO: Repeat type filtering
+        temp_keyword = "details__weekdays__%s" % now().strftime("%a").lower()
+        weekday_kwargs = {temp_keyword: True}
+        qs = qs.filter(
+            Q(
+                repeat=EVENT_REPEAT_TYPE.every_day) |
+            Q(
+                repeat=EVENT_REPEAT_TYPE.only_once,
+                event_date=datetime.today()) |
+            Q(
+                repeat=EVENT_REPEAT_TYPE.every_week,
+                **weekday_kwargs)
+        )
 
         # TODO: event time filtering
+        qs = qs.filter(
+            at__gte=now().time(),
+            at__lte=(now() + timedelta(minutes=1)).time()
+        )
         return qs

@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from .models import Event, EVENT_REPEAT_TYPE
 
 
@@ -47,7 +48,7 @@ class EventForm(forms.ModelForm):
             self.fields[week_day].widget.attrs['disabled'] =\
                 (self.instance.repeat != EVENT_REPEAT_TYPE.every_week)
             self.fields[week_day].widget.attrs['checked'] =\
-                self.instance.details['weekdays'][week_day]
+                self.instance.details['weekdays'].get(week_day, False)
 
     def save(self, commit=True):
         if self.cleaned_data['repeat'] == EVENT_REPEAT_TYPE.every_week:
