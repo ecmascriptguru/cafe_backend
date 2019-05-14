@@ -19,3 +19,9 @@ class EVENT_REPEAT_TYPE:
     only_once = 'o'
     every_day = 'd'
     every_week = 'w'
+
+
+class CHAT_ROOM_TYPE:
+    direct = 'd'
+    private = 'c'
+    public = 'p'

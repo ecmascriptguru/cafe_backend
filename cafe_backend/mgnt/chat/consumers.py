@@ -1,0 +1,49 @@
+import json
+from asgiref.sync import async_to_sync
+from channels.generic.websocket import AsyncWebsocketConsumer
+from cafe_backend.apps.users.models import User
+
+
+class ChatConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        self.channel_pk = self.scope['url_route']['kwargs']['channel_pk']
+        user_pk = self.scope['url_route']['kwargs']['user_pk']
+        self.room_group_name = 'channel_%s' % self.channel_pk
+        self.user = User.objects.get(pk=user_pk)
+
+        # Join room group
+        await self.channel_layer.group_add(
+            self.room_group_name,
+            self.channel_name
+        )
+
+        await self.accept()
+
+    async def disconnect(self, close_code):
+        # Leave room group
+        await self.channel_layer.group_discard(
+            self.room_group_name,
+            self.channel_name
+        )
+
+    # Receive message from WebSocket
+    async def receive(self, text_data):
+        text_data_json = json.loads(text_data)
+        message = text_data_json['message']
+
+        # Send message to room group
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'chat_message',
+                'message': message,
+                'from': self.user.to_json()
+            }
+        )
+
+    # Receive message from room group
+    async def chat_message(self, event):
+        message = event['message']
+
+        # Send message to WebSocket
+        await self.send(text_data=json.dumps(event))

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django_tables2',
     'bootstrap4',
     'qr_code',
+    'channels',
 
     # Local apps
     # apps
@@ -56,6 +57,7 @@ INSTALLED_APPS = [
     # mgnt
     'cafe_backend.mgnt.orders',
     'cafe_backend.mgnt.bookings',
+    'cafe_backend.mgnt.chat',
 ]
 
 MIDDLEWARE = [
@@ -187,3 +189,15 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 DEFAULT_FILE_STORAGE = 'config.storage_backends.MediaStorage'
+
+
+# ASGI Configuration
+ASGI_APPLICATION = 'config.routing.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}

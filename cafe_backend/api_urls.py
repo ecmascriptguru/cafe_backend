@@ -25,4 +25,8 @@ urlpatterns = [
     path('', include((
         'cafe_backend.apps.events.urls_api',
         'cafe_backend.apps.events'), namespace='api:events')),
+
+    path('', include((
+        'cafe_backend.mgnt.chat.urls_api',
+        'cafe_backend.mgnt.chat'), namespace='api:chat')),
 ]
