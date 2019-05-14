@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django_fsm import FSMField
 from model_utils.models import TimeStampedModel
 from cafe_backend.core.constants.states import ORDER_STATE, TABLE_STATE
+from cafe_backend.mgnt.chat.models import Channel
 
 
 class User(AbstractUser):
@@ -16,6 +17,15 @@ class User(AbstractUser):
             return self.first_name
         else:
             return self.username
+
+    def get_active_channels(self):
+        return Channel.objects.filter(
+            attendees__user__pk=self.pk)
+
+    def to_json(self):
+        return {
+            'id': self.pk,
+            'name': self.name}
 
 
 class Table(TimeStampedModel):

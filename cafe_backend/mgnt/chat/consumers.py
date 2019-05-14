@@ -1,12 +1,15 @@
 import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import AsyncWebsocketConsumer
+from cafe_backend.apps.users.models import User
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        self.room_name = self.scope['url_route']['kwargs']['room_name']
-        self.room_group_name = 'chat_%s' % self.room_name
+        self.channel_pk = self.scope['url_route']['kwargs']['channel_pk']
+        user_pk = self.scope['url_route']['kwargs']['user_pk']
+        self.room_group_name = 'channel_%s' % self.channel_pk
+        self.user = User.objects.get(pk=user_pk)
 
         # Join room group
         await self.channel_layer.group_add(
@@ -33,7 +36,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             {
                 'type': 'chat_message',
-                'message': message
+                'message': message,
+                'from': self.user.to_json()
             }
         )
 
@@ -42,6 +46,4 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = event['message']
 
         # Send message to WebSocket
-        await self.send(text_data=json.dumps({
-            'message': message
-        }))
+        await self.send(text_data=json.dumps(event))

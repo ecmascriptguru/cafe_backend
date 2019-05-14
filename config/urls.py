@@ -18,10 +18,12 @@ from django.contrib.auth import views as auth_views
 from django.conf.urls import url, static
 from django.urls import path, include
 from django.conf import settings
-from rest_framework_jwt.views import (
-    obtain_jwt_token, refresh_jwt_token, verify_jwt_token)
+# from rest_framework_jwt.views import (
+#     obtain_jwt_token, refresh_jwt_token, verify_jwt_token)
 from cafe_backend.apps.users.views import TablesListView
 from cafe_backend.apps.dishes.admin import admin_site
+from cafe_backend.core.apis.views import (
+    obtain_jwt_token, refresh_jwt_token, verify_jwt_token)
 
 urlpatterns = [
     path('', TablesListView.as_view(), name='root_url'),
