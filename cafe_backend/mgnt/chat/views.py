@@ -25,6 +25,7 @@ class ChannelViewSet(viewsets.ModelViewSet):
     queryset = Channel.objects.all()
     serializer_class = ChannelSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    pagination_class = None
 
     def get_queryset(self):
         if self.request.user.is_superuser:
