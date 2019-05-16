@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="{% static 'backend_theme/css/layout.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'backend_theme/css/custom.css' %}">
     <script src="{% static 'backend_theme/js/bundle.js' %}"></script>
+    {% block custom_css %}
+    {% endblock %}
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">

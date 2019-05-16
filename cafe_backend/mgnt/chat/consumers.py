@@ -31,18 +31,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         to = text_data_json.get('to', None)
 
         # Get or create channel between 2 users
-        channel, created = self.user.get_channel(to)
-        if created:
-            # Inform invitation to a channel.
-            await self.channel_layer.group_send(
-                self.room_group_name,
-                {
-                    'type': 'channel.new',
-                    'message': "You've invited by %s." % channel.name,
-                    'from': self.user.to_json(),
-                    'to': to
-                }
-            )
+        channel = self.user.get_channel(to)
 
         # Send message to room group
         message = text_data_json['message']

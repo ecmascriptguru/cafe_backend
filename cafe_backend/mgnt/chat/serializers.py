@@ -6,7 +6,8 @@ from .models import Channel, CHANNEL_TYPE_CHOICES, Message
 class MessageSerializer(CafeModelSerializer):
     class Meta:
         model = Message
-        fields = '__all__'
+        fields = (
+            'id', 'poster', 'poster_name', 'created', 'content', 'channel')
 
 
 class ChannelSerializer(CafeModelSerializer):

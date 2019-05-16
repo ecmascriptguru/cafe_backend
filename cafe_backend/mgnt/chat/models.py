@@ -36,6 +36,9 @@ class Attendee(TimeStampedModel):
         'users.User', on_delete=models.CASCADE, related_name='attendees')
     is_active = models.BooleanField(default=True)
 
+    class Meta:
+        unique_together = ['channel', 'user', ]
+
 
 class Message(TimeStampedModel):
     channel = models.ForeignKey(
@@ -47,6 +50,10 @@ class Message(TimeStampedModel):
     class Meta:
         ordering = ('-modified', )
 
+    @property
+    def poster_name(self):
+        return self.poster.first_name
+
     def __str__(self):
         return "<Msg(%d):%s>(%s)" % (
             self.pk, self.poster.name, self.content)
@@ -56,5 +63,8 @@ class Message(TimeStampedModel):
             'channel_id': self.channel.pk,
             'id': self.pk,
             'from': self.poster.to_json(),
-            'message': self.content
+            'content': self.content,
+            'poster': self.poster.pk,
+            'poster_name': self.poster.first_name,
+            'created': str(self.created)
         }

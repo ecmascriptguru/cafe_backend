@@ -28,22 +28,11 @@ class User(AbstractUser):
             'name': self.name}
 
     def get_channel(self, to=None):
-        created = False
         if to is None:
-            return Channel.get_public_channel(), created
+            return Channel.get_public_channel()
         else:
-            to_user = User.objects.get(pk=to)
-            qs = Channel.objects.filter(attendees__user__pk=u1.pk).\
-                filter(attendees__user__pk=u2.pk).filter(channel_type='c')
-            if qs.exists():
-                return qs.first(), created
-            else:
-                channel = Channel.objects.create(
-                    name="%s-%s" % (self.name, to_user.name))
-                created = True
-                channel.attendees.create(user=self)
-                channel.attendees.create(user=to_user)
-                return channel, created
+            to_channel = Channel.objects.get(pk=to)
+            return to_channel
 
 
 class Table(TimeStampedModel):

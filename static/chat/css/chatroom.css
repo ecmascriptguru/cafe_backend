@@ -1,0 +1,6 @@
+.channel {
+    border: solid 1px transparent;
+    cursor: pointer;}
+    .channel.active {
+        border: solid 1px green;
+    }
