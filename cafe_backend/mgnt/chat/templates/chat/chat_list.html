@@ -1,0 +1,96 @@
+{% extends 'layouts/adminlte_base.html' %}
+{% load static %}
+
+{% block custom_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'chat/css/chatroom.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+        <i class="fa fa-laptop"></i>
+        Chat Room
+        <small>Room view of chats</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>Management</a></li>
+        <li><a href="#"><i class="fa fa-laptop"></i>Chats</a></li>
+        <li class="active">Room</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
+        <ul class="channel-list nav">
+            {% for channel in channels %}
+            <li class="channel nav-item" data-channel-id="{{ channel.pk }}">{{ channel.name }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-lg-10 col-md-9 col-sm-8 col-xs-12">
+        <div class="box box-primary direct-chat direct-chat-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title channel-name">Direct Chat</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <!-- Conversations are loaded here -->
+                <div class="direct-chat-messages">
+                </div>
+                <!--/.direct-chat-messages-->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <div class="input-group">
+                    <input type="text" id="chat-message-input" name="message" placeholder="Type Message ..." class="form-control">
+                    <span class="input-group-btn">
+                        <button id="chat-message-submit" class="btn btn-primary btn-flat">Send</button>
+                    </span>
+                </div>
+            </div>
+            <!-- /.box-footer-->
+        </div>
+    </div>
+
+    <script>
+        window.userId = parseInt("{{ request.user.pk }}")
+    </script>
+</section>
+{% endblock content %}
+
+{% block custom_js %}
+<script src="{% static 'chat/js/chatroom.js' %}"></script>
+{% endblock %}
+
+{% block page_specific_content %}
+<div class="modal fade" id="new-channel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Open Contact</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <select class="form-control table-selector">
+                        
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+{% endblock page_specific_content %}

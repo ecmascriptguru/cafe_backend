@@ -7,8 +7,7 @@ from .models import User, Table
 @receiver(post_save, sender=User)
 def create_attendee_for_new_user(sender, instance, created, **kwargs):
     if created:
-        channel, created = Channel.objects.get_or_create(
-            name='Public', channel_type=CHAT_ROOM_TYPE.public)
+        channel = Channel.get_public_channel()
         channel.attendees.create(user=instance)
 
 

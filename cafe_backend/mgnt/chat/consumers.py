@@ -6,9 +6,8 @@ from cafe_backend.apps.users.models import User
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        self.channel_pk = self.scope['url_route']['kwargs']['channel_pk']
         user_pk = self.scope['url_route']['kwargs']['user_pk']
-        self.room_group_name = 'channel_%s' % self.channel_pk
+        self.room_group_name = 'default_room'
         self.user = User.objects.get(pk=user_pk)
 
         # Join room group
@@ -29,15 +28,21 @@ class ChatConsumer(AsyncWebsocketConsumer):
     # Receive message from WebSocket
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        message = text_data_json['message']
+        to = text_data_json.get('to', None)
+
+        # Get or create channel between 2 users
+        channel = self.user.get_channel(to)
 
         # Send message to room group
+        message = text_data_json['message']
+        msg_object = channel.messages.create(
+            poster=self.user, content=message)
         await self.channel_layer.group_send(
             self.room_group_name,
             {
                 'type': 'chat_message',
-                'message': message,
-                'from': self.user.to_json()
+                'message': msg_object.to_json(),
+                'to': to,
             }
         )
 

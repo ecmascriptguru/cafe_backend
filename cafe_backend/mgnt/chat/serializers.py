@@ -1,9 +1,19 @@
 from cafe_backend.core.apis.serializers import (
     CafeModelSerializer, serializers)
-from .models import Channel, CHANNEL_TYPE_CHOICES
+from .models import Channel, CHANNEL_TYPE_CHOICES, Message
+
+
+class MessageSerializer(CafeModelSerializer):
+    class Meta:
+        model = Message
+        fields = (
+            'id', 'poster', 'poster_name', 'created', 'content', 'channel')
 
 
 class ChannelSerializer(CafeModelSerializer):
+    message_set = MessageSerializer(
+        many=True, source='quick_messages', read_only=True)
+
     class Meta:
         model = Channel
-        fields = '__all__'
+        fields = ('id', 'name', 'message_set', 'channel_type', )

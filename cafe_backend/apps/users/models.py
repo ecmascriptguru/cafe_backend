@@ -27,6 +27,13 @@ class User(AbstractUser):
             'id': self.pk,
             'name': self.name}
 
+    def get_channel(self, to=None):
+        if to is None:
+            return Channel.get_public_channel()
+        else:
+            to_channel = Channel.objects.get(pk=to)
+            return to_channel
+
 
 class Table(TimeStampedModel):
     TABLE_STATE_OPTIONS = (

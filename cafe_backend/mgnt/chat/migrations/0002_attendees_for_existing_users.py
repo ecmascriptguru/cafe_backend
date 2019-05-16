@@ -6,18 +6,45 @@ from django.db import migrations
 from cafe_backend.core.constants.types import CHAT_ROOM_TYPE
 
 
-def create_default_channel(apps, schema_editor):
+def create_channels_for_existing_users(apps, schema_editor):
     Channel = apps.get_model('chat', 'Channel')
     User = apps.get_model('users', 'User')
-    channel, created = Channel.objects.get_or_create(
+
+    # For public channels
+    public_channel, created = Channel.objects.get_or_create(
         name='Public', channel_type=CHAT_ROOM_TYPE.public)
 
     count = 0
     for user in User.objects.all():
-        channel.attendees.create(user=user)
+        public_channel.attendees.create(user=user)
         count += 1
 
-    print("%d attendees created successfully." % count)
+    print("%d attendees for public channels created successfully." % count)
+
+    # For private channels between 2 table combinations
+    users = User.objects.filter(is_table=True).exclude(table=None)
+    count = 0
+    for t1 in users:
+        for t2 in users:
+            qs = Channel.objects.filter(attendees__user__pk=t1.pk).\
+                filter(attendees__user__pk=t2.pk).filter(
+                    channel_type=CHAT_ROOM_TYPE.private)
+            if t1 != t2 and qs.exists():
+                continue
+
+            if t1 == t2:
+                channel = Channel.objects.create(
+                    name=t1.first_name, channel_type=CHAT_ROOM_TYPE.private)
+                channel.attendees.create(user=t1)
+            else:
+                channel = Channel.objects.create(
+                    name="%s-%s" % (t1.first_name, t2.first_name),
+                    channel_type=CHAT_ROOM_TYPE.private)
+                channel.attendees.create(user=t1)
+                channel.attendees.create(user=t2)
+            count += 1
+
+    print("%d attendees for private channels created successfully." % count)
 
 
 def reverse_func(apps, schema_editor):
@@ -32,5 +59,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(create_default_channel, reverse_func)
+        migrations.RunPython(create_channels_for_existing_users, reverse_func)
     ]
