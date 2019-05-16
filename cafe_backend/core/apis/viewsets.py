@@ -1,9 +1,9 @@
 from django.core.exceptions import PermissionDenied
 from rest_framework import permissions
-from rest_framework.viewsets import ModelViewSet
+from rest_framework import viewsets
 
 
-class CafeModelViewSet(ModelViewSet):
+class CafeModelViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
 
     def get_serializer_context(self):

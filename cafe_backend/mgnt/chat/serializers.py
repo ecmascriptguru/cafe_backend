@@ -10,7 +10,7 @@ class MessageSerializer(CafeModelSerializer):
             'id', 'poster', 'poster_name', 'created', 'content', 'channel')
 
 
-class ChannelSerializer(CafeModelSerializer):
+class ChannelSerializer(serializers.ModelSerializer):   # CafeModelSerializer):
     message_set = MessageSerializer(
         many=True, source='quick_messages', read_only=True)
 
