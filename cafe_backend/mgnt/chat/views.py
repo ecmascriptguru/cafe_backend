@@ -9,13 +9,12 @@ from .models import Channel
 
 
 class ChatListView(LoginRequiredMixin, generic.TemplateView):
-    template_name = 'chat/chat_listview.html'
+    template_name = 'chat/chat_list.html'
 
-
-def room(request, room_name):
-    return render(request, 'chat/chat_room.html', {
-        'room_name_json': mark_safe(json.dumps(room_name))
-    })
+    def get_context_data(self, *args, **kwargs):
+        data = super(ChatListView, self).get_context_data(*args, **kwargs)
+        data['channels'] = self.request.user.get_active_channels()
+        return data
 
 
 class ChannelViewSet(CafeModelViewSet):
