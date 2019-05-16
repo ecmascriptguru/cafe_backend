@@ -39,6 +39,13 @@ class Attendee(TimeStampedModel):
     class Meta:
         unique_together = ['channel', 'user', ]
 
+    @property
+    def table(self):
+        if hasattr(self.user, 'table'):
+            return self.user.table
+        else:
+            return None
+
 
 class Message(TimeStampedModel):
     channel = models.ForeignKey(
