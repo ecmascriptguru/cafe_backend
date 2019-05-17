@@ -22,15 +22,37 @@
             }
         },
 
-        _socketMessageHandler = (e) => {
-            let data = JSON.parse(e.data),
-                message = data['message'];
+        _handleChatMessage = (data) => {
+            let message = data['message'];
             
             if (message.channel_id == currentChannel) {
                 $messagesContainer.append(getHtmlMsg(message))
             } else {
                 // Show notification
                 showNotificationOnChannel(message.channel_id)
+            }
+        },
+
+        _handleEventNotification = (data) => {
+            console.info("TODO: Please implement logic here.")
+        },
+
+        _socketMessageHandler = (e) => {
+            let data = JSON.parse(e.data)
+
+            switch (data.type) {
+                case 'chat_message':
+                    _handleChatMessage(data)
+                    break;
+
+                case 'notification_event':
+                    _handleEventNotification(data)
+                    break;
+            
+                default:
+                    console.log("UNKNOWN MESSAGE FOUND.")
+                    console.log(data)
+                    break;
             }
         },
 

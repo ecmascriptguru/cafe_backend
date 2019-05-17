@@ -1,7 +1,9 @@
 import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import AsyncWebsocketConsumer
+from cafe_backend.core.constants.types import SOCKET_MESSAGE_TYPE
 from cafe_backend.apps.users.models import User
+from cafe_backend.apps.events.models import Event
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -27,28 +29,54 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     # Receive message from WebSocket
     async def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        to = text_data_json.get('to', None)
+        json_data = json.loads(text_data)
+        to = json_data.get('to', None)
 
         # Get or create channel between 2 users
         channel = self.user.get_channel(to)
+        message_type = json_data.get('type', SOCKET_MESSAGE_TYPE.chat)
 
-        # Send message to room group
-        message = text_data_json['message']
-        msg_object = channel.messages.create(
-            poster=self.user, content=message)
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'chat_message',
-                'message': msg_object.to_json(),
-                'to': to,
-            }
-        )
+        if message_type == SOCKET_MESSAGE_TYPE.chat:
+            # Send message to room group
+            message = json_data['message']
+            msg_object = channel.messages.create(
+                poster=self.user, content=message)
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': message_type,
+                    'message': msg_object.to_json(),
+                    'to': to,
+                }
+            )
+        elif message_type == SOCKET_MESSAGE_TYPE.event:
+            event_pk = json_data['event']
+            event = Event.objects.get(pk=event_pk)
+            await self.channel_layer.group_send(
+                self.room_group_name, {
+                    'type': message_type,
+                    'to': to,
+                    'event': event.to_json()
+                }
+            )
+        elif message_type == SOCKET_MESSAGE_TYPE.order:
+            order = json_data['order']
+            await self.channel_layer.group_send(
+                self.room_group_name, {
+                    'type': message_type,
+                    'to': to,
+                    'order': order
+                }
+            )
+        else:
+            pass
 
     # Receive message from room group
     async def chat_message(self, event):
-        message = event['message']
+        await self.send(text_data=json.dumps(event))
 
-        # Send message to WebSocket
+    async def notification_event(self, event):
+        await self.send(text_data=json.dumps(event))
+
+    async def notification_order(self, event):
         await self.send(text_data=json.dumps(event))

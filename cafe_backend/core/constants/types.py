@@ -25,3 +25,9 @@ class CHAT_ROOM_TYPE:
     direct = 'd'
     private = 'c'
     public = 'p'
+
+
+class SOCKET_MESSAGE_TYPE:
+    chat = 'chat_message'
+    event = 'notification_event'
+    order = 'notification_order'

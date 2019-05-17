@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from django.utils import timezone
 from django.db import models
 from django.db.models import Q
 from django.core.exceptions import ValidationError
@@ -47,6 +48,15 @@ class Event(TimeStampedModel):
 
     def __str__(self):
         return "<Event(%d):%s>" % (self.pk, self.name)
+
+    def to_json(self):
+        return {
+            'name': self.name,
+            'type': self.event_type,
+            'url': self.file.url,
+            'date': self.event_date and self.event_date.isoformat() or '',
+            'at': self.at.isoformat()
+        }
 
     @classmethod
     def active_events(cls):
