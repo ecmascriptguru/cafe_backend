@@ -1,0 +1,45 @@
+{% extends 'layouts/adminlte_base.html' %}
+{% load static %}
+
+{% block custom_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'music/css/music.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+        <i class="fa fa-music"></i>
+        Music Live Demo
+        <small>Demo page of Music</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>Management</a></li>
+        <li><a href="#"><i class="fa fa-music"></i>Music</a></li>
+        <li class="active">Demo</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="col-xs-12">
+        <div class="music-search-form col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
+            <div class="form-group">
+                <input type="text" id="music-search-keyword" class="form-control" />
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary pull-right" id="music-search-submit" disabled>Search</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="music-search-result-container container">
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+{% block custom_js %}
+<script src="{% static 'music/js/music_demo.js' %}"></script>
+{% endblock %}
+
+{% block page_specific_content %}
+{% endblock page_specific_content %}
