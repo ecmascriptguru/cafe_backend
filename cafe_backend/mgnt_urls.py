@@ -13,4 +13,8 @@ urlpatterns = [
     path('bookings/', include((
             'cafe_backend.mgnt.bookings.urls', 'cafe_backend.mgnt.bookings'
         ), namespace='bookings')),
+
+    path('music/', include((
+            'cafe_backend.mgnt.music.urls', 'cafe_backend.mgnt.music'
+        ), namespace='music')),
 ]

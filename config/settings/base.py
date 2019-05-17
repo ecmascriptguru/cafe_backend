@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'cafe_backend.mgnt.orders',
     'cafe_backend.mgnt.bookings',
     'cafe_backend.mgnt.chat',
+    'cafe_backend.mgnt.music',
 ]
 
 MIDDLEWARE = [

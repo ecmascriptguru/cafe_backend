@@ -26,7 +26,7 @@ class Channel(TimeStampedModel):
         return channel
 
     def quick_messages(self):
-        return self.messages.all()[:3]
+        return self.messages.all()[:6]
 
 
 class Attendee(TimeStampedModel):
