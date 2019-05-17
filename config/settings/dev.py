@@ -4,6 +4,7 @@ Configuration for development. Take care of env.json in project root folder.
 import json
 from os import environ, path
 from django.core.exceptions import ImproperlyConfigured, MiddlewareNotUsed
+from celery.schedules import crontab
 from .base import *
 
 
@@ -99,6 +100,32 @@ DEBUG = ENV_JSON.get('DEBUG', False)
 if not DEBUG:
     STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": ['redis://127.0.0.1:6379/0'],
+        },
+    },
+}
 
 EVENT_QUERY_INTERVAL = ENV_JSON.get('EVENT_QUERY_INTERVAL', 10)
 SOCKET_SERVER_HOST = ENV_JSON.get('SOCKET_SERVER_HOST', 'ws://localhost')
+
+# Celery configuration
+CELERY_BROKER_URL = ENV_JSON.get(
+    'CELERY_BROKER_URL', 'redis://localhost:6379/1')
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_BEAT_SCHEDULE = {
+    'check-valid-events-every-5-minutes': {
+       'task': 'cafe_backend.apps.events.tasks.check_valid_events',
+       'schedule': EVENT_QUERY_INTERVAL * 60,
+    }
+    # 'send-notification-on-friday-afternoon': {
+    #     'task': 'my_app.tasks.send_notification',
+    #     'schedule': crontab(hour=16, day_of_week=5),
+    # },
+}

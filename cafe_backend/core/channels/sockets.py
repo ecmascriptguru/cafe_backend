@@ -31,8 +31,14 @@ def broadcast_events(events):
     admin = User.objects.filter(is_superuser=True).first()
     public_channel = Channel.get_public_channel()
 
+    count = 0
     for event in events:
         message = {
             "type": SOCKET_MESSAGE_TYPE.event,
             "event": event.pk, 'to': public_channel.pk}
-        send_message_to_mobile(admin.pk, message)
+        try:
+            send_message_to_mobile(admin.pk, message)
+            count += 1
+        except Exception as e:
+            pass
+    return count

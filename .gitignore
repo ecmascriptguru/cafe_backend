@@ -3,3 +3,4 @@
 local_env.json
 *.pyc
 node_modules/*
+celerybeat-schedule
