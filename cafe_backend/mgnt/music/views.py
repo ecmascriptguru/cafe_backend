@@ -14,6 +14,10 @@ class MusicDemoView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'music/music_demoview.html'
 
 
+class MusicPlayerView(LoginRequiredMixin, generic.TemplateView):
+    template_name = 'music/music_player.html'
+
+
 class MusicViewSet(CafeModelViewSet):
     serializer_class = serializers.MusicSerializer
     queryset = Music.objects.all()
