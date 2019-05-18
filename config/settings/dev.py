@@ -123,9 +123,9 @@ CELERY_BEAT_SCHEDULE = {
     'check-valid-events-every-5-minutes': {
        'task': 'cafe_backend.apps.events.tasks.check_valid_events',
        'schedule': EVENT_QUERY_INTERVAL * 60,
-    }
-    # 'send-notification-on-friday-afternoon': {
-    #     'task': 'my_app.tasks.send_notification',
-    #     'schedule': crontab(hour=16, day_of_week=5),
-    # },
+    },
+    'check-invalid-music-every-day': {
+        'task': 'cafe_backend.mgnt.music.tasks.check_invalid_musics',
+        'schedule': crontab(hour=11, minute=56),
+    },
 }

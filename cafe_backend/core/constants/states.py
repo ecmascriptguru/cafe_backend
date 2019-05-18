@@ -31,3 +31,10 @@ class TABLE_STATE:
     using = 'u'
     reserved = 'r'
     waiting = 'w'
+
+
+class MUSIC_STATE:
+    default = DEFAULT_STATE.default
+    downloading = DEFAULT_STATE.pending
+    uploading = DEFAULT_STATE.in_progress
+    ready = DEFAULT_STATE.approved
