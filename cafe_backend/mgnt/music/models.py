@@ -1,7 +1,22 @@
+import os
+import boto3
+import datetime
+from urllib import request
+from django.conf import settings
 from django.db import models
 from django.core.validators import ValidationError
+from django_fsm import FSMField, transition
 from model_utils.models import TimeStampedModel
 from cafe_backend.libs.ting.api import TingMusicAPI as Ting
+from cafe_backend.core.constants.states import MUSIC_STATE
+
+
+MUSIC_STATE_CHOICES = (
+    (MUSIC_STATE.default, 'Not available'),
+    (MUSIC_STATE.downloading, 'Downloading'),
+    (MUSIC_STATE.default, 'Uploading'),
+    (MUSIC_STATE.default, 'Ready'),
+)
 
 
 class Music(TimeStampedModel):
@@ -10,6 +25,8 @@ class Music(TimeStampedModel):
     url = models.URLField(verbose_name='Music URL')
     external_id = models.CharField(max_length=32, unique=True)
     pic_url = models.URLField(verbose_name='Picture URL')
+    state = FSMField(
+        choices=MUSIC_STATE_CHOICES, default=MUSIC_STATE.default)
 
     class Meta:
         ordering = ('title', )
@@ -57,6 +74,61 @@ class Music(TimeStampedModel):
         else:
             return False, None
 
+    @property
+    def music_file_extension(self):
+        return self.url.split('?')[0].split('/')[-1].split('.')[-1]
+
+    @property
+    def download_file_path(self):
+        return "%s/%s.%s" % (
+            settings.MUSIC_DOWNLOAD_PATH, self.external_id,
+            self.music_file_extension)
+
+    @property
+    def upload_key(self):
+        return "media/music/%s.%s" % (
+            self.external_id, self.music_file_extension)
+
+    @property
+    def music_url(self):
+        return "//%s/%s" % (
+            settings.AWS_S3_CUSTOM_DOMAIN, self.upload_key)
+
+    @classmethod
+    def get_invalid_musics(cls):
+        return cls.objects.filter(
+            modified__date__lte=datetime.datetime.now().date())
+
+    @transition(
+        field='state',
+        source=MUSIC_STATE.default, target=MUSIC_STATE.downloading)
+    def download(self):
+        request.urlretrieve(self.url, self.download_file_path)
+
+    @transition(
+        field='state',
+        source=MUSIC_STATE.downloading, target=MUSIC_STATE.uploading)
+    def upload(self):
+        s3 = boto3.client(
+            's3', aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
+        bucket_name = settings.AWS_STORAGE_BUCKET_NAME
+        s3.upload_file(
+            self.download_file_path, bucket_name, self.upload_key)
+
+    @transition(
+        field='state',
+        source=MUSIC_STATE.uploading, target=MUSIC_STATE.ready)
+    def approve(self):
+        if os.path.exists(self.download_file_path):
+            os.remove(self.download_file_path)
+
+    def process(self):
+        self.download()
+        self.upload()
+        self.approve()
+        self.save()
+
 
 class Playlist(TimeStampedModel):
     table = models.ForeignKey(
@@ -79,7 +151,7 @@ class Playlist(TimeStampedModel):
         return self.music.title
 
     def get_url(self):
-        return self.music.url
+        return self.music.music_url
 
     def get_pic_url(self):
         return self.music.pic_url

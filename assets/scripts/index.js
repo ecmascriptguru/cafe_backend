@@ -5,6 +5,7 @@ require('admin-lte')
 require('icheck')
 
 require("../../node_modules/jquery.formset/src/jquery.formset")
+window.Amplitude = require('../../node_modules/amplitudejs/dist/amplitude')
 
 import { enableLiveView } from "./utils/live";
 

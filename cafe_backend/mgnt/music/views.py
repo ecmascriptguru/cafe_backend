@@ -6,12 +6,17 @@ from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from cafe_backend.core.apis.viewsets import CafeModelViewSet, viewsets
+from cafe_backend.core.constants.states import MUSIC_STATE
 from . import serializers
 from .models import Music, Playlist
 
 
 class MusicDemoView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'music/music_demoview.html'
+
+
+class MusicPlayerView(LoginRequiredMixin, generic.TemplateView):
+    template_name = 'music/music_player.html'
 
 
 class MusicViewSet(CafeModelViewSet):
@@ -38,6 +43,7 @@ class MusicViewSet(CafeModelViewSet):
 
 class PlaylistViewSet(CafeModelViewSet):
     serializer_class = serializers.PlaylistSerializer
-    queryset = Playlist.objects.filter(is_active=True)
+    queryset = Playlist.objects.filter(
+        is_active=True, music__state=MUSIC_STATE.ready)
     pagination_class = None
     http_method_names = ('get', )

@@ -4,6 +4,8 @@ from .models import Music, Playlist
 
 
 class MusicSerializer(CafeModelSerializer):
+    music_url = serializers.URLField(read_only=True)
+
     class Meta:
         model = Music
         fields = '__all__'

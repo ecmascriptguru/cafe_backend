@@ -1,0 +1,56 @@
+{% extends 'layouts/adminlte_base.html' %}
+{% load static %}
+
+{% block custom_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'music/css/music.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+        <i class="fa fa-music"></i>
+        Music Player
+        <small>Player of Music</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>Management</a></li>
+        <li><a href="#"><i class="fa fa-music"></i>Music</a></li>
+        <li class="active">Player</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="col-xs-12">
+        <div class="cafe-music-player-container col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
+            <div id="music-player">
+                <img amplitude-song-info="cover_art_url" amplitude-main-song-info="true"/>
+                <div class="bottom-container">
+                    <progress class="amplitude-song-played-progress" amplitude-main-song-played-progress="true" id="song-played-progress"></progress>
+                </div>
+                <div class="time-container">
+                    <span class="current-time">
+                        <span class="amplitude-current-minutes" amplitude-main-current-minutes="true"></span>:<span class="amplitude-current-seconds" amplitude-main-current-seconds="true"></span>
+                    </span>
+                    <span class="duration">
+                        <span class="amplitude-duration-minutes" amplitude-main-duration-minutes="true"></span>:<span class="amplitude-duration-seconds" amplitude-main-duration-seconds="true"></span>
+                    </span>
+                </div>
+                <div class="control-container">
+                    <div class="amplitude-play-pause" amplitude-main-play-pause="true" id="play-pause"></div>
+                </div>
+                <div class="meta-container">
+                    <span amplitude-song-info="name" amplitude-main-song-info="true" class="song-name"></span>
+                    <span amplitude-song-info="artist" amplitude-main-song-info="true"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+{% block custom_js %}
+<script src="{% static 'music/js/music_player.js' %}"></script>
+{% endblock %}
+
+{% block page_specific_content %}
+{% endblock page_specific_content %}

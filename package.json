@@ -16,7 +16,9 @@
   "author": "",
   "license": "MIT",
   "homepage": "https://bitbucket.org/perfect_delivery/backend#readme",
-  "dependencies": {},
+  "dependencies": {
+    "amplitudejs": "^4.1.0"
+  },
   "babel": {
     "presets": [
       "es2015"

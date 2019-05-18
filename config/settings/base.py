@@ -208,3 +208,5 @@ DEFAULT_FILE_STORAGE = 'config.storage_backends.MediaStorage'
 
 # ASGI Configuration
 ASGI_APPLICATION = 'config.routing.application'
+CAFE_BACKEND_TMP_PATH = '%s/tmp' % BASE_DIR
+MUSIC_DOWNLOAD_PATH = "%s/music" % CAFE_BACKEND_TMP_PATH
