@@ -31,3 +31,4 @@ class SOCKET_MESSAGE_TYPE:
     chat = 'chat_message'
     event = 'notification_event'
     order = 'notification_order'
+    qr_code = 'qr_code'
