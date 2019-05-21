@@ -68,6 +68,20 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     'order': order
                 }
             )
+        elif message_type == SOCKET_MESSAGE_TYPE.qr_code:
+            qr_code = json_data['qr_code']
+            message = json_data['message']
+            msg_object = channel.messages.create(
+                poster=self.user, content=message)
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': message_type,
+                    'message': msg_object.to_json(),
+                    'qr_code': qr_code,
+                    'to': to,
+                }
+            )
         else:
             pass
 
@@ -79,4 +93,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps(event))
 
     async def notification_order(self, event):
+        await self.send(text_data=json.dumps(event))
+
+    async def qr_code(self, event):
         await self.send(text_data=json.dumps(event))
