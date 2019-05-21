@@ -71,13 +71,15 @@ class ChatConsumer(AsyncWebsocketConsumer):
         elif message_type == SOCKET_MESSAGE_TYPE.qr_code:
             qr_code = json_data['qr_code']
             message = json_data['message']
-            msg_object = channel.messages.create(
-                poster=self.user, content=message)
             await self.channel_layer.group_send(
                 self.room_group_name,
                 {
                     'type': message_type,
-                    'message': msg_object.to_json(),
+                    'message': {
+                        "poster": self.user.pk,
+                        "poster_name": self.user.first_name,
+                        "content": message,
+                    },
                     'qr_code': qr_code,
                     'to': to,
                 }
