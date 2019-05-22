@@ -4,10 +4,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.db import transaction
 from rest_framework import viewsets, permissions
+from rest_framework import pagination
 from cafe_backend.core.apis.viewsets import CafeModelViewSet
 from .serializers import CategorySerializer, DishSerializer, ReviewSerializer
 from . import forms
 from .models import Category, Dish, DishReview
+
+
+class DishPagination(pagination.PageNumberPagination):
+    page_size = 6
 
 
 class CategoryViewSet(CafeModelViewSet):
@@ -21,6 +26,7 @@ class DishViewSet(CafeModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = DishSerializer
     queryset = Dish.objects.filter(is_active=True)
+    pagination_class = DishPagination
     # http_method_names = ['get', ]
 
     def perform_create(self, serializer):
@@ -39,6 +45,7 @@ class DishReviewViewSet(CafeModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     serializer_class = ReviewSerializer
     queryset = DishReview.objects.all()
+    pagination_class = pagination.PageNumberPagination
 
     def perform_create(self, serializer):
         serializer.save(dish_id=self.kwargs.get('dish_pk'))

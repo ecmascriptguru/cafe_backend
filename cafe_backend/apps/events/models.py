@@ -59,7 +59,7 @@ class Event(TimeStampedModel):
         }
 
     @classmethod
-    def active_events(cls):
+    def today_events(cls):
         # TODO: Active Filtering
         qs = cls.objects.filter(is_active=True)
 
@@ -86,7 +86,11 @@ class Event(TimeStampedModel):
                 repeat=EVENT_REPEAT_TYPE.every_week,
                 **weekday_kwargs)
         )
+        return qs
 
+    @classmethod
+    def active_events(cls):
+        qs = cls.today_events()
         # TODO: event time filtering
         qs = qs.filter(
             at__gte=datetime.now().time(),

@@ -18,7 +18,7 @@ class EventViewSet(CafeModelViewSet):
     http_method_names = ('get', )
 
     def get_queryset(self):
-        return Event.active_events()
+        return Event.today_events()
 
 
 class EventListView(LoginRequiredMixin, SingleTableMixin, FilterView):
