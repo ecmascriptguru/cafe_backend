@@ -28,7 +28,7 @@ class MusicSerializer(CafeModelSerializer):
             return instance
 
 
-class PlaylistSerializer(CafeModelSerializer):
+class PlaylistSerializer(serializers.ModelSerializer):
     customer = serializers.StringRelatedField(
         source='get_customer_name', read_only=True)
     title = serializers.StringRelatedField(

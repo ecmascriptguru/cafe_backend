@@ -11,6 +11,10 @@
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'backend_theme/img/favicon.jpg' %}">
     <link rel="stylesheet" href="{% static 'backend_theme/css/layout.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'backend_theme/css/custom.css' %}">
+
+    <script>
+        window.userId = parseInt("{{ request.user.pk }}")
+    </script>
     <script src="{% static 'backend_theme/js/bundle.js' %}"></script>
     {% block custom_css %}
     {% endblock %}
@@ -22,6 +26,7 @@
         {% include "layouts/admin_lte/sidebar.html" %}
 
         <div class="content-wrapper">
+            <audio src="{% static 'backend_theme/sounds/ring.mp3' %}"></audio>
             {% if messages %}
             <ul class="messages">
                 {% for message in messages %}

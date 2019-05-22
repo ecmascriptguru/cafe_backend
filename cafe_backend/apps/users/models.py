@@ -50,6 +50,8 @@ class Table(TimeStampedModel):
     is_vip = models.BooleanField(default=False)
     state = FSMField(
         choices=TABLE_STATE_OPTIONS, default=TABLE_STATE.blank)
+    ring = models.FileField(
+        upload_to='rings/%Y/%m/%d', default=None, null=True)
 
     def __str__(self):
         return "<Table(%d): %s>" % (self.pk, self.name)

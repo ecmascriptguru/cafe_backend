@@ -4,7 +4,7 @@ import websockets
 from django.conf import settings
 from cafe_backend.core.constants.types import SOCKET_MESSAGE_TYPE
 from cafe_backend.apps.users.models import User
-from cafe_backend.mgnt.chat.models import Channel
+from cafe_backend.mgnt.chat.models import Channel, CHAT_ROOM_TYPE
 
 
 async def send_message_to_socket_server(uri, message):
@@ -42,3 +42,19 @@ def broadcast_events(events):
         except Exception as e:
             pass
     return count
+
+
+def broadcast_order_status(order, created):
+    admin = User.objects.filter(is_superuser=True).first()
+    table_user = order.table.user
+    channel = Channel.objects.filter(
+        channel_type=CHAT_ROOM_TYPE.private,
+        attendees__user__pk=table_user.pk).first()
+    message = {
+        "type": SOCKET_MESSAGE_TYPE.order,
+        "created": created, "order": order.pk,
+        "to": channel.pk}
+    try:
+        send_message_to_mobile(admin.pk, message)
+    except Exception as e:
+        print(str(e))

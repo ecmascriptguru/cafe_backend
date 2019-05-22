@@ -4,6 +4,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from cafe_backend.core.constants.types import SOCKET_MESSAGE_TYPE
 from cafe_backend.apps.users.models import User
 from cafe_backend.apps.events.models import Event
+from ...mgnt.orders.models import Order
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -60,12 +61,15 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 }
             )
         elif message_type == SOCKET_MESSAGE_TYPE.order:
-            order = json_data['order']
+            order_pk = json_data['order']
+            created = json_data['created']
+            order = Order.objects.get(pk=order_pk)
             await self.channel_layer.group_send(
                 self.room_group_name, {
                     'type': message_type,
                     'to': to,
-                    'order': order
+                    'created': created,
+                    'order': order.to_json()
                 }
             )
         elif message_type == SOCKET_MESSAGE_TYPE.qr_code:

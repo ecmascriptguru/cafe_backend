@@ -145,6 +145,8 @@ class Playlist(TimeStampedModel):
         ordering = ('created', )
 
     def get_customer_name(self):
+        if self.table is None:
+            return None
         return self.table.name
 
     def get_title(self):

@@ -25,6 +25,14 @@ class Order(TimeStampedModel):
         related_name='orders', null=True)
     state = FSMField(choices=ORDER_STATE_CHOICES, default=ORDER_STATE.default)
 
+    def to_json(self):
+        return {
+            "table": self.table.pk,
+            "user": self.table.user.pk,
+            "state": self.state,
+            "items": [item.to_json() for item in self.order_items.all()]
+        }
+
     @property
     def items(self):
         return self.order_items.filter(is_canceled=False)
@@ -101,3 +109,14 @@ class OrderItem(TimeStampedModel):
             self.to_table = self.order.table
         self.price = self.dish.price
         return super(OrderItem, self).save(**kwargs)
+
+    def to_json(self):
+        return {
+            "order": self.order.pk,
+            "dish": self.dish.pk,
+            "to_table": self.to_table.pk,
+            "price": self.price,
+            "amount": self.amount,
+            "is_canceled": self.is_canceled,
+            "is_delivered": self.is_delivered
+        }
