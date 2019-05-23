@@ -210,3 +210,4 @@ DEFAULT_FILE_STORAGE = 'config.storage_backends.MediaStorage'
 ASGI_APPLICATION = 'config.routing.application'
 CAFE_BACKEND_TMP_PATH = '%s/tmp' % BASE_DIR
 MUSIC_DOWNLOAD_PATH = "%s/music" % CAFE_BACKEND_TMP_PATH
+DATA_UPLOAD_MAX_MEMORY_SIZE = 1024 * 15

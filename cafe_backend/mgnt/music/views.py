@@ -41,7 +41,7 @@ class MusicViewSet(CafeModelViewSet):
         return super(MusicViewSet, self).create(request, *args, **kwargs)
 
 
-class PlaylistViewSet(CafeModelViewSet):
+class PlaylistViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.PlaylistSerializer
     queryset = Playlist.objects.filter(
         is_active=True, music__state=MUSIC_STATE.ready)

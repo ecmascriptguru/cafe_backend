@@ -11,11 +11,12 @@ class TableAdminForm(forms.ModelForm):
 
     class Meta:
         model = Table
-        fields = ('name', 'imei', 'size', 'male', 'female', 'is_vip', )
+        fields = ('name', 'imei', 'size', 'male', 'female', 'ring', 'is_vip', )
 
     def __init__(self, *args, **kwargs):
         super(TableAdminForm, self).__init__(*args, **kwargs)
 
+        self.fields['ring'].required = False
         self.fields['imei'].label = _('IMEI Code')
         if self.instance.pk:
             self.fields['name'].initial = self.instance.name

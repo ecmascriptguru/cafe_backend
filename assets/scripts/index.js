@@ -8,12 +8,11 @@ require("../../node_modules/jquery.formset/src/jquery.formset")
 window.Amplitude = require('../../node_modules/amplitudejs/dist/amplitude')
 
 import { enableLiveView } from "./utils/live";
+import { initSocket } from "./modules/socket";
 
-window.EmailHunter = (() => {
-    $('.carousel').carousel()
+window.CafeAdmin = (() => {
+    initSocket()
     return {
-        tools: {
-            enableLiveView
-        }
+        name: 'Cafe Backend Administration App'
     }
 })()
