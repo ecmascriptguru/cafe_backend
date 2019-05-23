@@ -2,9 +2,9 @@ import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import AsyncWebsocketConsumer
 from cafe_backend.core.constants.types import SOCKET_MESSAGE_TYPE
-from cafe_backend.apps.users.models import User
-from cafe_backend.apps.events.models import Event
-from ...mgnt.orders.models import Order
+from ...apps.users.models import User, Table
+from ...apps.events.models import Event
+from ...mgnt.orders.models import Order, OrderItem
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -72,6 +72,18 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     'order': order.to_json()
                 }
             )
+        elif message_type == SOCKET_MESSAGE_TYPE.order_item:
+            order_item_pk = json_data['order']
+            created = json_data['created']
+            order_item = OrderItem.objects.get(pk=order_item_pk)
+            await self.channel_layer.group_send(
+                self.room_group_name, {
+                    'type': message_type,
+                    'to': to,
+                    'created': created,
+                    'order': order_item.to_json()
+                }
+            )
         elif message_type == SOCKET_MESSAGE_TYPE.qr_code:
             qr_code = json_data['qr_code']
             message = json_data['message']
@@ -88,8 +100,19 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     'to': to,
                 }
             )
+        elif message_type == SOCKET_MESSAGE_TYPE.ring:
+            table_pk = json_data['table']
+            table = Table.objects.get(pk=table_pk)
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': message_type,
+                    'table': table.to_json(),
+                    'to': to,
+                }
+            )
         else:
-            pass
+            print("UNKNOWN MESSAGE FOUND!")
 
     # Receive message from room group
     async def chat_message(self, event):
@@ -101,5 +124,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def notification_order(self, event):
         await self.send(text_data=json.dumps(event))
 
+    async def notification_order_item(self, event):
+        await self.send(text_data=json.dumps(event))
+
     async def qr_code(self, event):
+        await self.send(text_data=json.dumps(event))
+
+    async def ring(self, event):
         await self.send(text_data=json.dumps(event))

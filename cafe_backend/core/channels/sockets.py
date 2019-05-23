@@ -58,3 +58,34 @@ def broadcast_order_status(order, created):
         send_message_to_mobile(admin.pk, message)
     except Exception as e:
         print(str(e))
+
+
+def broadcast_order_item_status(order_item, created):
+    admin = User.objects.filter(is_superuser=True).first()
+    table_user = order_item.order.table.user
+    channel = Channel.objects.filter(
+        channel_type=CHAT_ROOM_TYPE.private,
+        attendees__user__pk=table_user.pk).first()
+    message = {
+        "type": SOCKET_MESSAGE_TYPE.order_item,
+        "created": created, "order_item": order_item.pk,
+        "to": channel.pk}
+    try:
+        send_message_to_mobile(admin.pk, message)
+    except Exception as e:
+        print(str(e))
+
+
+def send_ringtone_to_admin(table):
+    admin = User.objects.filter(is_superuser=True).first()
+    table_user = table.user
+    channel = Channel.objects.filter(
+        channel_type=CHAT_ROOM_TYPE.private,
+        attendees__user__pk=table_user.pk).first()
+    message = {
+        "type": SOCKET_MESSAGE_TYPE.ring, "table": table.pk,
+        "to": channel.pk}
+    try:
+        send_message_to_mobile(admin.pk, message)
+    except Exception as e:
+        print(str(e))

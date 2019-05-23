@@ -1,6 +1,7 @@
 export const initSocket = () => {
     const WS_BASE_URL = `ws://${window.location.host}/ws/chat/${userId}/`,
-        API_BASE_URL = `http://${window.location.host}/api/channels/`
+        API_BASE_URL = `http://${window.location.host}/api/channels/`,
+        $ringToneEl = $("#table-ring-tone")[0]
 
     let chatSocket = null,
         $messagesContainer = $(".direct-chat-messages"),
@@ -38,6 +39,26 @@ export const initSocket = () => {
             console.info("TODO: Please implement logic here.")
         },
 
+        _addNotification = (table) => {
+            const $notificationContainer = $(".notifications-menu"),
+                $count = $(".notification-count")
+
+            let ringTone = new Audio(document.querySelector('#table-ring-tone').src),
+                notification_count = parseInt($count.text() || "0") + 1
+
+            ringTone.play()
+            $count.text(notification_count)
+            $notificationContainer.find("ul li.header").hide()
+            $notificationContainer.find("ul.menu").append($(`
+                <li>
+                    <a href="#">
+                        <i class="fa fa-bell-o"></i>${table.name} is calling...
+                        <button class="btn btn-xs pull-right mark-notification-as-read"><i class="fa fa-check"></i></button>
+                    </a>
+                </li>
+            `))
+        },
+
         _socketMessageHandler = (e) => {
             let data = JSON.parse(e.data)
 
@@ -58,7 +79,7 @@ export const initSocket = () => {
                     break;
             
                 case 'ring':
-                    //
+                    _addNotification(data.table)
                     break;
 
                 default:
@@ -161,6 +182,19 @@ export const initSocket = () => {
         init = () => {
             _initSocket()
 
+            $(document)
+            .on("click", "button.mark-notification-as-read", function() {
+                let $self = $(this),
+                    $container = $self.closest('.notifications-menu'),
+                    $count = $(".notification-count")
+                let current_notification_count = JSON.parse($count.text()) - 1
+
+                $self.closest('li').remove()
+                if (current_notification_count == 0) {
+                    $count.text('')
+                    $container.find('li.header').show()
+                }
+            })
             if (document.querySelector('#chat-message-input')) {
                 _initChatRoomEventListeners()
 
