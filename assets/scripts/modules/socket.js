@@ -193,6 +193,8 @@ export const initSocket = () => {
                 if (current_notification_count == 0) {
                     $count.text('')
                     $container.find('li.header').show()
+                } else {
+                    $count.text(current_notification_count)
                 }
             })
             if (document.querySelector('#chat-message-input')) {
