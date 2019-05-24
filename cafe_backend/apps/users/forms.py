@@ -12,7 +12,8 @@ class TableAdminForm(forms.ModelForm):
 
     class Meta:
         model = Table
-        fields = ('name', 'imei', 'size', 'male', 'female', 'is_vip', )
+        fields = (
+            'name', 'imei', 'size', 'male', 'female', 'state', 'is_vip', )
 
     def __init__(self, *args, **kwargs):
         super(TableAdminForm, self).__init__(*args, **kwargs)
