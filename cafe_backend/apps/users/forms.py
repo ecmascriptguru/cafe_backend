@@ -1,6 +1,7 @@
 from django.utils.translation import ugettext_lazy as _
 from django import forms
-from crispy_forms.layout import Layout, Submit, ButtonHolder
+from django.urls import reverse_lazy
+from crispy_forms.layout import Layout, Submit, ButtonHolder, HTML
 from crispy_forms.helper import FormHelper
 from .models import Table, User
 
@@ -11,12 +12,12 @@ class TableAdminForm(forms.ModelForm):
 
     class Meta:
         model = Table
-        fields = ('name', 'imei', 'size', 'male', 'female', 'ring', 'is_vip', )
+        fields = (
+            'name', 'imei', 'size', 'male', 'female', 'state', 'is_vip', )
 
     def __init__(self, *args, **kwargs):
         super(TableAdminForm, self).__init__(*args, **kwargs)
 
-        self.fields['ring'].required = False
         self.fields['imei'].label = _('IMEI Code')
         if self.instance.pk:
             self.fields['name'].initial = self.instance.name
@@ -61,6 +62,11 @@ class TableForm(forms.ModelForm):
                 Submit(
                     'submit', 'Submit',
                     css_class='btn btn-primary pull-right'),
+                HTML("""
+                    <a class="btn btn-danger pull-left" href="%s">Clear</a>
+                """ % reverse_lazy(
+                    'tables:table_clearview',
+                    kwargs={'pk': self.instance.pk})),
                 wrapper_class='form-group',
             ),
         )
@@ -78,3 +84,9 @@ class TableForm(forms.ModelForm):
             self.add_error('female', _('Male + Femail should not be greater\
                 than size!'))
         return female
+
+
+class TableClearForm(forms.ModelForm):
+    class Meta:
+        model = Table
+        fields = ('state', )

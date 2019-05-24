@@ -14,18 +14,19 @@ def create_channels_for_new_user(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=Table)
 def create_channes_for_new_table(sender, instance, created, **kwargs):
-    tables = Table.objects.all()
-    # Create its own channel
-    channel = Channel.objects.create(
-        name=instance.name,
-        channel_type=CHAT_ROOM_TYPE.private)
-    channel.attendees.create(user=instance.user)
-    for t2 in tables:
+    if created:
+        tables = Table.objects.all()
+        # Create its own channel
         channel = Channel.objects.create(
-            name="%s-%s" % (instance.name, t2.name),
+            name=instance.name,
             channel_type=CHAT_ROOM_TYPE.private)
-        channel.attendees.get_or_create(user=instance.user)
-        channel.attendees.get_or_create(user=t2.user)
+        channel.attendees.create(user=instance.user)
+        for t2 in tables:
+            channel = Channel.objects.create(
+                name="%s-%s" % (instance.name, t2.name),
+                channel_type=CHAT_ROOM_TYPE.private)
+            channel.attendees.get_or_create(user=instance.user)
+            channel.attendees.get_or_create(user=t2.user)
 
 
 @receiver(post_delete, sender=Table)
