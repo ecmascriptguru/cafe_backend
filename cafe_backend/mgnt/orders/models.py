@@ -39,7 +39,7 @@ class Order(TimeStampedModel):
 
     @property
     def completed(self):
-        return self.items.filter(is_complete=True)
+        return self.items.filter(is_delivered=True)
 
     @property
     def progress(self):
@@ -47,6 +47,10 @@ class Order(TimeStampedModel):
             return "%d/%d" % (len(self.completed), len(self.items))
         else:
             return "N/A"
+
+    @property
+    def is_delivered(self):
+        return len(self.completed) == len(self.items)
 
     @property
     def total_sum(self):
@@ -101,8 +105,16 @@ class OrderItem(TimeStampedModel):
         default=1, validators=[MinValueValidator(1)])
     discount_rate = models.FloatField(
         default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
-    is_canceled = models.BooleanField(default=False)
-    is_delivered = models.BooleanField(default=False)
+    state = FSMField(
+        choices=ORDER_STATE_CHOICES, default=ORDER_STATE.default)
+
+    @property
+    def is_canceled(self):
+        return self.state == ORDER_STATE.canceled
+
+    @property
+    def is_delivered(self):
+        return self.state == ORDER_STATE.delivered
 
     def save(self, **kwargs):
         if not self.to_table:
@@ -117,6 +129,7 @@ class OrderItem(TimeStampedModel):
             "to_table": self.to_table.pk,
             "price": self.price,
             "amount": self.amount,
+            "state": self.state,
             "is_canceled": self.is_canceled,
             "is_delivered": self.is_delivered
         }

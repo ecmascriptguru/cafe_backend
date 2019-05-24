@@ -61,6 +61,21 @@ class DishForm(forms.ModelForm):
         return super(DishForm, self).save(commit=commit)
 
 
+class DishAdminForm(forms.ModelForm):
+    price = forms.FloatField()
+
+    class Meta:
+        model = Dish
+        fields = (
+            'category', 'name', 'description', 'price', 'is_active',
+            'name_en', 'description_en',
+            'name_ko', 'description_ko', )
+
+    def save(self, commit=True):
+        self.instance.price = self.cleaned_data['price']
+        return super(DishAdminForm, self).save(commit=commit)
+
+
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category

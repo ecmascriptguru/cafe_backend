@@ -74,6 +74,10 @@ class Table(TimeStampedModel):
     def clear(self):
         pass
 
+    def can_clear(self):
+        print(self.order)
+        return self.order is None or self.order.is_delivered
+
     def get_absolute_url(self):
         from django.urls import reverse
         return reverse('tables:table_updateview', args=[self.pk])

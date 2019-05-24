@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.admin import ModelAdmin, AdminSite
 from django.utils.translation import ugettext_lazy as _
 from .models import Category, Dish, DishImage as Image, DishReview as Review
+from .forms import DishAdminForm
 
 
 class CafeAdminSite(AdminSite):
@@ -26,6 +27,7 @@ class ReviewInline(admin.TabularInline):
 
 
 class DishAdmin(ModelAdmin):
+    form = DishAdminForm
     list_display = (
         'name', 'name_en', 'name_ko',
         'description', 'description_en', 'description_ko',
