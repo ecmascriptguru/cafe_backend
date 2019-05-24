@@ -71,6 +71,11 @@ class DishAdminForm(forms.ModelForm):
             'name_en', 'description_en',
             'name_ko', 'description_ko', )
 
+    def __init__(self, *args, **kwargs):
+        super(DishAdminForm, self).__init__(*args, **kwargs)
+        if self.instance.pk:
+            self.fields['price'].initial = self.instance.price
+
     def save(self, commit=True):
         self.instance.price = self.cleaned_data['price']
         return super(DishAdminForm, self).save(commit=commit)
