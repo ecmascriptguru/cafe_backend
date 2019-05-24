@@ -44,6 +44,20 @@ def broadcast_events(events):
     return count
 
 
+def broadcast_table_changes(table_pk):
+    admin = User.objects.filter(is_superuser=True).first()
+    public_channel = Channel.get_public_channel()
+
+    count = 0
+    message = {
+        "type": SOCKET_MESSAGE_TYPE.table,
+        "table": table_pk, 'to': public_channel.pk}
+    try:
+        send_message_to_mobile(admin.pk, message)
+    except Exception as e:
+        pass
+
+
 def broadcast_order_status(order, created):
     admin = User.objects.filter(is_superuser=True).first()
     table_user = order.table.user

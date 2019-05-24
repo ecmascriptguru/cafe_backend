@@ -84,6 +84,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     'order': order_item.to_json()
                 }
             )
+        elif message_type == SOCKET_MESSAGE_TYPE.table:
+            table_pk = json_data['table']
+            table = Table.objects.get(pk=table_pk)
+            await self.channel_layer.group_send(
+                self.room_group_name, {
+                    'type': message_type,
+                    'to': to,
+                    'table': table.to_json()
+                }
+            )
         elif message_type == SOCKET_MESSAGE_TYPE.qr_code:
             qr_code = json_data['qr_code']
             message = json_data['message']
@@ -125,6 +135,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps(event))
 
     async def notification_order_item(self, event):
+        await self.send(text_data=json.dumps(event))
+
+    async def notification_table(self, event):
         await self.send(text_data=json.dumps(event))
 
     async def qr_code(self, event):

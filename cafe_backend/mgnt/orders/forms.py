@@ -10,19 +10,19 @@ from .models import Order, OrderItem
 class OrderItemForm(forms.ModelForm):
     class Meta:
         model = OrderItem
-        exclude = ('price', 'discount_rate', )
+        exclude = ('price', 'discount_rate',)
 
 
 OrderItemFormSet = inlineformset_factory(
     Order, OrderItem, form=OrderItemForm,
-    exclude=('price', 'discount_rate', 'to_table', ),
+    # exclude=('price', 'discount_rate', 'to_table', ),
     extra=0, can_delete=False)
 
 
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
-        exclude = ('table', 'created', 'modified', )
+        exclude = ('table', 'created', 'modified', 'state')
 
     def __init__(self, *args, **kwargs):
         super(OrderForm, self).__init__(*args, **kwargs)
@@ -38,7 +38,8 @@ class OrderForm(forms.ModelForm):
                     css_class='form-group'),
                 Field('state'),
                 HTML("<br>"),
-                ButtonHolder(Submit('submit', 'Save Changes')),
+                ButtonHolder(Submit(
+                    'submit', 'Save Changes', css_class='pull-right')),
                 )
             )
 

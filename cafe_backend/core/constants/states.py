@@ -1,5 +1,6 @@
 class DEFAULT_STATE(object):
     approved = 'a'
+    blank = 'b'
     canceled = 'c'
     default = 'd'
     delivered = 'e'
@@ -8,6 +9,8 @@ class DEFAULT_STATE(object):
     initial = 'i'
     rejected = 'r'
     pending = 'p'
+    using = 'u'
+    waiting = 'w'
     archived = 'x'
 
 
@@ -27,10 +30,10 @@ class BOOKING_STATE:
 
 
 class TABLE_STATE:
-    blank = 'b'
-    using = 'u'
-    reserved = 'r'
-    waiting = 'w'
+    blank = DEFAULT_STATE.blank
+    using = DEFAULT_STATE.using
+    reserved = DEFAULT_STATE.rejected
+    waiting = DEFAULT_STATE.waiting
 
 
 class MUSIC_STATE:

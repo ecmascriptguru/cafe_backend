@@ -35,18 +35,18 @@ class Order(TimeStampedModel):
 
     @property
     def items(self):
-        return self.order_items.filter(is_canceled=False)
+        return self.order_items.exclude(state=ORDER_STATE.canceled)
 
     @property
     def completed(self):
-        return self.items.filter(is_delivered=True)
+        return self.items.filter(state=ORDER_STATE.delivered)
 
     @property
     def progress(self):
         if len(self.items) > 0:
-            return "%d/%d" % (len(self.completed), len(self.items))
+            return "%d / %d" % (len(self.completed), len(self.items))
         else:
-            return "N/A"
+            return "N / A"
 
     @property
     def is_delivered(self):
@@ -55,8 +55,7 @@ class Order(TimeStampedModel):
     @property
     def total_sum(self):
         if len(self.order_items.all()) > 0:
-            return self.order_items.filter(
-                is_canceled=False).values('price', 'amount').aggregate(
+            return self.items.values('price', 'amount').aggregate(
                     total_price=models.Sum(
                         F('price') * F("amount"),
                         output_field=models.FloatField()
@@ -84,7 +83,9 @@ class Order(TimeStampedModel):
 
     @transition(
         field='state',
-        source=ORDER_STATE.delivered, target=ORDER_STATE.archived)
+        source=(
+            ORDER_STATE.default, ORDER_STATE.canceled, ORDER_STATE.delivered),
+        target=ORDER_STATE.archived)
     def archive(self):
         pass
 

@@ -2,6 +2,7 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from cafe_backend.mgnt.chat.models import Channel, CHAT_ROOM_TYPE
 from .models import User, Table
+from .tasks import send_table_change_to_all
 
 
 @receiver(post_save, sender=User)
@@ -27,6 +28,9 @@ def create_channes_for_new_table(sender, instance, created, **kwargs):
                 channel_type=CHAT_ROOM_TYPE.private)
             channel.attendees.get_or_create(user=instance.user)
             channel.attendees.get_or_create(user=t2.user)
+    else:
+        # Should send message via socket.
+        send_table_change_to_all.delay(instance.pk)
 
 
 @receiver(post_delete, sender=Table)

@@ -32,5 +32,6 @@ class SOCKET_MESSAGE_TYPE:
     event = 'notification_event'
     order = 'notification_order'
     order_item = 'notification_order_item'
+    table = 'notification_table'
     qr_code = 'qr_code'
     ring = 'ring'

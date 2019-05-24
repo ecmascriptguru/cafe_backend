@@ -72,10 +72,19 @@ class Table(TimeStampedModel):
         source=(TABLE_STATE.using, TABLE_STATE.reserved, TABLE_STATE.waiting),
         target=TABLE_STATE.blank)
     def clear(self):
-        pass
+        self.male = 0
+        self.female = 0
+        if self.order.state != ORDER_STATE.archived:
+            self.order.archive()
+
+        # TODO: Clean bookings
+        for booking in self.requested_bookings.all():
+            booking.archive()
+
+        for booking in self.received_bookings.all():
+            booking.archive()
 
     def can_clear(self):
-        print(self.order)
         return self.order is None or self.order.is_delivered
 
     def get_absolute_url(self):
@@ -109,15 +118,3 @@ class Table(TimeStampedModel):
                 ORDER_STATE.canceled, ORDER_STATE.archived]).first()
         else:
             return None
-
-    def clean_table(self):
-        if self.order.state != ORDER_STATE.archived:
-            self.order.archive()
-
-        # TODO: Clean bookings
-        for booking in self.bookings:
-            booking.archive()
-
-    @property
-    def bookings(self):
-        return self.requested_bookings.all() + self.requested_bookings.all()
