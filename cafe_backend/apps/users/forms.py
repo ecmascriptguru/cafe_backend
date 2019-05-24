@@ -1,9 +1,10 @@
 from django.utils.translation import ugettext_lazy as _
+from django.core.exceptions import ValidationError
 from django import forms
 from django.urls import reverse_lazy
 from crispy_forms.layout import Layout, Submit, ButtonHolder, HTML
 from crispy_forms.helper import FormHelper
-from .models import Table, User
+from .models import Table, User, TABLE_STATE
 
 
 class TableAdminForm(forms.ModelForm):
@@ -51,25 +52,33 @@ class TableAdminForm(forms.ModelForm):
 class TableForm(forms.ModelForm):
     class Meta:
         model = Table
-        fields = ('male', 'female', 'is_vip', )
+        fields = ('male', 'female', 'is_vip', 'state', 'size', )
 
     def __init__(self, *args, **kwargs):
         super(TableForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
-        self.helper.layout = Layout(
-            'male', 'female', 'is_vip',
-            ButtonHolder(
-                Submit(
-                    'submit', 'Submit',
-                    css_class='btn btn-primary pull-right'),
-                HTML("""
-                    <a class="btn btn-danger pull-left" href="%s">Clear</a>
-                """ % reverse_lazy(
-                    'tables:table_clearview',
-                    kwargs={'pk': self.instance.pk})),
-                wrapper_class='form-group',
-            ),
-        )
+        if self.instance.state == TABLE_STATE.blank:
+            self.helper.layout = Layout(
+                'male', 'female', 'size', 'state', 'is_vip',
+                ButtonHolder(
+                    Submit(
+                        'submit', 'Save Changes',
+                        css_class='btn btn-primary pull-right'),
+                ),
+            )
+        else:
+            self.helper.layout = Layout(
+                'male', 'female', 'size', 'state', 'is_vip',
+                ButtonHolder(
+                    Submit(
+                        'submit', 'Save Changes',
+                        css_class='btn btn-primary pull-right'),
+                    Submit(
+                        'submit', 'Clear',
+                        css_class='btn btn-danger pull-left'),
+                    wrapper_class='form-group',
+                ),
+            )
 
     def clean_male(self):
         male = self.cleaned_data['male']
@@ -84,6 +93,21 @@ class TableForm(forms.ModelForm):
             self.add_error('female', _('Male + Femail should not be greater\
                 than size!'))
         return female
+
+    def clean(self):
+        data = super(TableForm, self).clean()
+        if self.data['submit'].lower() == 'clear' and\
+                not self.instance.can_clear():
+            raise ValidationError('Order is not complete yet.')
+        return data
+
+    def save(self, commit=True):
+        if self.data['submit'].lower() == 'clear':
+            self.instance.clear()
+            self.instance.save()
+            return self.instance
+        else:
+            return super().save(commit=commit)
 
 
 class TableClearForm(forms.ModelForm):

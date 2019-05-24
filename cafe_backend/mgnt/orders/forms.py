@@ -10,12 +10,13 @@ from .models import Order, OrderItem
 class OrderItemForm(forms.ModelForm):
     class Meta:
         model = OrderItem
-        exclude = ('price', )
+        exclude = ('price', 'discount_rate', )
 
 
 OrderItemFormSet = inlineformset_factory(
     Order, OrderItem, form=OrderItemForm,
-    exclude=('price', ), extra=0, can_delete=False)
+    exclude=('price', 'discount_rate', 'to_table', ),
+    extra=0, can_delete=False)
 
 
 class OrderForm(forms.ModelForm):
