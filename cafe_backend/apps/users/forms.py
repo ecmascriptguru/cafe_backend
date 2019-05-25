@@ -56,10 +56,12 @@ class TableForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(TableForm, self).__init__(*args, **kwargs)
+
+        self.fields['size'].widget.attrs['readonly'] = True
         self.helper = FormHelper()
         if self.instance.state == TABLE_STATE.blank:
             self.helper.layout = Layout(
-                'male', 'female', 'size', 'state', 'is_vip',
+                'size', 'male', 'female', 'state', 'is_vip',
                 ButtonHolder(
                     Submit(
                         'submit', 'Save Changes',
