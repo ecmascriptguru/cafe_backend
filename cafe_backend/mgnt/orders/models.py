@@ -146,3 +146,6 @@ class OrderItem(TimeStampedModel):
             "is_canceled": self.is_canceled,
             "is_delivered": self.is_delivered
         }
+
+    def is_booking_order_item(self):
+        return self.order.table != self.to_table

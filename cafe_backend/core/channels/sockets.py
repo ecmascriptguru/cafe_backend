@@ -90,6 +90,24 @@ def broadcast_order_item_status(order_item, created):
         print(str(e))
 
 
+def notify_dish_booking_status(order_item, created):
+    admin = User.objects.filter(is_superuser=True).first()
+    from_table = order_item.order.table
+    to_table = order_item.to_table
+    channel = Channel.objects.filter(
+        channel_type=CHAT_ROOM_TYPE.private,
+        attendees__user__pk=to_table.user.pk).first()
+    message = {
+        "type": SOCKET_MESSAGE_TYPE.dish_booking,
+        "created": created, "order_item": order_item.pk,
+        "from_table": from_table.pk,
+        "to": channel.pk}
+    try:
+        send_message_to_mobile(admin.pk, message)
+    except Exception as e:
+        print(str(e))
+
+
 def send_ringtone_to_admin(table):
     admin = User.objects.filter(is_superuser=True).first()
     table_user = table.user

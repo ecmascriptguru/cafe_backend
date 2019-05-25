@@ -84,6 +84,20 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     'order_item': order_item.to_json()
                 }
             )
+        elif message_type == SOCKET_MESSAGE_TYPE.dish_booking:
+            order_item_pk = json_data['order_item']
+            created = json_data['created']
+            from_table = Table.objects.get(pk=json_data['from_table'])
+            order_item = OrderItem.objects.get(pk=order_item_pk)
+            await self.channel_layer.group_send(
+                self.room_group_name, {
+                    'type': message_type,
+                    'to': to,
+                    'created': created,
+                    'from_table': from_table.to_json(),
+                    'order_item': order_item.to_json()
+                }
+            )
         elif message_type == SOCKET_MESSAGE_TYPE.table:
             table_pk = json_data['table']
             table = Table.objects.get(pk=table_pk)
@@ -141,6 +155,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps(event))
 
     async def qr_code(self, event):
+        await self.send(text_data=json.dumps(event))
+
+    async def dish_booking(self, event):
         await self.send(text_data=json.dumps(event))
 
     async def ring(self, event):
