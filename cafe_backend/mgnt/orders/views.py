@@ -28,7 +28,7 @@ class OrderUpdateView(LoginRequiredMixin, generic.UpdateView):
         context = self.get_context_data()
         order_items = context['order_items']
         with transaction.atomic():
-            self.object = form.save()
+            self.object = form.save(commit=False)
             if order_items.is_valid():
                 order_items.instance = self.object
                 order_items.save()

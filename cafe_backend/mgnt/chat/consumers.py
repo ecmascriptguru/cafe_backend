@@ -81,7 +81,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     'type': message_type,
                     'to': to,
                     'created': created,
-                    'order': order_item.to_json()
+                    'order_item': order_item.to_json()
                 }
             )
         elif message_type == SOCKET_MESSAGE_TYPE.table:
