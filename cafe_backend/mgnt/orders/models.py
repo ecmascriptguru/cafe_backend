@@ -20,15 +20,15 @@ ORDER_STATE_CHOICES = (
 class Order(TimeStampedModel):
     class Meta:
         ordering = ('-created', )
-        verbose_name = _('order')
-        verbose_name_plural = _('orders')
+        verbose_name = _('Order')
+        verbose_name_plural = _('Orders')
 
     table = models.ForeignKey(
         'users.Table', on_delete=models.SET_NULL,
         related_name='orders', null=True)
     state = FSMField(
         choices=ORDER_STATE_CHOICES, default=ORDER_STATE.default,
-        verbose_name=_('state'))
+        verbose_name=_('State'))
 
     def to_json(self):
         return {
@@ -98,8 +98,8 @@ class Order(TimeStampedModel):
 class OrderItem(TimeStampedModel):
     class Meta:
         ordering = ('-created', )
-        verbose_name = _('order item')
-        verbose_name_plural = _('order items')
+        verbose_name = _('Order Item')
+        verbose_name_plural = _('Order Items')
 
     order = models.ForeignKey(
         Order, on_delete=models.CASCADE, related_name='order_items')
@@ -108,7 +108,7 @@ class OrderItem(TimeStampedModel):
     to_table = models.ForeignKey(
         'users.Table', on_delete=models.SET_NULL,
         related_name='received_order_items', null=True,
-        verbose_name=_('Target table'))
+        verbose_name=_('Target Table'))
     price = models.FloatField(
         validators=[MinValueValidator(0)], verbose_name=('Price'))
     amount = models.PositiveSmallIntegerField(
@@ -116,10 +116,10 @@ class OrderItem(TimeStampedModel):
         verbose_name=_('Amount'))
     discount_rate = models.FloatField(
         default=0, validators=[MinValueValidator(0), MaxValueValidator(100)],
-        verbose_name=_('Discount rate'))
+        verbose_name=_('Discount Rate'))
     state = FSMField(
         choices=ORDER_STATE_CHOICES, default=ORDER_STATE.default,
-        verbose_name=_('state'))
+        verbose_name=_('State'))
 
     @property
     def is_canceled(self):

@@ -35,23 +35,23 @@ class Booking(TimeStampedModel):
     requester = models.ForeignKey(
         'users.Table', on_delete=models.SET_NULL,
         related_name='requested_bookings', null=True,
-        verbose_name=_('requester'))
+        verbose_name=_('Requester'))
     receiver = models.ForeignKey(
         'users.Table', on_delete=models.SET_NULL,
         related_name='received_bookings', null=True,
-        verbose_name=_('receiver'))
+        verbose_name=_('Receiver'))
     booking_type = FSMField(
         choices=BOOKING_TYPE_CHOICES, default=BOOKING_TYPE.contact,
-        verbose_name=_('booking_type'))
+        verbose_name=_('Booking Type'))
     state = FSMField(
         choices=BOOKING_STATE_CHOICES, default=BOOKING_STATE.default,
-        verbose_name=_('state'))
-    details = JSONField(default={}, verbose_name=_('details'))
+        verbose_name=_('State'))
+    details = JSONField(default={}, verbose_name=_('Details'))
 
     class Meta:
         ordering = ('-modified', )
-        verbose_name = _('booking')
-        verbose_name_plural = _('bookings')
+        verbose_name = _('Booking')
+        verbose_name_plural = _('Bookings')
 
     def __str__(self):
         return "<%s %s(%d) from %s to %s>" % (
@@ -135,8 +135,8 @@ class BookingMessage(TimeStampedModel):
     booking = models.ForeignKey(
         Booking, on_delete=models.CASCADE, related_name='messages')
     poster = models.ForeignKey(
-        'users.Table', on_delete=models.CASCADE, verbose_name=_('poster'))
-    content = models.TextField(max_length=65536, verbose_name=_('content'))
+        'users.Table', on_delete=models.CASCADE, verbose_name=_('Poster'))
+    content = models.TextField(max_length=65536, verbose_name=_('Content'))
 
     class Meta:
         ordering = ('-modified', )

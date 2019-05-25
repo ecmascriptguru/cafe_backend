@@ -10,17 +10,17 @@ def dish_images_directory_path(instance, filename):
 
 class Category(TimeStampedModel):
     name = models.CharField(
-        max_length=128, verbose_name=_('name'))
+        max_length=128, verbose_name=_('Name'))
     name_en = models.CharField(
-        max_length=128, verbose_name=_('english name'))
+        max_length=128, verbose_name=_('English name'))
     name_ko = models.CharField(
-        max_length=128, verbose_name=_('korean name'))
+        max_length=128, verbose_name=_('Korean name'))
     is_active = models.BooleanField(
-        default=True, verbose_name=_('active?'))
+        default=True, verbose_name=_('Active?'))
 
     class Meta:
-        verbose_name = _('category')
-        verbose_name_plural = _("categories")
+        verbose_name = _('Category')
+        verbose_name_plural = _("Categories")
 
     def __str__(self):
         return self.name
@@ -31,27 +31,27 @@ class Dish(TimeStampedModel):
         Category, on_delete=models.SET_NULL, related_name='dishes',
         null=True)
     name = models.CharField(
-        max_length=128, verbose_name=_('name'))
+        max_length=128, verbose_name=_('Name'))
     name_en = models.CharField(
-        max_length=128, verbose_name=_('english name'))
+        max_length=128, verbose_name=_('English name'))
     name_ko = models.CharField(
-        max_length=128, verbose_name=_('korean name'))
+        max_length=128, verbose_name=_('Korean name'))
     description = models.TextField(
-        max_length=1024, verbose_name=_('description'))
+        max_length=1024, verbose_name=_('Description'))
     description_en = models.TextField(
-        max_length=1024, verbose_name=_('english description'))
+        max_length=1024, verbose_name=_('English Description'))
     description_ko = models.TextField(
-        max_length=1024, verbose_name=_('korean description'))
+        max_length=1024, verbose_name=_('Korean Description'))
     is_active = models.BooleanField(
-        default=True, verbose_name=_('active?'))
+        default=True, verbose_name=_('Active?'))
 
     class Meta:
         ordering = ('-modified', )
-        verbose_name = _('dish')
-        verbose_name_plural = _('dishes')
+        verbose_name = _('Dish')
+        verbose_name_plural = _('Dishes')
 
     def __str__(self):
-        return "<%s(%d): %s>" % (_('dish'), self.pk, self.name)
+        return "<%s(%d): %s>" % (_('Dish'), self.pk, self.name)
 
     @property
     def rate(self):
@@ -77,12 +77,13 @@ class Dish(TimeStampedModel):
 class DishImage(TimeStampedModel):
     dish = models.ForeignKey(
         Dish, on_delete=models.CASCADE, related_name='images')
-    file = models.ImageField(upload_to='dishes/%Y/%m/%d')
+    file = models.ImageField(
+        upload_to='dishes/%Y/%m/%d', verbose_name=_('Image File'))
 
     class Meta:
         ordering = ('-modified', )
-        verbose_name = _('dish image')
-        verbose_name_plural = _('dish images')
+        verbose_name = _('Dish Image')
+        verbose_name_plural = _('Dish Images')
 
     def __str__(self):
         return self.file.url
@@ -96,14 +97,14 @@ class DishReview(TimeStampedModel):
     rate = models.PositiveSmallIntegerField(
         choices=SCORE_CHOICES,
         default=5, validators=[MaxValueValidator(5), MinValueValidator(1)],
-        verbose_name=_('rate'))
+        verbose_name=_('Rate'))
     comment = models.TextField(
-        max_length=1024, verbose_name=_('comment'))
+        max_length=1024, verbose_name=_('Comment'))
 
     class Meta:
         ordering = ('-modified', )
-        verbose_name = _('dish review')
-        verbose_name_plural = _('dish reviews')
+        verbose_name = _('Dish Review')
+        verbose_name_plural = _('Dish Reviews')
 
     def __str__(self):
         return "%d (%s)" % (self.rate, self.comment)
@@ -113,9 +114,9 @@ class Price(TimeStampedModel):
     dish = models.ForeignKey(
         Dish, on_delete=models.CASCADE, related_name='prices')
     price = models.FloatField(
-        validators=[MinValueValidator(0)], verbose_name=_('price'))
+        validators=[MinValueValidator(0)], verbose_name=_('Price'))
 
     class Meta:
         ordering = ('-created', )
-        verbose_name = _('price')
-        verbose_name_plural = _('prices')
+        verbose_name = _('Price')
+        verbose_name_plural = _('Prices')

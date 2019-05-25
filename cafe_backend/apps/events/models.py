@@ -25,27 +25,27 @@ EVENT_REPEAT_TYPE_CHOICES = (
 
 class Event(TimeStampedModel):
     name = models.CharField(
-        max_length=128, verbose_name=_('name'))
+        max_length=128, verbose_name=_('Name'))
     event_type = FSMField(
         choices=EVENT_TYPE_CHOICES, default=EVENT_TYPE.image,
-        verbose_name=_('event type'))
+        verbose_name=_('Event Type'))
     file = models.ImageField(
-        upload_to='events/%Y/%m/%d', verbose_name=_('file'))
-    from_date = models.DateField(null=True, verbose_name=_('start date'))
-    to_date = models.DateField(null=True, verbose_name=_('end date'))
+        upload_to='events/%Y/%m/%d', verbose_name=_('File'))
+    from_date = models.DateField(null=True, verbose_name=_('Start date'))
+    to_date = models.DateField(null=True, verbose_name=_('End date'))
     repeat = FSMField(
         choices=EVENT_REPEAT_TYPE_CHOICES, default=EVENT_REPEAT_TYPE.only_once,
-        verbose_name=_('repeat'))
+        verbose_name=_('Repeat Type'))
     event_date = models.DateField(
-        null=True, blank=True, default=None, verbose_name=_('event date'))
-    at = models.TimeField(verbose_name=_('event time'))
-    details = JSONField(default={}, blank=True, verbose_name=_('details'))
-    is_active = models.BooleanField(default=True, verbose_name=_('active?'))
+        null=True, blank=True, default=None, verbose_name=_('Event Date'))
+    at = models.TimeField(verbose_name=_('Event Time'))
+    details = JSONField(default={}, blank=True, verbose_name=_('Details'))
+    is_active = models.BooleanField(default=True, verbose_name=_('Active?'))
 
     class Meta:
         ordering = ('at', )
-        verbose_name = _('event')
-        verbose_name_plural = _('events')
+        verbose_name = _('Event')
+        verbose_name_plural = _('Events')
 
     def clean(self):
         super(Event, self).clean()

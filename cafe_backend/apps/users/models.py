@@ -8,7 +8,7 @@ from cafe_backend.mgnt.chat.models import Channel
 
 
 class User(AbstractUser):
-    is_table = models.BooleanField(default=False, verbose_name=_('table?'))
+    is_table = models.BooleanField(default=False, verbose_name=_('Table?'))
 
     @property
     def name(self):
@@ -39,6 +39,8 @@ class User(AbstractUser):
 class Table(TimeStampedModel):
     class Meta:
         ordering = ('pk', )
+        verbose_name = _('Table')
+        verbose_name_plural = _('Tables')
 
     TABLE_STATE_OPTIONS = (
         (TABLE_STATE.blank, _('Blank')),
@@ -48,17 +50,17 @@ class Table(TimeStampedModel):
 
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, primary_key=True)
-    size = models.PositiveSmallIntegerField(verbose_name=_('size'))
-    male = models.PositiveSmallIntegerField(default=0, verbose_name=_('male'))
+    size = models.PositiveSmallIntegerField(verbose_name=_('Size'))
+    male = models.PositiveSmallIntegerField(default=0, verbose_name=_('Male'))
     female = models.PositiveSmallIntegerField(
-        default=0, verbose_name=_('female'))
-    is_vip = models.BooleanField(default=False, verbose_name=_('vip?'))
+        default=0, verbose_name=_('Female'))
+    is_vip = models.BooleanField(default=False, verbose_name=_('VIP?'))
     state = FSMField(
         choices=TABLE_STATE_OPTIONS, default=TABLE_STATE.blank,
-        verbose_name=_('state'))
+        verbose_name=_('State'))
 
     def __str__(self):
-        return "<%s(%d): %s>" % (_('table'), self.pk, self.name)
+        return "<%s(%d): %s>" % (_('Table'), self.pk, self.name)
 
     def to_json(self):
         return {

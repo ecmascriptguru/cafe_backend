@@ -37,7 +37,7 @@ class Music(TimeStampedModel):
         verbose_name_plural = _('Musics')
 
     def __str__(self):
-        return "<%s(%d):%s>" % (_('music'), self.pk, self.title)
+        return "<%s(%d):%s>" % (_('Music'), self.pk, self.title)
 
     @classmethod
     def external_search(cls, keyword):

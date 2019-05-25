@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-25 18:52+0400\n"
+"POT-Creation-Date: 2019-05-25 19:37+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: cafe_backend/apps/advertisements/apps.py:7
-#: cafe_backend/apps/advertisements/models.py:28
 msgid "advertisements"
 msgstr "广告"
 
@@ -35,27 +34,42 @@ msgstr ""
 
 #: cafe_backend/apps/advertisements/models.py:16
 #: cafe_backend/apps/dishes/models.py:13 cafe_backend/apps/dishes/models.py:34
-#: cafe_backend/apps/events/models.py:28 cafe_backend/apps/users/forms.py:13
-#: cafe_backend/mgnt/chat/models.py:15
-msgid "name"
+#: cafe_backend/apps/events/models.py:28 cafe_backend/mgnt/chat/models.py:15
+msgid "Name"
 msgstr ""
 
 #: cafe_backend/apps/advertisements/models.py:18
-msgid "ads_file"
+#: cafe_backend/apps/events/models.py:33
+msgid "File"
 msgstr ""
 
 #: cafe_backend/apps/advertisements/models.py:21
-msgid "ads_type"
+msgid "Type"
 msgstr ""
 
 #: cafe_backend/apps/advertisements/models.py:23
-msgid "is_active"
+#: cafe_backend/apps/dishes/models.py:19 cafe_backend/apps/dishes/models.py:46
+#: cafe_backend/apps/events/models.py:43 cafe_backend/mgnt/chat/models.py:42
+#: cafe_backend/mgnt/music/models.py:144
+msgid "Active?"
 msgstr ""
 
 #: cafe_backend/apps/advertisements/models.py:27
 #, fuzzy
 #| msgid "advertisements"
-msgid "advertisement"
+msgid "Advertisement"
+msgstr "广告"
+
+#: cafe_backend/apps/advertisements/models.py:28
+#: cafe_backend/apps/advertisements/templates/ads/ads_deleteview.html:14
+#: cafe_backend/apps/advertisements/templates/ads/ads_detailview.html:16
+#: cafe_backend/apps/advertisements/templates/ads/ads_formview.html:14
+#: cafe_backend/apps/events/templates/events/event_deleteview.html:15
+#: cafe_backend/apps/events/templates/events/event_detailview.html:16
+#: cafe_backend/apps/events/templates/events/event_formview.html:15
+#, fuzzy
+#| msgid "advertisements"
+msgid "Advertisements"
 msgstr "广告"
 
 #: cafe_backend/apps/advertisements/models.py:31
@@ -103,17 +117,6 @@ msgstr "广告"
 #: templates/layouts/admin_lte/sidebar.html:38
 msgid "Settings"
 msgstr ""
-
-#: cafe_backend/apps/advertisements/templates/ads/ads_deleteview.html:14
-#: cafe_backend/apps/advertisements/templates/ads/ads_detailview.html:16
-#: cafe_backend/apps/advertisements/templates/ads/ads_formview.html:14
-#: cafe_backend/apps/events/templates/events/event_deleteview.html:15
-#: cafe_backend/apps/events/templates/events/event_detailview.html:16
-#: cafe_backend/apps/events/templates/events/event_formview.html:15
-#, fuzzy
-#| msgid "advertisements"
-msgid "Advertisements"
-msgstr "广告"
 
 #: cafe_backend/apps/advertisements/templates/ads/ads_deleteview.html:15
 #: cafe_backend/apps/advertisements/templates/ads/ads_deleteview.html:24
@@ -167,7 +170,7 @@ msgstr "餐厅管理"
 msgid "Cafe Admin"
 msgstr "餐厅管理"
 
-#: cafe_backend/apps/dishes/apps.py:7 cafe_backend/apps/dishes/models.py:51
+#: cafe_backend/apps/dishes/apps.py:7
 msgid "dishes"
 msgstr ""
 
@@ -182,80 +185,20 @@ msgstr ""
 #: cafe_backend/apps/dishes/models.py:15 cafe_backend/apps/dishes/models.py:36
 #, fuzzy
 #| msgid "English"
-msgid "english name"
+msgid "English name"
 msgstr "英语"
 
 #: cafe_backend/apps/dishes/models.py:17 cafe_backend/apps/dishes/models.py:38
-msgid "korean name"
-msgstr ""
-
-#: cafe_backend/apps/dishes/models.py:19 cafe_backend/apps/dishes/models.py:46
-#: cafe_backend/apps/events/models.py:43 cafe_backend/mgnt/chat/models.py:42
-msgid "active?"
-msgstr ""
+#, fuzzy
+#| msgid "Korean"
+msgid "Korean name"
+msgstr "朝鲜语"
 
 #: cafe_backend/apps/dishes/models.py:22
-msgid "category"
+msgid "Category"
 msgstr ""
 
 #: cafe_backend/apps/dishes/models.py:23
-msgid "categories"
-msgstr ""
-
-#: cafe_backend/apps/dishes/models.py:40 cafe_backend/mgnt/chat/models.py:17
-msgid "description"
-msgstr ""
-
-#: cafe_backend/apps/dishes/models.py:42
-msgid "english description"
-msgstr ""
-
-#: cafe_backend/apps/dishes/models.py:44
-msgid "korean description"
-msgstr ""
-
-#: cafe_backend/apps/dishes/models.py:50 cafe_backend/apps/dishes/models.py:54
-msgid "dish"
-msgstr ""
-
-#: cafe_backend/apps/dishes/models.py:84
-msgid "dish image"
-msgstr ""
-
-#: cafe_backend/apps/dishes/models.py:85
-msgid "dish images"
-msgstr ""
-
-#: cafe_backend/apps/dishes/models.py:99
-msgid "rate"
-msgstr ""
-
-#: cafe_backend/apps/dishes/models.py:101
-msgid "comment"
-msgstr ""
-
-#: cafe_backend/apps/dishes/models.py:105
-msgid "dish review"
-msgstr ""
-
-#: cafe_backend/apps/dishes/models.py:106
-msgid "dish reviews"
-msgstr ""
-
-#: cafe_backend/apps/dishes/models.py:116
-#: cafe_backend/apps/dishes/models.py:120
-msgid "price"
-msgstr ""
-
-#: cafe_backend/apps/dishes/models.py:121
-msgid "prices"
-msgstr ""
-
-#: cafe_backend/apps/dishes/templates/categories/_category_list_item.html:14
-#: cafe_backend/apps/dishes/templates/dishes/_dish_list_item.html:14
-msgid "More info"
-msgstr ""
-
 #: cafe_backend/apps/dishes/templates/categories/category_createview.html:10
 #: cafe_backend/apps/dishes/templates/categories/category_createview.html:15
 #: cafe_backend/apps/dishes/templates/categories/category_listview.html:8
@@ -266,14 +209,25 @@ msgstr ""
 msgid "Categories"
 msgstr ""
 
-#: cafe_backend/apps/dishes/templates/categories/category_createview.html:11
-#: cafe_backend/apps/dishes/templates/categories/category_listview.html:9
-#: cafe_backend/apps/dishes/templates/categories/category_updateview.html:10
-#, fuzzy
-#| msgid "advertisements"
-msgid "List view of categories"
-msgstr "广告"
+#: cafe_backend/apps/dishes/models.py:40 cafe_backend/mgnt/chat/models.py:17
+msgid "Description"
+msgstr ""
 
+#: cafe_backend/apps/dishes/models.py:42
+msgid "English Description"
+msgstr ""
+
+#: cafe_backend/apps/dishes/models.py:44
+msgid "Korean Description"
+msgstr ""
+
+#: cafe_backend/apps/dishes/models.py:50 cafe_backend/apps/dishes/models.py:54
+#: cafe_backend/apps/dishes/templates/dishes/dish_listview.html:28
+#: cafe_backend/mgnt/bookings/models.py:19
+msgid "Dish"
+msgstr ""
+
+#: cafe_backend/apps/dishes/models.py:51
 #: cafe_backend/apps/dishes/templates/dishes/dish_createview.html:10
 #: cafe_backend/apps/dishes/templates/dishes/dish_createview.html:15
 #: cafe_backend/apps/dishes/templates/dishes/dish_listview.html:9
@@ -283,6 +237,56 @@ msgstr "广告"
 #: templates/layouts/admin_lte/sidebar.html:51
 msgid "Dishes"
 msgstr ""
+
+#: cafe_backend/apps/dishes/models.py:81
+msgid "Image File"
+msgstr ""
+
+#: cafe_backend/apps/dishes/models.py:85
+msgid "Dish Image"
+msgstr ""
+
+#: cafe_backend/apps/dishes/models.py:86
+msgid "Dish Images"
+msgstr ""
+
+#: cafe_backend/apps/dishes/models.py:100
+msgid "Rate"
+msgstr ""
+
+#: cafe_backend/apps/dishes/models.py:102
+msgid "Comment"
+msgstr ""
+
+#: cafe_backend/apps/dishes/models.py:106
+msgid "Dish Review"
+msgstr ""
+
+#: cafe_backend/apps/dishes/models.py:107
+msgid "Dish Reviews"
+msgstr ""
+
+#: cafe_backend/apps/dishes/models.py:117
+#: cafe_backend/apps/dishes/models.py:121
+msgid "Price"
+msgstr ""
+
+#: cafe_backend/apps/dishes/models.py:122
+msgid "Prices"
+msgstr ""
+
+#: cafe_backend/apps/dishes/templates/categories/_category_list_item.html:14
+#: cafe_backend/apps/dishes/templates/dishes/_dish_list_item.html:14
+msgid "More info"
+msgstr ""
+
+#: cafe_backend/apps/dishes/templates/categories/category_createview.html:11
+#: cafe_backend/apps/dishes/templates/categories/category_listview.html:9
+#: cafe_backend/apps/dishes/templates/categories/category_updateview.html:10
+#, fuzzy
+#| msgid "advertisements"
+msgid "List view of categories"
+msgstr "广告"
 
 #: cafe_backend/apps/dishes/templates/dishes/dish_createview.html:11
 #: cafe_backend/apps/dishes/templates/dishes/dish_listview.html:10
@@ -296,16 +300,11 @@ msgstr "广告"
 msgid "New"
 msgstr ""
 
-#: cafe_backend/apps/dishes/templates/dishes/dish_listview.html:28
-#: cafe_backend/mgnt/bookings/models.py:19
-msgid "Dish"
-msgstr ""
-
 #: cafe_backend/apps/dishes/templates/dishes/dish_listview.html:34
 msgid "Create Now"
 msgstr ""
 
-#: cafe_backend/apps/events/apps.py:7 cafe_backend/apps/events/models.py:48
+#: cafe_backend/apps/events/apps.py:7
 msgid "events"
 msgstr ""
 
@@ -350,44 +349,51 @@ msgid "Every Week"
 msgstr ""
 
 #: cafe_backend/apps/events/models.py:31
-msgid "event type"
-msgstr ""
-
-#: cafe_backend/apps/events/models.py:33
-msgid "file"
+msgid "Event Type"
 msgstr ""
 
 #: cafe_backend/apps/events/models.py:34
-msgid "start date"
+msgid "Start date"
 msgstr ""
 
 #: cafe_backend/apps/events/models.py:35
-msgid "end date"
+msgid "End date"
 msgstr ""
 
 #: cafe_backend/apps/events/models.py:38
-msgid "repeat"
+msgid "Repeat Type"
 msgstr ""
 
 #: cafe_backend/apps/events/models.py:40
-msgid "event date"
+msgid "Event Date"
 msgstr ""
 
 #: cafe_backend/apps/events/models.py:41
-msgid "event time"
+msgid "Event Time"
 msgstr ""
 
 #: cafe_backend/apps/events/models.py:42
 #: cafe_backend/mgnt/bookings/models.py:49
-msgid "details"
+msgid "Details"
 msgstr ""
 
-#: cafe_backend/apps/events/models.py:47 cafe_backend/apps/events/models.py:58
-msgid "event"
+#: cafe_backend/apps/events/models.py:47
+#: cafe_backend/apps/events/templates/events/event_listview.html:12
+msgid "Event"
+msgstr ""
+
+#: cafe_backend/apps/events/models.py:48
+#: cafe_backend/apps/events/templates/events/event_listview.html:17
+#: templates/layouts/admin_lte/sidebar.html:57
+msgid "Events"
 msgstr ""
 
 #: cafe_backend/apps/events/models.py:55
 msgid "Required for only once repeat type."
+msgstr ""
+
+#: cafe_backend/apps/events/models.py:58
+msgid "event"
 msgstr ""
 
 #: cafe_backend/apps/events/tables.py:11
@@ -411,20 +417,11 @@ msgstr ""
 msgid "Detail view of Ads"
 msgstr ""
 
-#: cafe_backend/apps/events/templates/events/event_listview.html:12
-msgid "Event"
-msgstr ""
-
 #: cafe_backend/apps/events/templates/events/event_listview.html:13
 #, fuzzy
 #| msgid "advertisements"
 msgid "List view of events"
 msgstr "广告"
-
-#: cafe_backend/apps/events/templates/events/event_listview.html:17
-#: templates/layouts/admin_lte/sidebar.html:57
-msgid "Events"
-msgstr ""
 
 #: cafe_backend/apps/users/apps.py:7
 msgid "users"
@@ -432,6 +429,10 @@ msgstr ""
 
 #: cafe_backend/apps/users/forms.py:12
 msgid "imei"
+msgstr ""
+
+#: cafe_backend/apps/users/forms.py:13
+msgid "name"
 msgstr ""
 
 #: cafe_backend/apps/users/forms.py:23
@@ -464,62 +465,14 @@ msgid "Order is not complete yet."
 msgstr ""
 
 #: cafe_backend/apps/users/models.py:11
-msgid "table?"
+msgid "Table?"
 msgstr ""
 
-#: cafe_backend/apps/users/models.py:44
-msgid "Blank"
+#: cafe_backend/apps/users/models.py:42 cafe_backend/apps/users/models.py:63
+msgid "Table"
 msgstr ""
 
-#: cafe_backend/apps/users/models.py:45
-msgid "Using"
-msgstr ""
-
-#: cafe_backend/apps/users/models.py:46
-msgid "Reserved"
-msgstr ""
-
-#: cafe_backend/apps/users/models.py:47
-msgid "Waiting"
-msgstr ""
-
-#: cafe_backend/apps/users/models.py:51
-msgid "size"
-msgstr ""
-
-#: cafe_backend/apps/users/models.py:52
-msgid "male"
-msgstr ""
-
-#: cafe_backend/apps/users/models.py:54
-msgid "female"
-msgstr ""
-
-#: cafe_backend/apps/users/models.py:55
-msgid "vip?"
-msgstr ""
-
-#: cafe_backend/apps/users/models.py:58 cafe_backend/mgnt/bookings/models.py:48
-#: cafe_backend/mgnt/orders/models.py:31 cafe_backend/mgnt/orders/models.py:122
-msgid "state"
-msgstr ""
-
-#: cafe_backend/apps/users/models.py:61
-msgid "table"
-msgstr ""
-
-#: cafe_backend/apps/users/templates/tables/_table_grid_item.html:11
-msgid "Customers"
-msgstr ""
-
-#: cafe_backend/apps/users/templates/tables/_table_grid_item.html:18
-#: cafe_backend/apps/users/templates/tables/_table_grid_item.html:38
-#: cafe_backend/mgnt/orders/templates/orders/order_updateview.html:10
-#: cafe_backend/mgnt/orders/templates/orders/order_updateview.html:15
-#: templates/layouts/admin_lte/sidebar.html:77
-msgid "Orders"
-msgstr ""
-
+#: cafe_backend/apps/users/models.py:43
 #: cafe_backend/apps/users/templates/tables/table_listview.html:9
 #: cafe_backend/apps/users/templates/tables/table_listview.html:14
 #: cafe_backend/apps/users/templates/tables/table_updateview.html:10
@@ -528,6 +481,57 @@ msgstr ""
 #: cafe_backend/mgnt/orders/templates/orders/table_gridview.html:14
 #: templates/layouts/admin_lte/sidebar.html:45
 msgid "Tables"
+msgstr ""
+
+#: cafe_backend/apps/users/models.py:46
+msgid "Blank"
+msgstr ""
+
+#: cafe_backend/apps/users/models.py:47
+msgid "Using"
+msgstr ""
+
+#: cafe_backend/apps/users/models.py:48
+msgid "Reserved"
+msgstr ""
+
+#: cafe_backend/apps/users/models.py:49
+msgid "Waiting"
+msgstr ""
+
+#: cafe_backend/apps/users/models.py:53
+msgid "Size"
+msgstr ""
+
+#: cafe_backend/apps/users/models.py:54
+msgid "Male"
+msgstr ""
+
+#: cafe_backend/apps/users/models.py:56
+msgid "Female"
+msgstr ""
+
+#: cafe_backend/apps/users/models.py:57
+msgid "VIP?"
+msgstr ""
+
+#: cafe_backend/apps/users/models.py:60 cafe_backend/mgnt/bookings/models.py:48
+#: cafe_backend/mgnt/music/models.py:32 cafe_backend/mgnt/orders/models.py:31
+#: cafe_backend/mgnt/orders/models.py:122
+msgid "State"
+msgstr ""
+
+#: cafe_backend/apps/users/templates/tables/_table_grid_item.html:11
+msgid "Customers"
+msgstr ""
+
+#: cafe_backend/apps/users/templates/tables/_table_grid_item.html:18
+#: cafe_backend/apps/users/templates/tables/_table_grid_item.html:38
+#: cafe_backend/mgnt/orders/models.py:24
+#: cafe_backend/mgnt/orders/templates/orders/order_updateview.html:10
+#: cafe_backend/mgnt/orders/templates/orders/order_updateview.html:15
+#: templates/layouts/admin_lte/sidebar.html:77
+msgid "Orders"
 msgstr ""
 
 #: cafe_backend/apps/users/templates/tables/table_listview.html:10
@@ -542,7 +546,7 @@ msgstr ""
 msgid "Update"
 msgstr ""
 
-#: cafe_backend/mgnt/bookings/apps.py:7 cafe_backend/mgnt/bookings/models.py:54
+#: cafe_backend/mgnt/bookings/apps.py:7
 msgid "bookings"
 msgstr ""
 
@@ -582,23 +586,29 @@ msgid "Archived"
 msgstr ""
 
 #: cafe_backend/mgnt/bookings/models.py:38
-msgid "requester"
+msgid "Requester"
 msgstr ""
 
 #: cafe_backend/mgnt/bookings/models.py:42
-msgid "receiver"
+msgid "Receiver"
 msgstr ""
 
 #: cafe_backend/mgnt/bookings/models.py:45
-msgid "booking_type"
+msgid "Booking Type"
 msgstr ""
 
 #: cafe_backend/mgnt/bookings/models.py:53
-msgid "booking"
-msgstr ""
-
 #: cafe_backend/mgnt/bookings/models.py:58
 msgid "Booking"
+msgstr ""
+
+#: cafe_backend/mgnt/bookings/models.py:54
+#: cafe_backend/mgnt/bookings/templates/bookings/contact_detailview.html:11
+#: cafe_backend/mgnt/bookings/templates/bookings/contact_detailview.html:16
+#: cafe_backend/mgnt/bookings/templates/bookings/dish_booking_detailview.html:16
+#: cafe_backend/mgnt/bookings/templates/bookings/table_booking_detailview.html:16
+#: templates/layouts/admin_lte/sidebar.html:80
+msgid "Bookings"
 msgstr ""
 
 #: cafe_backend/mgnt/bookings/models.py:65
@@ -614,14 +624,15 @@ msgid "A dish should be sent at least."
 msgstr ""
 
 #: cafe_backend/mgnt/bookings/models.py:138 cafe_backend/mgnt/chat/models.py:62
-msgid "poster"
+msgid "Poster"
 msgstr ""
 
 #: cafe_backend/mgnt/bookings/models.py:139 cafe_backend/mgnt/chat/models.py:63
-msgid "content"
+msgid "Content"
 msgstr ""
 
-#: cafe_backend/mgnt/bookings/models.py:143
+#: cafe_backend/mgnt/bookings/models.py:143 cafe_backend/mgnt/chat/models.py:67
+#: cafe_backend/mgnt/chat/models.py:76
 msgid "Message"
 msgstr ""
 
@@ -629,6 +640,7 @@ msgstr ""
 #: cafe_backend/mgnt/bookings/templates/bookings/contact_detailview.html:30
 #: cafe_backend/mgnt/bookings/templates/bookings/dish_booking_detailview.html:30
 #: cafe_backend/mgnt/bookings/templates/bookings/table_booking_detailview.html:30
+#: cafe_backend/mgnt/chat/models.py:68
 msgid "Messages"
 msgstr ""
 
@@ -652,14 +664,6 @@ msgstr ""
 #: cafe_backend/mgnt/orders/templates/orders/table_gridview.html:13
 #: templates/layouts/admin_lte/sidebar.html:70
 msgid "Management"
-msgstr ""
-
-#: cafe_backend/mgnt/bookings/templates/bookings/contact_detailview.html:11
-#: cafe_backend/mgnt/bookings/templates/bookings/contact_detailview.html:16
-#: cafe_backend/mgnt/bookings/templates/bookings/dish_booking_detailview.html:16
-#: cafe_backend/mgnt/bookings/templates/bookings/table_booking_detailview.html:16
-#: templates/layouts/admin_lte/sidebar.html:80
-msgid "Bookings"
 msgstr ""
 
 #: cafe_backend/mgnt/bookings/templates/bookings/contact_detailview.html:12
@@ -706,31 +710,23 @@ msgid "Public"
 msgstr ""
 
 #: cafe_backend/mgnt/chat/models.py:20
-msgid "channel type"
+msgid "Channel type"
 msgstr ""
 
 #: cafe_backend/mgnt/chat/models.py:24
-msgid "channel"
+msgid "Channel"
 msgstr ""
 
 #: cafe_backend/mgnt/chat/models.py:25
-msgid "channels"
+msgid "Channels"
 msgstr ""
 
 #: cafe_backend/mgnt/chat/models.py:46
-msgid "attendee"
+msgid "Attendee"
 msgstr ""
 
 #: cafe_backend/mgnt/chat/models.py:47
-msgid "attendees"
-msgstr ""
-
-#: cafe_backend/mgnt/chat/models.py:67
-msgid "message"
-msgstr ""
-
-#: cafe_backend/mgnt/chat/models.py:68
-msgid "messages"
+msgid "Attendees"
 msgstr ""
 
 #: cafe_backend/mgnt/chat/templates/chat/chat_list.html:14
@@ -761,7 +757,7 @@ msgstr ""
 msgid "Send"
 msgstr ""
 
-#: cafe_backend/mgnt/music/apps.py:7 cafe_backend/mgnt/music/models.py:40
+#: cafe_backend/mgnt/music/apps.py:7
 msgid "music"
 msgstr ""
 
@@ -801,11 +797,7 @@ msgstr ""
 msgid "Picture URL"
 msgstr ""
 
-#: cafe_backend/mgnt/music/models.py:32
-msgid "State"
-msgstr ""
-
-#: cafe_backend/mgnt/music/models.py:36
+#: cafe_backend/mgnt/music/models.py:36 cafe_backend/mgnt/music/models.py:40
 #: cafe_backend/mgnt/music/templates/music/music_demoview.html:19
 #: cafe_backend/mgnt/music/templates/music/music_player.html:19
 msgid "Music"
@@ -814,10 +806,6 @@ msgstr ""
 #: cafe_backend/mgnt/music/models.py:37
 #: templates/layouts/admin_lte/sidebar.html:83
 msgid "Musics"
-msgstr ""
-
-#: cafe_backend/mgnt/music/models.py:144
-msgid "Active?"
 msgstr ""
 
 #: cafe_backend/mgnt/music/models.py:147 cafe_backend/mgnt/music/models.py:151
@@ -853,11 +841,11 @@ msgstr ""
 msgid "Player"
 msgstr ""
 
-#: cafe_backend/mgnt/orders/apps.py:7 cafe_backend/mgnt/orders/models.py:24
+#: cafe_backend/mgnt/orders/apps.py:7
 msgid "orders"
 msgstr ""
 
-#: cafe_backend/mgnt/orders/forms.py:38
+#: cafe_backend/mgnt/orders/forms.py:38 cafe_backend/mgnt/orders/models.py:102
 msgid "Order Items"
 msgstr ""
 
@@ -866,19 +854,15 @@ msgid "Delivered"
 msgstr ""
 
 #: cafe_backend/mgnt/orders/models.py:23
-msgid "order"
+msgid "Order"
 msgstr ""
 
 #: cafe_backend/mgnt/orders/models.py:101
-msgid "order item"
-msgstr ""
-
-#: cafe_backend/mgnt/orders/models.py:102
-msgid "order items"
+msgid "Order Item"
 msgstr ""
 
 #: cafe_backend/mgnt/orders/models.py:111
-msgid "Target table"
+msgid "Target Table"
 msgstr ""
 
 #: cafe_backend/mgnt/orders/models.py:116
@@ -886,7 +870,7 @@ msgid "Amount"
 msgstr ""
 
 #: cafe_backend/mgnt/orders/models.py:119
-msgid "Discount rate"
+msgid "Discount Rate"
 msgstr ""
 
 #: cafe_backend/mgnt/orders/templates/orders/order_updateview.html:11
@@ -972,6 +956,11 @@ msgstr ""
 #: templates/layouts/brand.html:2
 msgid "Cafe backend"
 msgstr ""
+
+#, fuzzy
+#~| msgid "advertisements"
+#~ msgid "advertisement"
+#~ msgstr "广告"
 
 #~ msgid "Ads #"
 #~ msgstr "广告 #"
