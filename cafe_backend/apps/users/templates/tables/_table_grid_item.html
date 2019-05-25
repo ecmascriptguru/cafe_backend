@@ -24,14 +24,21 @@
         <div class="icon">
             <!-- <i class="fa fa-shopping-cart"></i> -->
         </div>
-        {% if table.order %}
-        <a href="{% url 'orders:order_updateview' pk=table.order.pk %}" class="small-box-footer">
-            More info <i class="fa fa-arrow-circle-right"></i>
-        </a>
-        {% else %}
-        <a href="#" class="small-box-footer">
-            Blank <i class="fa fa-arrow-circle-right"></i>
-        </a>
-        {% endif %}
+        <div class="box-footer">
+            <div class="row">
+                <div class="col-xs-6">
+                    <a href="{% url 'tables:table_updateview' pk=table.pk %}">
+                        <i class="fa fa-cog"></i> Settings
+                    </a>
+                </div>
+                <div class="col-xs-6">
+                    {% if table.order %}
+                        <a href="{% url 'orders:order_updateview' pk=table.order.pk %}" class="pull-right">
+                            <i class="fa fa-check"></i> Orders
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
