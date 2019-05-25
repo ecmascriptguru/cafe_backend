@@ -73,7 +73,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 }
             )
         elif message_type == SOCKET_MESSAGE_TYPE.order_item:
-            order_item_pk = json_data['order']
+            order_item_pk = json_data['order_item']
             created = json_data['created']
             order_item = OrderItem.objects.get(pk=order_item_pk)
             await self.channel_layer.group_send(
