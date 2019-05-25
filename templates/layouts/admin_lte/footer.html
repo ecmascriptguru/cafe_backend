@@ -1,9 +1,9 @@
+{% load i18n %}
 {% block footer %}
 <footer class="main-footer">
 	<div class="pull-right hidden-xs">
-	  <b>HELLO</b> All
+	  <b>{% trans 'HELLO' %}</b> {% trans 'All' %}
 	</div>
-	<strong>Copyright &copy; 2019- <a href="https://localhost:5000">Perfect Delivery</a>.</strong> All rights
-reserved.
+	<strong>{% trans 'Copyright' %} &copy; 2019- <a href="https://localhost:5000">Perfect Delivery</a>.</strong> {% trans 'All rights reserved.' %}
 </footer>
 {% endblock %}

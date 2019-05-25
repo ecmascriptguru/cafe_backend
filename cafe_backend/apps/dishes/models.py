@@ -1,5 +1,6 @@
 from django.db import models
 from model_utils.models import TimeStampedModel
+from django.utils.translation import ugettext_lazy as _
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
@@ -8,13 +9,18 @@ def dish_images_directory_path(instance, filename):
 
 
 class Category(TimeStampedModel):
-    name = models.CharField(max_length=128)
-    name_en = models.CharField(max_length=128)
-    name_ko = models.CharField(max_length=128)
-    is_active = models.BooleanField(default=True)
+    name = models.CharField(
+        max_length=128, verbose_name=_('Name'))
+    name_en = models.CharField(
+        max_length=128, verbose_name=_('English name'))
+    name_ko = models.CharField(
+        max_length=128, verbose_name=_('Korean name'))
+    is_active = models.BooleanField(
+        default=True, verbose_name=_('Active?'))
 
     class Meta:
-        verbose_name_plural = "categories"
+        verbose_name = _('Category')
+        verbose_name_plural = _("Categories")
 
     def __str__(self):
         return self.name
@@ -24,19 +30,28 @@ class Dish(TimeStampedModel):
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, related_name='dishes',
         null=True)
-    name = models.CharField(max_length=128)
-    name_en = models.CharField(max_length=128)
-    name_ko = models.CharField(max_length=128)
-    description = models.TextField(max_length=1024)
-    description_en = models.TextField(max_length=1024)
-    description_ko = models.TextField(max_length=1024)
-    is_active = models.BooleanField(default=True)
+    name = models.CharField(
+        max_length=128, verbose_name=_('Name'))
+    name_en = models.CharField(
+        max_length=128, verbose_name=_('English name'))
+    name_ko = models.CharField(
+        max_length=128, verbose_name=_('Korean name'))
+    description = models.TextField(
+        max_length=1024, verbose_name=_('Description'))
+    description_en = models.TextField(
+        max_length=1024, verbose_name=_('English Description'))
+    description_ko = models.TextField(
+        max_length=1024, verbose_name=_('Korean Description'))
+    is_active = models.BooleanField(
+        default=True, verbose_name=_('Active?'))
 
     class Meta:
         ordering = ('-modified', )
+        verbose_name = _('Dish')
+        verbose_name_plural = _('Dishes')
 
     def __str__(self):
-        return "<dish(%d): %s>" % (self.pk, self.name)
+        return "<%s(%d): %s>" % (_('Dish'), self.pk, self.name)
 
     @property
     def rate(self):
@@ -62,10 +77,13 @@ class Dish(TimeStampedModel):
 class DishImage(TimeStampedModel):
     dish = models.ForeignKey(
         Dish, on_delete=models.CASCADE, related_name='images')
-    file = models.ImageField(upload_to='dishes/%Y/%m/%d')
+    file = models.ImageField(
+        upload_to='dishes/%Y/%m/%d', verbose_name=_('Image File'))
 
     class Meta:
         ordering = ('-modified', )
+        verbose_name = _('Dish Image')
+        verbose_name_plural = _('Dish Images')
 
     def __str__(self):
         return self.file.url
@@ -78,11 +96,15 @@ class DishReview(TimeStampedModel):
         Dish, on_delete=models.CASCADE, related_name='reviews')
     rate = models.PositiveSmallIntegerField(
         choices=SCORE_CHOICES,
-        default=5, validators=[MaxValueValidator(5), MinValueValidator(1)])
-    comment = models.TextField(max_length=1024)
+        default=5, validators=[MaxValueValidator(5), MinValueValidator(1)],
+        verbose_name=_('Rate'))
+    comment = models.TextField(
+        max_length=1024, verbose_name=_('Comment'))
 
     class Meta:
         ordering = ('-modified', )
+        verbose_name = _('Dish Review')
+        verbose_name_plural = _('Dish Reviews')
 
     def __str__(self):
         return "%d (%s)" % (self.rate, self.comment)
@@ -91,7 +113,10 @@ class DishReview(TimeStampedModel):
 class Price(TimeStampedModel):
     dish = models.ForeignKey(
         Dish, on_delete=models.CASCADE, related_name='prices')
-    price = models.FloatField(validators=[MinValueValidator(0)])
+    price = models.FloatField(
+        validators=[MinValueValidator(0)], verbose_name=_('Price'))
 
     class Meta:
         ordering = ('-created', )
+        verbose_name = _('Price')
+        verbose_name_plural = _('Prices')

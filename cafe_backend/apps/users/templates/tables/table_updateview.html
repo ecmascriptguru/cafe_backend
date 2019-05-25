@@ -1,18 +1,19 @@
 {% extends 'layouts/adminlte_base.html' %}
 
 {% load crispy_forms_tags %}
+{% load i18n %}
 
 {% block content %}
 <section class="content-header">
     <h1>
         <i class="fa fa-laptop"></i>
-        Tables
-        <small>List view of tables</small>
+        {% trans 'Tables' %}
+        <small>{% trans 'List view of tables' %}</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i>Settings</a></li>
-        <li><a href="#"><i class="fa fa-laptop"></i>Tables</a></li>
-        <li class="active">Update</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i>{% trans 'Settings' %}</a></li>
+        <li><a href="#"><i class="fa fa-laptop"></i>{% trans 'Tables' %}</a></li>
+        <li class="active">{% trans 'Update' %}</li>
     </ol>
 </section>
 

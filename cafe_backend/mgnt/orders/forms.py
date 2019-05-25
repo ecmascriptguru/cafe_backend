@@ -1,5 +1,6 @@
 from django import forms
 from django.forms.models import inlineformset_factory
+from django.utils.translation import ugettext_lazy as _
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import (
     Layout, ButtonHolder, Submit, Field, Fieldset, Div, HTML)
@@ -34,12 +35,12 @@ class OrderForm(forms.ModelForm):
         self.helper.layout = Layout(
             Div(
                 Fieldset(
-                    'Order Items', Formset('order_items'),
+                    _('Order Items'), Formset('order_items'),
                     css_class='form-group'),
                 Field('state'),
                 HTML("<br>"),
                 ButtonHolder(Submit(
-                    'submit', 'Save Changes', css_class='pull-right')),
+                    'submit', _('Save Changes'), css_class='pull-right')),
                 )
             )
 

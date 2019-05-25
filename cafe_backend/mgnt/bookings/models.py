@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import ValidationError
 from django.contrib.postgres.fields import JSONField
+from django.utils.translation import ugettext_lazy as _
 from django_fsm import FSMField, transition
 from model_utils.models import TimeStampedModel
 from cafe_backend.core.constants.states import BOOKING_STATE
@@ -14,59 +15,65 @@ class BOOKING_TYPE:
 
 
 BOOKING_TYPE_CHOICES = (
-    (BOOKING_TYPE.contact, 'Contact'),
-    (BOOKING_TYPE.dish, 'Dish'),
-    (BOOKING_TYPE.exchange, 'Exchange'),
-    (BOOKING_TYPE.merge, 'Merge'),
+    (BOOKING_TYPE.contact, _('Contact')),
+    (BOOKING_TYPE.dish, _('Dish')),
+    (BOOKING_TYPE.exchange, _('Exchange')),
+    (BOOKING_TYPE.merge, _('Merge')),
 )
 
 
 BOOKING_STATE_CHOICES = (
-    (BOOKING_STATE.default, 'Requested'),
-    (BOOKING_STATE.approved, 'Approved'),
-    (BOOKING_STATE.rejected, 'Rejected'),
-    (BOOKING_STATE.canceled, 'Canceled'),
-    (BOOKING_STATE.archived, 'Archived'),
+    (BOOKING_STATE.default, _('Requested')),
+    (BOOKING_STATE.approved, _('Approved')),
+    (BOOKING_STATE.rejected, _('Rejected')),
+    (BOOKING_STATE.canceled, _('Canceled')),
+    (BOOKING_STATE.archived, _('Archived')),
 )
 
 
 class Booking(TimeStampedModel):
     requester = models.ForeignKey(
         'users.Table', on_delete=models.SET_NULL,
-        related_name='requested_bookings', null=True)
+        related_name='requested_bookings', null=True,
+        verbose_name=_('Requester'))
     receiver = models.ForeignKey(
         'users.Table', on_delete=models.SET_NULL,
-        related_name='received_bookings', null=True)
+        related_name='received_bookings', null=True,
+        verbose_name=_('Receiver'))
     booking_type = FSMField(
-        choices=BOOKING_TYPE_CHOICES, default=BOOKING_TYPE.contact)
+        choices=BOOKING_TYPE_CHOICES, default=BOOKING_TYPE.contact,
+        verbose_name=_('Booking Type'))
     state = FSMField(
-        choices=BOOKING_STATE_CHOICES, default=BOOKING_STATE.default)
-    details = JSONField(default={})
+        choices=BOOKING_STATE_CHOICES, default=BOOKING_STATE.default,
+        verbose_name=_('State'))
+    details = JSONField(default={}, verbose_name=_('Details'))
 
     class Meta:
         ordering = ('-modified', )
+        verbose_name = _('Booking')
+        verbose_name_plural = _('Bookings')
 
     def __str__(self):
-        return "<%s Booking(%d) from %s to %s>" % (
-            self.booking_type, self.pk,
+        return "<%s %s(%d) from %s to %s>" % (
+            self.booking_type, _('Booking'), self.pk,
             self.requester.name, self.receiver.name)
 
     def clean(self):
         super(Booking, self).clean()
         if self.requester == self.receiver:
             raise ValidationError(
-                {'receiver': 'Booking should be made between '
-                    'different tables.'})
+                {'receiver': _('Booking should be made between different \
+                    tables.')})
         if self.booking_type == BOOKING_TYPE.contact:
             if not self.details.get('qr_code'):
                 raise ValidationError({
-                    'details': 'qr_code is required in contact booking.'})
+                    'details': _('qr_code is required in contact booking.')})
         elif self.booking_type == BOOKING_TYPE.dish:
             if not self.details.get('order_items') or\
                     not isinstance(self.details.get('order_items')) or\
                     len(self.details.get('order_items')) == 0:
                 raise ValidationError({
-                    'details': 'A dish should be sent at least.'})
+                    'details': _('A dish should be sent at least.')})
         else:
             pass
 
@@ -128,11 +135,13 @@ class BookingMessage(TimeStampedModel):
     booking = models.ForeignKey(
         Booking, on_delete=models.CASCADE, related_name='messages')
     poster = models.ForeignKey(
-        'users.Table', on_delete=models.CASCADE)
-    content = models.TextField(max_length=65536)
+        'users.Table', on_delete=models.CASCADE, verbose_name=_('Poster'))
+    content = models.TextField(max_length=65536, verbose_name=_('Content'))
 
     class Meta:
         ordering = ('-modified', )
+        verbose_name = _('Message')
+        verbose_name_plural = _('Messages')
 
     @property
     def is_reply(self):
@@ -142,5 +151,5 @@ class BookingMessage(TimeStampedModel):
         super(BookingMessage, self).clean()
         if self.poster not in [self.booking.requester, self.booking.receiver]:
             raise ValidationError({
-                'poster': 'This table was not belong to this channel.'
+                'poster': _('This table was not belong to this channel.')
             })

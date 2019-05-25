@@ -8,8 +8,9 @@ from .models import Table, User, TABLE_STATE
 
 
 class TableAdminForm(forms.ModelForm):
-    imei = forms.CharField(max_length=16, min_length=14, strip=True, )
-    name = forms.CharField(max_length=12, )
+    imei = forms.CharField(
+        max_length=16, min_length=14, strip=True, label=_('imei'))
+    name = forms.CharField(max_length=12, label=_('name'))
 
     class Meta:
         model = Table
@@ -64,7 +65,7 @@ class TableForm(forms.ModelForm):
                 'size', 'male', 'female', 'state', 'is_vip',
                 ButtonHolder(
                     Submit(
-                        'submit', 'Save Changes',
+                        'submit', _('Save Changes'),
                         css_class='btn btn-primary pull-right'),
                 ),
             )
@@ -73,10 +74,10 @@ class TableForm(forms.ModelForm):
                 'male', 'female', 'size', 'state', 'is_vip',
                 ButtonHolder(
                     Submit(
-                        'submit', 'Save Changes',
+                        'submit', _('save changes'),
                         css_class='btn btn-primary pull-right'),
                     Submit(
-                        'submit', 'Clear',
+                        'submit', _('clear'),
                         css_class='btn btn-danger pull-left'),
                     wrapper_class='form-group',
                 ),
@@ -98,13 +99,13 @@ class TableForm(forms.ModelForm):
 
     def clean(self):
         data = super(TableForm, self).clean()
-        if self.data['submit'].lower() == 'clear' and\
+        if self.data['submit'].lower() == _('clear') and\
                 not self.instance.can_clear():
-            raise ValidationError('Order is not complete yet.')
+            raise ValidationError(_('Order is not complete yet.'))
         return data
 
     def save(self, commit=True):
-        if self.data['submit'].lower() == 'clear':
+        if self.data['submit'].lower() == _('clear'):
             self.instance.clear()
             self.instance.save()
             return self.instance

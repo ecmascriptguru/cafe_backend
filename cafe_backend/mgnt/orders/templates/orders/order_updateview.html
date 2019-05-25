@@ -1,18 +1,19 @@
 {% extends 'layouts/adminlte_base.html' %}
 
 {% load crispy_forms_tags %}
+{% load i18n %}
 
 {% block content %}
 <section class="content-header">
     <h1>
         <i class="fa fa-shopping-cart"></i>
-        Orders
-        <small>Update view of order</small>
+        {% trans 'Orders' %}
+        <small>{% trans 'Update view of order' %}</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-folder-open-o"></i>Management</a></li>
-        <li><a href="#"><i class="fa fa-shopping-cart"></i>Orders</a></li>
-        <li class="active">Update</li>
+        <li><a href="#"><i class="fa fa-folder-open-o"></i>{% trans 'Management' %}</a></li>
+        <li><a href="#"><i class="fa fa-shopping-cart"></i>{% trans 'Orders' %}</a></li>
+        <li class="active">{% trans 'Update' %}</li>
     </ol>
 </section>
 

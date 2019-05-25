@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils.translation import ugettext_lazy as _
 from django_fsm import FSMField, transition
 from model_utils.models import TimeStampedModel
 from cafe_backend.core.constants.states import ORDER_STATE, TABLE_STATE
@@ -7,7 +8,7 @@ from cafe_backend.mgnt.chat.models import Channel
 
 
 class User(AbstractUser):
-    is_table = models.BooleanField(default=False)
+    is_table = models.BooleanField(default=False, verbose_name=_('Table?'))
 
     @property
     def name(self):
@@ -38,24 +39,28 @@ class User(AbstractUser):
 class Table(TimeStampedModel):
     class Meta:
         ordering = ('pk', )
+        verbose_name = _('Table')
+        verbose_name_plural = _('Tables')
 
     TABLE_STATE_OPTIONS = (
-        (TABLE_STATE.blank, 'Blank'),
-        (TABLE_STATE.using, 'Using'),
-        (TABLE_STATE.reserved, 'Reserved'),
-        (TABLE_STATE.waiting, 'Waiting'))
+        (TABLE_STATE.blank, _('Blank')),
+        (TABLE_STATE.using, _('Using')),
+        (TABLE_STATE.reserved, _('Reserved')),
+        (TABLE_STATE.waiting, _('Waiting')))
 
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, primary_key=True)
-    size = models.PositiveSmallIntegerField()
-    male = models.PositiveSmallIntegerField(default=0)
-    female = models.PositiveSmallIntegerField(default=0)
-    is_vip = models.BooleanField(default=False)
+    size = models.PositiveSmallIntegerField(verbose_name=_('Size'))
+    male = models.PositiveSmallIntegerField(default=0, verbose_name=_('Male'))
+    female = models.PositiveSmallIntegerField(
+        default=0, verbose_name=_('Female'))
+    is_vip = models.BooleanField(default=False, verbose_name=_('VIP?'))
     state = FSMField(
-        choices=TABLE_STATE_OPTIONS, default=TABLE_STATE.blank)
+        choices=TABLE_STATE_OPTIONS, default=TABLE_STATE.blank,
+        verbose_name=_('State'))
 
     def __str__(self):
-        return "<Table(%d): %s>" % (self.pk, self.name)
+        return "<%s(%d): %s>" % (_('Table'), self.pk, self.name)
 
     def to_json(self):
         return {

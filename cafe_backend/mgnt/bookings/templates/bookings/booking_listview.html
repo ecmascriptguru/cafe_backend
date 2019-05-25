@@ -1,19 +1,21 @@
 {% extends 'layouts/adminlte_base.html' %}
+
 {% load render_table from django_tables2 %}
 {% load django_tables2 %}
 {% load bootstrap4 %}
+{% load i18n %}
 
 {% block content %}
 <section class="content-header">
     <h1>
         <i class="fa fa-weixin"></i>
-        Contacts
-        <small>Grid view of contacts</small>
+        {% trans 'Contacts' %}
+        <small>{% trans 'Grid view of contacts' %}</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-folder-open-o"></i>Management</a></li>
-        <li><a href="#"><i class="fa fa-weixin"></i>Contacts</a></li>
-        <li class="active">List</li>
+        <li><a href="#"><i class="fa fa-folder-open-o"></i>{% trans 'Management' %}</a></li>
+        <li><a href="#"><i class="fa fa-weixin"></i>{% trans 'Contacts' %}</a></li>
+        <li class="active">{% trans 'List' %}</li>
     </ol>
 </section>
 

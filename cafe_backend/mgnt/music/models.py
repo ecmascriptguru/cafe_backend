@@ -5,6 +5,7 @@ from urllib import request
 from django.conf import settings
 from django.db import models
 from django.core.validators import ValidationError
+from django.utils.translation import ugettext_lazy as _
 from django_fsm import FSMField, transition
 from model_utils.models import TimeStampedModel
 from cafe_backend.libs.ting.api import TingMusicAPI as Ting
@@ -12,27 +13,31 @@ from cafe_backend.core.constants.states import MUSIC_STATE
 
 
 MUSIC_STATE_CHOICES = (
-    (MUSIC_STATE.default, 'Not available'),
-    (MUSIC_STATE.downloading, 'Downloading'),
-    (MUSIC_STATE.default, 'Uploading'),
-    (MUSIC_STATE.default, 'Ready'),
+    (MUSIC_STATE.default, _('Not available')),
+    (MUSIC_STATE.downloading, _('Downloading')),
+    (MUSIC_STATE.default, _('Uploading')),
+    (MUSIC_STATE.default, _('Ready')),
 )
 
 
 class Music(TimeStampedModel):
-    title = models.CharField(max_length=64)
-    author = models.CharField(max_length=32)
-    url = models.URLField(verbose_name='Music URL')
-    external_id = models.CharField(max_length=32, unique=True)
-    pic_url = models.URLField(verbose_name='Picture URL')
+    title = models.CharField(max_length=64, verbose_name=_('Title'))
+    author = models.CharField(max_length=32, verbose_name=_('Author'))
+    url = models.URLField(verbose_name=_('Music url'))
+    external_id = models.CharField(
+        max_length=32, unique=True, verbose_name=_('External ID'))
+    pic_url = models.URLField(verbose_name=_('Picture URL'))
     state = FSMField(
-        choices=MUSIC_STATE_CHOICES, default=MUSIC_STATE.default)
+        choices=MUSIC_STATE_CHOICES, default=MUSIC_STATE.default,
+        verbose_name=_('State'))
 
     class Meta:
         ordering = ('title', )
+        verbose_name = _('Music')
+        verbose_name_plural = _('Musics')
 
     def __str__(self):
-        return "<Music(%d):%s>" % (self.pk, self.title)
+        return "<%s(%d):%s>" % (_('Music'), self.pk, self.title)
 
     @classmethod
     def external_search(cls, keyword):
@@ -136,13 +141,15 @@ class Playlist(TimeStampedModel):
         related_name='playlist', default=None)
     music = models.ForeignKey(
         Music, on_delete=models.CASCADE, related_name='playlist')
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True, verbose_name=_('Active?'))
 
     def __str__(self):
-        return "<Playlist(%d):%s>" % (self.pk, self.music.title)
+        return "<%s(%d):%s>" % (_('Playlist'), self.pk, self.music.title)
 
     class Meta:
         ordering = ('created', )
+        verbose_name = _('Playlist')
+        verbose_name_plural = _('Playlist')
 
     def get_customer_name(self):
         if self.table is None:

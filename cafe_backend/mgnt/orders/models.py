@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import F
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.utils.translation import ugettext_lazy as _
 from django_fsm import FSMField
 from django_fsm import transition
 from model_utils.models import TimeStampedModel
@@ -9,21 +10,25 @@ from cafe_backend.core.constants.states import (
 
 
 ORDER_STATE_CHOICES = (
-    (ORDER_STATE.default, 'Requested'),
-    (ORDER_STATE.canceled, 'Canceled'),
-    (ORDER_STATE.delivered, 'Delivered'),
-    (ORDER_STATE.archived, 'Archived'),
+    (ORDER_STATE.default, _('Requested')),
+    (ORDER_STATE.canceled, _('Canceled')),
+    (ORDER_STATE.delivered, _('Delivered')),
+    (ORDER_STATE.archived, _('Archived')),
 )
 
 
 class Order(TimeStampedModel):
     class Meta:
         ordering = ('-created', )
+        verbose_name = _('Order')
+        verbose_name_plural = _('Orders')
 
     table = models.ForeignKey(
         'users.Table', on_delete=models.SET_NULL,
         related_name='orders', null=True)
-    state = FSMField(choices=ORDER_STATE_CHOICES, default=ORDER_STATE.default)
+    state = FSMField(
+        choices=ORDER_STATE_CHOICES, default=ORDER_STATE.default,
+        verbose_name=_('State'))
 
     def to_json(self):
         return {
@@ -93,6 +98,8 @@ class Order(TimeStampedModel):
 class OrderItem(TimeStampedModel):
     class Meta:
         ordering = ('-created', )
+        verbose_name = _('Order Item')
+        verbose_name_plural = _('Order Items')
 
     order = models.ForeignKey(
         Order, on_delete=models.CASCADE, related_name='order_items')
@@ -100,14 +107,19 @@ class OrderItem(TimeStampedModel):
         'dishes.Dish', on_delete=models.CASCADE, related_name='order_items')
     to_table = models.ForeignKey(
         'users.Table', on_delete=models.SET_NULL,
-        related_name='received_order_items', null=True)
-    price = models.FloatField(validators=[MinValueValidator(0)])
+        related_name='received_order_items', null=True,
+        verbose_name=_('Target Table'))
+    price = models.FloatField(
+        validators=[MinValueValidator(0)], verbose_name=('Price'))
     amount = models.PositiveSmallIntegerField(
-        default=1, validators=[MinValueValidator(1)])
+        default=1, validators=[MinValueValidator(1)],
+        verbose_name=_('Amount'))
     discount_rate = models.FloatField(
-        default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
+        default=0, validators=[MinValueValidator(0), MaxValueValidator(100)],
+        verbose_name=_('Discount Rate'))
     state = FSMField(
-        choices=ORDER_STATE_CHOICES, default=ORDER_STATE.default)
+        choices=ORDER_STATE_CHOICES, default=ORDER_STATE.default,
+        verbose_name=_('State'))
 
     @property
     def is_canceled(self):

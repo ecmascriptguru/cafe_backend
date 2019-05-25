@@ -1,13 +1,17 @@
 import itertools
 import django_tables2 as tables
 from django.template.loader import render_to_string
+from django.utils.translation import ugettext_lazy as _
 from .models import Advertisement, ADS_TYPE
 
 
 class AdvertisementTable(tables.Table):
-    number = tables.Column(empty_values=(), verbose_name='Ads #')
-    image = tables.Column(empty_values=(), orderable=False)
-    actions = tables.Column(empty_values=(), orderable=False)
+    number = tables.Column(
+        empty_values=(), verbose_name=_('#'))
+    image = tables.Column(
+        empty_values=(), orderable=False, verbose_name=_('Image'))
+    actions = tables.Column(
+        empty_values=(), orderable=False, verbose_name=_('Actions'))
     image_template = 'ads/_ads_table_image_column.html'
     actions_template = 'ads/_ads_table_actions_column.html'
 

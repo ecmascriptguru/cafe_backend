@@ -2,18 +2,19 @@
 {% load render_table from django_tables2 %}
 {% load django_tables2 %}
 {% load bootstrap4 %}
+{% load i18n %}
 
 {% block content %}
 <section class="content-header">
     <h1>
         <i class="fa fa-weixin"></i>
         {{ object.name }}
-        <small>Detail view of Ads</small>
+        <small>{% trans 'Detail view of Ads' %}</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-folder-open-o"></i>Settings</a></li>
-        <li><a href="#"><i class="fa fa-weixin"></i>Advertisements</a></li>
-        <li class="active">List</li>
+        <li><a href="#"><i class="fa fa-folder-open-o"></i>{% trans 'Settings' %}</a></li>
+        <li><a href="#"><i class="fa fa-weixin"></i>{% trans 'Advertisements' %}</a></li>
+        <li class="active">{% trans 'List' %}</li>
     </ol>
 </section>
 

@@ -1,17 +1,18 @@
 {% extends 'layouts/adminlte_base.html' %}
 
 {% load crispy_forms_tags %}
+{% load i18n %}
 
 {% block content %}
 <section class="content-header">
     <h1>
         <i class="fa fa-puzzle-piece"></i>
-        Categories
-        <small>List view of categories</small>
+        {% trans 'Categories' %}
+        <small>{% trans 'List view of categories' %}</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i>Settings</a></li>
-        <li><a href="#"><i class="fa fa-puzzle-piece"></i>Categories</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i>{% trans 'Settings' %}</a></li>
+        <li><a href="#"><i class="fa fa-puzzle-piece"></i>{% trans 'Categories' %}</a></li>
         <li class="active">Create</li>
     </ol>
 </section>
