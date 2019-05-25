@@ -1,0 +1,182 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <ecmascript.guru@gmail.com>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-05-25 07:43+0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: cafe_backend/apps/advertisements/apps.py:7
+msgid "advertisements"
+msgstr "广告"
+
+#: cafe_backend/apps/advertisements/models.py:9
+#: cafe_backend/apps/advertisements/tables.py:12
+msgid "Image"
+msgstr ""
+
+#: cafe_backend/apps/advertisements/models.py:10
+msgid "Video"
+msgstr ""
+
+#: cafe_backend/apps/advertisements/models.py:24
+#: cafe_backend/apps/advertisements/templates/ads/ads_listview.html:11
+#: cafe_backend/apps/advertisements/templates/ads/ads_listview.html:16
+msgid "Ads"
+msgstr "广告"
+
+#: cafe_backend/apps/advertisements/tables.py:10
+msgid "Ads #"
+msgstr "广告 #"
+
+#: cafe_backend/apps/advertisements/tables.py:14
+msgid "Actions"
+msgstr ""
+
+#: cafe_backend/apps/advertisements/templates/ads/ads_deleteview.html:10
+#: cafe_backend/apps/advertisements/templates/ads/ads_formview.html:10
+#, fuzzy
+#| msgid "advertisements"
+msgid "Grid view of advertisements"
+msgstr "广告"
+
+#: cafe_backend/apps/advertisements/templates/ads/ads_deleteview.html:13
+#: cafe_backend/apps/advertisements/templates/ads/ads_detailview.html:15
+#: cafe_backend/apps/advertisements/templates/ads/ads_formview.html:13
+#: cafe_backend/apps/advertisements/templates/ads/ads_listview.html:15
+msgid "Settings"
+msgstr ""
+
+#: cafe_backend/apps/advertisements/templates/ads/ads_deleteview.html:14
+#: cafe_backend/apps/advertisements/templates/ads/ads_detailview.html:16
+#: cafe_backend/apps/advertisements/templates/ads/ads_formview.html:14
+#, fuzzy
+#| msgid "advertisements"
+msgid "Advertisements"
+msgstr "广告"
+
+#: cafe_backend/apps/advertisements/templates/ads/ads_deleteview.html:15
+#: cafe_backend/apps/advertisements/templates/ads/ads_deleteview.html:24
+msgid "Delete"
+msgstr ""
+
+#: cafe_backend/apps/advertisements/templates/ads/ads_deleteview.html:27
+msgid "Are you sure that you want to delete this ads?"
+msgstr ""
+
+#: cafe_backend/apps/advertisements/templates/ads/ads_deleteview.html:32
+msgid "Yes"
+msgstr ""
+
+#: cafe_backend/apps/advertisements/templates/ads/ads_detailview.html:17
+#: cafe_backend/apps/advertisements/templates/ads/ads_listview.html:17
+msgid "List"
+msgstr ""
+
+#: cafe_backend/apps/advertisements/templates/ads/ads_formview.html:9
+#: cafe_backend/apps/advertisements/templates/ads/ads_listview.html:46
+msgid "New Ads"
+msgstr ""
+
+#: cafe_backend/apps/advertisements/templates/ads/ads_formview.html:15
+msgid "Create"
+msgstr ""
+
+#: cafe_backend/apps/advertisements/templates/ads/ads_listview.html:12
+msgid "Grid view of contacts"
+msgstr ""
+
+#: cafe_backend/apps/dishes/admin.py:9
+msgid "Cafe Administration"
+msgstr "餐厅管理"
+
+#: cafe_backend/apps/dishes/admin.py:10 cafe_backend/apps/dishes/admin.py:11
+msgid "Cafe Admin"
+msgstr "餐厅管理"
+
+#: cafe_backend/apps/dishes/apps.py:7
+msgid "dishes"
+msgstr ""
+
+#: cafe_backend/apps/events/apps.py:7
+msgid "events"
+msgstr ""
+
+#: cafe_backend/apps/users/apps.py:7
+msgid "users"
+msgstr ""
+
+#: cafe_backend/apps/users/forms.py:22
+msgid "IMEI Code"
+msgstr ""
+
+#: cafe_backend/apps/users/forms.py:30 cafe_backend/apps/users/forms.py:88
+msgid "Male can't be greater than size!"
+msgstr ""
+
+#: cafe_backend/apps/users/forms.py:37 cafe_backend/apps/users/forms.py:95
+msgid "Male + Femail should not be greater                than size!"
+msgstr ""
+
+#: cafe_backend/mgnt/chat/apps.py:7
+msgid "chat"
+msgstr ""
+
+#: cafe_backend/mgnt/music/apps.py:7
+msgid "music"
+msgstr ""
+
+#: cafe_backend/mgnt/orders/apps.py:7
+msgid "orders"
+msgstr ""
+
+#: config/settings/base.py:148
+msgid "Chinese"
+msgstr "汉语"
+
+#: config/settings/base.py:149
+msgid "Korean"
+msgstr "朝鲜语"
+
+#: config/settings/base.py:150
+msgid "English"
+msgstr "英语"
+
+#: templates/layouts/admin_lte/navbar.html:7
+msgid "Cafe"
+msgstr "餐厅"
+
+#: templates/layouts/admin_lte/navbar.html:7
+#, fuzzy
+#| msgid "Cafe Admin"
+msgid "Admin"
+msgstr "管理"
+
+#: templates/layouts/admin_lte/navbar.html:53
+msgid "You have unread notifications"
+msgstr ""
+
+#: templates/layouts/admin_lte/navbar.html:179
+#, fuzzy
+#| msgid "Cafe Admin"
+msgid "Super Admin"
+msgstr "音乐"
+
+#: templates/layouts/admin_lte/navbar.html:181
+msgid "DashBoard"
+msgstr ""
+
+#: templates/layouts/admin_lte/navbar.html:185
+msgid "Sign out"
+msgstr "登出"

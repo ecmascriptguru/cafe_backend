@@ -1,5 +1,6 @@
 {% load static %}
 {% load startswith %}
+{% load i18n %}
 
 <aside class="main-sidebar">
   <!-- sidebar: style can be found in sidebar.less -->
@@ -29,31 +30,31 @@
     <ul class="sidebar-menu" data-widget="tree">
       <li class="">
         <a href="">
-          <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+          <i class="fa fa-dashboard"></i> <span>{% trans 'Dashboard' %}</span>
         </a>
       </li>
       <li class="treeview{% if request.path|startswith:'/settings/' %} active {% endif %}">
         <a href="#">
-          <i class="fa fa-cog"></i> <span>Settings</span>
+          <i class="fa fa-cog"></i> <span>{% trans 'Settings' %}</span>
           <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
           </span>
         </a>
         <ul class="treeview-menu">
           <li class="{% if request.path|startswith:'/settings/tables/' %} active {% endif %}">
-            <a href="{% url 'tables:table_listview' %}"><i class="fa fa-laptop"></i> Tables</a>
+            <a href="{% url 'tables:table_listview' %}"><i class="fa fa-laptop"></i> {% trans 'Tables' %}</a>
           </li>
           <li class="{% if request.path|startswith:'/settings/categories/' %} active {% endif %}">
-            <a href="{% url 'dishes:category_listview' %}"><i class="fa fa-puzzle-piece"></i> Categories</a>
+            <a href="{% url 'dishes:category_listview' %}"><i class="fa fa-puzzle-piece"></i> {% trans 'Categories' %}</a>
           </li>
           <li class="{% if request.path|startswith:'/settings/dishes/' %} active {% endif %}">
-            <a href="{% url 'dishes:dish_listview' %}"><i class="fa fa-coffee"></i> Dishes</a>
+            <a href="{% url 'dishes:dish_listview' %}"><i class="fa fa-coffee"></i> {% trans 'Dishes' %}</a>
           </li>
           <li class="{% if request.path|startswith:'/settings/ads/' %} active {% endif %}">
-            <a href="{% url 'ads:ads_listview' %}"><i class="glyphicon glyphicon-file"></i> Ads</a>
+            <a href="{% url 'ads:ads_listview' %}"><i class="glyphicon glyphicon-file"></i> {% trans 'Ads' %}</a>
           </li>
           <li class="{% if request.path|startswith:'/settings/events/' %} active {% endif %}">
-            <a href="{% url 'events:event_listview' %}"><i class="glyphicon glyphicon-hdd"></i> Events</a>
+            <a href="{% url 'events:event_listview' %}"><i class="glyphicon glyphicon-hdd"></i> {% trans 'Events' %}</a>
           </li>
           <!-- 
           <li class="{% if request.path|startswith:'/rs/targets/' %} active {% endif %}">
@@ -66,20 +67,20 @@
       </li>
       <li class="treeview{% if request.path|startswith:'/mgnt/' %} active {% endif %}">
         <a href="#">
-          <i class="fa fa-folder-open-o"></i> <span>Management</span>
+          <i class="fa fa-folder-open-o"></i> <span>{% trans 'Management' %}</span>
           <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
           </span>
         </a>
         <ul class="treeview-menu">
           <li class="{% if request.path|startswith:'/mgnt/orders/' %} active {% endif %}">
-            <a href="{% url 'orders:table_gridview' %}"><i class="fa fa-shopping-cart"></i> Orders</a>
+            <a href="{% url 'orders:table_gridview' %}"><i class="fa fa-shopping-cart"></i> {% trans 'Orders' %}</a>
           </li>
           <li class="{% if request.path|startswith:'/mgnt/bookings/' %} active {% endif %}">
-            <a href="{% url 'bookings:booking_listview' %}"><i class="fa fa-paperclip"></i> Bookings</a>
+            <a href="{% url 'bookings:booking_listview' %}"><i class="fa fa-paperclip"></i> {% trans 'Bookings' %}</a>
           </li>
           <li class="{% if request.path|startswith:'/mgnt/music/' %} active {% endif %}">
-            <a href="{% url 'music:music_player' %}"><i class="fa fa-music"></i> Musics</a>
+            <a href="{% url 'music:music_player' %}"><i class="fa fa-music"></i> {% trans 'Musics' %}</a>
           </li>
         </ul>
       </li>

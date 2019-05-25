@@ -18,26 +18,30 @@ from django.contrib.auth import views as auth_views
 from django.conf.urls import url, static
 from django.urls import path, include
 from django.conf import settings
-# from rest_framework_jwt.views import (
-#     obtain_jwt_token, refresh_jwt_token, verify_jwt_token)
+from django.conf.urls.i18n import i18n_patterns
 from cafe_backend.apps.users.views import TablesListView
 from cafe_backend.apps.dishes.admin import admin_site
 from cafe_backend.core.apis.views import (
     obtain_jwt_token, refresh_jwt_token, verify_jwt_token)
 
 urlpatterns = [
-    path('', TablesListView.as_view(), name='root_url'),
-    path('api/', include('cafe_backend.api_urls')),
-    path('mgnt/', include('cafe_backend.mgnt_urls')),
-    path('settings/', include('cafe_backend.settings_urls')),
-    path('auth/', include('django.contrib.auth.urls')),
-    path('superadmin/', admin_site.urls),
+    url(r'^$', TablesListView.as_view(), name='root_url'),
+    url(r'^api/', include('cafe_backend.api_urls')),
     url(r'^api-auth/', include(
         'rest_framework.urls', namespace='rest_framework')),
     url(r'^api-token-auth/', obtain_jwt_token),
     url(r'^api-token-refresh/', refresh_jwt_token),
     url(r'^api-token-verify/', verify_jwt_token),
+    url(r'^i18n/', include('django.conf.urls.i18n')),
 ]
+
+urlpatterns += i18n_patterns(
+    url(r'^$', TablesListView.as_view(), name='root_url'),
+    url(r'^mgnt/', include('cafe_backend.mgnt_urls')),
+    url(r'^settings/', include('cafe_backend.settings_urls')),
+    url(r'^auth/', include('django.contrib.auth.urls')),
+    url(r'^admin/', admin_site.urls),
+)
 
 if settings.DEBUG:
     urlpatterns += static.static(
