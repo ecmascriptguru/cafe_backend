@@ -1,23 +1,28 @@
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 from django_fsm import FSMField
 from model_utils.models import TimeStampedModel
 from cafe_backend.core.constants.types import CHAT_ROOM_TYPE
 
 
 CHANNEL_TYPE_CHOICES = (
-    (CHAT_ROOM_TYPE.direct, 'Direct'),
-    (CHAT_ROOM_TYPE.private, 'Private'),
-    (CHAT_ROOM_TYPE.public, 'Public'))
+    (CHAT_ROOM_TYPE.direct, _('Direct')),
+    (CHAT_ROOM_TYPE.private, _('Private')),
+    (CHAT_ROOM_TYPE.public, _('Public')))
 
 
 class Channel(TimeStampedModel):
-    name = models.CharField(max_length=32)
-    description = models.TextField(max_length=256)
+    name = models.CharField(max_length=32, verbose_name=_('name'))
+    description = models.TextField(
+        max_length=256, verbose_name=_('description'))
     channel_type = FSMField(
-        choices=CHANNEL_TYPE_CHOICES, default=CHAT_ROOM_TYPE.private)
+        choices=CHANNEL_TYPE_CHOICES, default=CHAT_ROOM_TYPE.private,
+        verbose_name=_('channel type'))
 
     class Meta:
         ordering = ('created', )
+        verbose_name = _('channel')
+        verbose_name_plural = _('channels')
 
     @classmethod
     def get_public_channel(cls):
@@ -34,10 +39,12 @@ class Attendee(TimeStampedModel):
         Channel, on_delete=models.CASCADE, related_name='attendees')
     user = models.ForeignKey(
         'users.User', on_delete=models.CASCADE, related_name='attendees')
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True, verbose_name=_('active?'))
 
     class Meta:
         unique_together = ['channel', 'user', ]
+        verbose_name = _('attendee')
+        verbose_name_plural = _('attendees')
 
     @property
     def table(self):
@@ -51,11 +58,14 @@ class Message(TimeStampedModel):
     channel = models.ForeignKey(
         Channel, on_delete=models.CASCADE, related_name='messages')
     poster = models.ForeignKey(
-        'users.User', on_delete=models.CASCADE, related_name='messages')
-    content = models.TextField(max_length=65536)
+        'users.User', on_delete=models.CASCADE, related_name='messages',
+        verbose_name=_('poster'))
+    content = models.TextField(max_length=65536, verbose_name=_('content'))
 
     class Meta:
         ordering = ('-modified', )
+        verbose_name = _('message')
+        verbose_name_plural = _('messages')
 
     @property
     def poster_name(self):

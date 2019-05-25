@@ -1,17 +1,19 @@
 {% extends 'layouts/adminlte_base.html' %}
+
 {% load crispy_forms_tags %}
+{% load i18n %}
 
 {% block content %}
 <section class="content-header">
     <h1>
         <i class="fa fa-weixin"></i>
         {{ object.name }}
-        <small>Grid view of advertisements</small>
+        <small>{% trans 'Grid view of advertisements' %}</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-folder-open-o"></i>Settings</a></li>
-        <li><a href="#"><i class="fa fa-weixin"></i>Advertisements</a></li>
-        <li class="active">Create</li>
+        <li><a href="#"><i class="fa fa-folder-open-o"></i>{% trans 'Settings' %}</a></li>
+        <li><a href="#"><i class="fa fa-weixin"></i>{% trans 'Advertisements' %}</a></li>
+        <li class="active">{% trans 'Create' %}</li>
     </ol>
 </section>
 
@@ -20,15 +22,15 @@
         <div class="col-sm-12">
             <div class="box">
                 <div class="box-header">
-                    <h2>Delete {{ object.name }}?</h2>
+                    <h2>{% trans 'Delete' %} : {{ object.name }}?</h2>
                 </div>
                 <div class="box-body">
-                    <p>Are you sure that you want to delete this ads?</p>
+                    <p>{% trans 'Are you sure that you want to delete this ads?' %}</p>
                 </div>
                 <div class="box-footer">
                     <form method="POST">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">Yes</button>
+                        <button type="submit" class="btn btn-danger">{% trans 'Yes' %}</button>
                     </form>
                 </div>
             </div>

@@ -1,5 +1,7 @@
 {% extends 'layouts/adminlte_base.html' %}
+
 {% load static %}
+{% load i18n %}
 
 {% block custom_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'music/css/music.css' %}">
@@ -9,13 +11,13 @@
 <section class="content-header">
     <h1>
         <i class="fa fa-music"></i>
-        Music Player
-        <small>Player of Music</small>
+        {% trans 'Music Player' %}
+        <small>{% trans 'Player of Music' %}</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i>Management</a></li>
-        <li><a href="#"><i class="fa fa-music"></i>Music</a></li>
-        <li class="active">Player</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i>{% trans 'Management' %}</a></li>
+        <li><a href="#"><i class="fa fa-music"></i>{% trans 'Music' %}</a></li>
+        <li class="active">{% trans 'Player' %}</li>
     </ol>
 </section>
 

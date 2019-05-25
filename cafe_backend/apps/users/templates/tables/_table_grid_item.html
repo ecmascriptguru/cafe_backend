@@ -1,4 +1,5 @@
 {% load state_tags %}
+{% load i18n %}
 
 <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
     <div class="small-box {{ table|state_bg_color }}">
@@ -7,14 +8,14 @@
 
             <div class="row">
                 <div class="col-xs-6">
-                    <h4>Customers</h4>
+                    <h4>{% trans 'Customers' %}</h4>
                     <p>
                         <i class="fa  fa-male"></i> {{ table.male }} + <i class="fa  fa-female"></i> {{ table.female }} / {{ table.size }}
                     </p>
                 </div>
                 <div class="col-xs-6">
                     {% if table.order %}
-                    <h4>Orders</h4>
+                    <h4>{% trans 'Orders' %}</h4>
                     <p><i class="fa fa-check"></i> {{ table.order.progress }}</p>
                     {% endif %}
                 </div>
@@ -28,13 +29,13 @@
             <div class="row">
                 <div class="col-xs-6">
                     <a href="{% url 'tables:table_updateview' pk=table.pk %}">
-                        <i class="fa fa-cog"></i> Settings
+                        <i class="fa fa-cog"></i> {% trans 'Settings' %}
                     </a>
                 </div>
                 <div class="col-xs-6">
                     {% if table.order %}
                         <a href="{% url 'orders:order_updateview' pk=table.order.pk %}" class="pull-right">
-                            <i class="fa fa-check"></i> Orders
+                            <i class="fa fa-check"></i> {% trans 'Orders' %}
                         </a>
                     {% endif %}
                 </div>

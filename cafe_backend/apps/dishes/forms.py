@@ -1,5 +1,6 @@
 from django import forms
 from django.forms.models import inlineformset_factory
+from django.utils.translation import ugettext_lazy as _
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import (
     Layout, ButtonHolder, Submit, Field, Fieldset, Div, HTML)
@@ -52,7 +53,7 @@ class DishForm(forms.ModelForm):
                 Fieldset(
                     'Add images', Formset('images'), css_class='form-group'),
                 HTML("<br>"),
-                ButtonHolder(Submit('submit', 'save')),
+                ButtonHolder(Submit('submit', _('save'))),
                 )
             )
 
@@ -93,7 +94,7 @@ class CategoryForm(forms.ModelForm):
             'name', 'name_en', 'name_ko', 'is_active',
             ButtonHolder(
                 Submit(
-                    'submit', 'Submit',
+                    'submit', _('Submit'),
                     css_class='btn btn-primary pull-right'),
                 wrapper_class='form-group',
             ),

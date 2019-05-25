@@ -7,7 +7,7 @@ from .models import Advertisement, ADS_TYPE
 
 class AdvertisementTable(tables.Table):
     number = tables.Column(
-        empty_values=(), verbose_name=_('Ads #'))
+        empty_values=(), verbose_name=_('#'))
     image = tables.Column(
         empty_values=(), orderable=False, verbose_name=_('Image'))
     actions = tables.Column(

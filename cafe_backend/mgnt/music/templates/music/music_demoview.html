@@ -1,5 +1,7 @@
 {% extends 'layouts/adminlte_base.html' %}
+
 {% load static %}
+{% load i18n %}
 
 {% block custom_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'music/css/music.css' %}">
@@ -9,13 +11,13 @@
 <section class="content-header">
     <h1>
         <i class="fa fa-music"></i>
-        Music Live Demo
-        <small>Demo page of Music</small>
+        {% trans 'Music Live Demo' %}
+        <small>{% trans 'Demo page of Music' %}</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i>Management</a></li>
-        <li><a href="#"><i class="fa fa-music"></i>Music</a></li>
-        <li class="active">Demo</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i>{% trans 'Management' %}</a></li>
+        <li><a href="#"><i class="fa fa-music"></i>{% trans 'Music' %}</a></li>
+        <li class="active">{% trans 'Demo' %}</li>
     </ol>
 </section>
 
@@ -26,7 +28,7 @@
                 <input type="text" id="music-search-keyword" class="form-control" />
             </div>
             <div class="form-group">
-                <button class="btn btn-primary pull-right" id="music-search-submit" disabled>Search</button>
+                <button class="btn btn-primary pull-right" id="music-search-submit" disabled>{% trans 'Search' %}</button>
             </div>
         </div>
     </div>

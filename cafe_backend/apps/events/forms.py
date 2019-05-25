@@ -1,5 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext_lazy as _
 from .models import Event, EVENT_REPEAT_TYPE
 
 
@@ -12,31 +13,31 @@ class EventForm(forms.ModelForm):
     mon = forms.BooleanField(
             widget=forms.CheckboxInput(attrs={
                 'checked': False, 'class': 'weekday-checkbox',
-                'disabled': True}), label='MON', required=False)
+                'disabled': True}), label=_('MON'), required=False)
     tue = forms.BooleanField(
             widget=forms.CheckboxInput(attrs={
                 'checked': False, 'class': 'weekday-checkbox',
-                'disabled': True}), label='TUE', required=False)
+                'disabled': True}), label=_('TUE'), required=False)
     wed = forms.BooleanField(
             widget=forms.CheckboxInput(attrs={
                 'checked': False, 'class': 'weekday-checkbox',
-                'disabled': True}), label='WED', required=False)
+                'disabled': True}), label=_('WED'), required=False)
     thu = forms.BooleanField(
             widget=forms.CheckboxInput(attrs={
                 'checked': False, 'class': 'weekday-checkbox',
-                'disabled': True}), label='THU', required=False)
+                'disabled': True}), label=_('THU'), required=False)
     fri = forms.BooleanField(
             widget=forms.CheckboxInput(attrs={
                 'checked': False, 'class': 'weekday-checkbox',
-                'disabled': True}), label='FRI', required=False)
+                'disabled': True}), label=_('FRI'), required=False)
     sat = forms.BooleanField(
             widget=forms.CheckboxInput(attrs={
                 'checked': False, 'class': 'weekday-checkbox',
-                'disabled': True}), label='SAT', required=False)
+                'disabled': True}), label=_('SAT'), required=False)
     sun = forms.BooleanField(
             widget=forms.CheckboxInput(attrs={
                 'checked': False, 'class': 'weekday-checkbox',
-                'disabled': True}), label='SUN', required=False)
+                'disabled': True}), label=_('SUN'), required=False)
 
     class Meta:
         model = Event

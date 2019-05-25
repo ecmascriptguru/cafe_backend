@@ -12,13 +12,20 @@ ADS_TYPE_CHOICES = (
 
 
 class Advertisement(TimeStampedModel):
-    name = models.CharField(max_length=128)
-    file = models.ImageField(upload_to='ads/%Y/%m/%d')
-    type = FSMField(choices=ADS_TYPE_CHOICES, default=ADS_TYPE.image)
-    is_active = models.BooleanField(default=True)
+    name = models.CharField(
+        max_length=128, verbose_name=_('name'))
+    file = models.ImageField(
+        upload_to='ads/%Y/%m/%d', verbose_name=_('ads_file'))
+    type = FSMField(
+        choices=ADS_TYPE_CHOICES, default=ADS_TYPE.image,
+        verbose_name=_('ads_type'))
+    is_active = models.BooleanField(
+        default=True, verbose_name=_('is_active'))
 
     class Meta:
         ordering = ('-modified', )
+        verbose_name = _('advertisement')
+        verbose_name_plural = _('advertisements')
 
     def __str__(self):
         return "<%s(%d): %s>" % (_('Ads'), self.pk, self.name)

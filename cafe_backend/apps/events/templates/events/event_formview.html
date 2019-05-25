@@ -1,16 +1,18 @@
 {% extends 'layouts/adminlte_base.html' %}
+
 {% load crispy_forms_tags %}
+{% load i18n %}
 
 {% block content %}
 <section class="content-header">
     <h1>
         <i class="fa fa-weixin"></i>
-        New Ads
-        <small>Grid view of advertisements</small>
+        {% trans 'New Ads' %}
+        <small>{% trans 'Grid view of advertisements' %}</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-folder-open-o"></i>Settings</a></li>
-        <li><a href="#"><i class="fa fa-weixin"></i>Advertisements</a></li>
+        <li><a href="#"><i class="fa fa-folder-open-o"></i>{% trans 'Settings' %}</a></li>
+        <li><a href="#"><i class="fa fa-weixin"></i>{% trans 'Advertisements' %}</a></li>
         <li class="active">Create</li>
     </ol>
 </section>

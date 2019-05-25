@@ -1,16 +1,17 @@
 {% extends 'layouts/adminlte_base.html' %}
 
+{% load i18n %}
 
 {% block content %}
 <section class="content-header">
     <h1>
         <i class="fa fa-coffee"></i>
-        Dishes
-        <small>List view of dishes</small>
+        {% trans 'Dishes' %}
+        <small>{% trans 'List view of dishes' %}</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-cog"></i>Settings</a></li>
-        <li><a href="#"><i class="fa fa-coffee"></i>Dishes</a></li>
+        <li><a href="#"><i class="fa fa-cog"></i>{% trans 'Settings' %}</a></li>
+        <li><a href="#"><i class="fa fa-coffee"></i>{% trans 'Dishes' %}</a></li>
         <li class="active">List</li>
     </ol>
 </section>
@@ -23,15 +24,14 @@
         <div class="col-md-3 col-sm-4 col-xs-6">
             <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h3>New</h3>
-        
-                    <p>Dish</p>
+                    <h3>{% trans 'New' %}</h3>
+                    <p>{% trans 'Dish' %}</p>
                 </div>
                 <div class="icon">
                     <i class="fa fa-plus"></i>
                 </div>
                 <a href="{% url 'dishes:dish_createview' %}" class="small-box-footer">
-                    Create Now <i class="fa fa-plus"></i>
+                    {% trans 'Create Now' %} <i class="fa fa-plus"></i>
                 </a>
             </div>
         </div>
