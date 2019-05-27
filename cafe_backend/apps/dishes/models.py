@@ -4,11 +4,9 @@ from django.utils.translation import ugettext_lazy as _
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
-def dish_images_directory_path(instance, filename):
-    return 'dishes/%d/%s' % (instance.dish.id, filename)
-
-
 class Category(TimeStampedModel):
+    slug = models.SlugField(
+        max_length=40, verbose_name=_('Slug'), null=True, default=None)
     name = models.CharField(
         max_length=128, verbose_name=_('Name'))
     name_en = models.CharField(

@@ -12,7 +12,7 @@ class CafeAdminSite(AdminSite):
 
 
 class CategoryAdmin(ModelAdmin):
-    list_display = ('name', 'name_en', 'name_ko', 'is_active', )
+    list_display = ('name', 'name_en', 'name_ko', 'is_active', 'slug', )
 
     class Meta:
         model = Category
@@ -29,7 +29,7 @@ class ReviewInline(admin.TabularInline):
 class DishAdmin(ModelAdmin):
     form = DishAdminForm
     list_display = (
-        'name', 'name_en', 'name_ko',
+        'name', 'name_en', 'name_ko', 'category',
         'description', 'description_en', 'description_ko',
         'price', 'is_active', )
     # readonly_fields = ('rate', )

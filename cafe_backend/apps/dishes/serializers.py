@@ -43,3 +43,7 @@ class CategorySerializer(CafeModelSerializer):
     class Meta:
         model = Category
         fields = '__all__'
+        lookup_field = 'slug'
+        extra_kwargs = {
+            'url': {'lookup_field': 'slug'}
+        }

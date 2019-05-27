@@ -2,7 +2,6 @@
 
 from django.db import migrations
 from django.db import models
-from django.apps import apps
 
 
 def compute_dish_rates(apps, schema_editor):
@@ -16,7 +15,6 @@ def compute_dish_rates(apps, schema_editor):
                 .aggregate(models.Avg('rate')).get('rate__avg', 0.0)
         else:
             dish.rate = 0.0
-        print(dish.rate)
         dish.save()
         count += 1
 

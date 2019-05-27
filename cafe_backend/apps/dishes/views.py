@@ -21,6 +21,7 @@ class CategoryViewSet(CafeModelViewSet):
     serializer_class = CategorySerializer
     queryset = Category.objects.filter(is_active=True)
     http_method_names = ['get']
+    lookup_field = 'slug'
 
 
 class DishViewSet(CafeModelViewSet):
@@ -28,16 +29,17 @@ class DishViewSet(CafeModelViewSet):
     serializer_class = DishSerializer
     queryset = Dish.objects.filter(is_active=True)
     pagination_class = DishPagination
-    # http_method_names = ['get', ]
+    http_method_names = ['get', ]
 
     def perform_create(self, serializer):
         serializer.save(category_id=self.kwargs.get('category_pk'))
         return super().perform_create(serializer)
 
     def get_queryset(self, **kwargs):
-        if self.kwargs.get('category_pk'):
-            return self.queryset.filter(
-                category_id=self.kwargs.get('category_pk'))
+        if self.kwargs.get('category_slug'):
+            category = Category.objects.get(
+                slug=self.kwargs.get('category_slug'))
+            return self.queryset.filter(category=category)
         else:
             return self.queryset
 
