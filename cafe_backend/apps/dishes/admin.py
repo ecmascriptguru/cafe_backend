@@ -40,5 +40,5 @@ class DishAdmin(ModelAdmin):
 
 
 admin_site = CafeAdminSite()
-admin_site.register(Category, CategoryAdmin)
+# admin_site.register(Category, CategoryAdmin)
 admin_site.register(Dish, DishAdmin)

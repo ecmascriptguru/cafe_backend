@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import ugettext_lazy as _
@@ -58,6 +59,8 @@ class Table(TimeStampedModel):
     state = FSMField(
         choices=TABLE_STATE_OPTIONS, default=TABLE_STATE.blank,
         verbose_name=_('State'))
+    cleared = models.DateTimeField(
+        auto_now_add=True, verbose_name=_('Cleared'))
 
     def __str__(self):
         return "<%s(%d): %s>" % (_('Table'), self.pk, self.name)
@@ -88,6 +91,8 @@ class Table(TimeStampedModel):
 
         for booking in self.received_bookings.all():
             booking.archive()
+
+        self.cleared = timezone.now()
 
     def can_clear(self):
         return self.order is None or self.order.is_delivered

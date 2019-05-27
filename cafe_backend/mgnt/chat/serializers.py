@@ -28,3 +28,10 @@ class ChannelSerializer(serializers.ModelSerializer):   # CafeModelSerializer):
     class Meta:
         model = Channel
         fields = ('id', 'name', 'message_set', 'channel_type', 'attendees')
+
+    def get_fields(self, *args, **kwargs):
+        fields = super(ChannelSerializer, self).get_fields(*args, **kwargs)
+        if hasattr(self, 'table'):
+            fields['message_set'].queryset = fields['message_set'].\
+                queryset.filter(created_at__gte=self.table.cleared)
+        return fields

@@ -27,7 +27,8 @@ class CategoryViewSet(CafeModelViewSet):
 class DishViewSet(CafeModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = DishSerializer
-    queryset = Dish.objects.filter(is_active=True)
+    queryset = Dish.objects.filter(is_active=True).\
+        order_by('-created')
     pagination_class = DishPagination
     http_method_names = ['get', ]
 
@@ -52,7 +53,7 @@ class DishViewSet(CafeModelViewSet):
     @action(detail=False, methods=['get'], url_name='best_dish_view')
     def best(self, request, *args, **kwargs):
         self.queryset = Dish.objects.filter(is_active=True).\
-            order_by('-rate')
+            order_by('-rate', '-created')
         return self.list(request, *args, **kwargs)
 
 
