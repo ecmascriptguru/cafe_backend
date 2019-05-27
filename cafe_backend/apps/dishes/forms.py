@@ -1,6 +1,7 @@
 from django import forms
 from django.forms.models import inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
+from django.db import transaction
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import (
     Layout, ButtonHolder, Submit, Field, Fieldset, Div, HTML)
@@ -76,10 +77,16 @@ class DishAdminForm(forms.ModelForm):
         super(DishAdminForm, self).__init__(*args, **kwargs)
         if self.instance.pk:
             self.fields['price'].initial = self.instance.price
+        else:
+            self.fields['price'].widget.attrs['disabled'] = True
 
+    @transaction.atomic()
     def save(self, commit=True):
-        self.instance.price = self.cleaned_data['price']
-        return super(DishAdminForm, self).save(commit=commit)
+        price = self.cleaned_data['price']
+        instance = super(DishAdminForm, self).save(commit=commit)
+        if commit:
+            instance.price = price
+        return instance
 
 
 class CategoryForm(forms.ModelForm):
