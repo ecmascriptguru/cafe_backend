@@ -50,7 +50,8 @@ class Table(TimeStampedModel):
         (TABLE_STATE.waiting, _('Waiting')))
 
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE, primary_key=True)
+        User, on_delete=models.CASCADE, primary_key=True,
+        verbose_name=_('User'))
     size = models.PositiveSmallIntegerField(verbose_name=_('Size'))
     male = models.PositiveSmallIntegerField(default=0, verbose_name=_('Male'))
     female = models.PositiveSmallIntegerField(

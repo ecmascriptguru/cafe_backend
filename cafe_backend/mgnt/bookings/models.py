@@ -62,8 +62,9 @@ class Booking(TimeStampedModel):
         super(Booking, self).clean()
         if self.requester == self.receiver:
             raise ValidationError(
-                {'receiver': _('Booking should be made between different \
-                    tables.')})
+                {
+                    'receiver': _(
+                        'Booking should be made between different tables.')})
         if self.booking_type == BOOKING_TYPE.contact:
             if not self.details.get('qr_code'):
                 raise ValidationError({
@@ -133,7 +134,8 @@ class Booking(TimeStampedModel):
 
 class BookingMessage(TimeStampedModel):
     booking = models.ForeignKey(
-        Booking, on_delete=models.CASCADE, related_name='messages')
+        Booking, on_delete=models.CASCADE, related_name='messages',
+        verbose_name=_('Booking'))
     poster = models.ForeignKey(
         'users.Table', on_delete=models.CASCADE, verbose_name=_('Poster'))
     content = models.TextField(max_length=65536, verbose_name=_('Content'))

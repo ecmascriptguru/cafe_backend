@@ -27,7 +27,7 @@ class Category(TimeStampedModel):
 class Dish(TimeStampedModel):
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, related_name='dishes',
-        null=True)
+        null=True, verbose_name=_('Category'))
     name = models.CharField(
         max_length=128, verbose_name=_('Name'))
     name_en = models.CharField(
@@ -75,7 +75,8 @@ class Dish(TimeStampedModel):
 
 class DishImage(TimeStampedModel):
     dish = models.ForeignKey(
-        Dish, on_delete=models.CASCADE, related_name='images')
+        Dish, on_delete=models.CASCADE, related_name='images',
+        verbose_name=_('Dish'))
     file = models.ImageField(
         upload_to='dishes/%Y/%m/%d', verbose_name=_('Image File'))
 
@@ -90,9 +91,12 @@ class DishImage(TimeStampedModel):
 
 class DishReview(TimeStampedModel):
     SCORE_CHOICES = zip(range(1, 6), range(1, 6))
-    table = models.ForeignKey('users.Table', on_delete=models.CASCADE)
+    table = models.ForeignKey(
+        'users.Table', on_delete=models.CASCADE,
+        verbose_name=_('Table'))
     dish = models.ForeignKey(
-        Dish, on_delete=models.CASCADE, related_name='reviews')
+        Dish, on_delete=models.CASCADE, related_name='reviews',
+        verbose_name=_('Dish'))
     rate = models.PositiveSmallIntegerField(
         choices=SCORE_CHOICES,
         default=5, validators=[MaxValueValidator(5), MinValueValidator(1)],
@@ -111,7 +115,8 @@ class DishReview(TimeStampedModel):
 
 class Price(TimeStampedModel):
     dish = models.ForeignKey(
-        Dish, on_delete=models.CASCADE, related_name='prices')
+        Dish, on_delete=models.CASCADE, related_name='prices',
+        verbose_name=_('Dish'))
     price = models.FloatField(
         validators=[MinValueValidator(0)], verbose_name=_('Price'))
 

@@ -25,7 +25,7 @@ class Order(TimeStampedModel):
 
     table = models.ForeignKey(
         'users.Table', on_delete=models.SET_NULL,
-        related_name='orders', null=True)
+        related_name='orders', null=True, verbose_name=_('Customer'))
     state = FSMField(
         choices=ORDER_STATE_CHOICES, default=ORDER_STATE.default,
         verbose_name=_('State'))
@@ -37,6 +37,10 @@ class Order(TimeStampedModel):
             "state": self.state,
             "items": [item.to_json() for item in self.order_items.all()]
         }
+
+    def __str__(self):
+        return "<%s (%d)|(%s)>" % (
+            _('Order'), self.pk, self.state)
 
     @property
     def items(self):
@@ -102,9 +106,11 @@ class OrderItem(TimeStampedModel):
         verbose_name_plural = _('Order Items')
 
     order = models.ForeignKey(
-        Order, on_delete=models.CASCADE, related_name='order_items')
+        Order, on_delete=models.CASCADE, related_name='order_items',
+        verbose_name=_('Order'))
     dish = models.ForeignKey(
-        'dishes.Dish', on_delete=models.CASCADE, related_name='order_items')
+        'dishes.Dish', on_delete=models.CASCADE, related_name='order_items',
+        verbose_name=_('Dish'))
     to_table = models.ForeignKey(
         'users.Table', on_delete=models.SET_NULL,
         related_name='received_order_items', null=True,

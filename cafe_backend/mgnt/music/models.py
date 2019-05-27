@@ -138,9 +138,10 @@ class Music(TimeStampedModel):
 class Playlist(TimeStampedModel):
     table = models.ForeignKey(
         'users.Table', on_delete=models.SET_DEFAULT, null=True,
-        related_name='playlist', default=None)
+        related_name='playlist', default=None, verbose_name=_('Requester'))
     music = models.ForeignKey(
-        Music, on_delete=models.CASCADE, related_name='playlist')
+        Music, on_delete=models.CASCADE, related_name='playlist',
+        verbose_name=_('Music'))
     is_active = models.BooleanField(default=True, verbose_name=_('Active?'))
 
     def __str__(self):

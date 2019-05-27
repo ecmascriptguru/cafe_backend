@@ -36,9 +36,11 @@ class Channel(TimeStampedModel):
 
 class Attendee(TimeStampedModel):
     channel = models.ForeignKey(
-        Channel, on_delete=models.CASCADE, related_name='attendees')
+        Channel, on_delete=models.CASCADE, related_name='attendees',
+        verbose_name=_('Channel'))
     user = models.ForeignKey(
-        'users.User', on_delete=models.CASCADE, related_name='attendees')
+        'users.User', on_delete=models.CASCADE, related_name='attendees',
+        verbose_name=_('User'))
     is_active = models.BooleanField(default=True, verbose_name=_('Active?'))
 
     class Meta:
@@ -56,7 +58,8 @@ class Attendee(TimeStampedModel):
 
 class Message(TimeStampedModel):
     channel = models.ForeignKey(
-        Channel, on_delete=models.CASCADE, related_name='messages')
+        Channel, on_delete=models.CASCADE, related_name='messages',
+        verbose_name=_('Channel'))
     poster = models.ForeignKey(
         'users.User', on_delete=models.CASCADE, related_name='messages',
         verbose_name=_('Poster'))
