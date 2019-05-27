@@ -74,7 +74,9 @@
         </a>
         <ul class="treeview-menu">
           <li class="{% if request.path|startswith:'/mgnt/orders/' %} active {% endif %}">
-            <a href="{% url 'orders:table_gridview' %}"><i class="fa fa-shopping-cart"></i> {% trans 'Orders' %}</a>
+            <a href="{% url 'orders:table_gridview' %}">
+              <i class="fa fa-shopping-cart"></i> {% trans 'Orders' %} <span class="badge badge-dnager new-order-count"></span>
+            </a>
           </li>
           <li class="{% if request.path|startswith:'/mgnt/bookings/' %} active {% endif %}">
             <a href="{% url 'bookings:booking_listview' %}"><i class="fa fa-paperclip"></i> {% trans 'Bookings' %}</a>

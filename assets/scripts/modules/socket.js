@@ -72,6 +72,13 @@ export const initSocket = () => {
                     break;
             
                 case 'notification_order':
+                    if (data.created) {
+                        console.info("Order Created")
+                        console.log(data.order)
+                    }
+                    break;
+            
+                case 'notification_order_item':
                     // if (data.created) {
                         console.info("Order Created")
                         console.log(data.order)

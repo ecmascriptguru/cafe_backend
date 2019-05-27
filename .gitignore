@@ -4,3 +4,5 @@ local_env.json
 *.pyc
 node_modules/*
 celerybeat-schedule
+locale/ko/LC_MESSAGES/*.mo
+locale/zh/LC_MESSAGES/*.mo
