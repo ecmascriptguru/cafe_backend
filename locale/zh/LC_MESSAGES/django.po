@@ -532,12 +532,12 @@ msgstr "顾客"
 #: cafe_backend/mgnt/orders/templates/orders/order_updateview.html:15
 #: templates/layouts/admin_lte/sidebar.html:77
 msgid "Orders"
-msgstr "排队"
+msgstr "订单"
 
 #: cafe_backend/apps/users/templates/tables/table_listview.html:10
 #: cafe_backend/apps/users/templates/tables/table_updateview.html:11
 msgid "List view of tables"
-msgstr "查看所有桌子"
+msgstr "查看所有餐桌"
 
 #: cafe_backend/apps/users/templates/tables/table_updateview.html:16
 #: cafe_backend/mgnt/bookings/templates/bookings/contact_detailview.html:17
@@ -556,7 +556,7 @@ msgstr "联系"
 
 #: cafe_backend/mgnt/bookings/models.py:20
 msgid "Exchange"
-msgstr "交流"
+msgstr "交换"
 
 #: cafe_backend/mgnt/bookings/models.py:21
 msgid "Merge"
@@ -591,7 +591,7 @@ msgstr "请求人"
 
 #: cafe_backend/mgnt/bookings/models.py:42
 msgid "Receiver"
-msgstr "管理员"
+msgstr "接受人"
 
 #: cafe_backend/mgnt/bookings/models.py:45
 msgid "Booking Type"
@@ -613,11 +613,11 @@ msgstr "拼桌"
 
 #: cafe_backend/mgnt/bookings/models.py:65
 msgid "Booking should be made between different                     tables."
-msgstr "您应该在不同的桌子之间拼桌"
+msgstr "应该在不同的桌子之间拼桌"
 
 #: cafe_backend/mgnt/bookings/models.py:70
 msgid "qr_code is required in contact booking."
-msgstr "需要二维码"
+msgstr "需要微信二维码"
 
 #: cafe_backend/mgnt/bookings/models.py:76
 msgid "A dish should be sent at least."
@@ -625,7 +625,7 @@ msgstr "至少需要发送一份饮食"
 
 #: cafe_backend/mgnt/bookings/models.py:138 cafe_backend/mgnt/chat/models.py:62
 msgid "Poster"
-msgstr "海报"
+msgstr "送信人"
 
 #: cafe_backend/mgnt/bookings/models.py:139 cafe_backend/mgnt/chat/models.py:63
 msgid "Content"
@@ -664,7 +664,7 @@ msgstr "联系"
 #: cafe_backend/mgnt/orders/templates/orders/table_gridview.html:13
 #: templates/layouts/admin_lte/sidebar.html:70
 msgid "Management"
-msgstr "经理"
+msgstr "管理"
 
 #: cafe_backend/mgnt/bookings/templates/bookings/contact_detailview.html:12
 msgid "Contact view of bookings"
