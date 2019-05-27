@@ -6,7 +6,8 @@ export const initSocket = () => {
     let chatSocket = null,
         $messagesContainer = $(".direct-chat-messages"),
         currentChannel = null,
-        socket_reset_timer = null
+        socket_reset_timer = null,
+        ringTone = null
     
     const showNotificationOnChannel = (channelID) => {
             if ($(`li.channel[data-channel-id=${channelID}]`).length == 0) {
@@ -43,8 +44,11 @@ export const initSocket = () => {
             const $notificationContainer = $(".notifications-menu"),
                 $count = $(".notification-count")
 
-            let ringTone = new Audio(document.querySelector('#table-ring-tone').src),
-                notification_count = parseInt($count.text() || "0") + 1
+            let notification_count = parseInt($count.text() || "0") + 1
+
+            if (!ringTone) {
+                ringTone = new Audio(document.querySelector('#table-ring-tone').src)
+            }
 
             ringTone.play()
             $count.text(notification_count)
