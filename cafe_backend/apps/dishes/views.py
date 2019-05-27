@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.db import transaction
 from rest_framework import viewsets, permissions
 from rest_framework import pagination
+from rest_framework.decorators import action
 from cafe_backend.core.apis.viewsets import CafeModelViewSet
 from .serializers import CategorySerializer, DishSerializer, ReviewSerializer
 from . import forms
@@ -39,6 +40,18 @@ class DishViewSet(CafeModelViewSet):
                 category_id=self.kwargs.get('category_pk'))
         else:
             return self.queryset
+
+    @action(detail=False, methods=['get'], url_name='new_dish_view')
+    def new(self, request, *args, **kwargs):
+        self.queryset = Dish.objects.filter(is_active=True).\
+            order_by('-created')
+        return self.list(request, *args, **kwargs)
+
+    @action(detail=False, methods=['get'], url_name='best_dish_view')
+    def best(self, request, *args, **kwargs):
+        self.queryset = Dish.objects.filter(is_active=True).\
+            order_by('-rate')
+        return self.list(request, *args, **kwargs)
 
 
 class DishReviewViewSet(CafeModelViewSet):

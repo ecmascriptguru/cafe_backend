@@ -44,6 +44,7 @@ class Dish(TimeStampedModel):
         max_length=1024, verbose_name=_('Korean Description'))
     is_active = models.BooleanField(
         default=True, verbose_name=_('Active?'))
+    rate = models.FloatField()
 
     class Meta:
         ordering = ('-modified', )
@@ -54,7 +55,7 @@ class Dish(TimeStampedModel):
         return "<%s(%d): %s>" % (_('Dish'), self.pk, self.name)
 
     @property
-    def rate(self):
+    def avg_rate(self):
         if len(self.reviews.all()) > 0:
             return "%.2f" % self.reviews.values('rate')\
                 .aggregate(models.Avg('rate')).get('rate__avg', 0.0)

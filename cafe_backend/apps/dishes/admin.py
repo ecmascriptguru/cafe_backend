@@ -31,8 +31,8 @@ class DishAdmin(ModelAdmin):
     list_display = (
         'name', 'name_en', 'name_ko',
         'description', 'description_en', 'description_ko',
-        'price', 'rate', 'is_active', )
-    readonly_fields = ('rate', )
+        'price', 'is_active', )
+    # readonly_fields = ('rate', )
     inlines = (ImageInline, ReviewInline)
 
     class Meta:
