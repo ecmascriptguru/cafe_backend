@@ -11,6 +11,21 @@ class MessageSerializer(CafeModelSerializer):
             'id', 'poster', 'poster_name', 'created', 'content', 'channel')
 
 
+class MessagePKField(serializers.RelatedField):
+    def get_queryset(self, *args, **kwargs):
+        user = self.context['request'].user
+        channel_pk = self.context['request'].parser_context['kwargs']['pk']
+        queryset = Message.objects.filter(channel_id=channel_pk)
+        if hasattr(user, 'table'):
+            print("SLDKFJLSKDJFLSKDJF")
+            queryset = queryset.filter(
+                created__gte=user.table.cleared)
+        return queryset
+
+    def to_representation(self, value):
+        return value.to_json()
+
+
 class AttendeeSerializer(CafeModelSerializer):
     table = TableSerializer()
 
@@ -20,8 +35,9 @@ class AttendeeSerializer(CafeModelSerializer):
             'user', 'table', )
 
 
-class ChannelSerializer(serializers.ModelSerializer):   # CafeModelSerializer):
+class ChannelSerializer(CafeModelSerializer):
     attendees = AttendeeSerializer(many=True, read_only=True)
+    # messages = MessagePKField(many=True)
     message_set = MessageSerializer(
         many=True, source='quick_messages', read_only=True)
 
@@ -29,9 +45,9 @@ class ChannelSerializer(serializers.ModelSerializer):   # CafeModelSerializer):
         model = Channel
         fields = ('id', 'name', 'message_set', 'channel_type', 'attendees')
 
-    def get_fields(self, *args, **kwargs):
-        fields = super(ChannelSerializer, self).get_fields(*args, **kwargs)
-        if hasattr(self, 'table'):
-            fields['message_set'].queryset = fields['message_set'].\
-                queryset.filter(created_at__gte=self.table.cleared)
-        return fields
+    # def get_fields(self, *args, **kwargs):
+    #     fields = super(ChannelSerializer, self).get_fields(*args, **kwargs)
+    #     # if hasattr(self, 'table'):
+    #     #     fields['messages'].queryset = fields['messages'].\
+    #     #         queryset.filter(created_at__gte=self.table.cleared)
+    #     return fields

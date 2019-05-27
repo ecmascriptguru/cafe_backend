@@ -83,8 +83,10 @@ class Table(TimeStampedModel):
     def clear(self):
         self.male = 0
         self.female = 0
-        if self.order.state != ORDER_STATE.archived:
-            self.order.archive()
+        if self.order and self.order.state != ORDER_STATE.archived:
+            order = self.order
+            order.archive()
+            order.save()
 
         # TODO: Clean bookings
         for booking in self.requested_bookings.all():

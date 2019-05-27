@@ -21,7 +21,7 @@ class ChatListView(LoginRequiredMixin, generic.TemplateView):
         return data
 
 
-class ChannelViewSet(viewsets.ModelViewSet):
+class ChannelViewSet(CafeModelViewSet):
     queryset = Channel.objects.all()
     serializer_class = ChannelSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
