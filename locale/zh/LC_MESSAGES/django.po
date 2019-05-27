@@ -929,7 +929,7 @@ msgstr "您有未读通知"
 #, fuzzy
 #| msgid "Cafe Admin"
 msgid "Super Admin"
-msgstr "音乐"
+msgstr "餐厅管理"
 
 #: templates/layouts/admin_lte/navbar.html:201
 msgid "DashBoard"
@@ -951,7 +951,7 @@ msgstr "餐厅管理"
 
 #: templates/layouts/base.html:9
 msgid "CB"
-msgstr "CB"
+msgstr "餐厅"
 
 #: templates/layouts/brand.html:2
 msgid "Cafe backend"

@@ -155,7 +155,7 @@ msgstr "새로운 광고"
 #: cafe_backend/apps/dishes/templates/dishes/dish_updateview.html:15
 #: cafe_backend/apps/events/templates/events/event_deleteview.html:16
 msgid "Create"
-msgstr "수권"
+msgstr "창조"
 
 #: cafe_backend/apps/advertisements/templates/ads/ads_listview.html:12
 #: cafe_backend/mgnt/bookings/templates/bookings/booking_listview.html:13
@@ -252,7 +252,7 @@ msgstr "음식파일"
 
 #: cafe_backend/apps/dishes/models.py:100
 msgid "Rate"
-msgstr "가격"
+msgstr "점수"
 
 #: cafe_backend/apps/dishes/models.py:102
 msgid "Comment"
@@ -286,7 +286,7 @@ msgstr "상세소개"
 #, fuzzy
 #| msgid "advertisements"
 msgid "List view of categories"
-msgstr "광고"
+msgstr "모든 유형"
 
 #: cafe_backend/apps/dishes/templates/dishes/dish_createview.html:11
 #: cafe_backend/apps/dishes/templates/dishes/dish_listview.html:10
@@ -294,7 +294,7 @@ msgstr "광고"
 #, fuzzy
 #| msgid "advertisements"
 msgid "List view of dishes"
-msgstr "광고"
+msgstr "모든 음식"
 
 #: cafe_backend/apps/dishes/templates/dishes/dish_listview.html:27
 msgid "New"
@@ -302,7 +302,7 @@ msgstr "신규"
 
 #: cafe_backend/apps/dishes/templates/dishes/dish_listview.html:34
 msgid "Create Now"
-msgstr "수권"
+msgstr "창조"
 
 #: cafe_backend/apps/events/apps.py:7
 msgid "events"
@@ -390,7 +390,7 @@ msgstr "이벤트"
 
 #: cafe_backend/apps/events/models.py:55
 msgid "Required for only once repeat type."
-msgstr "수요는 단 한번뿐입니다."
+msgstr "한번뿐 중복유형에 한해서 필수입니다."
 
 #: cafe_backend/apps/events/models.py:58
 msgid "event"
@@ -406,7 +406,7 @@ msgstr "액션"
 
 #: cafe_backend/apps/events/templates/events/_event_table_actions_column.html:4
 msgid "View"
-msgstr "의견"
+msgstr "보기"
 
 #: cafe_backend/apps/events/templates/events/_event_table_actions_column.html:7
 #: cafe_backend/mgnt/bookings/templates/bookings/_booking_table_actions_column.html:4
@@ -421,11 +421,11 @@ msgstr "광고 상세히 보기"
 #, fuzzy
 #| msgid "advertisements"
 msgid "List view of events"
-msgstr "광고"
+msgstr "전체 광고"
 
 #: cafe_backend/apps/users/apps.py:7
 msgid "users"
-msgstr "고객"
+msgstr "사용자"
 
 #: cafe_backend/apps/users/forms.py:12
 msgid "imei"
@@ -441,11 +441,11 @@ msgstr "설비 식별번호"
 
 #: cafe_backend/apps/users/forms.py:31 cafe_backend/apps/users/forms.py:89
 msgid "Male can't be greater than size!"
-msgstr "남성 표준 싸이즈"
+msgstr "남성고객인원수가 식탁 정원 인원수보다 클수 없습니다."
 
 #: cafe_backend/apps/users/forms.py:38 cafe_backend/apps/users/forms.py:96
 msgid "Male + Femail should not be greater                than size!"
-msgstr "남성+여성 표준 싸이즈"
+msgstr "남성+여성은 식탁 싸이즈보다 클수 없습니다."
 
 #: cafe_backend/apps/users/forms.py:68 cafe_backend/mgnt/orders/forms.py:43
 msgid "Save Changes"
@@ -466,7 +466,7 @@ msgstr "주문이 완성되지 않았습니다."
 
 #: cafe_backend/apps/users/models.py:11
 msgid "Table?"
-msgstr "테이블"
+msgstr "식탁?"
 
 #: cafe_backend/apps/users/models.py:42 cafe_backend/apps/users/models.py:63
 msgid "Table"
@@ -532,19 +532,19 @@ msgstr "고객"
 #: cafe_backend/mgnt/orders/templates/orders/order_updateview.html:15
 #: templates/layouts/admin_lte/sidebar.html:77
 msgid "Orders"
-msgstr "기다림"
+msgstr "주문"
 
 #: cafe_backend/apps/users/templates/tables/table_listview.html:10
 #: cafe_backend/apps/users/templates/tables/table_updateview.html:11
 msgid "List view of tables"
-msgstr "모든 테이블 보기"
+msgstr "전체 식탁"
 
 #: cafe_backend/apps/users/templates/tables/table_updateview.html:16
 #: cafe_backend/mgnt/bookings/templates/bookings/contact_detailview.html:17
 #: cafe_backend/mgnt/bookings/templates/bookings/dish_booking_detailview.html:17
 #: cafe_backend/mgnt/orders/templates/orders/order_updateview.html:16
 msgid "Update"
-msgstr "업데이트"
+msgstr "갱신"
 
 #: cafe_backend/mgnt/bookings/apps.py:7
 msgid "bookings"
@@ -556,7 +556,7 @@ msgstr "컨택트"
 
 #: cafe_backend/mgnt/bookings/models.py:20
 msgid "Exchange"
-msgstr "커뮤니케이션"
+msgstr "교환"
 
 #: cafe_backend/mgnt/bookings/models.py:21
 msgid "Merge"
@@ -591,7 +591,7 @@ msgstr "요청자"
 
 #: cafe_backend/mgnt/bookings/models.py:42
 msgid "Receiver"
-msgstr "관리자"
+msgstr "수락자"
 
 #: cafe_backend/mgnt/bookings/models.py:45
 msgid "Booking Type"
@@ -664,17 +664,17 @@ msgstr "컨택트"
 #: cafe_backend/mgnt/orders/templates/orders/table_gridview.html:13
 #: templates/layouts/admin_lte/sidebar.html:70
 msgid "Management"
-msgstr "매니저"
+msgstr "관리"
 
 #: cafe_backend/mgnt/bookings/templates/bookings/contact_detailview.html:12
 msgid "Contact view of bookings"
-msgstr "메시지 발송"
+msgstr "모든 부킹"
 
 #: cafe_backend/mgnt/bookings/templates/bookings/contact_detailview.html:27
 #: cafe_backend/mgnt/bookings/templates/bookings/dish_booking_detailview.html:27
 #: cafe_backend/mgnt/bookings/templates/bookings/table_booking_detailview.html:27
 msgid "Contact Booking"
-msgstr "부킹 연결"
+msgstr "QR 코드부킹"
 
 #: cafe_backend/mgnt/bookings/templates/bookings/dish_booking_detailview.html:11
 msgid "Dish Presents"
@@ -723,11 +723,11 @@ msgstr "채널"
 
 #: cafe_backend/mgnt/chat/models.py:46
 msgid "Attendee"
-msgstr "모든 사람"
+msgstr "참가자"
 
 #: cafe_backend/mgnt/chat/models.py:47
 msgid "Attendees"
-msgstr "모든 사람"
+msgstr "참가자"
 
 #: cafe_backend/mgnt/chat/templates/chat/chat_list.html:14
 msgid "Chat Room"
@@ -751,7 +751,7 @@ msgstr "디렉트 채팅"
 
 #: cafe_backend/mgnt/chat/templates/chat/chat_list.html:52
 msgid "Type Message ..."
-msgstr "메시지 유형"
+msgstr "메시지를 입력하십시요..."
 
 #: cafe_backend/mgnt/chat/templates/chat/chat_list.html:54
 msgid "Send"
@@ -779,7 +779,7 @@ msgstr "준비"
 
 #: cafe_backend/mgnt/music/models.py:24
 msgid "Title"
-msgstr "타이틀"
+msgstr "제목"
 
 #: cafe_backend/mgnt/music/models.py:25
 msgid "Author"
@@ -787,15 +787,15 @@ msgstr "가수"
 
 #: cafe_backend/mgnt/music/models.py:26
 msgid "Music url"
-msgstr "Music url"
+msgstr "Music 주소"
 
 #: cafe_backend/mgnt/music/models.py:28
 msgid "External ID"
-msgstr "표기"
+msgstr "외부 ID"
 
 #: cafe_backend/mgnt/music/models.py:29
 msgid "Picture URL"
-msgstr "이미지 URL"
+msgstr "이미지 주소"
 
 #: cafe_backend/mgnt/music/models.py:36 cafe_backend/mgnt/music/models.py:40
 #: cafe_backend/mgnt/music/templates/music/music_demoview.html:19
@@ -847,11 +847,11 @@ msgstr "예약"
 
 #: cafe_backend/mgnt/orders/forms.py:38 cafe_backend/mgnt/orders/models.py:102
 msgid "Order Items"
-msgstr "예약"
+msgstr "주문 아이템"
 
 #: cafe_backend/mgnt/orders/models.py:15
 msgid "Delivered"
-msgstr "삭제"
+msgstr "송달됨"
 
 #: cafe_backend/mgnt/orders/models.py:23
 msgid "Order"
@@ -859,7 +859,7 @@ msgstr "예약"
 
 #: cafe_backend/mgnt/orders/models.py:101
 msgid "Order Item"
-msgstr "예약"
+msgstr "주문 아이템"
 
 #: cafe_backend/mgnt/orders/models.py:111
 msgid "Target Table"
@@ -919,7 +919,7 @@ msgstr "커피"
 #, fuzzy
 #| msgid "Cafe Admin"
 msgid "Admin"
-msgstr "어드민"
+msgstr "관리"
 
 #: templates/layouts/admin_lte/navbar.html:73
 msgid "You have unread notifications"
@@ -951,11 +951,11 @@ msgstr "술집관리"
 
 #: templates/layouts/base.html:9
 msgid "CB"
-msgstr "CB"
+msgstr "술집"
 
 #: templates/layouts/brand.html:2
 msgid "Cafe backend"
-msgstr "백앤드"
+msgstr "술집관리"
 
 #, fuzzy
 #~| msgid "advertisements"
