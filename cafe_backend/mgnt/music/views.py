@@ -50,4 +50,11 @@ class PlaylistViewSet(viewsets.ModelViewSet):
     queryset = Playlist.objects.filter(
         is_active=True, music__state=MUSIC_STATE.ready)
     pagination_class = None
-    http_method_names = ('get', )
+    http_method_names = ('get', 'post')
+
+    @action(detail=True, methods=['get'], url_name='playlist_archive')
+    def archive(self, request, *args, **kwargs):
+        item = self.get_object()
+        item.is_active = False
+        item.save()
+        return Response({'status': True})

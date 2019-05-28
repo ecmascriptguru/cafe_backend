@@ -43,7 +43,8 @@ const MusicPlayer = (($) => {
                     cover_art_url: item.picture,
                     url: item.url,
                     artist: item.author,
-                    external_id: item.external_id
+                    external_id: item.external_id,
+                    pk: item.pk
                 }
             })
 
@@ -72,6 +73,13 @@ const MusicPlayer = (($) => {
                             $artist.text(songObj.artist)
                             $playlist.children().removeClass('active')
                             $playlist.children().eq(songIndex).addClass('active')
+
+                            sendRequest(`${songObj.pk}/archive/`, 'get', {}, (res) => {
+                                if (res.status) {
+                                    // Amplitude.removeSong(songIndex)
+                                    $playlist.find(`div.playlist-song[data-external-id=${songObj.external_id}]`).remove()
+                                }
+                            })
                         }
                     }
                 }
@@ -80,7 +88,7 @@ const MusicPlayer = (($) => {
             $playerPlaylist.children().remove()
             for (let idx in settings.songs) {
                 let item = settings.songs[idx]
-                $playerPlaylist.append($(`<div class="playlist-song" data-index="${idx} id="song-${idx}">
+                $playerPlaylist.append($(`<div class="playlist-song" data-external-id="${item.external_id}" data-index="${idx} id="song-${idx}">
                     <div class="playlist-song-album-art">
                         <img src="${item.cover_art_url}">
                     </div>
