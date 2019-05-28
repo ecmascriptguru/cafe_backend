@@ -1,5 +1,10 @@
 const MusicPlayer = (($) => {
-    const API_BASE_URL = '/api/playlist/'
+    const API_BASE_URL = '/api/playlist/',
+        $coverArtImage = $('#amplitude-album-art'),
+        $title = $('.amplitude-now-playing-title'),
+        $artist = $('.amplitude-now-playing-artist'),
+        $playlist = $('#player-playlist')
+
     let playerObject = null
 
     /**
@@ -30,21 +35,73 @@ const MusicPlayer = (($) => {
         sendRequest('', 'get', {}, success, failure)
     }
 
+    const tempSongs = [
+        "http://localhost:8000/static/music/1.mp3",
+        "http://localhost:8000/static/music/2.mp3",
+        "http://localhost:8000/static/music/3.mp3",
+    ]
+
     const init = () => {
-        
         getPlaylist((musics) => {
-            playerObject = Amplitude.init({
-                songs: musics.map(item => {
-                        return {
-                            name: item.title,
-                            cover_art_url: item.picture,
-                            url: item.url,
-                            artist: item.customer,
-                            album: ''
-                        }
-                    })
+            let songs = musics.map(item => {
+                return {
+                    name: item.title,
+                    cover_art_url: item.picture,
+                    url: item.url,
+                    artist: item.author,
+                    external_id: item.external_id
                 }
-            )
+            })
+
+            // for (let i = 0; i < songs.length; i ++) {
+            //     songs[i].url = tempSongs[i]
+            // }
+            let settings = {
+                    songs: songs,
+                    playlists: {
+                        'temp': {
+                            songs: [0, 1],
+                            title: "all"
+                        }
+                    },
+                    debug: true,
+                    callbacks: {
+                        song_change: function() {
+                            let activeMeta = Amplitude.getActivePlaylistMetadata(),
+                                songIndex = activeMeta.active_index,
+                                songObj = activeMeta.songs[songIndex]
+                            
+                            $coverArtImage[0].src = songObj.cover_art_url
+                            $title.text(songObj.name)
+                            $artist.text(songObj.artist)
+                            $playlist.children().removeClass('active')
+                            $playlist.children().eq(songIndex).addClass('active')
+                        }
+                    }
+                }
+            const $playerPlaylist = $('#player-playlist')
+
+            $playerPlaylist.children().remove()
+            for (let idx in settings.songs) {
+                let item = settings.songs[idx]
+                $playerPlaylist.append($(`<div class="playlist-song" data-index="${idx} id="song-${idx}">
+                    <div class="playlist-song-album-art">
+                        <img src="${item.cover_art_url}">
+                    </div>
+                    <div class="playlist-song-information">
+                        Song: ${item.name}<br>
+                        Artist: ${item.artist}<br>
+                        Album: Cafe Backend
+                    </div>
+                </div>`))
+            }
+            playerObject = Amplitude.init(settings)
+
+            $coverArtImage[0].src = songs[0].cover_art_url
+            $title.text(songs[0].name)
+            $artist.text(songs[0].artist)
+            $playlist.children().eq(0).addClass('active')
+
         })
 
         document.getElementById('song-played-progress').addEventListener('click', function( e ){

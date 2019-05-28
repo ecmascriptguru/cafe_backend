@@ -11,8 +11,10 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
   <link rel="shortcut icon" type="image/x-icon" href="{% static 'backend_theme/img/favicon.jpg' %}">
+  {% block main_css_block %}
   <link rel="stylesheet" href="{% static 'backend_theme/css/layout.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'backend_theme/css/custom.css' %}">
+  {% endblock %}
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -21,10 +23,14 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 
-  <script src="{% static 'backend_theme/js/bundle.js' %}"></script>
 </head>
 <body class="hold-transition login-page">
     {% block content %}
     {% endblock content %}
+
+
+  {% block main_js_block %}
+  <script src="{% static 'backend_theme/js/bundle.js' %}"></script>
+  {% endblock %}
 </body>
 </html>

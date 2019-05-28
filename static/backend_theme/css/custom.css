@@ -5,3 +5,13 @@
 
 .direct-chat-messages {
   height: unset; }
+
+
+.language-switcher {
+  margin-bottom: 0;
+}
+@media (max-width: 767px) {
+  .language-switcher {
+    margin-top: 0;
+  }
+}

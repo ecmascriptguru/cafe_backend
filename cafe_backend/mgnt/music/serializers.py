@@ -37,10 +37,16 @@ class PlaylistSerializer(serializers.ModelSerializer):
         source='get_url', read_only=True)
     picture = serializers.StringRelatedField(
         source='get_pic_url', read_only=True)
+    author = serializers.StringRelatedField(
+        source='artist', read_only=True)
+    external_id = serializers.StringRelatedField(
+        source='identifier', read_only=True)
 
     class Meta:
         model = Playlist
-        fields = ('customer', 'title', 'url', 'picture', 'created',)
+        fields = (
+            'customer', 'title', 'url', 'picture', 'created', 'author',
+            'external_id')
 
 
 class MusicSubscribeSerializer(CafeModelSerializer):

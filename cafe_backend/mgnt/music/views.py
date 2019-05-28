@@ -15,8 +15,12 @@ class MusicDemoView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'music/music_demoview.html'
 
 
-class MusicPlayerView(LoginRequiredMixin, generic.TemplateView):
+class MusicPlayerView(LoginRequiredMixin, generic.ListView):
     template_name = 'music/music_player.html'
+    model = Playlist
+
+    def get_queryset(self, *args, **kwargs):
+        return Playlist.objects.filter(is_active=True)
 
 
 class MusicViewSet(CafeModelViewSet):

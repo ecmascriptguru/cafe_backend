@@ -68,7 +68,7 @@ class Music(TimeStampedModel):
             self.title = response_data['songinfo']['title']
             self.author = response_data['songinfo']['author']
             self.url = response_data['bitrate']['show_link']
-            self.pic_url = response_data['songinfo']['pic_small']
+            self.pic_url = response_data['songinfo']['pic_big']
             return True
 
     @classmethod
@@ -84,20 +84,40 @@ class Music(TimeStampedModel):
         return self.url.split('?')[0].split('/')[-1].split('.')[-1]
 
     @property
+    def picture_file_extension(self):
+        return self.pic_url.split('?')[0].split('/')[-1].split('.')[-1]
+
+    @property
     def download_file_path(self):
         return "%s/%s.%s" % (
             settings.MUSIC_DOWNLOAD_PATH, self.external_id,
             self.music_file_extension)
 
     @property
+    def picture_download_file_path(self):
+        return "%s/%s.%s" % (
+            settings.MUSIC_DOWNLOAD_PATH, self.external_id,
+            self.picture_file_extension)
+
+    @property
     def upload_key(self):
-        return "media/music/%s.%s" % (
-            self.external_id, self.music_file_extension)
+        return "media/music/%s/%s.%s" % (
+            self.external_id, self.external_id, self.music_file_extension)
+
+    @property
+    def picture_upload_key(self):
+        return "media/music/%s/%s.%s" % (
+            self.external_id, self.external_id, self.picture_file_extension)
 
     @property
     def music_url(self):
-        return "//%s/%s" % (
+        return "http://%s/%s" % (
             settings.AWS_S3_CUSTOM_DOMAIN, self.upload_key)
+
+    @property
+    def picture_url(self):
+        return "http://%s/%s" % (
+            settings.AWS_S3_CUSTOM_DOMAIN, self.picture_upload_key)
 
     @classmethod
     def get_invalid_musics(cls):
@@ -109,6 +129,7 @@ class Music(TimeStampedModel):
         source=MUSIC_STATE.default, target=MUSIC_STATE.downloading)
     def download(self):
         request.urlretrieve(self.url, self.download_file_path)
+        request.urlretrieve(self.pic_url, self.picture_download_file_path)
 
     @transition(
         field='state',
@@ -119,7 +140,11 @@ class Music(TimeStampedModel):
             aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
         bucket_name = settings.AWS_STORAGE_BUCKET_NAME
         s3.upload_file(
-            self.download_file_path, bucket_name, self.upload_key)
+            self.download_file_path, bucket_name,
+            self.upload_key)
+        s3.upload_file(
+            self.picture_download_file_path, bucket_name,
+            self.picture_upload_key)
 
     @transition(
         field='state',
@@ -127,6 +152,8 @@ class Music(TimeStampedModel):
     def approve(self):
         if os.path.exists(self.download_file_path):
             os.remove(self.download_file_path)
+        if os.path.exists(self.picture_download_file_path):
+            os.remove(self.picture_download_file_path)
 
     def process(self):
         self.download()
@@ -157,11 +184,31 @@ class Playlist(TimeStampedModel):
             return None
         return self.table.name
 
+    @property
+    def title(self):
+        return self.get_title()
+
     def get_title(self):
         return self.music.title
+
+    @property
+    def url(self):
+        return self.get_url()
 
     def get_url(self):
         return self.music.music_url
 
+    @property
+    def pic_url(self):
+        return self.get_pic_url()
+
     def get_pic_url(self):
-        return self.music.pic_url
+        return self.music.picture_url
+
+    @property
+    def artist(self):
+        return self.music.author
+
+    @property
+    def identifier(self):
+        return self.music.external_id
