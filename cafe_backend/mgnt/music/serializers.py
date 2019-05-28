@@ -46,7 +46,7 @@ class PlaylistSerializer(serializers.ModelSerializer):
         model = Playlist
         fields = (
             'customer', 'title', 'url', 'picture', 'created', 'author',
-            'external_id')
+            'external_id', 'pk',)
 
 
 class MusicSubscribeSerializer(CafeModelSerializer):

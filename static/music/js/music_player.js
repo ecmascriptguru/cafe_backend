@@ -35,12 +35,6 @@ const MusicPlayer = (($) => {
         sendRequest('', 'get', {}, success, failure)
     }
 
-    const tempSongs = [
-        "http://localhost:8000/static/music/1.mp3",
-        "http://localhost:8000/static/music/2.mp3",
-        "http://localhost:8000/static/music/3.mp3",
-    ]
-
     const init = () => {
         getPlaylist((musics) => {
             let songs = musics.map(item => {
@@ -53,9 +47,6 @@ const MusicPlayer = (($) => {
                 }
             })
 
-            // for (let i = 0; i < songs.length; i ++) {
-            //     songs[i].url = tempSongs[i]
-            // }
             let settings = {
                     songs: songs,
                     playlists: {
