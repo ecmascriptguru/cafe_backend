@@ -47,11 +47,16 @@ const MusicPlayer = (($) => {
                 }
             })
 
+            let indice = []
+            for (let idx in musics) {
+                indice.push(idx)
+            }
+
             let settings = {
                     songs: songs,
                     playlists: {
                         'temp': {
-                            songs: [0, 1],
+                            songs: songs,
                             title: "all"
                         }
                     },
