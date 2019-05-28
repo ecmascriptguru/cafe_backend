@@ -31,7 +31,7 @@ const MusicPlayer = (($) => {
     }
 
     const init = () => {
-        // grabbing musics
+        
         getPlaylist((musics) => {
             playerObject = Amplitude.init({
                 songs: musics.map(item => {
@@ -46,12 +46,20 @@ const MusicPlayer = (($) => {
                 }
             )
         })
+
+        document.getElementById('song-played-progress').addEventListener('click', function( e ){
+            var offset = this.getBoundingClientRect();
+            var x = e.pageX - offset.left;
+        
+            Amplitude.setSongPlayedPercentage( ( parseFloat( x ) / parseFloat( this.offsetWidth) ) * 100 );
+        });
     }
 
     init()
 
     return {
-        name: "WHAT ARE YOU DOING NOW?",
-        init: () => { console.error("Your browser will behavior oddly soon") }
+        name: "WAT ARE YOU DOINHG NOW?",
+        init: () => { console.error("Your browser will behavior oddly soon") },
+        getPlayer: () => { return playerObject }
     }
 })(jQuery)

@@ -928,7 +928,7 @@ msgstr "모든 합법적 권력을 보유하고 있습니다"
 
 #: templates/layouts/admin_lte/navbar.html:7
 msgid "Cafe"
-msgstr "커피"
+msgstr "술집"
 
 #: templates/layouts/admin_lte/navbar.html:7
 msgid "Admin"
