@@ -1,14 +1,16 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
+from django_filters.views import FilterView
+from django_tables2.views import SingleTableMixin
 from rest_framework import views
 from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from cafe_backend.core.apis.viewsets import CafeModelViewSet, viewsets
 from cafe_backend.core.constants.states import MUSIC_STATE
-from . import serializers
 from .models import Music, Playlist
+from . import tables, filters, serializers
 
 
 class MusicDemoView(LoginRequiredMixin, generic.TemplateView):
@@ -21,6 +23,14 @@ class MusicPlayerView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self, *args, **kwargs):
         return Playlist.objects.filter(is_active=True)
+
+
+class PlaylistView(LoginRequiredMixin, SingleTableMixin, FilterView):
+    model = Playlist
+    table_class = tables.PlaylistTable
+    filterset_class = filters.PlaylistFilter
+    strict = False
+    template_name = 'music/playlist_listview.html'
 
 
 class MusicViewSet(CafeModelViewSet):

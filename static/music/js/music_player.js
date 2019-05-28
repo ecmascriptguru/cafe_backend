@@ -101,10 +101,12 @@ const MusicPlayer = (($) => {
             }
             playerObject = Amplitude.init(settings)
 
-            $coverArtImage[0].src = songs[0].cover_art_url
-            $title.text(songs[0].name)
-            $artist.text(songs[0].artist)
-            $playlist.children().eq(0).addClass('active')
+            if (songs.length > 0) {
+                $coverArtImage[0].src = songs[0].cover_art_url
+                $title.text(songs[0].name)
+                $artist.text(songs[0].artist)
+                $playlist.children().eq(0).addClass('active')
+            }
 
         })
 
