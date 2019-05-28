@@ -66,16 +66,6 @@
                     }
                 }
             </script>
-
-            <div id="amplitude-playlist">
-                {% for item in object_list %}
-                <audio id="{{ forloop.index1 }}" 
-                    amplitude-artist="{{ item.author }}" amplitude-title="{{ item.title }}" 
-                    amplitude-album-art-url="{{ item.pic_url }}" amplitude-album="Ampltude Album" amplitude-audio-type="song">
-                    <source src="{{ item.url }}" type="audio/mp3"/>
-                </audio>
-                {% endfor %}
-            </div>
         </div>
     </div>
 </section>
