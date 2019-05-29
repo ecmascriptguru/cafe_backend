@@ -72,6 +72,13 @@ class Dish(TimeStampedModel):
         if self.price != value:
             self.prices.create(price=value)
 
+    @property
+    def img(self):
+        if len(self.images.all()) > 0:
+            return self.images.first().file.url
+        else:
+            return None
+
 
 class DishImage(TimeStampedModel):
     dish = models.ForeignKey(

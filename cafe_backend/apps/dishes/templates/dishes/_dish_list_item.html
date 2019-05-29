@@ -1,11 +1,10 @@
 {% load i18n %}
 
-<div class="col-md-3 col-sm-4 col-xs-6">
+<div class="col-sm-6 col-xs-6 dish">
     <div class="small-box bg-aqua">
+        <img src="{{ item.img }}" class="dish-image" />
         <div class="inner">
             <h3>{{ item.name }}</h3>
-
-            <p>{{ item.is_active }}</p>
         </div>
         <div class="icon">
             <!-- <i class="fa fa-shopping-cart"></i> -->

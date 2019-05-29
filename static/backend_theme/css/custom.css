@@ -4,4 +4,11 @@
   right: 10px; }
 
 .direct-chat-messages {
-  height: unset; }
+  height: unset;
+}
+
+div.dish img.dish-image {
+  position: absolute;
+  width: 100%;
+  height: calc(100%-10px);
+}
