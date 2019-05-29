@@ -1,5 +1,5 @@
 from cafe_backend.core.apis.serializers import serializers, CafeModelSerializer
-from .models import Category, Dish, DishReview
+from .models import Category, Dish, DishReview, DishImage
 
 
 class ReviewSerializer(CafeModelSerializer):
@@ -14,6 +14,13 @@ class ReviewSerializer(CafeModelSerializer):
         if hasattr(self, 'table'):
             validated_data['table'] = self.table
         return super(ReviewSerializer, self).create(validated_data)
+
+
+class DishImageSerializer(CafeModelSerializer):
+    class Meta:
+        model = DishImage
+        fields = (
+            'small_image_url', 'medium_image_url', 'large_image_url', )
 
 
 class DishSerializer(CafeModelSerializer):
