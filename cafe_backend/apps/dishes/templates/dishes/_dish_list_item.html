@@ -1,16 +1,32 @@
 {% load i18n %}
+{% load cropping %}
 
-<div class="col-sm-6 col-xs-6 dish">
-    <div class="small-box bg-aqua">
-        <img src="{{ item.img }}" class="dish-image" />
-        <div class="inner">
-            <h3>{{ item.name }}</h3>
+<div class="col-md-4 col-sm-6 col-xs-6 dish">
+    <div class="box bg-grey">
+        <div class="box-header">
+            <span>{{ item.name }}</span>
         </div>
-        <div class="icon">
-            <!-- <i class="fa fa-shopping-cart"></i> -->
+        <div class="box-body">
+            <div class="row">
+                <div class="col-lg-6 col-md-5 col-sm-4 col-xs-12">
+                    {% if item.img.small %}
+                    <img src="{% cropped_thumbnail item.img 'small' %}" class="dish-image" />
+                    {% else %}
+                    <img src="{{ item.default_image }}" class="dish-image" />
+                    {% endif %}
+                </div>
+                <div class="col-lg-6 col-md-7 col-sm-8 col-xs-12">
+                    <span>{{ item.description }}</span><br/>
+                    <span>{{ item.price }}</span>
+                </div>
+            </div>
         </div>
-        <a href="{% url 'dishes:dish_updateview' pk=item.pk %}" class="small-box-footer">
-            {% trans 'More info' %} <i class="fa fa-arrow-circle-right"></i>
-        </a>
+        <div class="box-footer">
+            <div class="row pull-right">
+                <a href="{% url 'dishes:dish_updateview' pk=item.pk %}" class="col-xs-12">
+                    {% trans 'Settings' %} <i class="fa fa-cog"></i>
+                </a>
+            </div>
+        </div>
     </div>
 </div>

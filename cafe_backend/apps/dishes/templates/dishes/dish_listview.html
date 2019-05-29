@@ -1,6 +1,7 @@
 {% extends 'layouts/adminlte_base.html' %}
 
 {% load i18n %}
+{% load bootstrap4 %}
 
 {% block content %}
 <section class="content-header">
@@ -12,28 +13,49 @@
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-cog"></i>{% trans 'Settings' %}</a></li>
         <li><a href="#"><i class="fa fa-coffee"></i>{% trans 'Dishes' %}</a></li>
-        <li class="active">List</li>
+        <li class="active">{% trans 'List' %}</li>
     </ol>
 </section>
 
 <section class="content">
     <div class="row">
-        {% for item in object_list %}
-        {% include 'dishes/_dish_list_item.html' %}
-        {% endfor %}
-        <div class="col-md-3 col-sm-4 col-xs-6">
-            <div class="small-box bg-aqua">
-                <div class="inner">
-                    <h3>{% trans 'New' %}</h3>
-                    <p>{% trans 'Dish' %}</p>
-                </div>
-                <div class="icon">
-                    <i class="fa fa-plus"></i>
-                </div>
-                <a href="{% url 'dishes:dish_createview' %}" class="small-box-footer">
-                    {% trans 'Create Now' %} <i class="fa fa-plus"></i>
-                </a>
-            </div>
+        <div class="col-sm-12">
+            {% if filter %}
+            <form action="" method="get" class="form form-inline">
+                {% bootstrap_form filter.form layout='inline' %}
+                {% bootstrap_button 'filter' %}
+                <a href="{% url 'dishes:dish_createview' %}" class="btn btn-xs pull-right">{% trans 'New Dish' %}</a>
+            </form>
+            {% endif %}
+        </div>
+        {% if is_paginated %}
+        <div class="col-sm-12">
+            <ul class="pagination pull-right">
+                {% if page_obj.has_previous %}
+                    <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                    <li class="disabled"><span>&laquo;</span></li>
+                {% endif %}
+                {% for i in paginator.page_range %}
+                    {% if page_obj.number == i %}
+                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                    {% else %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                    <li class="disabled"><span>&raquo;</span></li>
+                {% endif %}
+            </ul>
+        </div>
+        
+        {% endif %}
+        <div class="col-xs-12">
+            {% for item in object_list %}
+            {% include 'dishes/_dish_list_item.html' %}
+            {% endfor %}
         </div>
     </div>
 </section>

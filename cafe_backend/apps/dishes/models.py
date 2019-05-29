@@ -2,6 +2,7 @@ from django.db import models
 from model_utils.models import TimeStampedModel
 from django.utils.translation import ugettext_lazy as _
 from django.core.validators import MinValueValidator, MaxValueValidator
+from image_cropping import ImageRatioField, ImageCropField
 
 
 class Category(TimeStampedModel):
@@ -75,9 +76,13 @@ class Dish(TimeStampedModel):
     @property
     def img(self):
         if len(self.images.all()) > 0:
-            return self.images.first().file.url
+            return self.images.first()
         else:
             return None
+
+    @property
+    def default_image(self):
+        return self.img and self.img.file.url or None
 
 
 class DishImage(TimeStampedModel):
@@ -86,6 +91,9 @@ class DishImage(TimeStampedModel):
         verbose_name=_('Dish'))
     file = models.ImageField(
         upload_to='dishes/%Y/%m/%d', verbose_name=_('Image File'))
+    small = ImageRatioField('file', '256x192')
+    medium = ImageRatioField('file', '512x384')
+    large = ImageRatioField('file', '1024x768')
 
     class Meta:
         ordering = ('-modified', )

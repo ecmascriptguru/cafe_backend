@@ -8,7 +8,6 @@
 }
 
 div.dish img.dish-image {
-  position: absolute;
   width: 100%;
   height: calc(100%-10px);
 }
