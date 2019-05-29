@@ -25,3 +25,23 @@
     </div>
 </section>
 {% endblock content %}
+
+{% block custom_js %}
+<script>
+    $(document).ready(() => {
+        $(document).on('change', 'select.event-repeat-type', function() {
+            let value = $(this).val()
+            const $weekdays = $('#weekday-container')
+
+            $weekdays.find('input:checkbox').prop('disabled', (value != 'w'))
+
+            // if (value == 'w'){
+            //     $weekdays.show()
+            // } else {
+            //     $weekdays.hide()
+            // }
+            
+        })
+    })
+</script>
+{% endblock %}

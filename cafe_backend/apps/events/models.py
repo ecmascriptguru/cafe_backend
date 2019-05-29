@@ -7,6 +7,7 @@ from django_fsm import FSMField
 from django.contrib.postgres.fields import JSONField
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
+from django.urls import reverse_lazy
 from model_utils.models import TimeStampedModel
 from cafe_backend.core.constants.types import EVENT_TYPE, EVENT_REPEAT_TYPE
 
@@ -106,3 +107,6 @@ class Event(TimeStampedModel):
                 minutes=settings.EVENT_QUERY_INTERVAL)).time()
         )
         return qs
+
+    def get_absolute_url(self):
+        return reverse_lazy('events:event_detailview', kwargs={'pk': self.pk})

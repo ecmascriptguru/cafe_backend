@@ -42,7 +42,7 @@ class EventDetailView(LoginRequiredMixin, generic.DetailView):
 
 class EventUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Event
-    template_name = 'events/event_updateview.html'
+    template_name = 'events/event_formview.html'
     form_class = EventForm
 
 

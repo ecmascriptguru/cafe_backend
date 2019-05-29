@@ -1,11 +1,11 @@
 from django.contrib import admin
 from cafe_backend.apps.users.admin import admin_site
 from .models import Event
-from .forms import EventForm
+from .forms import EventAdminForm
 
 
 class EventAdmin(admin.ModelAdmin):
-    form = EventForm
+    form = EventAdminForm
     fields = (
         'name', 'event_type', 'file', 'from_date', 'to_date',
         'at', 'event_date', 'is_active', 'details', 'repeat', (

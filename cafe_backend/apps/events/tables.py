@@ -20,7 +20,7 @@ class EventTable(tables.Table):
         exclude = ('id', 'created', 'modified', 'file', 'details', )
         sequence = (
             'number', 'image', 'name', 'event_type', 'from_date', 'to_date',
-            'at', 'repeat', 'is_active', 'actions', )
+            'at', 'repeat', 'event_date', 'is_active', 'actions', )
 
     def __init__(self, *args, **kwargs):
         super(EventTable, self).__init__(*args, **kwargs)

@@ -43,6 +43,3 @@ class OrderForm(forms.ModelForm):
                     'submit', _('Save Changes'), css_class='pull-right')),
                 )
             )
-
-    def save(self, commit=True):
-        return super(OrderForm, self).save(commit)
