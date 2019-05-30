@@ -147,6 +147,7 @@ class OrderItem(TimeStampedModel):
 
     def to_json(self):
         return {
+            "id": self.pk,
             "order": self.order.pk,
             "dish": self.dish.pk,
             "to_table": self.to_table.pk,

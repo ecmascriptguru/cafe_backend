@@ -59,7 +59,6 @@ class OrderSerializer(CafeModelSerializer):
         return order
 
     def update(self, instance, validated_data):
-        super().update
         items = validated_data.pop('order_items', [])
         for item in items:
             if item.get('order'):
@@ -69,6 +68,6 @@ class OrderSerializer(CafeModelSerializer):
                 to_table = self.table
             else:
                 to_table = item.pop('to_table')
-            order_item, created = instance.order_items.update_or_create(
-                dish=dish, to_table=to_table, defaults=item)
+            order_item = instance.order_items.create(
+                dish=dish, to_table=to_table, **item)
         return instance
