@@ -14,3 +14,10 @@ div.dish img.dish-image {
 
 table.order-table td {
   vertical-align: middle !important;}
+
+@media (max-width: 767px) {
+  .language-switcher {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}

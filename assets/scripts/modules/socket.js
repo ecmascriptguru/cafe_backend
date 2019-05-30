@@ -1,13 +1,13 @@
 export const initSocket = () => {
     const WS_BASE_URL = `ws://${window.location.host}/ws/chat/${userId}/`,
-        API_BASE_URL = `http://${window.location.host}/api/channels/`,
-        $ringToneEl = $("#table-ring-tone")[0]
+        API_BASE_URL = `http://${window.location.host}/api/channels/`
 
     let chatSocket = null,
         $messagesContainer = $(".direct-chat-messages"),
         currentChannel = null,
         socket_reset_timer = null,
-        ringTone = null
+        ringTone = null,
+        orderAlert = null
     
     const showNotificationOnChannel = (channelID) => {
             if ($(`li.channel[data-channel-id=${channelID}]`).length == 0) {
@@ -37,30 +37,56 @@ export const initSocket = () => {
         },
 
         _handleEventNotification = (data) => {
+            const $orderNotificationContainer = $('')
             console.info("TODO: Please implement logic here.")
         },
 
-        _addNotification = (table) => {
+        _handleOrderNotification = (data) => {
+            const $notificationContainer = $(".orders-menu"),
+                $count = $(".new-order-count")
+
+            if (!orderAlert) {
+                orderAlert = new Audio(document.querySelector('#order-alert').src)
+            }
+
+            orderAlert.play()
+            $notificationContainer.find("ul li.header").hide()
+            if ($notificationContainer.find(`li.order-notification`).length == 0) {
+                let notification_count = parseInt($count.text() || "0") + 1
+                $count.text(notification_count)
+                $notificationContainer.find("ul.menu.order-notification-list").append($(`
+                    <li class='order-notification'">
+                        <a href="#">
+                            <div class="pull-left">
+                                <span></span>
+                            </div>
+                            <p>${window.new_order_notification_message}</p>
+                        </a>
+                    </li>`))
+            }
+        },
+
+        _handleTableRingNotification = (table) => {
             const $notificationContainer = $(".notifications-menu"),
                 $count = $(".notification-count")
-
-            let notification_count = parseInt($count.text() || "0") + 1
 
             if (!ringTone) {
                 ringTone = new Audio(document.querySelector('#table-ring-tone').src)
             }
 
             ringTone.play()
-            $count.text(notification_count)
             $notificationContainer.find("ul li.header").hide()
-            $notificationContainer.find("ul.menu").append($(`
-                <li>
-                    <a href="#">
-                        <i class="fa fa-bell-o"></i>${table.name} is calling...
-                        <button class="btn btn-xs pull-right mark-notification-as-read"><i class="fa fa-check"></i></button>
-                    </a>
-                </li>
-            `))
+            if ($notificationContainer.find(`li.ring-notification[data-table-user-id=${table.user_id}]`).length == 0) {
+                let notification_count = parseInt($count.text() || "0") + 1
+                $count.text(notification_count)
+                $notificationContainer.find("ul.menu").append($(`
+                    <li data-table-user-id="${table.user_id}" class="ring-notification">
+                        <a href="#">
+                            <i class="fa fa-bell-o"></i>${table.name} is calling...
+                            <button class="btn btn-xs pull-right mark-notification-as-read"><i class="fa fa-check"></i></button>
+                        </a>
+                    </li>`))
+            }
         },
 
         _socketMessageHandler = (e) => {
@@ -84,13 +110,12 @@ export const initSocket = () => {
             
                 case 'notification_order_item':
                     // if (data.created) {
-                        console.info("Order Created")
-                        console.log(data.order)
+                        _handleOrderNotification(data)
                     // }
                     break;
             
                 case 'ring':
-                    _addNotification(data.table)
+                    _handleTableRingNotification(data.table)
                     break;
 
                 default:

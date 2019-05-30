@@ -47,6 +47,10 @@ class Order(TimeStampedModel):
         return self.order_items.exclude(state=ORDER_STATE.canceled)
 
     @property
+    def pending_items(self):
+        return self.order_items.filter(state=ORDER_STATE.default)
+
+    @property
     def completed(self):
         return self.items.filter(state=ORDER_STATE.delivered)
 
