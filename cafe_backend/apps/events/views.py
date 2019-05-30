@@ -44,6 +44,7 @@ class EventUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Event
     template_name = 'events/event_formview.html'
     form_class = EventForm
+    success_url = reverse_lazy('events:event_listview')
 
 
 class EventDeleteView(LoginRequiredMixin, generic.DeleteView):

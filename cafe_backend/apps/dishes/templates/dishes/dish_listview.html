@@ -53,9 +53,11 @@
         
         {% endif %}
         <div class="col-xs-12">
-            {% for item in object_list %}
-            {% include 'dishes/_dish_list_item.html' %}
-            {% endfor %}
+            <div class="row">
+                {% for item in object_list %}
+                {% include 'dishes/_dish_list_item.html' %}
+                {% endfor %}
+            </div>
         </div>
     </div>
 </section>

@@ -128,6 +128,10 @@ class OrderItem(TimeStampedModel):
         verbose_name=_('State'))
 
     @property
+    def subtotal(self):
+        return self.price * self.amount
+
+    @property
     def is_canceled(self):
         return self.state == ORDER_STATE.canceled
 

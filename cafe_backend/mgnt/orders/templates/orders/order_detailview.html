@@ -1,0 +1,62 @@
+{% extends 'layouts/adminlte_base.html' %}
+
+{% load cropping %}
+{% load i18n %}
+{% load state_tags %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+        <i class="fa fa-shopping-cart"></i>
+        {% trans 'Orders' %}
+        <small>{% trans 'Detail view of order' %}</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-folder-open-o"></i>{% trans 'Management' %}</a></li>
+        <li><a href="#"><i class="fa fa-shopping-cart"></i>{% trans 'Orders' %}</a></li>
+        <li class="active">{% trans 'View' %}</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 table-responsive">
+            <h3>{% trans 'Order Details' %}</h3>
+            <table class="table table-striped order-table">
+                <tbody>
+                    {% for item in object.items.all %}
+                    <tr>
+                        <td>
+                            {% if item.dish.img.small %}
+                            <img src="{% cropped_thumbnail item.dish.img 'small' scale=0.2 %}" class="order-item-dish-image" />
+                            {% else %}
+                            <img src="http://via.placeholder.com/51x38" class="dish-image" />
+                            {% endif %}
+                        </td>
+                        <td>{{ item.dish.name }}</td>
+                        <td>{{ item.dish.price }}</td>
+                        <td> x </td>
+                        <td>{{ item.amount }}</td>
+                        <td> = </td>
+                        <td>&yen;{{ item.subtotal }}</td>
+                        <td><span class="badge {{ item|state_bg_color }}">{{ item|state_text }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="4">{% trans 'Total' %}</td>
+                        <td>&yen;{{ object.total_sum }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <div class="">
+                <a class="btn btn-default" href="{% url 'orders:table_gridview' %}">{% trans 'Back' %}</a>
+                <a class="btn btn-primary pull-right" href="{% url 'orders:order_updateview' object.pk %}">{% trans 'Edit' %}</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
