@@ -23,7 +23,7 @@
             {% if filter %}
             <form action="" method="get" class="form form-inline">
                 {% bootstrap_form filter.form layout='inline' %}
-                {% bootstrap_button 'filter' %}
+                <button class="btn btn-default">{% trans 'Filter' %}</button>
                 <a href="{% url 'dishes:dish_createview' %}" class="btn btn-xs pull-right">{% trans 'New Dish' %}</a>
             </form>
             {% endif %}

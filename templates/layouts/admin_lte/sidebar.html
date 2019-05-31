@@ -54,7 +54,7 @@
             <a href="{% url 'ads:ads_listview' %}"><i class="glyphicon glyphicon-file"></i> {% trans 'Ads' %}</a>
           </li>
           <li class="{% if request.path|startswith:'/settings/events/' %} active {% endif %}">
-            <a href="{% url 'events:event_listview' %}"><i class="glyphicon glyphicon-hdd"></i> {% trans 'Events' %}</a>
+            <a href="{% url 'events:event_listview' %}"><i class="fa fa-bomb"></i> {% trans 'Events' %}</a>
           </li>
           <!-- 
           <li class="{% if request.path|startswith:'/rs/targets/' %} active {% endif %}">

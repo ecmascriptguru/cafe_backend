@@ -18,9 +18,9 @@ class PlaylistTable(tables.Table):
     class Meta:
         model = Playlist
         template_name = 'django_tables2/bootstrap.html'
-        exclude = ('created', 'modified', 'id', 'music', )
+        exclude = ('created', 'modified', 'id', 'music', 'is_active', )
         sequence = (
-            'number', 'title', 'author', 'table', 'is_active', )
+            'number', 'title', 'author', 'table', )
 
     def __init__(self, *args, **kwargs):
         super(PlaylistTable, self).__init__(*args, **kwargs)

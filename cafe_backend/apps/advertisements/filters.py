@@ -1,26 +1,29 @@
-import django_filters
+import django_filters as filters
 from django.db import models
 from django import forms
+from django.utils.translation import ugettext_lazy as _
 from .models import Advertisement
 
 
-class AdvertisementFilter(django_filters.FilterSet):
+class AdvertisementFilter(filters.FilterSet):
+    name = filters.CharFilter(
+        lookup_expr='icontains',
+        widget=forms.widgets.TextInput(attrs={'placeholder': _('Name')}))
+
     class Meta:
         model = Advertisement
         fields = {
-            'name': ['icontains'],
             'type': ['exact'],
-            'is_active': ['exact'],
         }
         filter_overrides = {
             models.CharField: {
-                'filter_class': django_filters.CharFilter,
+                'filter_class': filters.CharFilter,
                 'extra': lambda f: {
                     'lookup_expr': 'icontains',
                 },
             },
             models.BooleanField: {
-                'filter_class': django_filters.BooleanFilter,
+                'filter_class': filters.BooleanFilter,
                 'extra': lambda f: {
                     'widget': forms.CheckboxInput,
                 },

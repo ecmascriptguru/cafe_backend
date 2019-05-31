@@ -829,7 +829,7 @@ msgstr "歌名"
 
 #: cafe_backend/mgnt/music/models.py:25
 msgid "Author"
-msgstr "歌手"
+msgstr "歌手名"
 
 #: cafe_backend/mgnt/music/models.py:26
 msgid "Music url"
@@ -882,7 +882,7 @@ msgstr "试听"
 
 #: cafe_backend/mgnt/music/templates/music/music_demoview.html:31
 msgid "Search"
-msgstr "搜索"
+msgstr "查询"
 
 #: cafe_backend/mgnt/music/templates/music/music_player.html:6
 #: cafe_backend/mgnt/music/templates/music/music_player.html:16
@@ -896,7 +896,7 @@ msgstr "音乐播放器"
 
 #: cafe_backend/mgnt/music/templates/music/playlist_listview.html:32
 msgid "Filter"
-msgstr "搜索"
+msgstr "查询"
 
 #: cafe_backend/mgnt/orders/apps.py:7
 msgid "orders"
