@@ -1,9 +1,10 @@
 from django.contrib import admin
+from sorl.thumbnail.admin import AdminImageMixin
 from .models import Event
 from .forms import EventAdminForm
 
 
-class EventAdmin(admin.ModelAdmin):
+class EventAdmin(AdminImageMixin, admin.ModelAdmin):
     form = EventAdminForm
     fields = (
         'name', 'event_type', 'file', 'from_date', 'to_date',
