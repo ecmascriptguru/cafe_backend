@@ -15,7 +15,7 @@ class TableAdminForm(forms.ModelForm):
     class Meta:
         model = Table
         fields = (
-            'name', 'imei', 'size', 'male', 'female', 'state', 'is_vip', )
+            'name', 'imei', 'size', 'female', 'male', 'state', 'is_vip', )
 
     def __init__(self, *args, **kwargs):
         super(TableAdminForm, self).__init__(*args, **kwargs)
@@ -39,6 +39,13 @@ class TableAdminForm(forms.ModelForm):
                 than size!'))
         return female
 
+    def clean_state(self):
+        state = self.cleaned_data['state']
+        if state == TABLE_STATE.using:
+            if self.cleaned_data['male'] + self.cleaned_data['female'] == 0:
+                self.add_error('female', _('Using without any customers?'))
+        return state
+
     def save(self, commit=True):
         if self.instance.pk is None:
             user = User.objects.create_user(
@@ -53,7 +60,7 @@ class TableAdminForm(forms.ModelForm):
 class TableForm(forms.ModelForm):
     class Meta:
         model = Table
-        fields = ('male', 'female', 'is_vip', 'state', 'size', )
+        fields = ('size', 'male', 'female', 'is_vip', 'state', )
 
     def __init__(self, *args, **kwargs):
         super(TableForm, self).__init__(*args, **kwargs)
@@ -62,7 +69,7 @@ class TableForm(forms.ModelForm):
         self.helper = FormHelper()
         if self.instance.state == TABLE_STATE.blank:
             self.helper.layout = Layout(
-                'size', 'male', 'female', 'state', 'is_vip',
+                'size', 'female', 'male', 'state', 'is_vip',
                 ButtonHolder(
                     Submit(
                         'submit', _('Save Changes'),
@@ -71,7 +78,7 @@ class TableForm(forms.ModelForm):
             )
         else:
             self.helper.layout = Layout(
-                'male', 'female', 'size', 'state', 'is_vip',
+                'size', 'female', 'male', 'state', 'is_vip',
                 ButtonHolder(
                     Submit(
                         'submit', _('save changes'),
@@ -96,6 +103,13 @@ class TableForm(forms.ModelForm):
             self.add_error('female', _('Male + Femail should not be greater\
                 than size!'))
         return female
+
+    def clean_state(self):
+        state = self.cleaned_data['state']
+        if state == TABLE_STATE.using:
+            if self.cleaned_data['male'] + self.cleaned_data['female'] == 0:
+                self.add_error('female', _('Using without any customers?'))
+        return state
 
     def clean(self):
         data = super(TableForm, self).clean()

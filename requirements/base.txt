@@ -13,10 +13,12 @@ certifi==2019.3.9
 channels==2.2.0
 channels-redis==2.4.0
 chardet==3.0.4
+click==6.7
 constantly==15.1.0
 daphne==2.3.0
 dj-database-url==0.5.0
 Django==2.0.9
+django-appconf==1.0.3
 django-bootstrap4==0.0.8
 django-celery-beat==1.2.0
 django-crispy-forms==1.7.2
@@ -37,11 +39,13 @@ idna==2.8
 incremental==17.5.0
 jmespath==0.9.4
 kombu==4.5.0
+lxml==4.3.3
 Markdown==3.1
 msgpack==0.6.1
 pep8==1.7.1
 Pillow==6.0.0
 psycopg2-binary==2.7.7
+pyaxmlparser==0.3.15
 Pygments==2.3.1
 PyHamcrest==1.9.0
 PyJWT==1.7.1
@@ -54,6 +58,7 @@ redis==3.2.1
 requests==2.21.0
 s3transfer==0.2.0
 six==1.12.0
+sorl-thumbnail==12.5.0
 twilio==6.26.2
 Twisted==19.2.0
 txaio==18.8.1

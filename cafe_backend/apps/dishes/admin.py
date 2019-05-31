@@ -1,14 +1,13 @@
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin, AdminSite
 from django.utils.translation import ugettext_lazy as _
+from sorl.thumbnail.admin import AdminImageMixin
 from .models import Category, Dish, DishImage as Image, DishReview as Review
 from .forms import DishAdminForm
 
-
-class CafeAdminSite(AdminSite):
-    site_header = _("Cafe Administration")
-    site_title = _("Cafe Admin")
-    index_title = _("Cafe Admin")
+admin.site.site_header = _("Cafe Administration")
+admin.site.site_title = _("Cafe Admin")
+admin.site.index_title = _("Cafe Admin")
 
 
 class CategoryAdmin(ModelAdmin):
@@ -18,7 +17,7 @@ class CategoryAdmin(ModelAdmin):
         model = Category
 
 
-class ImageInline(admin.TabularInline):
+class ImageInline(AdminImageMixin, admin.TabularInline):
     model = Image
 
 
@@ -39,6 +38,5 @@ class DishAdmin(ModelAdmin):
         model = Dish
 
 
-admin_site = CafeAdminSite()
-# admin_site.register(Category, CategoryAdmin)
-admin_site.register(Dish, DishAdmin)
+# admin.site.register(Category, CategoryAdmin)
+admin.site.register(Dish, DishAdmin)

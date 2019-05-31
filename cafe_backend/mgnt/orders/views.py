@@ -19,6 +19,11 @@ class TableGridView(LoginRequiredMixin, generic.ListView):
     template_name = 'orders/table_gridview.html'
 
 
+class OrderDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Order
+    template_name = 'orders/order_detailview.html'
+
+
 class OrderUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Order
     form_class = forms.OrderForm
@@ -35,7 +40,8 @@ class OrderUpdateView(LoginRequiredMixin, generic.UpdateView):
         return super(OrderUpdateView, self).form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('orders:table_gridview')
+        return reverse_lazy(
+            'orders:order_detailview', kwargs={'pk': self.object.pk})
 
     def get_context_data(self, *args, **kwargs):
         data = super(OrderUpdateView, self).get_context_data(*args, **kwargs)

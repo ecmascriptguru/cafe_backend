@@ -34,7 +34,7 @@
                 </div>
                 <div class="col-xs-6">
                     {% if table.order %}
-                        <a href="{% url 'orders:order_updateview' pk=table.order.pk %}" class="pull-right">
+                        <a href="{% url 'orders:order_detailview' pk=table.order.pk %}" class="pull-right">
                             <i class="fa fa-check"></i> {% trans 'Orders' %}
                         </a>
                     {% endif %}

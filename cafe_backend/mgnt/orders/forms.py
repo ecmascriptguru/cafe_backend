@@ -23,7 +23,7 @@ OrderItemFormSet = inlineformset_factory(
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
-        exclude = ('table', 'created', 'modified', 'state')
+        exclude = ('table', 'created', 'modified', 'details', )
 
     def __init__(self, *args, **kwargs):
         super(OrderForm, self).__init__(*args, **kwargs)

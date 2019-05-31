@@ -3,13 +3,15 @@ from django.db.models import QuerySet
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.db import transaction
+from django_filters.views import FilterView
 from rest_framework import viewsets, permissions
 from rest_framework import pagination
 from rest_framework.decorators import action
 from cafe_backend.core.apis.viewsets import CafeModelViewSet
-from .serializers import CategorySerializer, DishSerializer, ReviewSerializer
+from . import serializers
 from . import forms
-from .models import Category, Dish, DishReview
+from .models import Category, Dish, DishReview, DishImage
+from .filters import DishFilter
 
 
 class DishPagination(pagination.PageNumberPagination):
@@ -18,15 +20,20 @@ class DishPagination(pagination.PageNumberPagination):
 
 class CategoryViewSet(CafeModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CategorySerializer
+    serializer_class = serializers.CategorySerializer
     queryset = Category.objects.filter(is_active=True)
     http_method_names = ['get']
     lookup_field = 'slug'
 
 
+class DishImageViewSet(CafeModelViewSet):
+    serializer_class = serializers.DishImageSerializer
+    queryset = DishImage.objects.all()
+
+
 class DishViewSet(CafeModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = DishSerializer
+    serializer_class = serializers.DishSerializer
     queryset = Dish.objects.filter(is_active=True).\
         order_by('-created')
     pagination_class = DishPagination
@@ -59,7 +66,7 @@ class DishViewSet(CafeModelViewSet):
 
 class DishReviewViewSet(CafeModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
-    serializer_class = ReviewSerializer
+    serializer_class = serializers.ReviewSerializer
     queryset = DishReview.objects.all()
     pagination_class = pagination.PageNumberPagination
 
@@ -92,9 +99,12 @@ class CategoryCreateView(LoginRequiredMixin, generic.CreateView):
     form_class = forms.CategoryForm
 
 
-class DishListView(LoginRequiredMixin, generic.ListView):
+class DishListView(LoginRequiredMixin, FilterView):
     model = Dish
     template_name = 'dishes/dish_listview.html'
+    paginate_by = 6
+    filterset_class = DishFilter
+    strict = False
 
 
 class DishCreateView(LoginRequiredMixin, generic.CreateView):

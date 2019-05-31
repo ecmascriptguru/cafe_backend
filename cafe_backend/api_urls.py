@@ -33,4 +33,8 @@ urlpatterns = [
     path('', include((
         'cafe_backend.mgnt.music.urls_api',
         'cafe_backend.mgnt.music'), namespace='api:music')),
+
+    path('', include((
+        'cafe_backend.apps.versions.urls_api',
+        'cafe_backend.apps.versions'), namespace='api:versions')),
 ]

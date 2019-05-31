@@ -13,7 +13,9 @@
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'backend_theme/img/favicon.jpg' %}">
     <link rel="stylesheet" href="{% static 'backend_theme/css/layout.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'backend_theme/css/custom.css' %}">
-
+    {% if form and form.media %}
+    {{ form.media }}
+    {% endif %}
     <script>
         window.userId = parseInt("{{ request.user.pk }}")
     </script>
@@ -29,6 +31,7 @@
 
         <div class="content-wrapper">
             <audio src="{% static 'backend_theme/sounds/ring.mp3' %}" id="table-ring-tone"></audio>
+            <audio src="{% static 'backend_theme/sounds/order-alert.mp3' %}" id="order-alert"></audio>
             {% if messages %}
             <ul class="messages">
                 {% for message in messages %}

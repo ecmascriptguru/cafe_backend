@@ -20,6 +20,7 @@ def state_bg_color(instance):
         DEFAULT_STATE.pending: 'yellow',
         DEFAULT_STATE.rejected: 'grey',
         DEFAULT_STATE.waiting: 'yellow',
+        DEFAULT_STATE.delivered: 'green',
     }
 
     return "bg-%s" % color_map.get(

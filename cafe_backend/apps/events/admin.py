@@ -1,5 +1,4 @@
 from django.contrib import admin
-from cafe_backend.apps.users.admin import admin_site
 from .models import Event
 from .forms import EventAdminForm
 
@@ -15,4 +14,4 @@ class EventAdmin(admin.ModelAdmin):
         model = Event
 
 
-admin_site.register(Event, EventAdmin)
+admin.site.register(Event, EventAdmin)

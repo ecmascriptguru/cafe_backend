@@ -1,5 +1,4 @@
 from django.contrib import admin
-from cafe_backend.apps.users.admin import admin_site
 from .models import Music, Playlist
 
 
@@ -10,5 +9,5 @@ class MusicAdmin(admin.ModelAdmin):
         model = Music
 
 
-admin_site.register(Music, MusicAdmin)
-admin_site.register(Playlist)
+admin.site.register(Music, MusicAdmin)
+admin.site.register(Playlist)

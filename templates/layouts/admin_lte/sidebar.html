@@ -12,7 +12,7 @@
       </div>
       <div class="pull-left info">
         <p>{{ request.user.name }}</p>
-        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+        <a href="#"><i class="fa fa-circle text-success"></i> {% trans 'Online' %}</a>
       </div>
     </div>
     <!-- search form -->
@@ -74,7 +74,7 @@
         </a>
         <ul class="treeview-menu">
           <li class="{% if request.path|startswith:'/mgnt/orders/' %} active {% endif %}">
-            <a href="{% url 'orders:table_gridview' %}">
+            <a href="{% url 'orders:table_gridview' %}" class='admin-mgnt-orders-link'>
               <i class="fa fa-shopping-cart"></i> {% trans 'Orders' %} <span class="badge badge-dnager new-order-count"></span>
             </a>
           </li>

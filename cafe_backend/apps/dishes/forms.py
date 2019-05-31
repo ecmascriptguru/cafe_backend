@@ -2,6 +2,7 @@ from django import forms
 from django.forms.models import inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
 from django.db import transaction
+from sorl.thumbnail.admin.current import AdminImageWidget
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import (
     Layout, ButtonHolder, Submit, Field, Fieldset, Div, HTML)
@@ -10,9 +11,13 @@ from .models import Category, Dish, DishImage
 
 
 class DishImageForm(forms.ModelForm):
+
     class Meta:
         model = DishImage
         exclude = ()
+        widgets = {
+            'file': AdminImageWidget()
+        }
 
 
 DishImageFormSet = inlineformset_factory(

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin
-from cafe_backend.apps.dishes.admin import admin_site
 from .models import Order, OrderItem
+from .forms import OrderForm
 
 
 class OrderItemInline(admin.TabularInline):
@@ -15,6 +15,8 @@ class OrderAdmin(ModelAdmin):
 
     list_display = ('table', 'total_sum', )
     inlines = (OrderItemInline, )
+    exclude = ('details', )
+    # form = OrderForm
 
 
-admin_site.register(Order, OrderAdmin)
+admin.site.register(Order, OrderAdmin)
