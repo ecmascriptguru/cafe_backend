@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-30 18:29+0800\n"
+"POT-Creation-Date: 2019-05-31 10:26+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,12 +34,14 @@ msgstr "视频"
 
 #: cafe_backend/apps/advertisements/models.py:16
 #: cafe_backend/apps/dishes/models.py:13 cafe_backend/apps/dishes/models.py:34
-#: cafe_backend/apps/events/models.py:29 cafe_backend/mgnt/chat/models.py:15
+#: cafe_backend/apps/events/models.py:29
+#: cafe_backend/apps/versions/models.py:14 cafe_backend/mgnt/chat/models.py:15
 msgid "Name"
 msgstr "名字"
 
 #: cafe_backend/apps/advertisements/models.py:18
 #: cafe_backend/apps/events/models.py:34
+#: cafe_backend/apps/versions/models.py:17
 msgid "File"
 msgstr "文件"
 
@@ -118,7 +120,7 @@ msgstr "所有广告"
 #: cafe_backend/apps/dishes/templates/categories/category_createview.html:14
 #: cafe_backend/apps/dishes/templates/categories/category_listview.html:13
 #: cafe_backend/apps/dishes/templates/categories/category_updateview.html:14
-#: cafe_backend/apps/dishes/templates/dishes/_dish_list_item.html:27
+#: cafe_backend/apps/dishes/templates/dishes/_dish_list_item.html:28
 #: cafe_backend/apps/dishes/templates/dishes/dish_createview.html:14
 #: cafe_backend/apps/dishes/templates/dishes/dish_listview.html:14
 #: cafe_backend/apps/dishes/templates/dishes/dish_updateview.html:14
@@ -129,6 +131,7 @@ msgstr "所有广告"
 #: cafe_backend/apps/users/templates/tables/_table_grid_item.html:32
 #: cafe_backend/apps/users/templates/tables/table_listview.html:13
 #: cafe_backend/apps/users/templates/tables/table_updateview.html:14
+#: cafe_backend/mgnt/orders/templates/orders/_table_grid_item.html:32
 #: templates/layouts/admin_lte/sidebar.html:38
 msgid "Settings"
 msgstr "设置"
@@ -173,11 +176,11 @@ msgstr "创建"
 msgid "Grid view of contacts"
 msgstr "联系人目录"
 
-#: cafe_backend/apps/dishes/admin.py:10
+#: cafe_backend/apps/dishes/admin.py:8
 msgid "Cafe Administration"
 msgstr "餐厅管理"
 
-#: cafe_backend/apps/dishes/admin.py:11 cafe_backend/apps/dishes/admin.py:12
+#: cafe_backend/apps/dishes/admin.py:9 cafe_backend/apps/dishes/admin.py:10
 msgid "Cafe Admin"
 msgstr "餐厅管理"
 
@@ -236,7 +239,7 @@ msgstr "朝鲜语说明"
 #: cafe_backend/apps/dishes/models.py:92 cafe_backend/apps/dishes/models.py:145
 #: cafe_backend/apps/dishes/models.py:165
 #: cafe_backend/mgnt/bookings/models.py:19
-#: cafe_backend/mgnt/orders/models.py:113
+#: cafe_backend/mgnt/orders/models.py:117
 msgid "Dish"
 msgstr "饮食"
 
@@ -445,28 +448,32 @@ msgstr "名字"
 msgid "IMEI Code"
 msgstr "设备序列号"
 
-#: cafe_backend/apps/users/forms.py:31 cafe_backend/apps/users/forms.py:89
+#: cafe_backend/apps/users/forms.py:31 cafe_backend/apps/users/forms.py:96
 msgid "Male can't be greater than size!"
 msgstr "‘男性’不能超过餐桌最大人数。"
 
-#: cafe_backend/apps/users/forms.py:38 cafe_backend/apps/users/forms.py:96
+#: cafe_backend/apps/users/forms.py:38 cafe_backend/apps/users/forms.py:103
 msgid "Male + Femail should not be greater                than size!"
 msgstr "男性+女性不能超过餐桌最大人数。"
 
-#: cafe_backend/apps/users/forms.py:68 cafe_backend/mgnt/orders/forms.py:43
+#: cafe_backend/apps/users/forms.py:46 cafe_backend/apps/users/forms.py:111
+msgid "Using without any customers?"
+msgstr "没有顾客？"
+
+#: cafe_backend/apps/users/forms.py:75 cafe_backend/mgnt/orders/forms.py:43
 msgid "Save Changes"
 msgstr "保存更改"
 
-#: cafe_backend/apps/users/forms.py:77
+#: cafe_backend/apps/users/forms.py:84
 msgid "save changes"
 msgstr "保存更改"
 
-#: cafe_backend/apps/users/forms.py:80 cafe_backend/apps/users/forms.py:102
-#: cafe_backend/apps/users/forms.py:108
+#: cafe_backend/apps/users/forms.py:87 cafe_backend/apps/users/forms.py:116
+#: cafe_backend/apps/users/forms.py:122
 msgid "clear"
 msgstr "清空"
 
-#: cafe_backend/apps/users/forms.py:104
+#: cafe_backend/apps/users/forms.py:118
 msgid "Order is not complete yet."
 msgstr "订单尚未完成"
 
@@ -523,7 +530,7 @@ msgstr "VIP?"
 
 #: cafe_backend/apps/users/models.py:62 cafe_backend/mgnt/bookings/models.py:48
 #: cafe_backend/mgnt/music/models.py:32 cafe_backend/mgnt/orders/models.py:31
-#: cafe_backend/mgnt/orders/models.py:128
+#: cafe_backend/mgnt/orders/models.py:132
 msgid "State"
 msgstr "状态"
 
@@ -532,12 +539,15 @@ msgid "Cleared"
 msgstr "清空"
 
 #: cafe_backend/apps/users/templates/tables/_table_grid_item.html:11
+#: cafe_backend/mgnt/orders/templates/orders/_table_grid_item.html:11
 msgid "Customers"
 msgstr "顾客"
 
 #: cafe_backend/apps/users/templates/tables/_table_grid_item.html:18
 #: cafe_backend/apps/users/templates/tables/_table_grid_item.html:38
 #: cafe_backend/mgnt/orders/models.py:24
+#: cafe_backend/mgnt/orders/templates/orders/_table_grid_item.html:18
+#: cafe_backend/mgnt/orders/templates/orders/_table_grid_item.html:38
 #: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:11
 #: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:16
 #: cafe_backend/mgnt/orders/templates/orders/order_updateview.html:10
@@ -557,6 +567,26 @@ msgstr "餐桌目录"
 #: cafe_backend/mgnt/orders/templates/orders/order_updateview.html:16
 msgid "Update"
 msgstr "升级"
+
+#: cafe_backend/apps/versions/apps.py:7
+msgid "versions"
+msgstr "版本"
+
+#: cafe_backend/apps/versions/forms.py:25
+msgid "This is not a new version!"
+msgstr "这不是新版本。"
+
+#: cafe_backend/apps/versions/models.py:10
+msgid "Version"
+msgstr "版本"
+
+#: cafe_backend/apps/versions/models.py:11
+msgid "Versions"
+msgstr "版本"
+
+#: cafe_backend/apps/versions/models.py:15
+msgid "Release Note"
+msgstr "发行公告"
 
 #: cafe_backend/mgnt/bookings/apps.py:7
 msgid "bookings"
@@ -872,7 +902,7 @@ msgstr "搜索"
 msgid "orders"
 msgstr "订单"
 
-#: cafe_backend/mgnt/orders/forms.py:38 cafe_backend/mgnt/orders/models.py:106
+#: cafe_backend/mgnt/orders/forms.py:38 cafe_backend/mgnt/orders/models.py:110
 msgid "Order Items"
 msgstr "订单饮食"
 
@@ -881,7 +911,7 @@ msgid "Delivered"
 msgstr "移除"
 
 #: cafe_backend/mgnt/orders/models.py:23 cafe_backend/mgnt/orders/models.py:43
-#: cafe_backend/mgnt/orders/models.py:110
+#: cafe_backend/mgnt/orders/models.py:114
 msgid "Order"
 msgstr "订单"
 
@@ -889,19 +919,19 @@ msgstr "订单"
 msgid "Customer"
 msgstr "顾客"
 
-#: cafe_backend/mgnt/orders/models.py:105
+#: cafe_backend/mgnt/orders/models.py:109
 msgid "Order Item"
 msgstr "订单饮食"
 
-#: cafe_backend/mgnt/orders/models.py:117
+#: cafe_backend/mgnt/orders/models.py:121
 msgid "Target Table"
 msgstr "目标餐桌"
 
-#: cafe_backend/mgnt/orders/models.py:122
+#: cafe_backend/mgnt/orders/models.py:126
 msgid "Amount"
 msgstr "数量"
 
-#: cafe_backend/mgnt/orders/models.py:125
+#: cafe_backend/mgnt/orders/models.py:129
 msgid "Discount Rate"
 msgstr "折扣率"
 
@@ -929,15 +959,15 @@ msgstr "更新订单"
 msgid "Grid view of tables"
 msgstr "餐桌目录"
 
-#: config/settings/base.py:151
+#: config/settings/base.py:152
 msgid "Chinese"
 msgstr "汉语"
 
-#: config/settings/base.py:152
+#: config/settings/base.py:153
 msgid "Korean"
 msgstr "朝鲜语"
 
-#: config/settings/base.py:153
+#: config/settings/base.py:154
 msgid "English"
 msgstr "英语"
 
@@ -957,39 +987,47 @@ msgstr "著作权"
 msgid "All rights reserved."
 msgstr "保留所有权利"
 
-#: templates/layouts/admin_lte/navbar.html:6
+#: templates/layouts/admin_lte/navbar.html:5
+msgid "A new order item was requested."
+msgstr "新的订单来了。"
+
+#: templates/layouts/admin_lte/navbar.html:9
 msgid "C"
 msgstr "餐厅"
 
-#: templates/layouts/admin_lte/navbar.html:6
+#: templates/layouts/admin_lte/navbar.html:9
 msgid "A"
 msgstr "管"
 
-#: templates/layouts/admin_lte/navbar.html:7
+#: templates/layouts/admin_lte/navbar.html:10
 msgid "Cafe"
 msgstr "餐厅"
 
-#: templates/layouts/admin_lte/navbar.html:7
+#: templates/layouts/admin_lte/navbar.html:10
 msgid "Admin"
 msgstr "管理"
 
-#: templates/layouts/admin_lte/navbar.html:45
+#: templates/layouts/admin_lte/navbar.html:48
 msgid "You have no new order."
 msgstr "你没有新订单。"
 
-#: templates/layouts/admin_lte/navbar.html:72
+#: templates/layouts/admin_lte/navbar.html:54
+msgid "See All Orders"
+msgstr "订单"
+
+#: templates/layouts/admin_lte/navbar.html:64
 msgid "You have no unread notification."
 msgstr "您有未读通知"
 
-#: templates/layouts/admin_lte/navbar.html:177
+#: templates/layouts/admin_lte/navbar.html:169
 msgid "Super Admin"
 msgstr "最高管理者"
 
-#: templates/layouts/admin_lte/navbar.html:179
+#: templates/layouts/admin_lte/navbar.html:171
 msgid "DashBoard"
 msgstr "数据报告"
 
-#: templates/layouts/admin_lte/navbar.html:183
+#: templates/layouts/admin_lte/navbar.html:175
 msgid "Sign out"
 msgstr "登出"
 

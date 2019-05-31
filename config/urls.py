@@ -20,7 +20,6 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 from cafe_backend.apps.users.views import TablesListView
-from cafe_backend.apps.dishes.admin import admin_site
 from cafe_backend.core.apis.views import (
     obtain_jwt_token, refresh_jwt_token, verify_jwt_token)
 
@@ -33,6 +32,9 @@ urlpatterns = [
     url(r'^api-token-refresh/', refresh_jwt_token),
     url(r'^api-token-verify/', verify_jwt_token),
     url(r'^i18n/', include('django.conf.urls.i18n')),
+    path('versions/', include((
+        'cafe_backend.apps.versions.urls', 'cafe_backend.apps.versions'),
+        namespace='versions')),
 ]
 
 urlpatterns += i18n_patterns(
@@ -40,7 +42,7 @@ urlpatterns += i18n_patterns(
     url(r'^mgnt/', include('cafe_backend.mgnt_urls')),
     url(r'^settings/', include('cafe_backend.settings_urls')),
     url(r'^auth/', include('django.contrib.auth.urls')),
-    url(r'^admin/', admin_site.urls),
+    url(r'^admin/', admin.site.urls),
 )
 
 if settings.DEBUG:

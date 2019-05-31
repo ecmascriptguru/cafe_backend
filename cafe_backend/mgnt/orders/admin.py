@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin
-from cafe_backend.apps.dishes.admin import admin_site
 from .models import Order, OrderItem
 
 
@@ -17,4 +16,4 @@ class OrderAdmin(ModelAdmin):
     inlines = (OrderItemInline, )
 
 
-admin_site.register(Order, OrderAdmin)
+admin.site.register(Order, OrderAdmin)

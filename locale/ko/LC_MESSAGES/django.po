@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-30 18:29+0800\n"
+"POT-Creation-Date: 2019-05-31 10:26+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,12 +34,14 @@ msgstr "동영상"
 
 #: cafe_backend/apps/advertisements/models.py:16
 #: cafe_backend/apps/dishes/models.py:13 cafe_backend/apps/dishes/models.py:34
-#: cafe_backend/apps/events/models.py:29 cafe_backend/mgnt/chat/models.py:15
+#: cafe_backend/apps/events/models.py:29
+#: cafe_backend/apps/versions/models.py:14 cafe_backend/mgnt/chat/models.py:15
 msgid "Name"
 msgstr "이름"
 
 #: cafe_backend/apps/advertisements/models.py:18
 #: cafe_backend/apps/events/models.py:34
+#: cafe_backend/apps/versions/models.py:17
 msgid "File"
 msgstr "파일"
 
@@ -118,7 +120,7 @@ msgstr "인터넷 동영상 광고"
 #: cafe_backend/apps/dishes/templates/categories/category_createview.html:14
 #: cafe_backend/apps/dishes/templates/categories/category_listview.html:13
 #: cafe_backend/apps/dishes/templates/categories/category_updateview.html:14
-#: cafe_backend/apps/dishes/templates/dishes/_dish_list_item.html:27
+#: cafe_backend/apps/dishes/templates/dishes/_dish_list_item.html:28
 #: cafe_backend/apps/dishes/templates/dishes/dish_createview.html:14
 #: cafe_backend/apps/dishes/templates/dishes/dish_listview.html:14
 #: cafe_backend/apps/dishes/templates/dishes/dish_updateview.html:14
@@ -129,6 +131,7 @@ msgstr "인터넷 동영상 광고"
 #: cafe_backend/apps/users/templates/tables/_table_grid_item.html:32
 #: cafe_backend/apps/users/templates/tables/table_listview.html:13
 #: cafe_backend/apps/users/templates/tables/table_updateview.html:14
+#: cafe_backend/mgnt/orders/templates/orders/_table_grid_item.html:32
 #: templates/layouts/admin_lte/sidebar.html:38
 msgid "Settings"
 msgstr "설정"
@@ -173,11 +176,11 @@ msgstr "창조"
 msgid "Grid view of contacts"
 msgstr "컨택트"
 
-#: cafe_backend/apps/dishes/admin.py:10
+#: cafe_backend/apps/dishes/admin.py:8
 msgid "Cafe Administration"
 msgstr "술집관리"
 
-#: cafe_backend/apps/dishes/admin.py:11 cafe_backend/apps/dishes/admin.py:12
+#: cafe_backend/apps/dishes/admin.py:9 cafe_backend/apps/dishes/admin.py:10
 msgid "Cafe Admin"
 msgstr "술집관리"
 
@@ -236,7 +239,7 @@ msgstr "조선어설명"
 #: cafe_backend/apps/dishes/models.py:92 cafe_backend/apps/dishes/models.py:145
 #: cafe_backend/apps/dishes/models.py:165
 #: cafe_backend/mgnt/bookings/models.py:19
-#: cafe_backend/mgnt/orders/models.py:113
+#: cafe_backend/mgnt/orders/models.py:117
 msgid "Dish"
 msgstr "음식"
 
@@ -445,28 +448,32 @@ msgstr "이름"
 msgid "IMEI Code"
 msgstr "설비 식별번호"
 
-#: cafe_backend/apps/users/forms.py:31 cafe_backend/apps/users/forms.py:89
+#: cafe_backend/apps/users/forms.py:31 cafe_backend/apps/users/forms.py:96
 msgid "Male can't be greater than size!"
 msgstr "남성고객인원수가 식탁 정원 인원수보다 클수 없습니다."
 
-#: cafe_backend/apps/users/forms.py:38 cafe_backend/apps/users/forms.py:96
+#: cafe_backend/apps/users/forms.py:38 cafe_backend/apps/users/forms.py:103
 msgid "Male + Femail should not be greater                than size!"
 msgstr "남성+여성은 식탁 싸이즈보다 클수 없습니다."
 
-#: cafe_backend/apps/users/forms.py:68 cafe_backend/mgnt/orders/forms.py:43
+#: cafe_backend/apps/users/forms.py:46 cafe_backend/apps/users/forms.py:111
+msgid "Using without any customers?"
+msgstr "고객인원수를 입력하십시요."
+
+#: cafe_backend/apps/users/forms.py:75 cafe_backend/mgnt/orders/forms.py:43
 msgid "Save Changes"
 msgstr "저장"
 
-#: cafe_backend/apps/users/forms.py:77
+#: cafe_backend/apps/users/forms.py:84
 msgid "save changes"
 msgstr "저장"
 
-#: cafe_backend/apps/users/forms.py:80 cafe_backend/apps/users/forms.py:102
-#: cafe_backend/apps/users/forms.py:108
+#: cafe_backend/apps/users/forms.py:87 cafe_backend/apps/users/forms.py:116
+#: cafe_backend/apps/users/forms.py:122
 msgid "clear"
 msgstr "클리어"
 
-#: cafe_backend/apps/users/forms.py:104
+#: cafe_backend/apps/users/forms.py:118
 msgid "Order is not complete yet."
 msgstr "주문이 완성되지 않았습니다."
 
@@ -523,7 +530,7 @@ msgstr "VIP?"
 
 #: cafe_backend/apps/users/models.py:62 cafe_backend/mgnt/bookings/models.py:48
 #: cafe_backend/mgnt/music/models.py:32 cafe_backend/mgnt/orders/models.py:31
-#: cafe_backend/mgnt/orders/models.py:128
+#: cafe_backend/mgnt/orders/models.py:132
 msgid "State"
 msgstr "상태"
 
@@ -532,12 +539,15 @@ msgid "Cleared"
 msgstr "클리어"
 
 #: cafe_backend/apps/users/templates/tables/_table_grid_item.html:11
+#: cafe_backend/mgnt/orders/templates/orders/_table_grid_item.html:11
 msgid "Customers"
 msgstr "고객"
 
 #: cafe_backend/apps/users/templates/tables/_table_grid_item.html:18
 #: cafe_backend/apps/users/templates/tables/_table_grid_item.html:38
 #: cafe_backend/mgnt/orders/models.py:24
+#: cafe_backend/mgnt/orders/templates/orders/_table_grid_item.html:18
+#: cafe_backend/mgnt/orders/templates/orders/_table_grid_item.html:38
 #: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:11
 #: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:16
 #: cafe_backend/mgnt/orders/templates/orders/order_updateview.html:10
@@ -557,6 +567,26 @@ msgstr "전체 식탁"
 #: cafe_backend/mgnt/orders/templates/orders/order_updateview.html:16
 msgid "Update"
 msgstr "갱신"
+
+#: cafe_backend/apps/versions/apps.py:7
+msgid "versions"
+msgstr "판본"
+
+#: cafe_backend/apps/versions/forms.py:25
+msgid "This is not a new version!"
+msgstr "새 판본이 아닙니다."
+
+#: cafe_backend/apps/versions/models.py:10
+msgid "Version"
+msgstr "판본"
+
+#: cafe_backend/apps/versions/models.py:11
+msgid "Versions"
+msgstr "판본"
+
+#: cafe_backend/apps/versions/models.py:15
+msgid "Release Note"
+msgstr "배포메모"
 
 #: cafe_backend/mgnt/bookings/apps.py:7
 msgid "bookings"
@@ -872,7 +902,7 @@ msgstr "검색"
 msgid "orders"
 msgstr "예약"
 
-#: cafe_backend/mgnt/orders/forms.py:38 cafe_backend/mgnt/orders/models.py:106
+#: cafe_backend/mgnt/orders/forms.py:38 cafe_backend/mgnt/orders/models.py:110
 msgid "Order Items"
 msgstr "주문 아이템"
 
@@ -881,7 +911,7 @@ msgid "Delivered"
 msgstr "송달됨"
 
 #: cafe_backend/mgnt/orders/models.py:23 cafe_backend/mgnt/orders/models.py:43
-#: cafe_backend/mgnt/orders/models.py:110
+#: cafe_backend/mgnt/orders/models.py:114
 msgid "Order"
 msgstr "예약"
 
@@ -889,19 +919,19 @@ msgstr "예약"
 msgid "Customer"
 msgstr "고객"
 
-#: cafe_backend/mgnt/orders/models.py:105
+#: cafe_backend/mgnt/orders/models.py:109
 msgid "Order Item"
 msgstr "주문 아이템"
 
-#: cafe_backend/mgnt/orders/models.py:117
+#: cafe_backend/mgnt/orders/models.py:121
 msgid "Target Table"
 msgstr "타겟 테이블"
 
-#: cafe_backend/mgnt/orders/models.py:122
+#: cafe_backend/mgnt/orders/models.py:126
 msgid "Amount"
 msgstr "합계"
 
-#: cafe_backend/mgnt/orders/models.py:125
+#: cafe_backend/mgnt/orders/models.py:129
 msgid "Discount Rate"
 msgstr "할인율"
 
@@ -929,15 +959,15 @@ msgstr "주문 갱신"
 msgid "Grid view of tables"
 msgstr "모든 식탁"
 
-#: config/settings/base.py:151
+#: config/settings/base.py:152
 msgid "Chinese"
 msgstr "중국어"
 
-#: config/settings/base.py:152
+#: config/settings/base.py:153
 msgid "Korean"
 msgstr "조선어"
 
-#: config/settings/base.py:153
+#: config/settings/base.py:154
 msgid "English"
 msgstr "영어"
 
@@ -957,39 +987,47 @@ msgstr "판권"
 msgid "All rights reserved."
 msgstr "모든 합법적 권력을 보유하고 있습니다"
 
-#: templates/layouts/admin_lte/navbar.html:6
+#: templates/layouts/admin_lte/navbar.html:5
+msgid "A new order item was requested."
+msgstr "새 주문요청이 들어왔습니다."
+
+#: templates/layouts/admin_lte/navbar.html:9
 msgid "C"
 msgstr "술집"
 
-#: templates/layouts/admin_lte/navbar.html:6
+#: templates/layouts/admin_lte/navbar.html:9
 msgid "A"
 msgstr "술"
 
-#: templates/layouts/admin_lte/navbar.html:7
+#: templates/layouts/admin_lte/navbar.html:10
 msgid "Cafe"
 msgstr "술집"
 
-#: templates/layouts/admin_lte/navbar.html:7
+#: templates/layouts/admin_lte/navbar.html:10
 msgid "Admin"
 msgstr "관리"
 
-#: templates/layouts/admin_lte/navbar.html:45
+#: templates/layouts/admin_lte/navbar.html:48
 msgid "You have no new order."
 msgstr "새로운 주문이 없습니다."
 
-#: templates/layouts/admin_lte/navbar.html:72
+#: templates/layouts/admin_lte/navbar.html:54
+msgid "See All Orders"
+msgstr "주문"
+
+#: templates/layouts/admin_lte/navbar.html:64
 msgid "You have no unread notification."
 msgstr "읽지않은 메시지가 있습니다"
 
-#: templates/layouts/admin_lte/navbar.html:177
+#: templates/layouts/admin_lte/navbar.html:169
 msgid "Super Admin"
 msgstr "관리"
 
-#: templates/layouts/admin_lte/navbar.html:179
+#: templates/layouts/admin_lte/navbar.html:171
 msgid "DashBoard"
 msgstr "데이터 보고"
 
-#: templates/layouts/admin_lte/navbar.html:183
+#: templates/layouts/admin_lte/navbar.html:175
 msgid "Sign out"
 msgstr "로그아웃"
 
