@@ -26,11 +26,13 @@
                 </div>
                 <div class="box-body">
                     <p>{% trans 'Are you sure that you want to delete this ads?' %}</p>
+                    <img src="{{ object.normal }}" />
                 </div>
                 <div class="box-footer">
                     <form method="POST">
+                        <a href="{% url 'ads:ads_listview' %}" class="btn btn-default">{% trans 'No' %}</a>
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">{% trans 'Yes' %}</button>
+                        <button type="submit" class="btn btn-danger pull-right">{% trans 'Yes' %}</button>
                     </form>
                 </div>
             </div>

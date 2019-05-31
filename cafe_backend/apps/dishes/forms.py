@@ -16,8 +16,7 @@ class DishImageForm(forms.ModelForm):
         model = DishImage
         exclude = ()
         widgets = {
-            'file': AdminImageWidget()
-        }
+            'file': AdminImageWidget()}
 
 
 DishImageFormSet = inlineformset_factory(
