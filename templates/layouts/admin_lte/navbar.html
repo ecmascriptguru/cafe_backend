@@ -23,7 +23,6 @@
                 {% if languages|length > 0 %}
                 <li class="dropdown">
                     <form action="{% url 'set_language' %}" method="post" class="navbar-form navbar-right language-switcher">
-                        <input name="next" type="hidden" value="{{ redirect_to }}">
                         {% csrf_token %}
                         <div class="form-group">
                             <select name="language" class="form-control" onchange="this.form.submit()">

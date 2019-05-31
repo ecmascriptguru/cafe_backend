@@ -15,7 +15,7 @@
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-cog"></i>{% trans 'Settings' %}</a></li>
         <li><a href="#"><i class="fa fa-bomb"></i>{% trans 'Events' %}</a></li>
-        <li class="active">List</li>
+        <li class="active">{% trans 'List' %}</li>
     </ol>
 </section>
 
@@ -26,7 +26,9 @@
             <form action="" method="get" class="form form-inline">
                 {% bootstrap_form filter.form layout='inline' %}
                 <button class="btn btn-default">{% trans 'Filter' %}</button>
-                <a href="{% url 'events:event_createview' %}" class="btn btn-xs pull-right">{% trans 'New Ads' %}</a>
+                <a href="{% url 'events:event_createview' %}" class="btn btn-xs pull-right">
+                    <i class="fa fa-plus"></i> {% trans 'Add New' %}
+                </a>
             </form>
             {% endif %}
         </div>

@@ -12,7 +12,6 @@ from cafe_backend.core.constants.states import (
 
 ORDER_STATE_CHOICES = (
     (ORDER_STATE.default, _('Requested')),
-    (ORDER_STATE.canceled, _('Canceled')),
     (ORDER_STATE.delivered, _('Delivered')),
     (ORDER_STATE.archived, _('Archived')),
 )
@@ -110,6 +109,12 @@ class Order(TimeStampedModel):
 
 
 class OrderItem(TimeStampedModel):
+    ORDER_ITEM_STATE_CHOICES = (
+        (ORDER_STATE.default, _('Requested')),
+        (ORDER_STATE.canceled, _('Canceled')),
+        (ORDER_STATE.delivered, _('Delivered')),
+    )
+
     class Meta:
         ordering = ('-created', )
         verbose_name = _('Order Item')
@@ -134,7 +139,7 @@ class OrderItem(TimeStampedModel):
         default=0, validators=[MinValueValidator(0), MaxValueValidator(100)],
         verbose_name=_('Discount Rate'))
     state = FSMField(
-        choices=ORDER_STATE_CHOICES, default=ORDER_STATE.default,
+        choices=ORDER_ITEM_STATE_CHOICES, default=ORDER_STATE.default,
         verbose_name=_('State'))
 
     @property

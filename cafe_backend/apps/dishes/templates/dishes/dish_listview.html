@@ -24,7 +24,7 @@
             <form action="" method="get" class="form form-inline">
                 {% bootstrap_form filter.form layout='inline' %}
                 <button class="btn btn-default">{% trans 'Filter' %}</button>
-                <a href="{% url 'dishes:dish_createview' %}" class="btn btn-xs pull-right">{% trans 'New Dish' %}</a>
+                <a href="{% url 'dishes:dish_createview' %}" class="btn btn-xs pull-right"><i class="fa fa-plus"></i> {% trans 'Add New' %}</a>
             </form>
             {% endif %}
         </div>

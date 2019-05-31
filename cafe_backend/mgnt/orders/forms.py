@@ -1,17 +1,27 @@
 from django import forms
 from django.forms.models import inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
+from django.urls import reverse_lazy
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import (
     Layout, ButtonHolder, Submit, Field, Fieldset, Div, HTML)
 from cafe_backend.core.layouts.formsets import Formset
 from .models import Order, OrderItem
+from ...apps.users.models import Table
 
 
 class OrderItemForm(forms.ModelForm):
+    dish_name = forms.CharField()
+
     class Meta:
         model = OrderItem
-        exclude = ('price', 'discount_rate',)
+        fields = ('dish_name', 'to_table', 'amount', 'state', )
+
+    def __init__(self, *args, **kwargs):
+        super(OrderItemForm, self).__init__(*args, **kwargs)
+        if self.instance.pk:
+            self.fields['dish_name'].initial = self.instance.dish.name
+            self.fields['dish_name'].widget.attrs['readonly'] = True
 
 
 OrderItemFormSet = inlineformset_factory(
@@ -23,7 +33,7 @@ OrderItemFormSet = inlineformset_factory(
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
-        exclude = ('table', 'created', 'modified', 'details', )
+        exclude = ('table', 'created', 'modified', 'details', 'state', )
 
     def __init__(self, *args, **kwargs):
         super(OrderForm, self).__init__(*args, **kwargs)
@@ -39,7 +49,13 @@ class OrderForm(forms.ModelForm):
                     css_class='form-group'),
                 Field('state'),
                 HTML("<br>"),
-                ButtonHolder(Submit(
-                    'submit', _('Save Changes'), css_class='pull-right')),
+                ButtonHolder(
+                    HTML('<a href="%s" class="btn btn-default">%s</a>' % (
+                        reverse_lazy(
+                            'orders:order_detailview',
+                            kwargs={'pk': self.instance.pk}),
+                        _('Back'))),
+                    Submit(
+                        'submit', _('Save Changes'), css_class='pull-right')),
                 )
             )

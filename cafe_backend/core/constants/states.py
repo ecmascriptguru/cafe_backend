@@ -33,7 +33,7 @@ class TABLE_STATE:
     blank = DEFAULT_STATE.blank
     using = DEFAULT_STATE.using
     reserved = DEFAULT_STATE.rejected
-    waiting = DEFAULT_STATE.waiting
+    # waiting = DEFAULT_STATE.waiting
 
 
 class MUSIC_STATE:
