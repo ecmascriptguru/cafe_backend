@@ -38,6 +38,8 @@
     "gulp-size": "^3.0.0",
     "icheck": "^1.0.2",
     "jquery.formset": "^1.3.0",
+    "jquery.rateit": "^1.1.2",
+    "webfont": "^9.0.0",
     "webpack": "^3.10.0"
   }
 }

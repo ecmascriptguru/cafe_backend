@@ -5,9 +5,11 @@ require("../../node_modules/admin-lte/bower_components/bootstrap-datepicker/dist
 require("../../node_modules/admin-lte/plugins/timepicker/bootstrap-timepicker")
 require('admin-lte')
 require('icheck')
+require('jquery.rateit')
 
 require("../../node_modules/jquery.formset/src/jquery.formset")
 window.Amplitude = require('../../node_modules/amplitudejs/dist/amplitude')
+
 
 import { enableLiveView } from "./utils/live";
 import { initSocket } from "./modules/socket";

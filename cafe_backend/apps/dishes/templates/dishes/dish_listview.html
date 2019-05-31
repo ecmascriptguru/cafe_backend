@@ -62,3 +62,12 @@
     </div>
 </section>
 {% endblock content %}
+
+
+{% block custom_js %}
+<script>
+    $(document).ready(() => {
+        $('.rateit').rateit()
+    })
+</script>
+{% endblock %}
