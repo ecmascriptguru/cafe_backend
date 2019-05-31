@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load state_tags %}
+{% load thumbnail %}
 
 {% block content %}
 <section class="content-header">
@@ -26,7 +27,7 @@
                     {% for item in object.items.all %}
                     <tr>
                         <td>
-                            <img src="{{ item.dish.img.file.url}}" class="order-item-dish-image" />
+                            <img src="{{ item.dish.img.tiny }}" class="order-item-dish-image">
                         </td>
                         <td>{{ item.dish.name }}</td>
                         <td>{{ item.dish.price }}</td>

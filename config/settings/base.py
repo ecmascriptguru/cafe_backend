@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'qr_code',
     'channels',
     'django_celery_beat',
+    'sorl.thumbnail',
 
     # Local apps
     # apps
