@@ -9,9 +9,10 @@
         <div class="box-body">
             <div class="row">
                 <div class="col-sm-6 col-xs-12">
-                    {% thumbnail item.img.file "192x128" crop="center" as im %}
+                    <img src="{{ item.img.small }}" class="dish-image">
+                    <!-- {% thumbnail item.img.file "192x128" crop="center" as im %}
                         <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="dish-image">
-                    {% endthumbnail %}
+                    {% endthumbnail %} -->
                     <div class="rateit" data-rateit-mode="font" data-rateit-value="{{ item.rate }}" data-rateit-readonly="true"></div>
                 </div>
                 <div class="col-sm-6 col-xs-12">

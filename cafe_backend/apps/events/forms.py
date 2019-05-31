@@ -5,6 +5,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import (
     Layout, Div, Field, HTML, ButtonHolder, Submit, Fieldset)
 from crispy_forms.bootstrap import InlineField
+from sorl.thumbnail.admin.current import AdminImageWidget
 from .models import Event, EVENT_REPEAT_TYPE
 
 
@@ -46,6 +47,8 @@ class EventAdminForm(forms.ModelForm):
     class Meta:
         model = Event
         fields = '__all__'
+        widgets = {
+            'file': AdminImageWidget()}
 
     def __init__(self, *args, **kwargs):
         super(EventAdminForm, self).__init__(*args, **kwargs)
@@ -75,8 +78,9 @@ class EventForm(EventAdminForm):
         model = Event
         exclude = ('details', )
         kwargs = {
-            'mon': {'css_class': 'col-lg-1'}
-        }
+            'mon': {'css_class': 'col-lg-1'}}
+        widgets = {
+            'file': AdminImageWidget()}
 
     def __init__(self, *args, **kwargs):
         super(EventForm, self).__init__(*args, **kwargs)

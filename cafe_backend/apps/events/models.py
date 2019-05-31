@@ -9,6 +9,8 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.urls import reverse_lazy
 from model_utils.models import TimeStampedModel
+from sorl.thumbnail.fields import ImageField
+from ...core.images.mixins import ImageThumbnailMixin
 from cafe_backend.core.constants.types import EVENT_TYPE, EVENT_REPEAT_TYPE
 
 
@@ -24,13 +26,13 @@ EVENT_REPEAT_TYPE_CHOICES = (
 )
 
 
-class Event(TimeStampedModel):
+class Event(ImageThumbnailMixin, TimeStampedModel):
     name = models.CharField(
         max_length=128, verbose_name=_('Name'))
     event_type = FSMField(
         choices=EVENT_TYPE_CHOICES, default=EVENT_TYPE.image,
         verbose_name=_('Event Type'))
-    file = models.ImageField(
+    file = ImageField(
         upload_to='events/%Y/%m/%d', verbose_name=_('File'))
     from_date = models.DateField(null=True, verbose_name=_('Start date'))
     to_date = models.DateField(null=True, verbose_name=_('End date'))
