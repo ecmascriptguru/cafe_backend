@@ -2,8 +2,7 @@ from django.db import models
 from model_utils.models import TimeStampedModel
 from django.utils.translation import ugettext_lazy as _
 from django.core.validators import MinValueValidator, MaxValueValidator
-from image_cropping import ImageRatioField, ImageCropField
-from image_cropping.utils import get_backend
+from django.conf import settings
 
 
 class Category(TimeStampedModel):
@@ -92,9 +91,6 @@ class DishImage(TimeStampedModel):
         verbose_name=_('Dish'))
     file = models.ImageField(
         upload_to='dishes/%Y/%m/%d', verbose_name=_('Image File'))
-    small = ImageRatioField('file', '256x192')
-    medium = ImageRatioField('file', '512x384')
-    large = ImageRatioField('file', '1024x768')
 
     class Meta:
         ordering = ('-modified', )
@@ -103,36 +99,6 @@ class DishImage(TimeStampedModel):
 
     def __str__(self):
         return self.file.url
-
-    @property
-    def small_image_url(self):
-        return get_backend().get_thumbnail_url(
-            self.file, {
-                'size': (430, 360),
-                'box': self.small,
-                'crop': True,
-                'detail': True}
-        )
-
-    @property
-    def medium_image_url(self):
-        return get_backend().get_thumbnail_url(
-            self.file, {
-                'size': (430, 360),
-                'box': self.medium,
-                'crop': True,
-                'detail': True}
-        )
-
-    @property
-    def large_image_url(self):
-        return get_backend().get_thumbnail_url(
-            self.file, {
-                'size': (430, 360),
-                'box': self.large,
-                'crop': True,
-                'detail': True}
-        )
 
 
 class DishReview(TimeStampedModel):

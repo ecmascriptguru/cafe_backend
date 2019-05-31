@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin
 from .models import Order, OrderItem
+from .forms import OrderForm
 
 
 class OrderItemInline(admin.TabularInline):
@@ -14,6 +15,8 @@ class OrderAdmin(ModelAdmin):
 
     list_display = ('table', 'total_sum', )
     inlines = (OrderItemInline, )
+    exclude = ('details', )
+    # form = OrderForm
 
 
 admin.site.register(Order, OrderAdmin)

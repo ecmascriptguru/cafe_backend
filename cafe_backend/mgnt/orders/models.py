@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.postgres.fields import JSONField
 from django.db.models import F
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import ugettext_lazy as _
@@ -29,6 +30,9 @@ class Order(TimeStampedModel):
     state = FSMField(
         choices=ORDER_STATE_CHOICES, default=ORDER_STATE.default,
         verbose_name=_('State'))
+    details = JSONField(
+        default={'customers': {'male': 1, 'female': 0}},
+        verbose_name=_('Details'))
 
     def to_json(self):
         return {
@@ -100,7 +104,9 @@ class Order(TimeStampedModel):
             ORDER_STATE.default, ORDER_STATE.canceled, ORDER_STATE.delivered),
         target=ORDER_STATE.archived)
     def archive(self):
-        pass
+        self.details['customers'] = {
+            'male': self.table.male,
+            'female': self.table.female}
 
 
 class OrderItem(TimeStampedModel):

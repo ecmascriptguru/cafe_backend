@@ -14,7 +14,6 @@ import os
 import datetime
 from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
-from easy_thumbnails.conf import Settings as thumbnail_settings
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -49,8 +48,6 @@ INSTALLED_APPS = [
     'qr_code',
     'channels',
     'django_celery_beat',
-    'easy_thumbnails',
-    'image_cropping',
 
     # Local apps
     # apps
@@ -222,8 +219,3 @@ ASGI_APPLICATION = 'config.routing.application'
 CAFE_BACKEND_TMP_PATH = '%s/tmp' % BASE_DIR
 MUSIC_DOWNLOAD_PATH = "%s/music" % CAFE_BACKEND_TMP_PATH
 DATA_UPLOAD_MAX_MEMORY_SIZE = 100 * 1024 * 1024
-
-# IMAGE CROPING CONFIG
-THUMBNAIL_PROCESSORS = (
-    'image_cropping.thumbnail_processors.crop_corners',
-) + thumbnail_settings.THUMBNAIL_PROCESSORS

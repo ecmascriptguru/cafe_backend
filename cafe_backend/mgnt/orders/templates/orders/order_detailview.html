@@ -1,6 +1,5 @@
 {% extends 'layouts/adminlte_base.html' %}
 
-{% load cropping %}
 {% load i18n %}
 {% load state_tags %}
 
@@ -27,11 +26,7 @@
                     {% for item in object.items.all %}
                     <tr>
                         <td>
-                            {% if item.dish.img.small %}
-                            <img src="{% cropped_thumbnail item.dish.img 'small' scale=0.2 %}" class="order-item-dish-image" />
-                            {% else %}
-                            <img src="http://via.placeholder.com/51x38" class="dish-image" />
-                            {% endif %}
+                            <img src="{{ item.dish.img.file.url}}" class="order-item-dish-image" />
                         </td>
                         <td>{{ item.dish.name }}</td>
                         <td>{{ item.dish.price }}</td>

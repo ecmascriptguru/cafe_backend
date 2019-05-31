@@ -5,7 +5,6 @@ from django.db import transaction
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import (
     Layout, ButtonHolder, Submit, Field, Fieldset, Div, HTML)
-from image_cropping import ImageCropWidget
 from cafe_backend.core.layouts.formsets import Formset
 from .models import Category, Dish, DishImage
 
@@ -14,9 +13,6 @@ class DishImageForm(forms.ModelForm):
     class Meta:
         model = DishImage
         exclude = ()
-        widgets = {
-            'file': ImageCropWidget,
-        }
 
 
 DishImageFormSet = inlineformset_factory(
