@@ -20,9 +20,9 @@
 <section class="content">
     <div class="row">
         <div class="col-sm-12">
-            {% if filter %}
+            {% if filter_form %}
             <form action="" method="get" class="form form-inline">
-                {% bootstrap_form filter.form layout='inline' %}
+                {% bootstrap_form filter_form layout='inline' %}
                 <button class="btn btn-default">{% trans 'Filter' %}</button>
                 <a href="{% url 'dishes:dish_createview' %}" class="btn btn-xs pull-right"><i class="fa fa-plus"></i> {% trans 'Add New' %}</a>
             </form>

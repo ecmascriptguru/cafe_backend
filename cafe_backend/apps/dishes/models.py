@@ -86,6 +86,20 @@ class Dish(TimeStampedModel):
     def default_image(self):
         return self.img and self.img.file.url or None
 
+    @classmethod
+    def search(cls, keyword=None):
+        qs = cls.objects.all()
+        if keyword:
+            qs = qs.filter(
+                models.Q(name__icontains=keyword) |
+                models.Q(name_en__icontains=keyword) |
+                models.Q(name_ko__icontains=keyword) |
+                models.Q(description__icontains=keyword) |
+                models.Q(description_en__icontains=keyword) |
+                models.Q(description_ko__icontains=keyword)
+            )
+        return qs
+
 
 class DishImage(ImageThumbnailMixin, TimeStampedModel):
     image_file_field_name = 'file'

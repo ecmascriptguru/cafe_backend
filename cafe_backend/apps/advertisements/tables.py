@@ -7,18 +7,20 @@ from .models import Advertisement, ADS_TYPE
 
 class AdvertisementTable(tables.Table):
     number = tables.Column(
-        empty_values=(), verbose_name=_('#'))
+        empty_values=(), orderable=False, verbose_name=_('#'))
     image = tables.Column(
         empty_values=(), orderable=False, verbose_name=_('Image'))
     actions = tables.Column(
         empty_values=(), orderable=False, verbose_name=_('Actions'))
+    name = tables.Column(verbose_name=_('Ads Name'))
+    is_active = tables.BooleanColumn(verbose_name=_('Active Now?'))
     image_template = 'ads/_ads_table_image_column.html'
     actions_template = 'ads/_ads_table_actions_column.html'
 
     class Meta:
         model = Advertisement
         template_name = 'django_tables2/bootstrap.html'
-        exclude = ('created', 'modified', 'id', 'file', )
+        exclude = ('created', 'modified', 'id', 'file', 'type', )
         sequence = (
             'number', 'image', 'name', 'type', 'is_active', 'actions', )
 
