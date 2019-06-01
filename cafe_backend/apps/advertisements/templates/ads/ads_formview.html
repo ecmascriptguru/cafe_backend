@@ -11,8 +11,12 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-cog"></i>{% trans 'Settings' %}</a></li>
-        <li><a href="#"><i class="fa fa-file"></i>{% trans 'Advertisements' %}</a></li>
-        <li class="active">{% trans 'Create' %}</li>
+        <li><a href="{% url 'ads:ads_listview' %}"><i class="fa fa-file"></i>{% trans 'Advertisements' %}</a></li>
+        <li class="active">
+            {% block breadcrumb_action_detail %}
+            {% trans 'Create' %}
+            {% endblock %}
+        </li>
     </ol>
 </section>
 

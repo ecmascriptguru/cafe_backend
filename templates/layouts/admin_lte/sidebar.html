@@ -28,11 +28,13 @@
     <!-- /.search form -->
     <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu" data-widget="tree">
+      {% if request.user.is_superuser %}
       <li class="">
         <a href="">
           <i class="fa fa-dashboard"></i> <span>{% trans 'Dashboard' %}</span>
         </a>
       </li>
+      {% endif %}
       <li class="treeview{% if request.path|startswith:'/settings/' %} active {% endif %}">
         <a href="#">
           <i class="fa fa-cog"></i> <span>{% trans 'Settings' %}</span>
