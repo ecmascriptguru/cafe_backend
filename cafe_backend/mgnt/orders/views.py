@@ -8,7 +8,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from cafe_backend.core.apis.viewsets import CafeModelViewSet
-from cafe_backend.apps.users.models import Table
+from cafe_backend.apps.users.models import Table, TABLE_STATE
 from .models import Order, OrderItem
 from . import serializers
 from . import forms
@@ -17,6 +17,8 @@ from . import forms
 class TableGridView(LoginRequiredMixin, generic.ListView):
     model = Table
     template_name = 'orders/table_gridview.html'
+    queryset = Table.objects.filter(state__in=[
+        TABLE_STATE.using, TABLE_STATE.reserved])
 
 
 class OrderDetailView(LoginRequiredMixin, generic.DetailView):

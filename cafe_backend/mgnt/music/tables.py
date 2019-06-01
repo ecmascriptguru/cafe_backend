@@ -6,7 +6,8 @@ from .models import Playlist, Music
 
 
 class PlaylistTable(tables.Table):
-    number = tables.Column(empty_values=(), verbose_name='#')
+    number = tables.Column(
+        empty_values=(), verbose_name='#', orderable=False)
     title = tables.Column(accessor='music.title')
     author = tables.Column(accessor='music.author')
     # actions = tables.Column(
