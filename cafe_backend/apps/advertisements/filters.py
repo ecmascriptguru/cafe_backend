@@ -8,12 +8,11 @@ from .models import Advertisement
 class AdvertisementFilter(filters.FilterSet):
     name = filters.CharFilter(
         lookup_expr='icontains',
-        widget=forms.widgets.TextInput(attrs={'placeholder': _('Name')}))
+        widget=forms.widgets.TextInput(attrs={'placeholder': _('Ads Name')}))
 
     class Meta:
         model = Advertisement
         fields = {
-            'type': ['exact'],
         }
         filter_overrides = {
             models.CharField: {

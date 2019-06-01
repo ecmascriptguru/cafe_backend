@@ -23,7 +23,6 @@
                 {% if languages|length > 0 %}
                 <li class="dropdown">
                     <form action="{% url 'set_language' %}" method="post" class="navbar-form navbar-right language-switcher">
-                        <input name="next" type="hidden" value="{{ redirect_to }}">
                         {% csrf_token %}
                         <div class="form-group">
                             <select name="language" class="form-control" onchange="this.form.submit()">
@@ -70,6 +69,7 @@
                     </ul>
                 </li>
 
+                <!--
                 <li class="dropdown tasks-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-flag-o"></i>
@@ -80,7 +80,7 @@
                         <li>
 
                             <ul class="menu">
-                                <li><!-- Task item -->
+                                <li>
                                     <a href="#">
                                         <h3>
                                             Design some buttons
@@ -95,7 +95,7 @@
                                     </a>
                                 </li>
 
-                                <li><!-- Task item -->
+                                <li>
                                     <a href="#">
                                         <h3>
                                             Some task I need to do
@@ -109,8 +109,7 @@
                                         </div>
                                     </a>
                                 </li>
-                                <!-- end task item -->
-                                <li><!-- Task item -->
+                                <li>
                                     <a href="#">
                                         <h3>
                                             Make beautiful transitions
@@ -124,7 +123,6 @@
                                         </div>
                                     </a>
                                 </li>
-                                <!-- end task item -->
                             </ul>
                         </li>
                         <li class="footer">
@@ -132,6 +130,7 @@
                         </li>
                     </ul>
                 </li>
+                -->
 
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">

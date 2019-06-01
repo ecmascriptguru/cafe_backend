@@ -46,8 +46,7 @@ class Table(TimeStampedModel):
     TABLE_STATE_OPTIONS = (
         (TABLE_STATE.blank, _('Blank')),
         (TABLE_STATE.using, _('Using')),
-        (TABLE_STATE.reserved, _('Reserved')),
-        (TABLE_STATE.waiting, _('Waiting')))
+        (TABLE_STATE.reserved, _('Reserved')))
 
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, primary_key=True,
@@ -64,7 +63,7 @@ class Table(TimeStampedModel):
         auto_now_add=True, verbose_name=_('Cleared'))
 
     def __str__(self):
-        return "<%s(%d): %s>" % (_('Table'), self.pk, self.name)
+        return self.name
 
     def to_json(self):
         return {
@@ -78,7 +77,7 @@ class Table(TimeStampedModel):
 
     @transition(
         field='state',
-        source=(TABLE_STATE.using, TABLE_STATE.reserved, TABLE_STATE.waiting),
+        source=(TABLE_STATE.using, TABLE_STATE.reserved),
         target=TABLE_STATE.blank)
     def clear(self):
         self.male = 0

@@ -99,12 +99,23 @@ class CategoryCreateView(LoginRequiredMixin, generic.CreateView):
     form_class = forms.CategoryForm
 
 
-class DishListView(LoginRequiredMixin, FilterView):
+class DishListView(LoginRequiredMixin, generic.ListView):
     model = Dish
     template_name = 'dishes/dish_listview.html'
     paginate_by = 6
-    filterset_class = DishFilter
+    filter_form_class = forms.DishFilterForm
     strict = False
+
+    def get_context_data(self, *args, **kwargs):
+        params = super(DishListView, self).get_context_data(*args, **kwargs)
+        keyword = self.request.GET.get('keyword')
+        params['filter_form'] = self.filter_form_class(keyword=keyword)
+        params['keyword'] = keyword
+        return params
+
+    def get_queryset(self, *args, **kwargs):
+        keyword = self.request.GET.get('keyword')
+        return Dish.search(keyword)
 
 
 class DishCreateView(LoginRequiredMixin, generic.CreateView):

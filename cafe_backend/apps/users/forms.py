@@ -77,14 +77,18 @@ class TableForm(forms.ModelForm):
                 ),
             )
         else:
+            if self.instance.state == TABLE_STATE.using and\
+                    self.instance.order and\
+                    len(self.instance.order.items.all()) > 0:
+                self.fields['state'].widget = forms.HiddenInput()
             self.helper.layout = Layout(
                 'size', 'female', 'male', 'state', 'is_vip',
                 ButtonHolder(
                     Submit(
-                        'submit', _('save changes'),
+                        'submit', _('Save Changes'),
                         css_class='btn btn-primary pull-right'),
                     Submit(
-                        'submit', _('clear'),
+                        'submit', _('Clear'),
                         css_class='btn btn-danger pull-left'),
                     wrapper_class='form-group',
                 ),

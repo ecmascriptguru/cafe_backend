@@ -1,5 +1,6 @@
 from django import template
-from ....core.constants.states import DEFAULT_STATE
+from ....core.constants.states import (
+    DEFAULT_STATE, TABLE_STATE)
 
 
 register = template.Library()
@@ -21,6 +22,18 @@ def state_bg_color(instance):
         DEFAULT_STATE.rejected: 'grey',
         DEFAULT_STATE.waiting: 'yellow',
         DEFAULT_STATE.delivered: 'green',
+    }
+
+    return "bg-%s" % color_map.get(
+        getattr(instance, 'state'), 'aqua')
+
+
+@register.filter('table_state_bg_color')
+def state_bg_color(instance):
+    color_map = {
+        TABLE_STATE.blank: 'aqua',
+        TABLE_STATE.using: 'green',
+        TABLE_STATE.reserved: 'yellow',
     }
 
     return "bg-%s" % color_map.get(

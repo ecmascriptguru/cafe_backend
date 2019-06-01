@@ -10,7 +10,7 @@
     <h1>
         <i class="fa fa-file"></i>
         {% trans 'Ads' %}
-        <small>{% trans 'Grid view of contacts' %}</small>
+        <small>{% trans 'List view of Advertisements' %}</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-cog"></i>{% trans 'Settings' %}</a></li>
@@ -26,7 +26,9 @@
             <form action="" method="get" class="form form-inline">
                 {% bootstrap_form filter.form layout='inline' %}
                 <button class="btn btn-default">{% trans 'Filter' %}</button>
-                <a href="{% url 'ads:ads_createview' %}" class="btn btn-xs pull-right">{% trans 'New Ads' %}</a>
+                <a href="{% url 'ads:ads_createview' %}" class="btn btn-xs pull-right">
+                    <i class="fa fa-plus"></i> {% trans 'Add New' %}
+                </a>
             </form>
             {% endif %}
         </div>

@@ -110,3 +110,17 @@ class CategoryForm(forms.ModelForm):
                 wrapper_class='form-group',
             ),
         )
+
+
+class DishFilterForm(forms.Form):
+    keyword = forms.CharField(
+        required=False,
+        max_length=32, widget=forms.widgets.TextInput(
+            attrs={
+                'placeholder': _('Dish Name or Description'),
+                'required': False}))
+
+    def __init__(self, *args, **kwargs):
+        keyword = kwargs.pop('keyword')
+        super(DishFilterForm, self).__init__(*args, **kwargs)
+        self.fields['keyword'].initial = keyword
