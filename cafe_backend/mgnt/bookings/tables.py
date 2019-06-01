@@ -10,8 +10,8 @@ class BookingTable(tables.Table):
         empty_values=(), verbose_name='#', orderable=False)
     # actions = tables.Column(
     #     empty_values=(), orderable=False, verbose_name=_('Actions'))
-    messages = tables.Column(
-        empty_values=(), orderable=False, verbose_name=_('Messages'))
+    # messages = tables.Column(
+    #     empty_values=(), orderable=False, verbose_name=_('Messages'))
     actions_template = 'bookings/_booking_table_actions_column.html'
 
     class Meta:
@@ -20,7 +20,7 @@ class BookingTable(tables.Table):
         exclude = ('created', 'modified', 'id', 'details', )
         sequence = (
             'number', 'requester', 'receiver', 'booking_type',
-            'messages', 'state', )
+            'state', )
 
     def __init__(self, *args, **kwargs):
         super(BookingTable, self).__init__(*args, **kwargs)

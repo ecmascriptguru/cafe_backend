@@ -95,7 +95,7 @@ class DishAdminForm(forms.ModelForm):
     def save(self, commit=True):
         price = self.cleaned_data['price']
         instance = super(DishAdminForm, self).save(commit=commit)
-        if commit:
+        if self.instance.pk:
             instance.price = price
         return instance
 
