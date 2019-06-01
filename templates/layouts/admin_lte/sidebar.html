@@ -30,7 +30,7 @@
     <ul class="sidebar-menu" data-widget="tree">
       {% if request.user.is_superuser %}
       <li class="">
-        <a href="">
+        <a href="{% url 'landing:dashboard' %}">
           <i class="fa fa-dashboard"></i> <span>{% trans 'Dashboard' %}</span>
         </a>
       </li>

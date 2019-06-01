@@ -1,0 +1,118 @@
+{% extends 'layouts/adminlte_base.html' %}
+
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+        <i class="fa fa-dashboard"></i>
+        {% trans 'Dashboard' %}
+        <small>{% trans 'All sales data available here.' %}</small>
+    </h1>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12 form-group">
+            <form method="GET" class="form">
+                {% crispy filter_form %}
+                <button type="button" class="btn btn-default pull-left" id="daterange-btn">
+                    <span>
+                        <i class="fa fa-calendar"></i> 
+                        {% trans "Custom Range" as translated_range_option %}
+                        {% if request.GET.range_option %}
+                            {% if request.GET.range_option == translated_range_option %}
+                            {{ request.GET.start_date }} - {{ request.GET.end_date }}
+                            {% else %}
+                            {{ request.GET.range_option }}
+                            {% endif %}
+                        {% else %}
+                        {% trans 'Select Date Range' %}
+                        {% endif %}
+                    </span>
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                
+                <div class="form-group pull-left">
+                    <select class="form-control select2" id="dashboard-table-selector" multiple="multiple" data-placeholder="{% trans 'Tables' %}" style="width: 100%;">
+                        {% for id, name in table_choices %}
+                        <option value="{{ id }}" {% if id in table_ids %}selected{% endif %}>{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-refresh"></i> {% trans 'Refresh' %}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>{{ report.orders.count }}</h3>
+        
+                    <p>{% trans 'New Orders' %}</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>&yen;14,500</h3>
+        
+                    <p>{% trans 'Sales' %}</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block custom_js %}
+<script>
+    $(function () {
+        //Initialize Select2 Elements
+        $('.select2').select2()
+    
+        //Date range as a button
+        $('#daterange-btn').daterangepicker(
+            {
+                ranges: {
+                    "{% trans 'Today' %}": [moment(), moment()],
+                    "{% trans 'Yesterday' %}": [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    "{% trans 'Last 7 Days' %}": [moment().subtract(6, 'days'), moment()],
+                    "{% trans 'Last 30 Days' %}": [moment().subtract(29, 'days'), moment()],
+                    "{% trans 'This Month' %}": [moment().startOf('month'), moment().endOf('month')],
+                    "{% trans 'Last Month' %}": [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                startDate: moment().subtract(29, "{% trans 'days' %}"),
+                endDate  : moment()
+            },
+            function (start, end, range_option) {
+                let start_date = start.format('YYYY/MM/DD'),
+                    end_date = end.format('YYYY/MM/DD')
+                $("#dashboard_start_date").val(start_date)
+                $("#dashboard_end_date").val(end_date)
+                $("#dashboard_date_range_option").val(range_option)
+                $('#daterange-btn span').html(`${start_date} - ${end_date}`)
+            }
+        )
+
+        $(document)
+        .on('change', '#dashboard-table-selector', function() {
+            $("#dashboard_tables").val($(this).val().join(','))
+        })
+    })
+    </script>
+{% endblock %}

@@ -25,26 +25,23 @@ class TableAdminForm(forms.ModelForm):
             self.fields['name'].initial = self.instance.name
             self.fields['imei'].initial = self.instance.imei
 
-    def clean_male(self):
-        male = self.cleaned_data['male']
-        if male > self.cleaned_data['size']:
-            self.add_error('male', _("Male can't be greater than size!"))
-        return male
-
-    def clean_female(self):
+    def clean(self):
+        super(TableAdminForm, self).clean()
         male = self.cleaned_data['male']
         female = self.cleaned_data['female']
+        state = self.cleaned_data['state']
+
+        if male > self.cleaned_data['size']:
+            self.add_error('male', _("Male can't be greater than size!"))
+
         if male + female > self.cleaned_data['size']:
             self.add_error('female', _('Male + Femail should not be greater\
                 than size!'))
-        return female
 
-    def clean_state(self):
-        state = self.cleaned_data['state']
         if state == TABLE_STATE.using:
             if self.cleaned_data['male'] + self.cleaned_data['female'] == 0:
                 self.add_error('female', _('Using without any customers?'))
-        return state
+        return self.cleaned_data
 
     def save(self, commit=True):
         if self.instance.pk is None:
