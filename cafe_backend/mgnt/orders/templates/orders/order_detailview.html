@@ -24,7 +24,7 @@
             <h3>{% trans 'Order Details' %}</h3>
             <table class="table table-striped order-table">
                 <tbody>
-                    {% for item in object.items.all %}
+                    {% for item in object.order_items.all %}
                     <tr>
                         <td>
                             <img src="{{ item.dish.img.tiny }}" class="order-item-dish-image">
@@ -35,7 +35,7 @@
                         <td>{{ item.amount }}</td>
                         <td> = </td>
                         <td>&yen;{{ item.subtotal }}</td>
-                        <td><span class="badge {{ item|state_bg_color }}">{{ item|state_text }}</span></td>
+                        <td><span class="badge {{ item|table_state_bg_color }}">{{ item|state_text }}</span></td>
                     </tr>
                     {% endfor %}
                 </tbody>

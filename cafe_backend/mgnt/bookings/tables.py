@@ -6,11 +6,12 @@ from .models import Booking, BookingMessage, BOOKING_TYPE, BOOKING_STATE
 
 
 class BookingTable(tables.Table):
-    number = tables.Column(empty_values=(), verbose_name='#')
-    actions = tables.Column(
-        empty_values=(), orderable=False, verbose_name=_('Actions'))
+    number = tables.Column(
+        empty_values=(), verbose_name='#', orderable=False)
+    # actions = tables.Column(
+    #     empty_values=(), orderable=False, verbose_name=_('Actions'))
     messages = tables.Column(
-        empty_values=(), orderable=False, verbose_name='Messages')
+        empty_values=(), orderable=False, verbose_name=_('Messages'))
     actions_template = 'bookings/_booking_table_actions_column.html'
 
     class Meta:
@@ -19,7 +20,7 @@ class BookingTable(tables.Table):
         exclude = ('created', 'modified', 'id', 'details', )
         sequence = (
             'number', 'requester', 'receiver', 'booking_type',
-            'messages', 'state', 'actions', )
+            'messages', 'state', )
 
     def __init__(self, *args, **kwargs):
         super(BookingTable, self).__init__(*args, **kwargs)
