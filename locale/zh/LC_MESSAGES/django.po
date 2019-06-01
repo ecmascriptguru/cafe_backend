@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-01 08:27+0800\n"
+"POT-Creation-Date: 2019-06-01 08:45+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,6 +22,7 @@ msgid "advertisements"
 msgstr "广告"
 
 #: cafe_backend/apps/advertisements/filters.py:11
+#: cafe_backend/apps/advertisements/tables.py:15
 msgid "Ads Name"
 msgstr "公告名"
 
@@ -38,7 +39,7 @@ msgstr "视频"
 
 #: cafe_backend/apps/advertisements/models.py:20
 #: cafe_backend/apps/dishes/models.py:14 cafe_backend/apps/dishes/models.py:35
-#: cafe_backend/apps/events/filters.py:11 cafe_backend/apps/events/models.py:31
+#: cafe_backend/apps/events/models.py:31
 #: cafe_backend/apps/versions/models.py:14 cafe_backend/mgnt/chat/models.py:15
 msgid "Name"
 msgstr "名字"
@@ -86,11 +87,13 @@ msgid "#"
 msgstr "#"
 
 #: cafe_backend/apps/advertisements/tables.py:14
+#: cafe_backend/apps/events/tables.py:14
 #: cafe_backend/mgnt/bookings/tables.py:11
 msgid "Actions"
 msgstr "操作"
 
-#: cafe_backend/apps/advertisements/tables.py:15
+#: cafe_backend/apps/advertisements/tables.py:16
+#: cafe_backend/apps/events/tables.py:15
 msgid "Active Now?"
 msgstr "使用/非使用"
 
@@ -361,6 +364,10 @@ msgstr "饮食目录"
 msgid "events"
 msgstr "活动"
 
+#: cafe_backend/apps/events/filters.py:11
+msgid "Event Name"
+msgstr "活动名"
+
 #: cafe_backend/apps/events/forms.py:21
 msgid "MON"
 msgstr "周一"
@@ -458,13 +465,9 @@ msgstr "选择只有一次需要活动时间"
 msgid "event"
 msgstr "活动"
 
-#: cafe_backend/apps/events/tables.py:11
+#: cafe_backend/apps/events/tables.py:12
 msgid "image"
 msgstr "图片"
-
-#: cafe_backend/apps/events/tables.py:13
-msgid "actions"
-msgstr "操作"
 
 #: cafe_backend/apps/events/templates/events/event_listview.html:13
 msgid "List view of events"
@@ -1045,7 +1048,7 @@ msgstr "订单"
 
 #: templates/layouts/admin_lte/navbar.html:63
 msgid "You have no unread notification."
-msgstr "您有未读通知"
+msgstr "您没有未读通知"
 
 #: templates/layouts/admin_lte/navbar.html:168
 msgid "Super Admin"
@@ -1078,18 +1081,3 @@ msgstr "餐厅"
 #: templates/layouts/brand.html:2
 msgid "Cafe backend"
 msgstr "后台"
-
-#~ msgid "New Dish"
-#~ msgstr "新广告"
-
-#~ msgid "save changes"
-#~ msgstr "保存更改"
-
-#~ msgid "Waiting"
-#~ msgstr "等待"
-
-#~ msgid "New"
-#~ msgstr "新"
-
-#~ msgid "Create Now"
-#~ msgstr "创建"

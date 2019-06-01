@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-01 08:27+0800\n"
+"POT-Creation-Date: 2019-06-01 08:45+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,6 +22,7 @@ msgid "advertisements"
 msgstr "광고"
 
 #: cafe_backend/apps/advertisements/filters.py:11
+#: cafe_backend/apps/advertisements/tables.py:15
 msgid "Ads Name"
 msgstr "음식이름"
 
@@ -38,7 +39,7 @@ msgstr "동영상"
 
 #: cafe_backend/apps/advertisements/models.py:20
 #: cafe_backend/apps/dishes/models.py:14 cafe_backend/apps/dishes/models.py:35
-#: cafe_backend/apps/events/filters.py:11 cafe_backend/apps/events/models.py:31
+#: cafe_backend/apps/events/models.py:31
 #: cafe_backend/apps/versions/models.py:14 cafe_backend/mgnt/chat/models.py:15
 msgid "Name"
 msgstr "이름"
@@ -86,11 +87,13 @@ msgid "#"
 msgstr "#"
 
 #: cafe_backend/apps/advertisements/tables.py:14
+#: cafe_backend/apps/events/tables.py:14
 #: cafe_backend/mgnt/bookings/tables.py:11
 msgid "Actions"
 msgstr "액션"
 
-#: cafe_backend/apps/advertisements/tables.py:15
+#: cafe_backend/apps/advertisements/tables.py:16
+#: cafe_backend/apps/events/tables.py:15
 msgid "Active Now?"
 msgstr "사용중?"
 
@@ -361,6 +364,10 @@ msgstr "모든 음식"
 msgid "events"
 msgstr "이벤트"
 
+#: cafe_backend/apps/events/filters.py:11
+msgid "Event Name"
+msgstr "이벤트이름"
+
 #: cafe_backend/apps/events/forms.py:21
 msgid "MON"
 msgstr "월요일"
@@ -458,13 +465,9 @@ msgstr "한번뿐 중복유형에 한해서 필수입니다."
 msgid "event"
 msgstr "이벤트"
 
-#: cafe_backend/apps/events/tables.py:11
+#: cafe_backend/apps/events/tables.py:12
 msgid "image"
 msgstr "이미지"
-
-#: cafe_backend/apps/events/tables.py:13
-msgid "actions"
-msgstr "액션"
 
 #: cafe_backend/apps/events/templates/events/event_listview.html:13
 msgid "List view of events"
@@ -1078,18 +1081,3 @@ msgstr "술집"
 #: templates/layouts/brand.html:2
 msgid "Cafe backend"
 msgstr "술집관리"
-
-#~ msgid "New Dish"
-#~ msgstr "새로운 광고"
-
-#~ msgid "save changes"
-#~ msgstr "저장"
-
-#~ msgid "Waiting"
-#~ msgstr "기다림"
-
-#~ msgid "New"
-#~ msgstr "신규"
-
-#~ msgid "Create Now"
-#~ msgstr "창조"

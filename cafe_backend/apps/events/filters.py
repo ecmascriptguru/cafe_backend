@@ -8,13 +8,13 @@ from .models import Event
 class EventFilter(filters.FilterSet):
     name = filters.CharFilter(
         lookup_expr='icontains',
-        widget=forms.widgets.TextInput(attrs={'placeholder': _('Name')}))
+        widget=forms.widgets.TextInput(attrs={'placeholder': _('Event Name')}))
 
     class Meta:
         model = Event
         fields = {
             # 'name': ['icontains'],
-            'event_type': ['exact'],
+            # 'event_type': ['exact'],
         }
         filter_overrides = {
             models.CharField: {
