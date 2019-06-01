@@ -36,7 +36,9 @@
                     {% if table.order %}
                         <a href="{% url 'orders:order_detailview' pk=table.order.pk %}" class="pull-right">
                             <i class="fa fa-check"></i> {% trans 'Orders' %}
+                            {% if table.order.pending_items|length > 0 %}
                             <span class="badge bg-red">{{ table.order.pending_items|length }}</span>
+                            {% endif %}
                         </a>
                     {% endif %}
                 </div>

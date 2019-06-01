@@ -15,7 +15,7 @@ class OrderAdmin(ModelAdmin):
 
     list_display = ('table', 'total_sum', )
     inlines = (OrderItemInline, )
-    exclude = ('details', )
+    # exclude = ('details', )
     # form = OrderForm
 
 

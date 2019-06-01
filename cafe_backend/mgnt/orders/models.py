@@ -1,9 +1,12 @@
 from datetime import timedelta, datetime
 from django.db import models
+from django.db.models.functions import Cast
 from django.contrib.postgres.fields import JSONField
-from django.db.models import F
+from django.contrib.postgres.fields.jsonb import KeyTextTransform
+from django.db.models import F, IntegerField, Sum
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import ugettext_lazy as _
+from django.utils.timezone import make_aware
 from django.apps import apps
 from django_fsm import FSMField
 from django_fsm import transition
@@ -112,21 +115,46 @@ class Order(TimeStampedModel):
     @classmethod
     def get_report(cls, start_date, end_date, tables=[]):
         if isinstance(start_date, str):
-            start_date = datetime.strptime(start_date, '%Y-%m-%d')
+            start_date = make_aware(datetime.strptime(start_date, '%Y-%m-%d'))
 
         if isinstance(end_date, str):
-            end_date = datetime.strptime(end_date, '%Y-%m-%d')
+            end_date = datetime.strptime(end_date, '%Y-%m-%d') +\
+                timedelta(days=1)
+            end_date = make_aware(end_date)
 
         Table = apps.get_model('users', 'Table')
         if len(tables) == 0:
             tables = [table.pk for table in Table.objects.all()]
-        end_date = end_date - timedelta(days=1)
-        print(start_date, end_date)
+
         orders = cls.objects.filter(
             created__gte=start_date, created__lt=end_date,
             table__in=tables).all()
+
+        customers = Order.objects.annotate(
+            male=Cast(
+                KeyTextTransform(
+                    'male', KeyTextTransform(
+                        'customers', 'details')),
+                    IntegerField()),
+            female=Cast(
+                KeyTextTransform(
+                    'female', KeyTextTransform(
+                        'customers', 'details')),
+                    IntegerField())).values('male', 'female').aggregate(
+                        total_male=Sum('male'),
+                        total_female=Sum('female'))
+        OrderItem = apps.get_model('orders', 'OrderItem')
+        items = OrderItem.objects.filter(
+            order__in=orders).all().exclude(
+                state=ORDER_STATE.canceled)
         return {
-            'orders': {'count': len(orders)}
+            'orders': {'count': len(orders)},
+            'customers': {
+                'count': customers['total_male'] + customers['total_female']
+            },
+            'sales': {
+                'items': len(items),
+                'earning': items}
         }
 
 
@@ -187,6 +215,7 @@ class OrderItem(TimeStampedModel):
             "id": self.pk,
             "order": self.order.pk,
             "dish": self.dish.pk,
+            "dish_img": self.dish.img.file.url,
             "to_table": self.to_table.pk,
             "price": self.price,
             "amount": self.amount,
