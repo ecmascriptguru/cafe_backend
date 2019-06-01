@@ -35,7 +35,7 @@
                         <td>{{ item.amount }}</td>
                         <td> = </td>
                         <td>&yen;{{ item.subtotal }}</td>
-                        <td><span class="badge {{ item|table_state_bg_color }}">{{ item|state_text }}</span></td>
+                        <td><span class="badge {{ item|order_item_state_bg_color }}">{{ item|state_text }}</span></td>
                     </tr>
                     {% endfor %}
                 </tbody>

@@ -31,9 +31,9 @@ def state_bg_color(instance):
 @register.filter('table_state_bg_color')
 def table_state_bg_color(instance):
     color_map = {
-        ORDER_STATE.default: 'red',
-        ORDER_STATE.delivered: 'green',
-        ORDER_STATE.canceled: 'grey',
+        TABLE_STATE.blank: 'aqua',
+        TABLE_STATE.using: 'green',
+        TABLE_STATE.reserved: 'yellow',
     }
 
     return "bg-%s" % color_map.get(
@@ -43,9 +43,9 @@ def table_state_bg_color(instance):
 @register.filter('order_item_state_bg_color')
 def order_item_state_bg_color(instance):
     color_map = {
-        TABLE_STATE.blank: 'aqua',
-        TABLE_STATE.using: 'green',
-        TABLE_STATE.reserved: 'yellow',
+        ORDER_STATE.default: 'red',
+        ORDER_STATE.delivered: 'green',
+        ORDER_STATE.canceled: 'grey',
     }
 
     return "bg-%s" % color_map.get(
