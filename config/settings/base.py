@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'cafe_backend.apps.advertisements',
     'cafe_backend.apps.events',
     'cafe_backend.apps.versions',
+    'cafe_backend.apps.landing',
 
     # mgnt
     'cafe_backend.mgnt.orders',

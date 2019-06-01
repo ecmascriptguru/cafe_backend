@@ -130,3 +130,8 @@ class Table(TimeStampedModel):
                 ORDER_STATE.canceled, ORDER_STATE.archived]).first()
         else:
             return None
+
+    @classmethod
+    def get_choices(cls):
+        tables = cls.objects.all()
+        return tuple([(t.pk, t.name) for t in tables])

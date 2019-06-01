@@ -38,7 +38,7 @@ urlpatterns = [
 ]
 
 urlpatterns += i18n_patterns(
-    url(r'^$', TablesListView.as_view(), name='root_url'),
+    url(r'^', include('cafe_backend.apps.landing.urls', namespace='landing')),
     url(r'^mgnt/', include('cafe_backend.mgnt_urls')),
     url(r'^settings/', include('cafe_backend.settings_urls')),
     url(r'^auth/', include('django.contrib.auth.urls')),

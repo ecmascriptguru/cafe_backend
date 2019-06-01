@@ -1,8 +1,10 @@
+from datetime import timedelta, datetime
 from django.db import models
 from django.contrib.postgres.fields import JSONField
 from django.db.models import F
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import ugettext_lazy as _
+from django.apps import apps
 from django_fsm import FSMField
 from django_fsm import transition
 from model_utils.models import TimeStampedModel
@@ -106,6 +108,26 @@ class Order(TimeStampedModel):
         self.details['customers'] = {
             'male': self.table.male,
             'female': self.table.female}
+
+    @classmethod
+    def get_report(cls, start_date, end_date, tables=[]):
+        if isinstance(start_date, str):
+            start_date = datetime.strptime(start_date, '%Y-%m-%d')
+
+        if isinstance(end_date, str):
+            end_date = datetime.strptime(end_date, '%Y-%m-%d')
+
+        Table = apps.get_model('users', 'Table')
+        if len(tables) == 0:
+            tables = [table.pk for table in Table.objects.all()]
+        end_date = end_date - timedelta(days=1)
+        print(start_date, end_date)
+        orders = cls.objects.filter(
+            created__gte=start_date, created__lt=end_date,
+            table__in=tables).all()
+        return {
+            'orders': {'count': len(orders)}
+        }
 
 
 class OrderItem(TimeStampedModel):
