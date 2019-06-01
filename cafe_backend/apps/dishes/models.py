@@ -45,7 +45,7 @@ class Dish(TimeStampedModel):
         max_length=1024, verbose_name=_('Korean Description'))
     is_active = models.BooleanField(
         default=True, verbose_name=_('Active?'))
-    rate = models.FloatField()
+    rate = models.FloatField(default=0.0)
 
     class Meta:
         ordering = ('-modified', )
@@ -72,7 +72,7 @@ class Dish(TimeStampedModel):
 
     @price.setter
     def price(self, value):
-        if self.price != value:
+        if self.price != value and value:
             self.prices.create(price=value)
 
     @property

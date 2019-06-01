@@ -4,7 +4,7 @@
 <div class="col-md-4 col-sm-6 col-xs-6 dish">
     <div class="box bg-grey">
         <div class="box-header">
-            <span>{{ item.name }}</span>
+            <span><strong>{{ item.name }}</strong></span>
         </div>
         <div class="box-body">
             <div class="row">
@@ -16,8 +16,8 @@
                     <div class="rateit" data-rateit-mode="font" data-rateit-value="{{ item.rate }}" data-rateit-readonly="true"></div>
                 </div>
                 <div class="col-sm-6 col-xs-12">
-                    <span>{{ item.description }}</span><br/>
-                    <span>{{ item.price }}</span>
+                    <span>&yen;{{ item.price }}</span><br/>
+                    <span>{{ item.description|truncatechars:20 }}</span>
                 </div>
             </div>
         </div>

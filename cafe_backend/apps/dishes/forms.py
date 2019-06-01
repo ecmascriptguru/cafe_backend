@@ -14,9 +14,12 @@ class DishImageForm(forms.ModelForm):
 
     class Meta:
         model = DishImage
-        exclude = ()
-        widgets = {
-            'file': AdminImageWidget()}
+        fields = ('file', )
+
+    def __init__(self, *args, **kwargs):
+        super(DishImageForm, self).__init__(*args, **kwargs)
+        if self.instance.pk:
+            self.fields['file'].widget = AdminImageWidget()
 
 
 DishImageFormSet = inlineformset_factory(
@@ -25,7 +28,7 @@ DishImageFormSet = inlineformset_factory(
 
 
 class DishForm(forms.ModelForm):
-    price = forms.FloatField(min_value=0)
+    price = forms.FloatField(min_value=0, required=False)
 
     class Meta:
         model = Dish
@@ -43,6 +46,8 @@ class DishForm(forms.ModelForm):
         super(DishForm, self).__init__(*args, **kwargs)
         if self.instance.pk:
             self.fields['price'].initial = self.instance.price
+        else:
+            self.fields['price'].widget.attrs['readonly'] = True
         self.helper = FormHelper()
         self.helper.form_tag = True
         self.helper.form_class = 'form-horizontal'
@@ -62,13 +67,15 @@ class DishForm(forms.ModelForm):
                 )
             )
 
+    @transaction.atomic()
     def save(self, commit=True):
-        self.instance.price = self.cleaned_data['price']
+        if self.instance.pk:
+            self.instance.price = self.cleaned_data['price']
         return super(DishForm, self).save(commit=commit)
 
 
 class DishAdminForm(forms.ModelForm):
-    price = forms.FloatField()
+    price = forms.FloatField(required=False)
 
     class Meta:
         model = Dish

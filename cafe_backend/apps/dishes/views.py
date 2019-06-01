@@ -127,7 +127,8 @@ class DishCreateView(LoginRequiredMixin, generic.CreateView):
     def get_context_data(self, *args, **kwargs):
         data = super(DishCreateView, self).get_context_data(*args, **kwargs)
         if self.request.POST:
-            data['images'] = forms.DishImageFormSet(self.request.POST)
+            data['images'] = forms.DishImageFormSet(
+                self.request.POST, self.request.FILES)
         else:
             data['images'] = forms.DishImageFormSet()
         return data
@@ -135,11 +136,11 @@ class DishCreateView(LoginRequiredMixin, generic.CreateView):
     def form_valid(self, form):
         context = self.get_context_data()
         images = context['images']
-        with transaction.atomic():
-            self.object = form.save()
-            if images.is_valid():
-                images.instance = self.object
-                images.save()
+
+        self.object = form.save()
+        if images.is_valid():
+            images.instance = self.object
+            images.save()
         return super(DishCreateView, self).form_valid(form)
 
     def get_success_url(self):
