@@ -1,9 +1,10 @@
 from datetime import timedelta, datetime
 from django.db import models
-from django.db.models.functions import Cast
+from django.db.models.functions import Cast, TruncDate
 from django.contrib.postgres.fields import JSONField
 from django.contrib.postgres.fields.jsonb import KeyTextTransform
-from django.db.models import F, IntegerField, Sum
+from django.db.models import (
+    F, IntegerField, Sum, ExpressionWrapper, Count)
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import make_aware
@@ -154,7 +155,17 @@ class Order(TimeStampedModel):
             },
             'sales': {
                 'items': len(items),
-                'earning': items}
+                'earning': items.aggregate(
+                    total=ExpressionWrapper(
+                        Sum(F('price') * F('amount')),
+                        output_field=models.FloatField()))['total']},
+            # 'chart': {
+            #     'earning_by_date': items.annotate(
+            #         date=TruncDate('created')).values('date').aggregate(
+            #             sub_total=Sum(
+            #                 F('price') * F('amount')),
+            #             output_field=models.FloatField())
+            # }
         }
 
 

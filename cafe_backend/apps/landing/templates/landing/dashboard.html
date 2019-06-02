@@ -2,6 +2,7 @@
 
 {% load crispy_forms_tags %}
 {% load i18n %}
+{% load static %}
 
 {% block content %}
 <section class="content-header">
@@ -79,7 +80,7 @@
             <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h3>{{ report.items.count }}</h3>
+                    <h3>{{ report.sales.items }}</h3>
         
                     <p>{% trans 'Item Sales' %}</p>
                 </div>
@@ -92,7 +93,7 @@
             <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h3>&yen;14,500</h3>
+                    <h3>&yen;{{ report.sales.earning }}</h3>
         
                     <p>{% trans 'Sales' %}</p>
                 </div>
@@ -102,12 +103,157 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">{% if request.GET.range_option %}
+                        {{ request.GET.range_option }}{% else %}{% trans 'Monthly' %}{% endif %} {% trans 'Report' %}</h3>
+        
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-wrench"></i>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">{% trans 'Action' %}</a></li>
+                                <li><a href="#">{% trans 'Another action' %}</a></li>
+                                <li><a href="#">{% trans 'Something else here' %}</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">{% trans 'Separated link' %}</a></li>
+                            </ul>
+                        </div>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <p class="text-center">
+                            <strong>{% trans 'Sales' %}: <span id="sales-chart-date-range">1 Jan, 2014 - 30 Jul, 2014</span></strong>
+                        </p>
+        
+                        <div class="chart">
+                            <!-- Sales Chart Canvas -->
+                            <canvas id="salesChart" style="height: 180px;"></canvas>
+                        </div>
+                        <!-- /.chart-responsive -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-4">
+                        <p class="text-center">
+                            <strong>{% trans 'Goal Completion' %}</strong>
+                        </p>
+        
+                        <div class="progress-group">
+                            <span class="progress-text">{% trans 'Weekly Customers' %}</span>
+                            <span class="progress-number"><b>160</b>/200</span>
+        
+                            <div class="progress sm">
+                                <div class="progress-bar progress-bar-aqua" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <!-- /.progress-group -->
+                        <div class="progress-group">
+                            <span class="progress-text">{% trans 'Complete Orders' %}</span>
+                            <span class="progress-number"><b>310</b>/400</span>
+        
+                            <div class="progress sm">
+                            <div class="progress-bar progress-bar-red" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <!-- /.progress-group -->
+                        <div class="progress-group">
+                            <span class="progress-text">{% trans 'Monthly Earnings' %}</span>
+                            <span class="progress-number"><b>480</b>/800</span>
+        
+                            <div class="progress sm">
+                            <div class="progress-bar progress-bar-green" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <!-- /.progress-group -->
+                        <div class="progress-group">
+                            <span class="progress-text">{% trans 'Satisfied customers' %}</span>
+                            <span class="progress-number"><b>250</b>/500</span>
+        
+                            <div class="progress sm">
+                            <div class="progress-bar progress-bar-yellow" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <!-- /.progress-group -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+                </div>
+                <!-- ./box-body -->
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-sm-3 col-xs-6">
+                            <div class="description-block border-right">
+                                <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>
+                                <h5 class="description-header">$35,210.43</h5>
+                                <span class="description-text">{% trans 'TOTAL REVENUE' %}</span>
+                            </div>
+                            <!-- /.description-block -->
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-sm-3 col-xs-6">
+                            <div class="description-block border-right">
+                                <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
+                                <h5 class="description-header">$10,390.90</h5>
+                                <span class="description-text">{% trans 'TOTAL COST' %}</span>
+                            </div>
+                            <!-- /.description-block -->
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-sm-3 col-xs-6">
+                            <div class="description-block border-right">
+                                <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>
+                                <h5 class="description-header">$24,813.53</h5>
+                                <span class="description-text">{% trans 'TOTAL PROFIT' %}</span>
+                            </div>
+                            <!-- /.description-block -->
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-sm-3 col-xs-6">
+                            <div class="description-block">
+                                <span class="description-percentage text-red"><i class="fa fa-caret-down"></i> 18%</span>
+                                <h5 class="description-header">1200</h5>
+                                <span class="description-text">{% trans 'GOAL COMPLETIONS' %}</span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                    </div>
+                <!-- /.row -->
+                </div>
+                <!-- /.box-footer -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
 </section>
 {% endblock %}
 
 {% block custom_js %}
 <script>
+    $(function() {
+        {% if request.GET.start_date and request.GET.end_date %}
+        window.startDate = moment("{{ request.GET.start_date }}")
+        window.endDate  = moment("{{ request.GET.end_date }}")
+        {% else %}
+        window.startDate = moment().subtract(29, "{% trans 'days' %}")
+        window.endDate = moment()
+        {% endif %}
+    })
+</script>
+<script>
     $(function () {
+        //
+        $("#sales-chart-date-range").text(`${window.startDate.format('YYYY-MM-DD')} - ${window.endDate.format('YYYY-MM-DD')}`)
         //Initialize Select2 Elements
         $('.select2').select2()
     
@@ -122,13 +268,8 @@
                     "{% trans 'This Month' %}": [moment().startOf('month'), moment().endOf('month')],
                     "{% trans 'Last Month' %}": [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
                 },
-                {% if request.GET.start_date and request.GET.end_date %}
-                startDate: moment("{{ request.GET.start_date }}"),
-                endDate  : moment("{{ request.GET.end_date }}")
-                {% else %}
-                startDate: moment().subtract(29, "{% trans 'days' %}"),
-                endDate  : moment()
-                {% endif %}
+                startDate: window.startDate,
+                endDate  : window.endDate
             },
             function (start, end, range_option) {
                 let start_date = start.format('YYYY-MM-DD'),
@@ -146,4 +287,5 @@
         })
     })
     </script>
+    <script src="{% static 'backend_theme/js/dashboard.js' %}"></script>
 {% endblock %}
