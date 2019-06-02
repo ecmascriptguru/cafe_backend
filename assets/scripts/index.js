@@ -11,6 +11,7 @@ require('../../node_modules/admin-lte/plugins/input-mask/jquery.inputmask')
 require('../../node_modules/admin-lte/plugins/input-mask/jquery.inputmask.date.extensions')
 require('../../node_modules/admin-lte/plugins/input-mask/jquery.inputmask.extensions')
 require('../../node_modules/admin-lte/bower_components/bootstrap-daterangepicker/daterangepicker')
+window.Chart = require('../../node_modules/admin-lte/bower_components/chart.js/Chart')
 window.moment = require('../../node_modules/admin-lte/bower_components/moment/moment')
 
 require("../../node_modules/jquery.formset/src/jquery.formset")
