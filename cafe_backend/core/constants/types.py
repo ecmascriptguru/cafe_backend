@@ -8,6 +8,8 @@ class DEFAULT_MEDIA_TYPE:
 class ADS_TYPE:
     image = DEFAULT_MEDIA_TYPE.image
     video = DEFAULT_MEDIA_TYPE.video
+    internal = 'i'
+    external = 'e'
 
 
 class EVENT_TYPE:

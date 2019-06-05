@@ -8,8 +8,8 @@ from ...core.images.mixins import ImageThumbnailMixin
 
 
 ADS_TYPE_CHOICES = (
-    (ADS_TYPE.image, _('Image')),
-    (ADS_TYPE.video, _('Video')),
+    (ADS_TYPE.internal, _('Internal')),
+    (ADS_TYPE.external, _('External')),
 )
 
 
@@ -21,8 +21,11 @@ class Advertisement(ImageThumbnailMixin, TimeStampedModel):
     file = ImageField(
         upload_to='ads/%Y/%m/%d', verbose_name=_('File'))
     type = FSMField(
-        choices=ADS_TYPE_CHOICES, default=ADS_TYPE.image,
+        choices=ADS_TYPE_CHOICES, default=ADS_TYPE.external,
         verbose_name=_('Type'))
+    dish = models.ForeignKey(
+        'dishes.Dish', on_delete=models.SET_NULL, default=None,
+        null=True, blank=True, related_name=_('advertisements'))
     is_active = models.BooleanField(
         default=True, verbose_name=_('Active?'))
 
