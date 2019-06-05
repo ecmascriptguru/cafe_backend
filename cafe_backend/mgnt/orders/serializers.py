@@ -71,3 +71,9 @@ class OrderSerializer(CafeModelSerializer):
             order_item = instance.order_items.create(
                 dish=dish, to_table=to_table, **item)
         return instance
+
+
+class OrderCheckoutSerializer(CafeModelSerializer):
+    class Meta:
+        model = Order
+        fields = ('payment_method', )
