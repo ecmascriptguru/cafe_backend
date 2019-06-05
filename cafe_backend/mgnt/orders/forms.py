@@ -47,6 +47,7 @@ class OrderForm(forms.ModelForm):
                 Fieldset(
                     _('Order Items'), Formset('order_items'),
                     css_class='form-group'),
+                Field('payment_method'),
                 Field('state'),
                 HTML("<br>"),
                 ButtonHolder(

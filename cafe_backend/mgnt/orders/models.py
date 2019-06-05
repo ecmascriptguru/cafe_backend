@@ -14,12 +14,20 @@ from django_fsm import transition
 from model_utils.models import TimeStampedModel
 from cafe_backend.core.constants.states import (
     DEFAULT_STATE, ORDER_STATE)
+from cafe_backend.core.constants.types import PAYMENT_METHOD
 
 
 ORDER_STATE_CHOICES = (
     (ORDER_STATE.default, _('Requested')),
     (ORDER_STATE.delivered, _('Delivered')),
     (ORDER_STATE.archived, _('Archived')),
+)
+
+
+PAYMENT_METHOD_CHOICES = (
+    (PAYMENT_METHOD.cash, _('Cash')),
+    (PAYMENT_METHOD.wechat, _('WeChat')),
+    (PAYMENT_METHOD.alipay, _('AliPay'))
 )
 
 
@@ -35,6 +43,9 @@ class Order(TimeStampedModel):
     state = FSMField(
         choices=ORDER_STATE_CHOICES, default=ORDER_STATE.default,
         verbose_name=_('State'))
+    payment_method = FSMField(
+        choices=PAYMENT_METHOD_CHOICES, default=PAYMENT_METHOD.wechat,
+        verbose_name=_('Payment Method'))
     details = JSONField(
         default={'customers': {'male': 1, 'female': 0}},
         verbose_name=_('Details'))

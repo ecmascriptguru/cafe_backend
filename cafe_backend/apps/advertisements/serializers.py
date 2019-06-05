@@ -3,6 +3,7 @@ from .models import Advertisement
 
 
 class AdsSerializer(CafeModelSerializer):
+    # dish = serializers.
     class Meta:
         model = Advertisement
-        fields = ('id', 'name', 'url', 'type', )
+        fields = ('id', 'name', 'url', 'type', 'dish')

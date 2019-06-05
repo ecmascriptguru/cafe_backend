@@ -66,6 +66,12 @@ class OrderViewSet(CafeModelViewSet):
         current_serializer = self.serializer_class(instance=current)
         return Response(current_serializer.data)
 
+    @action(
+        detail=True, methods=['get', 'post'], url_name='order_checkout_view')
+    def checkout(self, request, *args, **kwargs):
+        self.serializer_class = serializers.OrderCheckoutSerializer
+        return super(OrderViewSet, self).update(request)
+
 
 class OrderItemViewSet(CafeModelViewSet):
     serializer_class = serializers.OrderItemSerializer

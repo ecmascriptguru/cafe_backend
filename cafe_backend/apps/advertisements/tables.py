@@ -20,7 +20,7 @@ class AdvertisementTable(tables.Table):
     class Meta:
         model = Advertisement
         template_name = 'django_tables2/bootstrap.html'
-        exclude = ('created', 'modified', 'id', 'file', 'type', )
+        exclude = ('created', 'modified', 'id', 'file', 'type', 'dish',)
         sequence = (
             'number', 'image', 'name', 'type', 'is_active', 'actions', )
 
