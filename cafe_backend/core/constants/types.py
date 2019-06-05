@@ -38,3 +38,9 @@ class SOCKET_MESSAGE_TYPE:
     dish_booking = 'dish_booking'
     qr_code = 'qr_code'
     ring = 'ring'
+
+
+class PAYMENT_METHOD:
+    cash = 'c'
+    wechat = 'w'
+    alipay = 'a'
