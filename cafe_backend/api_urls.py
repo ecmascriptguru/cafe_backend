@@ -27,6 +27,10 @@ urlpatterns = [
         'cafe_backend.apps.events'), namespace='api:events')),
 
     path('', include((
+        'cafe_backend.apps.emoticons.urls_api',
+        'cafe_backend.apps.emoticons'), namespace='api:emoticons')),
+
+    path('', include((
         'cafe_backend.mgnt.chat.urls_api',
         'cafe_backend.mgnt.chat'), namespace='api:chat')),
 

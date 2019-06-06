@@ -1,0 +1,47 @@
+{% extends 'layouts/adminlte_base.html' %}
+
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+        <i class="fa fa-bomb"></i>
+        {% trans 'New Event' %}
+        <small>{% trans 'Grid view of events' %}</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-cog"></i>{% trans 'Settings' %}</a></li>
+        <li><a href="#"><i class="fa fa-bomb"></i>{% trans 'Advertisements' %}</a></li>
+        <li class="active">{% trans 'Create' %}</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12">
+            {% crispy form %}
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+{% block custom_js %}
+<script>
+    $(document).ready(() => {
+        $(document).on('change', 'select.event-repeat-type', function() {
+            let value = $(this).val()
+            const $weekdays = $('#weekday-container')
+
+            $weekdays.find('input:checkbox').prop('disabled', (value != 'w'))
+
+            // if (value == 'w'){
+            //     $weekdays.show()
+            // } else {
+            //     $weekdays.hide()
+            // }
+            
+        })
+    })
+</script>
+{% endblock %}
