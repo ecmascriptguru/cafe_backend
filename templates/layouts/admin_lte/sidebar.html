@@ -58,6 +58,9 @@
           <li class="{% if request.path|startswith:'/settings/events/' %} active {% endif %}">
             <a href="{% url 'events:event_listview' %}"><i class="fa fa-bomb"></i> {% trans 'Events' %}</a>
           </li>
+          <li class="{% if request.path|startswith:'/settings/emoticons/' %} active {% endif %}">
+            <a href="{% url 'emoticons:emoticon_listview' %}"><i class="fa fa-paw"></i> {% trans 'Emoticons' %}</a>
+          </li>
           <!-- 
           <li class="{% if request.path|startswith:'/rs/targets/' %} active {% endif %}">
             <a href=""><i class="glyphicon glyphicon-hdd"></i> Targets</a>

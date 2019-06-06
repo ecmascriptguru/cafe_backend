@@ -1,9 +1,12 @@
+from io import BytesIO
 from django.db import models
-from model_utils.models import TimeStampedModel
 from django.utils.translation import ugettext_lazy as _
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.files import File
 from django.conf import settings
+from model_utils.models import TimeStampedModel
 from sorl.thumbnail.fields import ImageField
+from PIL import Image
 from ...core.images.mixins import ImageThumbnailMixin
 
 
@@ -114,6 +117,17 @@ class DishImage(ImageThumbnailMixin, TimeStampedModel):
         ordering = ('-modified', )
         verbose_name = _('Dish Image')
         verbose_name_plural = _('Dish Images')
+
+    def save(self):
+        watermark = Image.open(settings.WATERMARK_IMAGE)
+
+        base_image = Image.open(self.file)
+        base_image.paste(watermark, (40, 20))
+        output = BytesIO()
+        base_image.save(output, format='JPEG', quality=75)
+        output.seek(0)
+        self.file = File(output, self.file.name)
+        return super(DishImage, self).save()
 
     def __str__(self):
         return self.file.url
