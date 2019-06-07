@@ -45,3 +45,8 @@ class PAYMENT_METHOD:
     cash = 'c'
     wechat = 'w'
     alipay = 'a'
+
+
+class DISH_POSITION:
+    counter = 'c'
+    chicken = 'n'

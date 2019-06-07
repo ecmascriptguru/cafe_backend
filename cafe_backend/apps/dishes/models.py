@@ -4,10 +4,12 @@ from django.utils.translation import ugettext_lazy as _
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.files import File
 from django.conf import settings
+from django_fsm import FSMField
 from model_utils.models import TimeStampedModel
 from sorl.thumbnail.fields import ImageField
 from PIL import Image
 from ...core.images.mixins import ImageThumbnailMixin
+from ...core.constants.types import DISH_POSITION
 
 
 class Category(TimeStampedModel):
@@ -31,6 +33,10 @@ class Category(TimeStampedModel):
 
 
 class Dish(TimeStampedModel):
+    DISH_POSITION_CHOICES = (
+        (DISH_POSITION.counter, _('Counter')),
+        (DISH_POSITION.chicken, _('Chicken')))
+
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, related_name='dishes',
         null=True, verbose_name=_('Category'))
@@ -49,6 +55,9 @@ class Dish(TimeStampedModel):
     is_active = models.BooleanField(
         default=True, verbose_name=_('Active?'))
     rate = models.FloatField(default=0.0)
+    position = FSMField(
+        choices=DISH_POSITION_CHOICES, default=DISH_POSITION.chicken,
+        verbose_name=_('Dish Position'))
 
     class Meta:
         ordering = ('-modified', )
