@@ -239,6 +239,7 @@ class OrderItem(TimeStampedModel):
             "dish": self.dish.pk,
             "dish_img": self.dish.img.file.url,
             "to_table": self.to_table.pk,
+            "to_table_name": self.to_table.name,
             "price": self.price,
             "amount": self.amount,
             "state": self.state,

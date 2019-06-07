@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'cafe_backend.apps.versions',
     'cafe_backend.apps.landing',
     'cafe_backend.apps.emoticons',
+    'cafe_backend.apps.videos',
 
     # mgnt
     'cafe_backend.mgnt.orders',

@@ -160,17 +160,22 @@ export const initSocket = () => {
         getHtmlMsg = (msg) => {
             const isMine = (userId == msg.poster)
 
-            return `<div class="direct-chat-msg${isMine ? ' right' : ''}">
-                <div class="direct-chat-info clearfix">
-                    <span class="direct-chat-name ${isMine ? 'pull-right' : 'pull-left'}">${msg.poster_name}</span>
-                    <span class="direct-chat-timestamp ${isMine ? 'pull-left' : 'pull-right'}">${(new Date(msg.created)).toLocaleString()}</span>
-                </div>
-                <!-- /.direct-chat-info -->
-                <div class="direct-chat-text">
-                ${msg.content}
-                </div>
-                <!-- /.direct-chat-text -->
-            </div>`
+            if (msg.content != '') {
+                return `<div class="direct-chat-msg${isMine ? ' right' : ''}">
+                    <div class="direct-chat-info clearfix">
+                        <span class="direct-chat-name ${isMine ? 'pull-right' : 'pull-left'}">${msg.poster_name}</span>
+                        <span class="direct-chat-timestamp ${isMine ? 'pull-left' : 'pull-right'}">${(new Date(msg.created)).toLocaleString()}</span>
+                    </div>
+                    <!-- /.direct-chat-info -->
+                    <div class="direct-chat-text">
+                    ${msg.content}
+                    </div>
+                    <!-- /.direct-chat-text -->
+                </div>`
+            } else {
+                return ''
+            }
+            
         },
 
         drawChatHistory = (messages, callback) => {
@@ -219,6 +224,35 @@ export const initSocket = () => {
             _initSocket()
 
             $(document)
+            .on('keyup', '#chat-message-input', function(e) {
+                if (e.keyCode === 13) {  // enter, return
+                    document.querySelector('#chat-message-submit').click();
+                }
+            })
+            .on('click', '#chat-message-submit', function(e) {
+                var messageInputDom = document.querySelector('#chat-message-input');
+                var message = messageInputDom.value;
+
+                if (!message) return false
+
+                chatSocket.send(JSON.stringify({
+                    message: message,
+                    to: currentChannel
+                }));
+            
+                messageInputDom.value = '';
+            })
+            .on('click', 'li.channel', function(e) {
+                currentChannel = $(this).data('channel-id')
+                $('li.channel.active').removeClass('active')
+                getChannel(currentChannel, (res) => {
+                    $(this).addClass('active').find('span.badge').remove()
+                    $(".channel-name").text(res.name)
+                    if (res.message_set) {
+                        drawChatHistory(res.message_set)
+                    }
+                })
+            })
             .on("click", "button.mark-notification-as-read", function() {
                 let $self = $(this),
                     $container = $self.closest('.notifications-menu'),
@@ -237,6 +271,10 @@ export const initSocket = () => {
                 _initChatRoomEventListeners()
 
                 document.querySelector('#chat-message-input').focus();
+                $('li.channel').first().click()
+            }
+
+            if ($('li.channel').length > 0) {
                 $('li.channel').first().click()
             }
         }

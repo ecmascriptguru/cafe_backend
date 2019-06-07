@@ -5,6 +5,7 @@ from django.conf import settings
 from cafe_backend.core.constants.types import SOCKET_MESSAGE_TYPE
 from cafe_backend.apps.users.models import User
 from cafe_backend.mgnt.chat.models import Channel, CHAT_ROOM_TYPE
+from cafe_backend.apps.videos.models import Video
 
 
 async def send_message_to_socket_server(uri, message):
@@ -121,3 +122,17 @@ def send_ringtone_to_admin(table):
         send_message_to_mobile(admin.pk, message)
     except Exception as e:
         print(str(e))
+
+
+def broadcast_video_event(video_pk):
+    admin = User.objects.filter(is_superuser=True).first()
+    public_channel = Channel.get_public_channel()
+
+    count = 0
+    message = {
+        "type": SOCKET_MESSAGE_TYPE.video_event,
+        "video": video_pk, 'to': public_channel.pk}
+    try:
+        send_message_to_mobile(admin.pk, message)
+    except Exception as e:
+        pass

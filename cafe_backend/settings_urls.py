@@ -14,6 +14,9 @@ urlpatterns = [
     path('emoticons/', include((
         'cafe_backend.apps.emoticons.urls', 'cafe_backend.apps.emoticons'),
         namespace='emoticons')),
+    path('videos/', include((
+        'cafe_backend.apps.videos.urls', 'cafe_backend.apps.videos'),
+        namespace='videos')),
     path('', include((
         'cafe_backend.apps.dishes.urls', 'cafe_backend.apps.dishes'),
         namespace='dishes')),

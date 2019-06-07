@@ -61,6 +61,9 @@
           <li class="{% if request.path|startswith:'/settings/emoticons/' %} active {% endif %}">
             <a href="{% url 'emoticons:emoticon_listview' %}"><i class="fa fa-paw"></i> {% trans 'Emoticons' %}</a>
           </li>
+          <li class="{% if request.path|startswith:'/settings/videos/' %} active {% endif %}">
+            <a href="{% url 'videos:video_listview' %}"><i class="fa fa-video-camera"></i> {% trans 'Videos' %}</a>
+          </li>
           <!-- 
           <li class="{% if request.path|startswith:'/rs/targets/' %} active {% endif %}">
             <a href=""><i class="glyphicon glyphicon-hdd"></i> Targets</a>
@@ -85,6 +88,9 @@
           </li>
           <li class="{% if request.path|startswith:'/mgnt/bookings/' %} active {% endif %}">
             <a href="{% url 'bookings:booking_listview' %}"><i class="fa fa-paperclip"></i> {% trans 'Bookings' %}</a>
+          </li>
+          <li class="{% if request.path|startswith:'/mgnt/chat/' %} active {% endif %}">
+            <a href="{% url 'chat:chat_listview' %}"><i class="fa fa-weixin"></i> {% trans 'Chat' %}</a>
           </li>
           <li class="{% if request.path|startswith:'/mgnt/music/' %} active {% endif %}">
             <a href="{% url 'music:music_playlist_view' %}"><i class="fa fa-music"></i> {% trans 'Musics' %}</a>

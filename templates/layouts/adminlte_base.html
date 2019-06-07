@@ -16,10 +16,7 @@
     {% if form and form.media %}
     {{ form.media }}
     {% endif %}
-    <script>
-        window.userId = parseInt("{{ request.user.pk }}")
-    </script>
-    <script src="{% static 'backend_theme/js/bundle.js' %}"></script>
+    
     {% block custom_css %}
     {% endblock %}
 </head>
@@ -53,8 +50,15 @@
 
         <div class="control-sidebar-bg"></div>
     </div>
+    
     {% block page_specific_content %}
     {% endblock page_specific_content %}
+
+    <script>
+        window.userId = parseInt("{{ request.user.pk }}")
+    </script>
+    <script src="{% static 'backend_theme/js/bundle.js' %}"></script>
+    
     {% block custom_js %}
     {% endblock %}
     
