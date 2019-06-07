@@ -4,6 +4,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from cafe_backend.core.constants.types import SOCKET_MESSAGE_TYPE
 from ...apps.users.models import User, Table
 from ...apps.events.models import Event
+from ...apps.videos.models import Video
 from ...mgnt.orders.models import Order, OrderItem
 
 
@@ -58,6 +59,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     'type': message_type,
                     'to': to,
                     'event': event.to_json()
+                }
+            )
+        elif message_type == SOCKET_MESSAGE_TYPE.video_event:
+            video_pk = json_data['video']
+            video = Video.objects.get(pk=video_pk)
+            await self.channel_layer.group_send(
+                self.room_group_name, {
+                    'type': message_type,
+                    'to': to,
+                    'video': video.to_json()
                 }
             )
         elif message_type == SOCKET_MESSAGE_TYPE.order:
@@ -161,4 +172,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps(event))
 
     async def ring(self, event):
+        await self.send(text_data=json.dumps(event))
+
+    async def notification_video(self, event):
         await self.send(text_data=json.dumps(event))
