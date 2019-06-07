@@ -160,17 +160,22 @@ export const initSocket = () => {
         getHtmlMsg = (msg) => {
             const isMine = (userId == msg.poster)
 
-            return `<div class="direct-chat-msg${isMine ? ' right' : ''}">
-                <div class="direct-chat-info clearfix">
-                    <span class="direct-chat-name ${isMine ? 'pull-right' : 'pull-left'}">${msg.poster_name}</span>
-                    <span class="direct-chat-timestamp ${isMine ? 'pull-left' : 'pull-right'}">${(new Date(msg.created)).toLocaleString()}</span>
-                </div>
-                <!-- /.direct-chat-info -->
-                <div class="direct-chat-text">
-                ${msg.content}
-                </div>
-                <!-- /.direct-chat-text -->
-            </div>`
+            if (msg.content != '') {
+                return `<div class="direct-chat-msg${isMine ? ' right' : ''}">
+                    <div class="direct-chat-info clearfix">
+                        <span class="direct-chat-name ${isMine ? 'pull-right' : 'pull-left'}">${msg.poster_name}</span>
+                        <span class="direct-chat-timestamp ${isMine ? 'pull-left' : 'pull-right'}">${(new Date(msg.created)).toLocaleString()}</span>
+                    </div>
+                    <!-- /.direct-chat-info -->
+                    <div class="direct-chat-text">
+                    ${msg.content}
+                    </div>
+                    <!-- /.direct-chat-text -->
+                </div>`
+            } else {
+                return ''
+            }
+            
         },
 
         drawChatHistory = (messages, callback) => {
