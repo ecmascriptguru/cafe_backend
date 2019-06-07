@@ -86,6 +86,9 @@
           <li class="{% if request.path|startswith:'/mgnt/bookings/' %} active {% endif %}">
             <a href="{% url 'bookings:booking_listview' %}"><i class="fa fa-paperclip"></i> {% trans 'Bookings' %}</a>
           </li>
+          <li class="{% if request.path|startswith:'/mgnt/chat/' %} active {% endif %}">
+            <a href="{% url 'chat:chat_listview' %}"><i class="fa fa-weixin"></i> {% trans 'Chat' %}</a>
+          </li>
           <li class="{% if request.path|startswith:'/mgnt/music/' %} active {% endif %}">
             <a href="{% url 'music:music_playlist_view' %}"><i class="fa fa-music"></i> {% trans 'Musics' %}</a>
           </li>

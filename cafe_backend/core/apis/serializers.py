@@ -7,5 +7,6 @@ class CafeModelSerializer(serializers.ModelSerializer):
         super(CafeModelSerializer, self).__init__(*args, **kwargs)
         if kwargs.get('context'):
             if not kwargs['context'].get('table'):
-                raise FieldDoesNotExist()
+                self.table = None
+                # raise FieldDoesNotExist()
             self.table = kwargs['context']['table']
