@@ -61,6 +61,9 @@
           <li class="{% if request.path|startswith:'/settings/emoticons/' %} active {% endif %}">
             <a href="{% url 'emoticons:emoticon_listview' %}"><i class="fa fa-paw"></i> {% trans 'Emoticons' %}</a>
           </li>
+          <li class="{% if request.path|startswith:'/settings/videos/' %} active {% endif %}">
+            <a href="{% url 'videos:video_listview' %}"><i class="fa fa-video-camera"></i> {% trans 'Videos' %}</a>
+          </li>
           <!-- 
           <li class="{% if request.path|startswith:'/rs/targets/' %} active {% endif %}">
             <a href=""><i class="glyphicon glyphicon-hdd"></i> Targets</a>

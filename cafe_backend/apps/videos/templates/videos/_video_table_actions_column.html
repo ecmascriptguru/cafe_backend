@@ -1,0 +1,10 @@
+{% load i18n %}
+
+<div class="btn-block">
+    <a class="btn btn-xs" title="{% trans 'Edit' %}" href="{% url 'videos:video_updateview' record.pk %}">
+        <i class="fa fa-pencil"></i>
+    </a>
+    <a class="btn btn-xs" title="{% trans 'Delete' %}" href="{% url 'videos:video_deleteview' record.pk %}">
+        <i class="fa fa-trash"></i>
+    </a>
+</div>
