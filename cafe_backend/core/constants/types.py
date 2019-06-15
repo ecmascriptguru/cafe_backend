@@ -50,3 +50,9 @@ class PAYMENT_METHOD:
 class DISH_POSITION:
     counter = 'c'
     chicken = 'n'
+
+
+class MUSIC_PROVIDER:
+    ting = 't'
+    kugou = 'k'
+    spotify = 's'
