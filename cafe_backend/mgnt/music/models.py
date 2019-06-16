@@ -7,16 +7,26 @@ from django.db import models
 from django.core.validators import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django_fsm import FSMField, transition
+from django.contrib.postgres.fields import JSONField
 from model_utils.models import TimeStampedModel
 from cafe_backend.libs.ting.api import TingMusicAPI as Ting
+from cafe_backend.libs.spotify.api import Spotify
 from cafe_backend.core.constants.states import MUSIC_STATE
+from cafe_backend.core.constants.types import MUSIC_PROVIDER
 
 
 MUSIC_STATE_CHOICES = (
     (MUSIC_STATE.default, _('Not available')),
     (MUSIC_STATE.downloading, _('Downloading')),
-    (MUSIC_STATE.default, _('Uploading')),
-    (MUSIC_STATE.default, _('Ready')),
+    (MUSIC_STATE.uploading, _('Uploading')),
+    (MUSIC_STATE.ready, _('Ready')),
+)
+
+
+MUSIC_PROVIDER_CHOICES = (
+    (MUSIC_PROVIDER.ting, _('Ting')),
+    (MUSIC_PROVIDER.kugou, _('KuGou')),
+    (MUSIC_PROVIDER.spotify, _('Spotify'))
 )
 
 
@@ -27,9 +37,13 @@ class Music(TimeStampedModel):
     external_id = models.CharField(
         max_length=32, unique=True, verbose_name=_('External ID'))
     pic_url = models.URLField(verbose_name=_('Picture URL'))
+    provider = FSMField(
+        choices=MUSIC_PROVIDER_CHOICES, default=MUSIC_PROVIDER.ting,
+        verbose_name=_('Music Provider'))
     state = FSMField(
         choices=MUSIC_STATE_CHOICES, default=MUSIC_STATE.default,
         verbose_name=_('State'))
+    details = JSONField(default={}, verbose_name=_('Details'))
 
     class Meta:
         ordering = ('title', )
@@ -41,17 +55,18 @@ class Music(TimeStampedModel):
 
     @classmethod
     def external_search(cls, keyword):
-        response = Ting.search_music(keyword)
+        # response = Ting.search_music(keyword)
+        response = Spotify.search(keyword)
         return response
 
     @classmethod
-    def find_music(cls, external_id):
-        exist, instance = cls.exists(external_id)
+    def find_music(cls, external_id, provider=MUSIC_PROVIDER.spotify):
+        exist, instance = cls.exists(external_id, provider=provider)
         if exist:
             return True, instance
         else:
             instance = cls(
-                external_id=external_id)
+                external_id=external_id, provider=provider)
             is_valid = instance.clean()
             if is_valid:
                 instance.save()
@@ -60,20 +75,30 @@ class Music(TimeStampedModel):
     def clean(self):
         super(Music, self).clean()
         external_id = self.external_id
-        response_data = Ting.retrieve_music(external_id)
 
-        if not response_data.get('songinfo'):
-            return False
+        if self.provider == MUSIC_PROVIDER.ting:
+            response_data = Ting.retrieve_music(external_id)
+
+            if not response_data.get('songinfo'):
+                return False
+            else:
+                self.title = response_data['songinfo']['title']
+                self.author = response_data['songinfo']['author']
+                self.url = response_data['bitrate']['show_link']
+                self.pic_url = response_data['songinfo']['pic_big']
+                return True
         else:
-            self.title = response_data['songinfo']['title']
-            self.author = response_data['songinfo']['author']
-            self.url = response_data['bitrate']['show_link']
-            self.pic_url = response_data['songinfo']['pic_big']
+            response_data = Spotify.retrieve_music(external_id)
+            self.title = response_data['name']
+            self.author = response_data['author']
+            self.url = response_data['url']
+            self.pic_url = response_data['pic_url']
+            self.state = MUSIC_STATE.ready
             return True
 
     @classmethod
-    def exists(cls, external_id):
-        qs = cls.objects.filter(external_id=external_id)
+    def exists(cls, external_id, provider=MUSIC_PROVIDER.spotify):
+        qs = cls.objects.filter(external_id=external_id, provider=provider)
         if qs.exists():
             return True, qs.first()
         else:
@@ -160,6 +185,10 @@ class Music(TimeStampedModel):
         self.upload()
         self.approve()
         self.save()
+
+    @classmethod
+    def spotify_musics(cls):
+        return cls.objects.filter(provider=MUSIC_PROVIDER.spotify)
 
 
 class Playlist(TimeStampedModel):

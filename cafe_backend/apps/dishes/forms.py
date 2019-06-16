@@ -35,7 +35,7 @@ class DishForm(forms.ModelForm):
         fields = (
             'category', 'name', 'description', 'price', 'is_active',
             'name_en', 'description_en',
-            'name_ko', 'description_ko', )
+            'name_ko', 'description_ko', 'position',)
         widgets = {
           'description': forms.Textarea(attrs={'rows': 3}),
           'description_en': forms.Textarea(attrs={'rows': 3}),
@@ -59,6 +59,7 @@ class DishForm(forms.ModelForm):
                 Field('name'), Field('description'), Field('price'),
                 Field('name_en'), Field('description_en'),
                 Field('name_ko'), Field('description_ko'),
+                Field('position'),
                 Field('is_active'),
                 Fieldset(
                     'Add images', Formset('images'), css_class='form-group'),
@@ -82,7 +83,7 @@ class DishAdminForm(forms.ModelForm):
         fields = (
             'category', 'name', 'description', 'price', 'is_active',
             'name_en', 'description_en',
-            'name_ko', 'description_ko', )
+            'name_ko', 'description_ko', 'position',)
 
     def __init__(self, *args, **kwargs):
         super(DishAdminForm, self).__init__(*args, **kwargs)

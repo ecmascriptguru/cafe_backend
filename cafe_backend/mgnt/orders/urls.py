@@ -14,4 +14,10 @@ urlpatterns = [
     path(
         '<int:pk>/edit', views.OrderUpdateView.as_view(),
         name='order_updateview'),
+    path(
+        '<int:pk>/print', views.OrderPrintView.as_view(),
+        name='order_printview'),
+    path(
+        'items/<int:pk>/print', views.OrderItemPrintView.as_view(),
+        name='order_item_printview'),
 ]

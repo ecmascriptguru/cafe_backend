@@ -1,6 +1,6 @@
 from cafe_backend.core.apis.serializers import CafeModelSerializer, serializers
 from cafe_backend.apps.users.serializers import TableSerializer
-from .models import Music, Playlist
+from .models import Music, Playlist, MUSIC_PROVIDER
 
 
 class MusicSerializer(CafeModelSerializer):
@@ -61,6 +61,7 @@ class MusicSubscribeSerializer(CafeModelSerializer):
     def create(self, validated_data):
         validated_data['table'] = self.table
         external_id = validated_data.pop('external_id')
-        status, music = Music.find_music(external_id)
+        status, music = Music.find_music(
+            external_id, provider=MUSIC_PROVIDER.spotify)
         validated_data['music'] = music
         return super(MusicSubscribeSerializer, self).create(validated_data)

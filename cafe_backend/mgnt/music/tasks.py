@@ -1,5 +1,6 @@
 from celery import shared_task
-from .models import Music
+from ...libs.spotify.browser import SpotifyBrowser
+from .models import Music, Playlist
 
 
 @shared_task
@@ -20,3 +21,17 @@ def grab_music_to_s3(music_ids):
 def check_invalid_musics(self):
     musics = [item['pk'] for item in Music.get_invalid_musics().values('pk')]
     return grab_music_to_s3(musics)
+
+
+@shared_task(bind=True)
+def spotify_add_music_to_playlist(self, ids=[]):
+    browser = SpotifyBrowser()
+    try:
+        for playlist_id in ids:
+            playlist = Playlist.objects.get(pk=playlist_id)
+            music = playlist.music
+            browser.add_music_to_playlist(music.url)
+    except Exception as e:
+        print(str(e))
+    finally:
+        browser.close()
