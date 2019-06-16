@@ -14,7 +14,7 @@ from django_fsm import transition
 from model_utils.models import TimeStampedModel
 from cafe_backend.core.constants.states import (
     DEFAULT_STATE, ORDER_STATE)
-from cafe_backend.core.constants.types import PAYMENT_METHOD
+from cafe_backend.core.constants.types import PAYMENT_METHOD, DISH_POSITION
 
 
 ORDER_STATE_CHOICES = (
@@ -65,6 +65,14 @@ class Order(TimeStampedModel):
     @property
     def items(self):
         return self.order_items.exclude(state=ORDER_STATE.canceled)
+
+    @property
+    def print_items(self):
+        return self.items.filter(is_printed=False)
+
+    @property
+    def print_chicken_items(self):
+        return self.print_items.filter(dish__position=DISH_POSITION.chicken)
 
     @property
     def pending_items(self):
@@ -213,6 +221,7 @@ class OrderItem(TimeStampedModel):
     state = FSMField(
         choices=ORDER_ITEM_STATE_CHOICES, default=ORDER_STATE.default,
         verbose_name=_('State'))
+    is_printed = models.BooleanField(default=False, verbose_name=_('Printed?'))
 
     @property
     def subtotal(self):

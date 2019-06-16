@@ -13,4 +13,5 @@ def copy_music_to_s3(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Playlist)
 def add_to_playlist_on_spotify(sender, instance, created, **kwargs):
     if created and instance.music.provider == MUSIC_PROVIDER.spotify:
-        spotify_add_music_to_playlist.delay([instance.pk])
+        pass
+        # spotify_add_music_to_playlist.delay([instance.pk])
