@@ -27,6 +27,7 @@ class User(AbstractUser):
     def to_json(self):
         return {
             'id': self.pk,
+            'is_superuser': self.is_superuser,
             'name': self.name}
 
     def get_channel(self, to=None):
@@ -59,6 +60,7 @@ class Table(TimeStampedModel):
     state = FSMField(
         choices=TABLE_STATE_OPTIONS, default=TABLE_STATE.blank,
         verbose_name=_('State'))
+    socket_counter = models.PositiveSmallIntegerField(default=0)
     cleared = models.DateTimeField(
         auto_now_add=True, verbose_name=_('Cleared'))
 
@@ -135,3 +137,7 @@ class Table(TimeStampedModel):
     def get_choices(cls):
         tables = cls.objects.all()
         return tuple([(t.pk, t.name) for t in tables])
+
+    @property
+    def is_online(self):
+        return self.socket_counter > 0

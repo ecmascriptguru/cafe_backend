@@ -4,7 +4,23 @@
 <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
     <div class="small-box {{ table|table_state_bg_color }}">
         <div class="inner">
-            <h3>{{ table.name }} <span class="badge pull-right">{{ table|state_text }}</span></h3>
+            <h3>{{ table.name }} 
+                <span class="badge pull-right">{{ table|state_text }}<br/></span>
+                <span style="font-size: 12px" title="
+                {% if table.is_online %}
+                    {% trans 'Online' %}
+                {% else %}
+                    {% trans 'Offline' %}
+                {% endif %}">
+                    <i class="fa fa-circle 
+                        {% if table.is_online %}
+                            text-success
+                        {% else %}
+                            text-danger
+                        {% endif %}">
+                    </i>
+                </span>
+            </h3>
 
             <div class="row">
                 <div class="col-xs-6">

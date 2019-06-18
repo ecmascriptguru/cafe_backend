@@ -21,6 +21,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
 
         await self.accept()
+        if self.user.is_table:
+            self.user.table.socket_counter += 1
+            self.user.table.save()
 
     async def disconnect(self, close_code):
         # Leave room group
@@ -28,6 +31,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
+
+        if self.user.is_table:
+            self.user.table.socket_counter -= 1
+            self.user.table.save()
 
     # Receive message from WebSocket
     async def receive(self, text_data):
