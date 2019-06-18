@@ -43,7 +43,6 @@ def print_order(order_pk):
 
 @shared_task
 def print_order_item(order_item_pk):
-    print(order_item_pk)
     time.sleep(1)
     item = OrderItem.objects.get(pk=order_item_pk)
     url = "%s%s" % (
