@@ -6,13 +6,13 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="shortcut icon" type="image/x-icon" href="{% static 'backend_theme/img/favicon.jpg' %}">
-  <title>{% trans 'CB' %} | {% block title %}{% endblock title %}</title>
+  <title>{{ object.pk }}</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
   <link rel="shortcut icon" type="image/x-icon" href="{% static 'backend_theme/img/favicon.jpg' %}">
-  <link rel="stylesheet" href="{% static 'backend_theme/css/layout.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'backend_theme/css/print.css' %}">
+  <link rel="stylesheet" media="all" type="text/css" href="{% static 'backend_theme/css/layout.css' %}">
+  <link rel="stylesheet" media="all" type="text/css" href="{% static 'backend_theme/css/print.css' %}">
   {% block main_css_block %}
   
   {% endblock %}
