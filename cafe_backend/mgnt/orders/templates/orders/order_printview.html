@@ -3,13 +3,13 @@
 {% block content %}
 <body style="width:57mm;">
     <div class="header">
-        <h4>延吉最新酒吧订单</h4>
+        <h3>延吉最新酒吧订单</h3>
     </div>
     <h5 class="order-sub-title">卓台: {{ object.table.name }}</h5>
     <h5 class="order-sub-title">水单流水: {{ object.pk }}</h5>
     <h5 class="order-sub-title">结帐时间: {{ object.modified|date:'Y-m-d H:i' }}</h5>
     <div class="">
-        <table class="table order-items-list">
+        <table width="100%" class="table order-items-list">
             <thead>
                 <tr>
                     <th>菜品</th>

@@ -8,8 +8,33 @@
   <title>{{ object.pk }}</title>
   <link rel="shortcut icon" type="image/x-icon" href="{% static 'backend_theme/img/favicon.jpg' %}">
   {% block main_css_block %}
-  <link rel="stylesheet" media="all" href="{% static 'backend_theme/css/layout.css' %}">
-  <link rel="stylesheet" media="all" href="{% static 'backend_theme/css/print.css' %}">
+  <!-- <link rel="stylesheet" media="all" href="{% static 'backend_theme/css/layout.css' %}"> -->
+  <style>
+    body {
+        margin:0;
+        font-size:14px;
+        margin:auto;
+    }
+
+    div.header {
+        border-bottom: solid 2px grey;
+        margin-bottom:5px;}
+        div.header h3 {
+            text-align: center;
+            margin-bottom:2px;
+            border-bottom:solid 2px grey;}
+    h5.order-sub-title {
+        margin-top: 2px;
+        margin-bottom: 2px;}
+    table.order-items-list {
+        border-collapse: collapse;
+        font-size: 10px;}
+        table.order-items-list tr th {
+          text-align: left;}
+        table.order-items-list tr {
+          font-weight: bold;
+          border-top: solid 1px grey;}
+  </style>
   {% endblock %}
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

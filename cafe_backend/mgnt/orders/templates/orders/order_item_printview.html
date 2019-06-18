@@ -3,15 +3,15 @@
 {% block content %}
 <body style="width:78mm;">
     <div class="header">
-        <h4>{{ object.dish.name }}</h4>
+        <h3>{{ object.dish.name }}</h3>
     </div>
-    <h5>说明： {{ object.dish.description|truncatechars:30 }}</h5>
-    <h5>数量： {{ object.amount }}</h5>
-    <h5>卓台： {{ object.order.table.name }}(订单号： {{ object.pk }})</h5>
+    <h5 class="order-sub-title">说明： {{ object.dish.description|truncatechars:30 }}</h5>
+    <h5 class="order-sub-title">数量： {{ object.amount }}</h5>
+    <h5 class="order-sub-title">卓台： {{ object.order.table.name }}(订单号： {{ object.pk }})</h5>
     {% if object.is_booking_order_item %}
-    <h5>目标： {{ object.to_table.name }}</h5>
+    <h5 class="order-sub-title">目标： {{ object.to_table.name }}</h5>
     {% endif %}
-    <h5>结帐时间： {{ object.modified|date:'Y-m-d H:i' }}</div>
+    <h5 class="order-sub-title">结帐时间： {{ object.modified|date:'Y-m-d H:i' }}</div>
 </body>
 
 {% endblock content %}
