@@ -41,6 +41,12 @@ class SOCKET_MESSAGE_TYPE:
     ring = 'ring'
 
 
+class MONITOR_MESSAGE_TYPE:
+    start = 'start'
+    stop = 'stop'
+    reboot = 'reboot'
+
+
 class PAYMENT_METHOD:
     cash = 'c'
     wechat = 'w'

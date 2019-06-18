@@ -1,6 +1,7 @@
 export const initSocket = () => {
     const WS_BASE_URL = `ws://${window.location.host}/ws/chat/${userId}/`,
-        API_BASE_URL = `http://${window.location.host}/api/channels/`
+        API_BASE_URL = `http://${window.location.host}/api/channels/`,
+        MONITOR_BASE_URL = `ws://${window.location.host}/ws/monitor/${userId}/`
 
     let chatSocket = null,
         $messagesContainer = $(".direct-chat-messages"),
@@ -144,6 +145,11 @@ export const initSocket = () => {
             chatSocket = new WebSocket(WS_BASE_URL);
             chatSocket.onmessage = _socketMessageHandler
             chatSocket.onclose = _socketCloseHandler
+
+            /**
+             * Testing monitor socket
+             */
+            chatSocket = new WebSocket(MONITOR_BASE_URL);
         },
 
         getChannel = (channelID, callback) => {
