@@ -19,7 +19,7 @@ class EYPrint(object):
             'key': settings.EYPRINT_58_API_KEY,
             'sourceFile': url,
             'Scaling': False,
-            'leftMargin': 5,
+            'leftMargin': 1,
             'Type': kwargs.get('Type', 'html'),
         }
         return requests.post(cls.base_url, data=data)
@@ -32,7 +32,7 @@ class EYPrint(object):
             'key': settings.EYPRINT_80_API_KEY,
             'sourceFile': url,
             'Type': kwargs.get('Type', 'html'),
-            'leftMargin': 5,
+            'leftMargin': 1,
             'Scaling': False,
         }
         return requests.post(cls.base_url, data=data)

@@ -105,6 +105,15 @@ class Order(TimeStampedModel):
         else:
             return 0.0
 
+    @property
+    def total_amount(self):
+        if len(self.order_items.all()) > 0:
+            return self.items.values('amount').aggregate(
+                        total_amount=models.Sum("amount")
+                    ).get('total_amount', 0)
+        else:
+            return 0
+
     @classmethod
     def all(cls):
         return cls.objects.all().exclude(state__in=[

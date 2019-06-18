@@ -1,11 +1,17 @@
 {% extends 'layouts/print_base.html' %}
 
 {% block content %}
-<body style="margin:0; font-size:14px; width:71.88mm; margin:auto;">
-    <h5>{{ object.order.table.name }}({{ object.pk }})</h5>
-    <h3>{{ object.dish.name }}</h3>
-    <span>To: {{ object.to_table.name }}</span>
-    <div >{{ object.created }}</div>
+<body style="width:78mm;">
+    <div class="header">
+        <h4>{{ object.dish.name }}</h4>
+    </div>
+    <h5>说明： {{ object.dish.description|truncatechars:30 }}</h5>
+    <h5>数量： {{ object.amount }}</h5>
+    <h5>卓台： {{ object.order.table.name }}(订单号： {{ object.pk }})</h5>
+    {% if object.is_booking_order_item %}
+    <h5>目标： {{ object.to_table.name }}</h5>
+    {% endif %}
+    <h5>结帐时间： {{ object.modified|date:'Y-m-d H:i' }}</div>
 </body>
 
 {% endblock content %}

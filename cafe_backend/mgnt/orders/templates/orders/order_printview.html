@@ -1,32 +1,45 @@
 {% extends 'layouts/print_base.html' %}
 
 {% block content %}
-<body style="margin:0; font-size:14px; width:48mm; margin:auto;">
-    <h3>{{ object.table.name }}</h3>
-    <div style="text-align: right" >{{ object.created }}</div>
-    <table style="width: 100%" class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th></th>
-                <th></th>
-                <th>To</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in object.print_items.all %}
-            <tr>
-                <td>{{ item.dish.name }}</td>
-                <td>&yen;{{ item.dish.price }}</td>
-                <td>{{ item.amount }}</td>
-                <td>{{ item.to_table.name }}</td>
-            </tr>
-            {% endfor %}
-            <tr>
-                <td>Total</td>
-                <td colspan="3">&yen;{{ object.total_sum }}</td>
-            </tr>
-        </tbody>
-    </table>
+<body style="width:57mm;">
+    <div class="header">
+        <h4>延吉最新酒吧订单</h4>
+    </div>
+    <h5 class="order-sub-title">卓台: {{ object.table.name }}</h5>
+    <h5 class="order-sub-title">水单流水: {{ object.pk }}</h5>
+    <h5 class="order-sub-title">结帐时间: {{ object.modified|date:'Y-m-d H:i' }}</h5>
+    <div class="">
+        <table class="table order-items-list">
+            <thead>
+                <tr>
+                    <th>菜品</th>
+                    <th>单价</th>
+                    <th>数量</th>
+                    <th>金额</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in object.print_items.all %}
+                <tr>
+                    <td>{{ item.dish.name|truncatechars:7 }}{% if item.is_booking_order_item %}<br/>({{ item.to_table.name }}){% endif %}</td>
+                    <td>&yen;{{ item.dish.price }}</td>
+                    <td>{{ item.amount }}</td>
+                    <td>&yen;{{ item.subtotal }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">小计</td>
+                    <td>{{ object.total_amount }}</td>
+                    <td>&yen;{{ object.total_sum }}</td>
+                </tr>
+                <tr style="border-top: solid 2px;">
+                    <td colspan="3">应收</td>
+                    <td>&yen;{{ object.total_sum }}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
 </body>
 {% endblock content %}
