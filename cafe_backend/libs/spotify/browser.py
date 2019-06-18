@@ -22,7 +22,7 @@ class SpotifyBrowser():
         self.login()
 
     def start_browser(self):
-        if platform != 'win32' and not settings.DEBUG:
+        if platform != 'win32':# and not settings.DEBUG:
             self.display = Display(visible=0, size=(1200, 900))
             self.display.start()
 
@@ -83,35 +83,34 @@ class SpotifyBrowser():
 
     def add_music_to_playlist(self, music_url):
         PLAYLIST_DROPDOWN_BUTTON =\
-            'ol.tracklist div.react-contextmenu-wrapper \
-                li.tracklist-row--active button div'
+            'ol.tracklist div.react-contextmenu-wrapper li.tracklist-row--active button div'
         ADD_TO_PLAYLIST_ITEM =\
-            '.react-contextmenu.react-contextmenu--visible \
-            div.react-contextmenu-item'
+            '.react-contextmenu.react-contextmenu--visible div.react-contextmenu-item'
         FIRST_PLAYLIST_ITEM = 'div.dialog div.GlueDropTarget div.media-object'
         self.open(music_url)
         actions = ActionChains(self.driver)
 
-        self.wait_for_elements([
-            'ol.tracklist div.react-contextmenu-wrapper \
-                li.tracklist-row--active'
-        ])
-        # time.sleep(10)
+        # self.wait_for_elements([
+        #     'ol.tracklist div.react-contextmenu-wrapper li.tracklist-row--active'
+        # ])
+        time.sleep(10)
         active_line = self.driver.find_element_by_css_selector(
             'ol.tracklist div.react-contextmenu-wrapper li.tracklist-row--active')
-        actions.move_to_element(active_line).perform()
-
+        hover = actions.move_to_element(active_line)
+        hover.perform()
         self.wait_for_elements([PLAYLIST_DROPDOWN_BUTTON])
-        self.driver.find_element_by_css_selector(
-            'ol.tracklist div.react-contextmenu-wrapper li.tracklist-row--active button div').click()
+        self.driver.execute_script("document.querySelector('ol.tracklist div.react-contextmenu-wrapper li.tracklist-row--active .tracklist-col.more div.react-contextmenu-wrapper')")
 
-        # time.sleep(1)
-        self.wait_for_elements([ADD_TO_PLAYLIST_ITEM])
+        self.driver.find_element_by_css_selector(
+            'ol.tracklist div.react-contextmenu-wrapper li.tracklist-row--active button').click()
+
+        time.sleep(3)
+        # self.wait_for_elements([ADD_TO_PLAYLIST_ITEM])
         self.driver.find_elements_by_css_selector(
             ADD_TO_PLAYLIST_ITEM)[2].click()
 
-        # time.sleep(1)
-        self.wait_for_elements([FIRST_PLAYLIST_ITEM])
+        time.sleep(5)
+        # self.wait_for_elements([FIRST_PLAYLIST_ITEM])
         self.driver.find_element_by_css_selector(FIRST_PLAYLIST_ITEM).click()
 
     def close(self):

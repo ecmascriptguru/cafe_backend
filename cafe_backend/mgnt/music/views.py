@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from cafe_backend.core.apis.viewsets import CafeModelViewSet, viewsets
 from cafe_backend.core.constants.states import MUSIC_STATE
+from ...core.constants.types import MUSIC_PROVIDER
 from .models import Music, Playlist
 from . import tables, filters, serializers
 
@@ -31,6 +32,10 @@ class PlaylistView(LoginRequiredMixin, SingleTableMixin, FilterView):
     filterset_class = filters.PlaylistFilter
     strict = False
     template_name = 'music/playlist_listview.html'
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super(PlaylistView, self).get_queryset(*args, **kwargs)
+        return qs.filter(music__provider=MUSIC_PROVIDER.spotify)
 
 
 class MusicViewSet(CafeModelViewSet):

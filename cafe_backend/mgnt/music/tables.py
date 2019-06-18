@@ -10,8 +10,8 @@ class PlaylistTable(tables.Table):
         empty_values=(), verbose_name='#', orderable=False)
     title = tables.Column(accessor='music.title')
     author = tables.Column(accessor='music.author')
-    # actions = tables.Column(
-    #     empty_values=(), orderable=False, verbose_name=_('Actions'))
+    actions = tables.Column(
+        empty_values=(), orderable=False, verbose_name=_('Actions'))
     actions_template = 'music/_playlist_table_actions_column.html'
 
     index = 0

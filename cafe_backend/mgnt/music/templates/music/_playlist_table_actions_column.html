@@ -1,14 +1,6 @@
 {% load i18n %}
-
 <div class="btn-block">
-    {% if not is_start %}
-    <a class="btn btn-xs playlist-move-up" data-playlist-id="{{ record.pk }}" title="{% trans 'Move Up' %}">
-        <i class="fa fa-arrow-up"></i>
+    <a class="btn btn-xs playlist-move-up" target="_blank" href="https://open.spotify.com/track/{{ record.music.external_id }}" title="{% trans 'Add to Playlist' %}">
+        <i class="fa fa-plus"></i>
     </a>
-    {% endif %}
-    {% if not is_end %}
-    <a class="btn btn-xs playlist-move-up" data-playlist-id="{{ record.pk }}" title="{% trans 'Move Down' %}">
-        <i class="fa fa-arrow-down"></i>
-    </a>
-    {% endif %}
 </div>
