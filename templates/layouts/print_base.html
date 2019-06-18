@@ -8,8 +8,8 @@
   <title>{{ object.pk }}</title>
   <link rel="shortcut icon" type="image/x-icon" href="{% static 'backend_theme/img/favicon.jpg' %}">
   {% block main_css_block %}
-  <link rel="stylesheet" href="{% static 'backend_theme/css/layout.css' %}">
-  <link rel="stylesheet" href="{% static 'backend_theme/css/print.css' %}">
+  <link rel="stylesheet" media="all" href="{% static 'backend_theme/css/layout.css' %}">
+  <link rel="stylesheet" media="all" href="{% static 'backend_theme/css/print.css' %}">
   {% endblock %}
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
