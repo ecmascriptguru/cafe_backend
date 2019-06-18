@@ -139,7 +139,7 @@ class TableControlForm(forms.ModelForm):
         if self.instance.is_online:
             self.helper.layout = Layout(
                 Div(
-                    HTML('<h3>' + _('This table is online now.') + '</h3>'),
+                    HTML('<h3>%s</h3>' % _('This table is online now.')),
                     css_class='form-group'
                 ),
                 ButtonHolder(
