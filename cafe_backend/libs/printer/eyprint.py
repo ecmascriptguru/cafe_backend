@@ -18,6 +18,8 @@ class EYPrint(object):
         data = {
             'key': settings.EYPRINT_58_API_KEY,
             'sourceFile': url,
+            'paperWidth': 58,
+            'Scaling': False,
             'Type': kwargs.get('Type', 'html'),
         }
         return requests.post(cls.base_url, data=data)
@@ -29,6 +31,8 @@ class EYPrint(object):
         data = {
             'key': settings.EYPRINT_80_API_KEY,
             'sourceFile': url,
-            'Type': kwargs.get('Type', 'html')
+            'Type': kwargs.get('Type', 'html'),
+            'paperWidth': 80,
+            'Scaling': False,
         }
         return requests.post(cls.base_url, data=data)
