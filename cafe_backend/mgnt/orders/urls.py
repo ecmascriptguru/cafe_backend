@@ -18,6 +18,9 @@ urlpatterns = [
         '<int:pk>/print', views.OrderPrintView.as_view(),
         name='order_printview'),
     path(
+        '<int:pk>/print_callback', views.OrderPrintCallbackView.as_view(),
+        name='order_print_callbackview'),
+    path(
         'items/<int:pk>/print', views.OrderItemPrintView.as_view(),
         name='order_item_printview'),
 ]

@@ -12,16 +12,25 @@ class EYPrint(object):
             cls.print_80(url_80)
 
     @classmethod
-    def print_58(cls, url, **kwargs):
+    def print_58(cls, url, callback=None, **kwargs):
         if settings.DEBUG:
             url = 'http://www.eyprint.com/apiDemo/index.html'
-        data = {
-            'key': settings.EYPRINT_58_API_KEY,
-            'sourceFile': url,
-            'Scaling': False,
-            'leftMargin': 1,
-            'Type': kwargs.get('Type', 'html'),
-        }
+            data = {
+                'key': settings.EYPRINT_58_API_KEY,
+                'sourceFile': url,
+                'Scaling': False,
+                'leftMargin': 1,
+                'Type': kwargs.get('Type', 'html'),
+            }
+        else:
+            data = {
+                'key': settings.EYPRINT_58_API_KEY,
+                'sourceFile': url,
+                'Scaling': False,
+                'leftMargin': 1,
+                'callBackUrl': callback,
+                'Type': kwargs.get('Type', 'html'),
+            }
         return requests.post(cls.base_url, data=data)
 
     @classmethod

@@ -1,3 +1,4 @@
+import json
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from django.urls import reverse_lazy
@@ -12,7 +13,6 @@ from cafe_backend.apps.users.models import Table, TABLE_STATE
 from .models import Order, OrderItem
 from . import serializers
 from . import forms
-from .tasks import mark_order_items_as_printed
 
 
 class TableGridView(LoginRequiredMixin, generic.ListView):
@@ -31,12 +31,17 @@ class OrderPrintView(generic.DetailView):
     model = Order
     template_name = 'orders/order_printview.html'
 
+
+class OrderPrintCallbackView(generic.DetailView):
+    model = Order
+    template_name = 'orders/order_print_callbackview.html'
+
     def get_context_data(self, *args, **kwargs):
-        params = super(OrderPrintView, self).get_context_data(*args, **kwargs)
+        param = super(OrderPrintCallbackView, self).get_context_data(
+            *args, **kwargs)
         order = self.get_object()
-        item_ids = [item.pk for item in order.print_items.all()]
-        mark_order_items_as_printed.delay(item_ids)
-        return params
+        order.print_items.update(is_printed=True)
+        return param
 
 
 class OrderItemPrintView(generic.DetailView):

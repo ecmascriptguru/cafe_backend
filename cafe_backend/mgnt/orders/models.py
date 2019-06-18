@@ -106,9 +106,30 @@ class Order(TimeStampedModel):
             return 0.0
 
     @property
+    def print_total_sum(self):
+        if len(self.print_items) > 0:
+            return self.print_items.values('price', 'amount').aggregate(
+                    total_price=models.Sum(
+                        F('price') * F("amount"),
+                        output_field=models.FloatField()
+                    )
+                ).get('total_price', 0.0)
+        else:
+            return 0.0
+
+    @property
     def total_amount(self):
-        if len(self.order_items.all()) > 0:
+        if len(self.items.all()) > 0:
             return self.items.values('amount').aggregate(
+                        total_amount=models.Sum("amount")
+                    ).get('total_amount', 0)
+        else:
+            return 0
+
+    @property
+    def print_total_amount(self):
+        if len(self.print_items.all()) > 0:
+            return self.print_items.values('amount').aggregate(
                         total_amount=models.Sum("amount")
                     ).get('total_amount', 0)
         else:

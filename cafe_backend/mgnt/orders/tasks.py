@@ -37,8 +37,12 @@ def print_order(order_pk):
             settings.HOSTNAME, reverse_lazy(
                 'orders:order_printview', kwargs={'pk': order_pk})
         )
+        callback_url = "%s%s" % (
+            settings.HOSTNAME, reverse_lazy(
+                'orders:order_print_callbackview', kwargs={'pk': order_pk})
+        )
 
-        EYPrint.print_58(url)
+        EYPrint.print_58(url, callback=callback_url)
 
 
 @shared_task
@@ -50,9 +54,3 @@ def print_order_item(order_item_pk):
             'orders:order_item_printview', kwargs={'pk': order_item_pk}
         ))
     EYPrint.print_80(url)
-
-
-@shared_task
-def mark_order_items_as_printed(order_items):
-    OrderItem.objects.filter(pk__in=order_items).update(
-        is_printed=True)

@@ -31,12 +31,12 @@
             <tfoot>
                 <tr>
                     <td colspan="2">小计</td>
-                    <td>{{ object.total_amount }}</td>
-                    <td>&yen;{{ object.total_sum }}</td>
+                    <td>{{ object.print_total_amount }}</td>
+                    <td>&yen;{{ object.print_total_sum }}</td>
                 </tr>
                 <tr style="border-top: solid 2px;">
                     <td colspan="3">应收</td>
-                    <td>&yen;{{ object.total_sum }}</td>
+                    <td>&yen;{{ object.print_total_sum }}</td>
                 </tr>
             </tfoot>
         </table>
