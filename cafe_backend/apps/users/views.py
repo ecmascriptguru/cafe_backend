@@ -5,7 +5,7 @@ from cafe_backend.core.apis.viewsets import CafeModelViewSet
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from .models import Table
-from .forms import TableForm, TableClearForm
+from .forms import TableForm, TableControlForm
 from .serializers import TableSerializer
 from .tasks import send_ringtone_alarm_to_admin
 
@@ -22,10 +22,10 @@ class TableUpdateView(LoginRequiredMixin, generic.UpdateView):
     success_url = reverse_lazy('tables:table_listview')
 
 
-class TableClearView(LoginRequiredMixin, generic.UpdateView):
+class TableControlView(LoginRequiredMixin, generic.UpdateView):
     model = Table
     template_name = 'tables/table_updateview.html'
-    form_class = TableClearForm
+    form_class = TableControlForm
     success_url = reverse_lazy('tables:table_listview')
 
 

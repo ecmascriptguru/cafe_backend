@@ -149,7 +149,7 @@ export const initSocket = () => {
             /**
              * Testing monitor socket
              */
-            chatSocket = new WebSocket(MONITOR_BASE_URL);
+            // chatSocket = new WebSocket(MONITOR_BASE_URL);
         },
 
         getChannel = (channelID, callback) => {

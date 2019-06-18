@@ -12,13 +12,15 @@
                 {% else %}
                     {% trans 'Offline' %}
                 {% endif %}">
-                    <i class="fa fa-circle 
-                        {% if table.is_online %}
-                            text-success
-                        {% else %}
-                            text-danger
-                        {% endif %}">
-                    </i>
+                    <a href="{% url 'tables:table_controlview' table.pk %}">
+                        <i class="fa fa-circle 
+                            {% if table.is_online %}
+                                text-success
+                            {% else %}
+                                text-danger
+                            {% endif %}">
+                        </i>
+                    </a>
                 </span>
             </h3>
 

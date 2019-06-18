@@ -10,4 +10,7 @@ urlpatterns = [
     path(
         '<int:pk>/clear', views.TableUpdateView.as_view(),
         name='table_clearview'),
+    path(
+        '<int:pk>/control', views.TableControlView.as_view(),
+        name='table_controlview'),
 ]
