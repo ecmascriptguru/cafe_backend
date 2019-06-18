@@ -32,7 +32,7 @@ def send_dish_booking_status(order_item_pk, created):
 def print_order(order_pk):
     order = Order.objects.get(pk=order_pk)
     items = order.print_items.all()
-    if len(items):
+    if len(items) > 0:
         url = "%s%s" % (
             settings.HOSTNAME, reverse_lazy(
                 'orders:order_printview', kwargs={'pk': order_pk})
@@ -42,7 +42,10 @@ def print_order(order_pk):
                 'orders:order_print_callbackview', kwargs={'pk': order_pk})
         )
 
-        EYPrint.print_58(url, callback=callback_url)
+        response = EYPrint.print_58(url, callback=callback_url)
+        json_data = response.json()
+        if json_data.get('result') == 'success':
+            order.print_items.update(is_printed=True)
 
 
 @shared_task

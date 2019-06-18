@@ -9,12 +9,13 @@ class OrderItemSerializer(CafeModelSerializer):
                                                  source='dish',
                                                  queryset=Dish.objects.all())
     dish = DishSerializer(read_only=True)
+    to_table_name = serializers.StringRelatedField()
 
     class Meta:
         model = OrderItem
         fields = (
             'id', 'order', 'dish_id', 'dish', 'amount', 'to_table',
-            'is_canceled', 'is_delivered', )
+            'to_table_name', 'is_canceled', 'is_delivered', )
         extra_kwargs = {
             'to_table': {'required': False},
             'order': {'required': False},

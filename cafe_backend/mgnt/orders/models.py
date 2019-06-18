@@ -262,6 +262,10 @@ class OrderItem(TimeStampedModel):
         return self.state == ORDER_STATE.canceled
 
     @property
+    def to_table_name(self):
+        return self.to_table.name
+
+    @property
     def is_delivered(self):
         return self.state == ORDER_STATE.delivered
 
