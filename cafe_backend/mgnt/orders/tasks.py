@@ -45,6 +45,7 @@ def print_order(order_pk):
         response = EYPrint.print_58(url, callback=callback_url)
         json_data = response.json()
         if json_data.get('result') == 'success':
+            time.sleep(10)
             order.print_items.update(is_printed=True)
 
 
@@ -57,3 +58,10 @@ def print_order_item(order_item_pk):
             'orders:order_item_printview', kwargs={'pk': order_item_pk}
         ))
     EYPrint.print_80(url)
+
+
+@shared_task
+def mark_order_items_as_printed(order_item_ids):
+    time.sleep(10)
+    return OrderItem.objects.filter(pk__in=order_item_ids).update(
+        is_printed=True)

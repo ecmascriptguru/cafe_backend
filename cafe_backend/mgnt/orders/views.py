@@ -13,6 +13,7 @@ from cafe_backend.apps.users.models import Table, TABLE_STATE
 from .models import Order, OrderItem
 from . import serializers
 from . import forms
+from .tasks import mark_order_items_as_printed
 
 
 class TableGridView(LoginRequiredMixin, generic.ListView):
@@ -30,6 +31,14 @@ class OrderDetailView(LoginRequiredMixin, generic.DetailView):
 class OrderPrintView(generic.DetailView):
     model = Order
     template_name = 'orders/order_printview.html'
+
+    def get_context_data(self, *args, **kwargs):
+        params = super(OrderPrintView, self).get_context_data(*args, **kwargs)
+        order = self.get_object()
+        item_ids = [item.pk for item in order.print_items.all()]
+        if len(item_ids) > 0:
+            mark_order_items_as_printed.delay(item_ids)
+        return params
 
 
 class OrderPrintCallbackView(generic.DetailView):
