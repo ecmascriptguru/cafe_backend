@@ -45,7 +45,7 @@ def print_order(order_pk):
         response = EYPrint.print_58(url, callback=callback_url)
         json_data = response.json()
         if json_data.get('result') == 'success':
-            time.sleep(10)
+            time.sleep(20)
             order.print_items.update(is_printed=True)
 
 
