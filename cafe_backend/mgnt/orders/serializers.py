@@ -2,6 +2,7 @@ from cafe_backend.core.apis.serializers import CafeModelSerializer, serializers
 from cafe_backend.apps.dishes.serializers import DishSerializer
 from cafe_backend.apps.dishes.models import Dish
 from .models import Order, OrderItem
+from .tasks import print_order
 
 
 class OrderItemSerializer(CafeModelSerializer):
@@ -61,6 +62,7 @@ class OrderSerializer(CafeModelSerializer):
 
     def update(self, instance, validated_data):
         items = validated_data.pop('order_items', [])
+        added_items = list()
         for item in items:
             if item.get('order'):
                 order = item.pop('order')
@@ -71,6 +73,10 @@ class OrderSerializer(CafeModelSerializer):
                 to_table = item.pop('to_table')
             order_item = instance.order_items.create(
                 dish=dish, to_table=to_table, **item)
+            added_items.append(order_item)
+        if len(added_items) > 0:
+            order_pk = added_items[0].order.pk
+            print_order.delay(order_pk, [item.pk for item in added_items])
         return instance
 
 
