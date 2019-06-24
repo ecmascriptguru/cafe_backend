@@ -33,7 +33,7 @@ class OrderPrintView(generic.DetailView):
     template_name = 'orders/order_printview.html'
 
     def get_context_data(self, *args, **kwargs):
-        item_ids = self.request.GET.get('items', '').split('+')
+        item_ids = self.request.GET.get('items', '').split(' ')
         item_ids = [id for id in item_ids if id != '']
         params = super(OrderPrintView, self).get_context_data(*args, **kwargs)
         order = self.get_object()
