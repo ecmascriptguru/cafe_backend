@@ -33,11 +33,28 @@ class OrderPrintView(generic.DetailView):
     template_name = 'orders/order_printview.html'
 
     def get_context_data(self, *args, **kwargs):
+        item_ids = self.request.GET.get('items', '').split(',')
+        item_ids = [id for id in item_ids if id != '']
         params = super(OrderPrintView, self).get_context_data(*args, **kwargs)
         order = self.get_object()
-        item_ids = [item.pk for item in order.print_items.all()]
-        # if len(item_ids) > 0:
-        #     mark_order_items_as_printed.delay(item_ids)
+        items = order.items.filter(pk__in=item_ids)
+        total_count = 0
+        free_count = 0
+        total_sum = 0.0
+        free_sum = 0.0
+        for item in items:
+            total_count += item.amount
+            total_sum += item.subtotal
+            if item.is_free:
+                free_count += 1
+                free_sum += item.subtotal
+        billing_amount = total_sum - free_sum
+        params['items'] = items
+        params['total_count'] = total_count
+        params['total_sum'] = total_sum
+        params['free_count'] = free_count
+        params['free_sum'] = free_sum
+        params['billing_price'] = billing_amount
         return params
 
 

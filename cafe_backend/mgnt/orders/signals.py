@@ -16,8 +16,9 @@ def send_order_status(sender, instance, created, **kwargs):
             instance.table.state = TABLE_STATE.reserved
             instance.table.save()
 
-    # if len(instance.print_items.all()) > 0:
-    # print_order.delay(instance.pk)
+    if len(instance.print_items) > 0:
+        ids = [item.pk for item in instance.print_items]
+        print_order.delay(instance.pk, ids)
 
 
 @receiver(post_save, sender=OrderItem)

@@ -25,13 +25,15 @@
                 <tr>
                     <td colspan="4">---------------------------</td>
                 </tr>
-                {% for item in object.print_items.all %}
+                {% for item in items %}
                 <tr style="font-size: 14px;">
                     <td>{{ item.dish.name|truncatechars:7 }}{% if item.is_booking_order_item %}<br/>({{ item.to_table.name }}){% endif %}</td>
                     <td>&yen;{{ item.dish.price }}</td>
                     <td>{{ item.amount }}{% if item.is_free %}(赠){% endif %}</td>
                     <td>&yen;{{ item.subtotal }}</td>
                 </tr>
+                {% empty %}
+                <tr><td colspan="4">没有。</td></tr>
                 {% endfor %}
                 <tr>
                     <td colspan="4">---------------------------</td>
@@ -40,16 +42,16 @@
             <tfoot>
                 <tr style="font-size: 14px;">
                     <td colspan="3">原价合计</td>
-                    <td>&yen;{{ object.print_total_sum }}</td>
+                    <td>&yen;{{ total_sum }}</td>
                 </tr>
                 <tr style="font-size: 14px;">
                     <td colspan="3">赠菜</td>
-                    <td>&yen;{{ object.print_total_free }}</td>
+                    <td>&yen;{{ free_sum }}</td>
                 </tr>
                 <tr style="font-size: 14px;">
                     <td colspan="2">小计</td>
-                    <td>{{ object.print_total_amount }}</td>
-                    <td>&yen;{{ object.print_billing_price }}</td>
+                    <td>{{ total_count }}</td>
+                    <td>&yen;{{ billing_price }}</td>
                 </tr>
 		<tr>
                     <td colspan="4">---------------------------</td>
