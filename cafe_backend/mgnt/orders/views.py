@@ -36,8 +36,8 @@ class OrderPrintView(generic.DetailView):
         params = super(OrderPrintView, self).get_context_data(*args, **kwargs)
         order = self.get_object()
         item_ids = [item.pk for item in order.print_items.all()]
-        if len(item_ids) > 0:
-            mark_order_items_as_printed.delay(item_ids)
+        # if len(item_ids) > 0:
+        #     mark_order_items_as_printed.delay(item_ids)
         return params
 
 
