@@ -6,7 +6,7 @@
     <h3 style="margin: 0;font-size:20px;">卓名: {{ object.to_table.name }}</h3>
     <h5 style="font-size: 14px;margin:0;font-weight:normal">人数: {{ object.order.customers }}  服务员: 管理员</h5>
     <h5 style="font-size: 14px;margin:0;font-weight:normal">下单时间: {{ object.modified|date:'Y-m-d H:i' }}</h5>
-    <h5 style="font-size: 14px;margin:0;font-weight:normal">账单号: {{ object.pk }}</h5>
+    <h5 style="font-size: 14px;margin:0;font-weight:normal">账单号: {{ object.order.pk }}</h5>
     <span>-------------------------------------</span>
     <table style="width: 100%">
         <thead>

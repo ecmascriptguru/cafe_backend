@@ -22,7 +22,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         await self.accept()
         if self.user.is_table:
-            self.user.table.socket_counter += 1
+            self.user.table.is_online = True
             self.user.table.save()
 
     async def disconnect(self, close_code):
@@ -33,7 +33,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
 
         if self.user.is_table:
-            self.user.table.socket_counter -= 1
+            self.user.table.is_online = False
             self.user.table.save()
 
     # Receive message from WebSocket

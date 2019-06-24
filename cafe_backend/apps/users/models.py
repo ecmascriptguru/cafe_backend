@@ -61,6 +61,7 @@ class Table(TimeStampedModel):
         choices=TABLE_STATE_OPTIONS, default=TABLE_STATE.blank,
         verbose_name=_('State'))
     socket_counter = models.PositiveSmallIntegerField(default=0)
+    is_online = models.BooleanField(default=False, verbose_name=_('Online?'))
     cleared = models.DateTimeField(
         auto_now_add=True, verbose_name=_('Cleared'))
 
@@ -138,6 +139,6 @@ class Table(TimeStampedModel):
         tables = cls.objects.all()
         return tuple([(t.pk, t.name) for t in tables])
 
-    @property
-    def is_online(self):
-        return self.socket_counter > 0
+    # @property
+    # def is_online(self):
+    #     return self.socket_counter > 0
