@@ -60,3 +60,27 @@ class OrderForm(forms.ModelForm):
                         'submit', _('Save Changes'), css_class='pull-right')),
                 )
             )
+
+
+class FreeOrderItemForm(forms.ModelForm):
+    class Meta:
+        model = OrderItem
+        fields = ('dish', 'amount',)
+
+    def __init__(self, *args, **kwargs):
+        self.order = kwargs.pop('order')
+        self.to_table = kwargs.pop('to_table')
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Field('dish'), Field('amount'),
+            ButtonHolder(Submit('commit', _('Send Free Item')))
+        )
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        instance.order = self.order
+        instance.to_table = self.to_table
+        instance.is_free = True
+        instance.save()
+        return instance

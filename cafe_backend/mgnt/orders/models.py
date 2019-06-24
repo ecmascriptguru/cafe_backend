@@ -63,6 +63,11 @@ class Order(TimeStampedModel):
             _('Order'), self.pk, self.state)
 
     @property
+    def customers(self):
+        return self.details['customers']['male'] +\
+            self.details['customers']['female']
+
+    @property
     def items(self):
         return self.order_items.exclude(state=ORDER_STATE.canceled)
 
@@ -95,7 +100,7 @@ class Order(TimeStampedModel):
 
     @property
     def total_sum(self):
-        if len(self.order_items.all()) > 0:
+        if len(self.items.all()) > 0:
             return self.items.values('price', 'amount').aggregate(
                     total_price=models.Sum(
                         F('price') * F("amount"),
@@ -104,6 +109,21 @@ class Order(TimeStampedModel):
                 ).get('total_price', 0.0)
         else:
             return 0.0
+
+    @property
+    def total_free(self):
+        if len(self.items.filter(is_free=True)) > 0:
+            return self.items.filter(is_free=True).values('price', 'amount')\
+                .aggregate(
+                    total_price=models.Sum(
+                        F('price') * F("amount"),
+                        output_field=models.FloatField()
+                    )
+                ).get('total_price', 0.0)
+
+    @property
+    def total_billing_price(self):
+        return self.total_sum - self.total_free
 
     @property
     def print_total_sum(self):
@@ -116,6 +136,23 @@ class Order(TimeStampedModel):
                 ).get('total_price', 0.0)
         else:
             return 0.0
+
+    @property
+    def print_total_free(self):
+        if len(self.print_items.filter(is_free=True)) > 0:
+            return self.print_items.filter(is_free=True)\
+                .values('price', 'amount').aggregate(
+                    total_price=models.Sum(
+                        F('price') * F("amount"),
+                        output_field=models.FloatField()
+                    )
+                ).get('total_price', 0.0)
+        else:
+            return 0.0
+
+    @property
+    def print_billing_price(self):
+        return self.print_total_sum - self.print_total_free
 
     @property
     def total_amount(self):
@@ -251,6 +288,7 @@ class OrderItem(TimeStampedModel):
     state = FSMField(
         choices=ORDER_ITEM_STATE_CHOICES, default=ORDER_STATE.default,
         verbose_name=_('State'))
+    is_free = models.BooleanField(default=False, verbose_name=_('Free?'))
     is_printed = models.BooleanField(default=False, verbose_name=_('Printed?'))
 
     @property

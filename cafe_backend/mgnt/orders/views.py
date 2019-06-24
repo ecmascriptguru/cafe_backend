@@ -42,7 +42,7 @@ class OrderPrintView(generic.DetailView):
 
 
 class OrderPrintCallbackView(generic.DetailView):
-    model = Order
+    model = OrderItem
     template_name = 'orders/order_print_callbackview.html'
 
     def get_context_data(self, *args, **kwargs):
@@ -51,6 +51,34 @@ class OrderPrintCallbackView(generic.DetailView):
         order = self.get_object()
         order.print_items.update(is_printed=True)
         return param
+
+
+class FreeItemCreateView(LoginRequiredMixin, generic.CreateView):
+    model = OrderItem
+    form_class = forms.FreeOrderItemForm
+    # success_url = None
+    template_name = 'orders/free_order_item_createview.html'
+
+    def get_form_kwargs(self, *args, **kwargs):
+        params = super(FreeItemCreateView, self).get_form_kwargs(
+            *args, **kwargs)
+        order = self.get_order_object()
+        params['order'] = order
+        params['to_table'] = order.table
+        return params
+
+    def get_order_object(self):
+        return Order.objects.get(pk=self.kwargs.get('order_pk'))
+
+    def get_context_data(self, *args, **kwargs):
+        params = super().get_context_data(*args, **kwargs)
+        params['order'] = self.get_order_object()
+        print(params['order'])
+        return params
+
+    def get_success_url(self, *args, **kwargs):
+        order_pk = self.kwargs.get('order_pk')
+        return reverse_lazy('orders:order_detailview', kwargs={'pk': order_pk})
 
 
 class OrderItemPrintView(generic.DetailView):

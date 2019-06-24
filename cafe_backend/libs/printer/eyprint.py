@@ -20,7 +20,7 @@ class EYPrint(object):
             'sourceFile': url,
             'Scaling': False,
             'topMargin': 1,
-            'leftMargin': 1,
+            'leftMargin': 0.5,
             'Type': kwargs.get('Type', 'html'),
         }
         return requests.post(cls.base_url, data=data)
@@ -34,7 +34,7 @@ class EYPrint(object):
             'sourceFile': url,
             'Type': kwargs.get('Type', 'html'),
             'topMargin': 1,
-            'leftMargin': 1,
+            'leftMargin': 0.5,
             'Scaling': False,
         }
         return requests.post(cls.base_url, data=data)

@@ -21,7 +21,8 @@
 <section class="content">
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 table-responsive">
-            <h3>{% trans 'Order Details' %}</h3>
+            <h3>{% trans 'Order Details' %}<span class="pull-right">
+                <a href="{% url 'orders:order_free_createview' object.pk %}" class="btn btn-sm btn-success"><i class="fa fa-plus"></i> {% trans 'Send Free' %}</a></span></h3>
             <table class="table table-striped order-table">
                 <tbody>
                     {% for item in object.order_items.all %}
@@ -29,7 +30,7 @@
                         <td>
                             <img src="{{ item.dish.img.tiny }}" class="order-item-dish-image">
                         </td>
-                        <td>{{ item.dish.name }}</td>
+                        <td>{{ item.dish.name }}{% if item.is_free %}({% trans 'Free' %}){% endif %}</td>
                         <td>{{ item.dish.price }}</td>
                         <td> x </td>
                         <td>{{ item.amount }}</td>
@@ -44,6 +45,16 @@
                         <td colspan="2"></td>
                         <td colspan="4">{% trans 'Total' %}</td>
                         <td>&yen;{{ object.total_sum }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="4">{% trans 'Free' %}</td>
+                        <td>&yen;{{ object.total_free }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="4">{% trans 'Billing amount' %}</td>
+                        <td>&yen;{{ object.total_billing_price }}</td>
                     </tr>
                 </tfoot>
             </table>

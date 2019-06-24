@@ -65,7 +65,10 @@ class Dish(TimeStampedModel):
         verbose_name_plural = _('Dishes')
 
     def __str__(self):
-        return "<%s(%d): %s>" % (_('Dish'), self.pk, self.name)
+        if settings.DEBUG:
+            return "<%s(%d): %s>" % (_('Dish'), self.pk, self.name)
+        else:
+            return self.name
 
     @property
     def avg_rate(self):

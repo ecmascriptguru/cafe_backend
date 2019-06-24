@@ -1,45 +1,57 @@
 {% extends 'layouts/print_base.html' %}
 
 {% block content %}
-<body style="width:57mm;">
-    <div class="header">
-        <h3 style="border-bottom: solid 4px;">延吉最新酒吧订单</h3>
-    </div>
-    <h5 class="order-sub-title">卓台: {{ object.table.name }}</h5>
-    <h5 class="order-sub-title">水单流水: {{ object.pk }}</h5>
-    <h5 class="order-sub-title">结帐时间: {{ object.modified|date:'Y-m-d H:i' }}</h5>
+<body style="width:58mm;">
+    <h3 style="font-size: 20px;font-weight: normal;text-align: center;margin-bottom: 0px;">卓名： {{ object.table.name }}</h3>
+    <h5 style="font-size: 14px;margin:0;font-weight:normal">消费人数: {{ object.customers }}</h5>
+    <h5 style="font-size: 14px;margin:0;font-weight:normal">订单号码: {{ object.pk }}</h5>
+    <h5 style="font-size: 14px;margin:0;font-weight:normal">开始时间: {{ object.created|date:'Y-m-d H:i' }}</h5>
+    <h5 style="font-size: 14px;margin:0;font-weight:normal">结帐时间: {{ object.modified|date:'Y-m-d H:i' }}</h5>
+    ----------------------------------------------
     <div class="">
-        <table width="100%" class="table order-items-list">
+        <table width="100%">
             <thead>
-                <tr style="border-top: solid 4px;">
-                    <th>菜品</th>
-                    <th>单价</th>
-                    <th>数量</th>
-                    <th>金额</th>
+                <tr>
+                    <th style="text-align:left;font-weight: normal;">菜品</th>
+                    <th style="text-align:left;font-weight: normal;">单价</th>
+                    <th style="text-align:left;font-weight: normal;">数量</th>
+                    <th style="text-align:left;font-weight: normal;">金额</th>
                 </tr>
             </thead>
             <tbody>
+                <tr>
+                    <td colspan="4">--------------------------------------------</td>
+                </tr>
                 {% for item in object.print_items.all %}
-                <tr style="border-top: solid 4px;">
+                <tr style="font-size: 16px;">
                     <td>{{ item.dish.name|truncatechars:7 }}{% if item.is_booking_order_item %}<br/>({{ item.to_table.name }}){% endif %}</td>
                     <td>&yen;{{ item.dish.price }}</td>
-                    <td>{{ item.amount }}</td>
+                    <td>{{ item.amount }}{% if item.is_free %}(赠){% endif %}</td>
                     <td>&yen;{{ item.subtotal }}</td>
                 </tr>
                 {% endfor %}
+                <tr>
+                    <td colspan="4">--------------------------------------------</td>
+                </tr>
             </tbody>
             <tfoot>
-                <tr style="border-top: solid 4px;">
-                    <td colspan="2">小计</td>
-                    <td>{{ object.print_total_amount }}</td>
+                <tr style="font-size: 16px;">
+                    <td colspan="3">原价合计</td>
                     <td>&yen;{{ object.print_total_sum }}</td>
                 </tr>
-                <tr style="border-top: solid 4px;">
-                    <td colspan="3">应收</td>
-                    <td>&yen;{{ object.print_total_sum }}</td>
+                <tr style="font-size: 16px;">
+                    <td colspan="3">赠菜</td>
+                    <td>&yen;{{ object.print_total_free }}</td>
+                </tr>
+                <tr style="font-size: 16px;">
+                    <td colspan="2">小计</td>
+                    <td>{{ object.print_total_amount }}</td>
+                    <td>&yen;{{ object.print_billing_price }}</td>
                 </tr>
             </tfoot>
         </table>
+        ----------------------------------------------
+        <h5 style="text-align: center;font-size: 14px;margin: 0;font-weight: normal">今夜酒吧欢迎您！<br/>18745568789</h5>
     </div>
 </body>
 {% endblock content %}

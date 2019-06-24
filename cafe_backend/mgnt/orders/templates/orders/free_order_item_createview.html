@@ -1,0 +1,29 @@
+{% extends 'layouts/adminlte_base.html' %}
+
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+        <i class="fa fa-shopping-cart"></i>
+        {% trans 'Orders' %}
+        <small>{% trans 'Create view of free order item' %}</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-folder-open-o"></i>{% trans 'Management' %}</a></li>
+        <li><a href="#"><i class="fa fa-shopping-cart"></i>{% trans 'Orders' %}</a></li>
+        <li class="active">{% trans 'New Free Item' %}</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12">
+            <h4>{% trans 'Free to Table' %}: <strong>{{ order.table.name }}</strong></h4>
+            {% crispy form %}
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
