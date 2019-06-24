@@ -2,7 +2,7 @@
 
 {% block content %}
 <body style="width:190px;">
-    <h3 style="font-size: 20px;font-weight: normal;text-align: center;margin-bottom: 0px;">卓名： {{ object.table.name }}</h3>
+    <h3 style="font-size: 20px;font-weight: normal;text-align: center;margin-bottom: 0px;">卓名: {{ object.table.name }}</h3>
     <h5 style="font-size: 14px;margin:0;font-weight:normal">消费人数: {{ object.customers }}</h5>
     <h5 style="font-size: 14px;margin:0;font-weight:normal">订单号码: {{ object.pk }}</h5>
     <h5 style="font-size: 14px;margin:0;font-weight:normal">开始时间: {{ object.created|date:'Y-m-d H:i' }}</h5>
@@ -33,7 +33,7 @@
                     <td>&yen;{{ item.subtotal }}</td>
                 </tr>
                 {% empty %}
-                <tr><td colspan="4">没有。</td></tr>
+                <tr><td colspan="4">没有.</td></tr>
                 {% endfor %}
                 <tr>
                     <td colspan="4">---------------------------</td>
@@ -58,7 +58,7 @@
 		</tr>
             </tfoot>
         </table>
-        <h5 style="text-align: center;font-size: 14px;margin: 0;font-weight: normal">今夜酒吧欢迎您！<br/>18745568789</h5>
+        <h5 style="text-align: center;font-size: 14px;margin: 0;font-weight: normal">今夜酒吧欢迎您!<br/>18745568789</h5>
     </div>
 </body>
 {% endblock content %}

@@ -32,5 +32,5 @@ def send_order_item_status(sender, instance, created, **kwargs):
             instance.order.table.state = TABLE_STATE.reserved
             instance.order.table.save()
 
-        # if instance.dish.position == DISH_POSITION.chicken:
-        #     print_order_item.delay(instance.pk)
+        if instance.dish.position == DISH_POSITION.chicken:
+            print_order_item.delay(instance.pk)

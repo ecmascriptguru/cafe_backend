@@ -38,7 +38,7 @@ def print_order(order_pk, item_ids):
             settings.HOSTNAME,
             reverse_lazy(
                 'orders:order_printview', kwargs={'pk': order_pk}),
-            ','.join([str(id) for id in item_ids])
+            '+'.join([str(id) for id in item_ids])
         )
 
         if settings.DEBUG:
