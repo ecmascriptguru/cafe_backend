@@ -3,7 +3,7 @@
 {% block content %}
 <body style="width:57mm;">
     <div class="header">
-        <h3>延吉最新酒吧订单</h3>
+        <h3 style="border-bottom: solid 4px;">延吉最新酒吧订单</h3>
     </div>
     <h5 class="order-sub-title">卓台: {{ object.table.name }}</h5>
     <h5 class="order-sub-title">水单流水: {{ object.pk }}</h5>
@@ -11,7 +11,7 @@
     <div class="">
         <table width="100%" class="table order-items-list">
             <thead>
-                <tr>
+                <tr style="border-top: solid 4px;">
                     <th>菜品</th>
                     <th>单价</th>
                     <th>数量</th>
@@ -20,7 +20,7 @@
             </thead>
             <tbody>
                 {% for item in object.print_items.all %}
-                <tr>
+                <tr style="border-top: solid 4px;">
                     <td>{{ item.dish.name|truncatechars:7 }}{% if item.is_booking_order_item %}<br/>({{ item.to_table.name }}){% endif %}</td>
                     <td>&yen;{{ item.dish.price }}</td>
                     <td>{{ item.amount }}</td>
@@ -29,12 +29,12 @@
                 {% endfor %}
             </tbody>
             <tfoot>
-                <tr>
+                <tr style="border-top: solid 4px;">
                     <td colspan="2">小计</td>
                     <td>{{ object.print_total_amount }}</td>
                     <td>&yen;{{ object.print_total_sum }}</td>
                 </tr>
-                <tr style="border-top: solid 2px;">
+                <tr style="border-top: solid 4px;">
                     <td colspan="3">应收</td>
                     <td>&yen;{{ object.print_total_sum }}</td>
                 </tr>
