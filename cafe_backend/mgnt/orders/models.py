@@ -120,6 +120,8 @@ class Order(TimeStampedModel):
                         output_field=models.FloatField()
                     )
                 ).get('total_price', 0.0)
+        else:
+            return 0.0
 
     @property
     def total_billing_price(self):
