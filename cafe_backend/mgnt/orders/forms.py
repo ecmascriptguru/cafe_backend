@@ -8,6 +8,7 @@ from crispy_forms.layout import (
 from cafe_backend.core.layouts.formsets import Formset
 from .models import Order, OrderItem
 from ...apps.users.models import Table
+from .tasks import print_order
 
 
 class OrderItemForm(forms.ModelForm):
@@ -83,4 +84,5 @@ class FreeOrderItemForm(forms.ModelForm):
         instance.to_table = self.to_table
         instance.is_free = True
         instance.save()
+        print_order.delay(instance.order.pk, [instance.pk])
         return instance

@@ -24,6 +24,7 @@ from cafe_backend.core.apis.views import (
     obtain_jwt_token, refresh_jwt_token, verify_jwt_token)
 
 urlpatterns = [
+    url(r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^$', TablesListView.as_view(), name='root_url'),
     url(r'^api/', include('cafe_backend.api_urls')),
     url(r'^api-auth/', include(
@@ -31,7 +32,6 @@ urlpatterns = [
     url(r'^api-token-auth/', obtain_jwt_token),
     url(r'^api-token-refresh/', refresh_jwt_token),
     url(r'^api-token-verify/', verify_jwt_token),
-    url(r'^i18n/', include('django.conf.urls.i18n')),
     path('versions/', include((
         'cafe_backend.apps.versions.urls', 'cafe_backend.apps.versions'),
         namespace='versions')),

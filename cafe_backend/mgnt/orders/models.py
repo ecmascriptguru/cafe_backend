@@ -219,7 +219,8 @@ class Order(TimeStampedModel):
             created__gte=start_date, created__lt=end_date,
             table__in=tables).all()
 
-        customers = Order.objects.annotate(
+        customers = Order.objects.filter(
+            created__gte=start_date, created__lt=end_date).annotate(
             male=Cast(
                 KeyTextTransform(
                     'male', KeyTextTransform(
@@ -232,6 +233,13 @@ class Order(TimeStampedModel):
                     IntegerField())).values('male', 'female').aggregate(
                         total_male=Sum('male'),
                         total_female=Sum('female'))
+
+        # Validation of data for NoneType
+        if customers['total_male'] is None:
+            customers['total_male'] = 0
+        if customers['total_female'] is None:
+            customers['total_female'] = 0
+
         OrderItem = apps.get_model('orders', 'OrderItem')
         items = OrderItem.objects.filter(
             order__in=orders).all().exclude(
@@ -239,7 +247,8 @@ class Order(TimeStampedModel):
         return {
             'orders': {'count': len(orders)},
             'customers': {
-                'count': customers['total_male'] + customers['total_female']
+                'count': customers.get('total_male', 0) +
+                customers.get('total_female', 0)
             },
             'sales': {
                 'items': len(items),

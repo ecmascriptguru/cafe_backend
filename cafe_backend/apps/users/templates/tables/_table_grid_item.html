@@ -2,7 +2,7 @@
 {% load i18n %}
 
 <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-    <div class="small-box {{ table|table_state_bg_color }}">
+    <div class="small-box bg-green" onclick="window.location.href='{% url 'tables:table_updateview' pk=table.pk %}'">
         <div class="inner">
             <h3>{{ table.name }} 
                 <span class="badge pull-right">{{ table|state_text }}<br/></span>
@@ -43,7 +43,7 @@
         <div class="icon">
             <!-- <i class="fa fa-shopping-cart"></i> -->
         </div>
-        <div class="box-footer">
+        <!-- <div class="box-footer">
             <div class="row">
                 <div class="col-xs-6">
                     <a href="{% url 'tables:table_updateview' pk=table.pk %}">
@@ -58,6 +58,6 @@
                     {% endif %}
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
