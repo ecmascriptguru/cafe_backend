@@ -104,7 +104,79 @@
         </div>
     </div>
     <div class="row">
-
+        <div class="col-lg-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <span class="pull-left">{% trans 'Table Usage' %}</span>
+                    </h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h4>
+                                <small class="pull-right">{{ table_report.using }} / {{ table_report.total }}</small>
+                            </h4>
+                            <div class="clearfix"></div>
+                            <div class="progress lg">
+                                <div class="progress-bar progress-bar-green" style="width: {{ table_report.percent }}%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {% for table in tables %}
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                            <div class="small-box bg-green" 
+                                {% if table.order %}
+                                onclick="window.location.href='{% url 'orders:order_detailview' pk=table.order.pk %}'"
+                                {% else %}
+                                onclick="window.location.href='{% url 'tables:table_updateview' pk=table.pk %}'"
+                                {% endif %}
+                                >
+                                <div class="inner">
+                                    <h3>{{ table.name }}</h3>
+                                    <div class="row">
+                                        <h3>&yen;
+                                            {% if table.order %}
+                                            {{ table.order.total_sum }}
+                                            {% else %}
+                                            0.0
+                                            {% endif %}
+                                        </h3>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <h4>{% trans 'Customers' %}</h4>
+                                            <p>
+                                                <i class="fa  fa-male"></i> {{ table.male }} + <i class="fa  fa-female"></i> {{ table.female }} / {{ table.size }}
+                                            </p>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            {% if table.order %}
+                                            <h4>
+                                                {% trans 'Orders' %}
+                                                {% if table.order.pending_items|length > 0 %}
+                                                <span class="badge bg-red">{{ table.order.pending_items|length }}</span>
+                                                {% endif %}
+                                            </h4>
+                                            <p><i class="fa fa-check"></i> {{ table.order.progress }}</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 {% endblock %}

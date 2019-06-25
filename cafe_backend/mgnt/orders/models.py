@@ -244,18 +244,24 @@ class Order(TimeStampedModel):
         items = OrderItem.objects.filter(
             order__in=orders).all().exclude(
                 state=ORDER_STATE.canceled)
+
+        if len(items) > 0:
+            sales = {
+                'items': len(items),
+                'earning': items.aggregate(
+                    total=ExpressionWrapper(
+                        Sum(F('price') * F('amount')),
+                        output_field=models.FloatField()))['total']
+            }
+        else:
+            sales = {'items': 0, 'earning': 0.0}
         return {
             'orders': {'count': len(orders)},
             'customers': {
                 'count': customers.get('total_male', 0) +
                 customers.get('total_female', 0)
             },
-            'sales': {
-                'items': len(items),
-                'earning': items.aggregate(
-                    total=ExpressionWrapper(
-                        Sum(F('price') * F('amount')),
-                        output_field=models.FloatField()))['total']},
+            'sales': sales,
             # 'chart': {
             #     'earning_by_date': items.annotate(
             #         date=TruncDate('created')).values('date').aggregate(

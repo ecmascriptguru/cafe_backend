@@ -142,3 +142,14 @@ class Table(TimeStampedModel):
     # @property
     # def is_online(self):
     #     return self.socket_counter > 0
+
+    @classmethod
+    def get_report(cls):
+        total = len(cls.objects.all())
+        using = len(cls.objects.filter(state=TABLE_STATE.using))
+        percent = int(using / total * 100)
+        return {'total': total, 'using': using, 'percent': percent}
+
+    @classmethod
+    def using_tables(cls):
+        return cls.objects.filter(state=TABLE_STATE.using)

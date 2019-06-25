@@ -30,4 +30,6 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
         params['report'] = Order.get_report(
             start_date, end_date, tables=[
                 int(item) for item in tables.split(',') if item != ''])
+        params['table_report'] = Table.get_report()
+        params['tables'] = Table.using_tables()
         return params
