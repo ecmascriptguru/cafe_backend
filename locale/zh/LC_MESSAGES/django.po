@@ -1378,7 +1378,7 @@ msgstr "查看广告详情"
 
 #: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:24
 msgid "Order Details"
-msgstr "详情"
+msgstr "订单情报"
 
 #: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:25
 msgid "Send Free"

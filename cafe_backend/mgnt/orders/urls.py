@@ -21,6 +21,9 @@ urlpatterns = [
         '<int:pk>/print', views.OrderPrintView.as_view(),
         name='order_printview'),
     path(
+        '<int:pk>/print_all', views.OrderFullPrintView.as_view(),
+        name='order_full_printview'),
+    path(
         '<int:pk>/print_callback', views.OrderPrintCallbackView.as_view(),
         name='order_print_callbackview'),
     path(

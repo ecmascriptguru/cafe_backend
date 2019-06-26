@@ -2,14 +2,13 @@
 
 {% load i18n %}
 {% load state_tags %}
-{% load thumbnail %}
+{% load static %}
 
 {% block content %}
 <section class="content-header">
     <h1>
         <i class="fa fa-shopping-cart"></i>
-        {% trans 'Orders' %}
-        <small>{% trans 'Detail view of order' %}</small>
+        {% trans 'Orders' %}({{ object.table.name }})
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-folder-open-o"></i>{% trans 'Management' %}</a></li>
@@ -21,49 +20,104 @@
 <section class="content">
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 table-responsive">
-            <h3>{% trans 'Order Details' %}<span class="pull-right">
-                <a href="{% url 'orders:order_free_createview' object.pk %}" class="btn btn-sm btn-success"><i class="fa fa-plus"></i> {% trans 'Send Free' %}</a></span></h3>
-            <table class="table table-striped order-table">
-                <tbody>
+            <h3>{% trans 'Customers count' %}: {{ object.customers }}
+                <span class="pull-right">
+                    <button id="delivered-confirm" data-toggle="modal" data-target="#deliver-confirm-modal" class="btn btn-sm btn-success" disabled><i class="fa fa-check"></i>{% trans 'Delivered' %}</button>
+                    <button id="canceled-confirm" data-toggle="modal" data-target="#cancel-confirm-modal" class="btn btn-sm btn-danger" disabled><i class="fa fa-trash"></i>{% trans 'Canceled' %}</button>
+                    <a href="{% url 'orders:order_free_createview' object.pk %}" class="btn btn-sm btn-default"><i class="fa fa-plus"></i> {% trans 'Send Free' %}</a>
+                </span>
+            </h3>
+            <table class="table table-striped order-table" id="order-items-table">
+                <tbody style="font-size: 24px;">
                     {% for item in object.order_items.all %}
                     <tr>
-                        <td>
-                            <img src="{{ item.dish.img.tiny }}" class="order-item-dish-image">
-                        </td>
-                        <td>{{ item.dish.name }}{% if item.is_free %}({% trans 'Free' %}){% endif %}</td>
-                        <td>{{ item.dish.price }}</td>
+                        <td><input type="checkbox" class="dish-selector" value="{{ item.pk }}" /></td>
+                        <td style="font-size: 24px;">{{ item.dish.name }}{% if item.is_free %}({% trans 'Free' %}){% endif %}</td>
+                        <td>&yen;{{ item.dish.price }}</td>
                         <td> x </td>
                         <td>{{ item.amount }}</td>
                         <td> = </td>
-                        <td>&yen;{{ item.subtotal }}</td>
-                        <td><span class="badge {{ item|order_item_state_bg_color }}">{{ item|state_text }}</span></td>
+                        <td style="font-size: 24px;">&yen;{{ item.subtotal }}</td>
+                        <td style="text-align: center"><span class="badge {{ item|order_item_state_bg_color }}">{{ item|state_text }}</span></td>
                     </tr>
                     {% endfor %}
                 </tbody>
-                <tfoot>
+                <tfoot style="font-size: 24px;">
                     <tr>
                         <td colspan="2"></td>
-                        <td colspan="4">{% trans 'Total' %}</td>
+                        <td colspan="3">{% trans 'Total' %}</td>
                         <td>&yen;{{ object.total_sum }}</td>
                     </tr>
                     <tr>
                         <td colspan="2"></td>
-                        <td colspan="4">{% trans 'Free' %}</td>
+                        <td colspan="3">{% trans 'Free' %}</td>
                         <td>&yen;{{ object.free_sum }}</td>
                     </tr>
                     <tr>
                         <td colspan="2"></td>
-                        <td colspan="4">{% trans 'Billing amount' %}</td>
+                        <td colspan="3">{% trans 'Billing amount' %}</td>
                         <td>&yen;{{ object.total_billing_price }}</td>
                     </tr>
                 </tfoot>
             </table>
             <div class="">
-                <a class="btn btn-default" href="{% url 'orders:table_gridview' %}">{% trans 'Back' %}</a>
-                <a class="btn btn-primary pull-right" href="{% url 'orders:order_updateview' object.pk %}">{% trans 'Edit' %}</a>
+                <button id="print-order" class="btn btn-default pull-left"><i class="fa fa-print"></i> {% trans 'Print Order' %}</button>
+                <!-- <a class="btn btn-default" href="{% url 'orders:table_gridview' %}">{% trans 'Back' %}</a>
+                <a class="btn btn-primary pull-right" href="{% url 'orders:order_updateview' object.pk %}">{% trans 'Edit' %}</a> -->
+                <button id="checkout-order" class="btn btn-primary pull-right"><i class="fa fa-check-square-o"></i> {% trans 'Checkout' %}</button>
             </div>
         </div>
     </div>
 </section>
-
+<div class="modal" id="deliver-confirm-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">{% trans 'Confirm' %}</h4>
+            </div>
+            <div class="modal-body">
+                <p>{% trans 'Are you sure that the selected items were delivered already? ' %}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">{% trans 'No' %}</button>
+                <button type="button" class="btn btn-primary update-items-ok" data-value='delivered'>{% trans 'Yes' %}</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal modal-danger" id="cancel-confirm-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">{% trans 'Confirm' %}</h4>
+            </div>
+            <div class="modal-body">
+                <p>{% trans 'Are you sure that the selected items were canceled by customers?' %}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">{% trans 'No' %}</button>
+                <button type="button" class="btn btn-outline update-items-ok" data-value='canceled'>{% trans 'Yes' %}</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+    </div>
 {% endblock content %}
+
+{% block page_specific_content %}
+{% endblock page_specific_content %}
+
+{% block custom_js %}
+<script>
+    window.orderId = parseInt("{{ object.pk }}")
+</script>
+<script type="text/javascript" src="{% static 'orders/order_detail.js' %}">
+</script>
+{% endblock %}

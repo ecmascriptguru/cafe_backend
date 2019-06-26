@@ -29,25 +29,38 @@ def send_dish_booking_status(order_item_pk, created):
 
 
 @shared_task
-def print_order(order_pk, item_ids):
+def print_order(order_pk, item_ids=[], print_all=False):
     order = Order.objects.get(pk=order_pk)
-    items = order.items.filter(pk__in=item_ids)
-
-    if len(items) > 0:
-        url = "%s%s?items=%s" % (
-            settings.HOSTNAME,
-            reverse_lazy(
-                'orders:order_printview', kwargs={'pk': order_pk}),
-            '+'.join([str(id) for id in item_ids])
-        )
+    if print_all:
+        url = "%s%s" % (
+                settings.HOSTNAME,
+                reverse_lazy(
+                    'orders:order_full_printview', kwargs={'pk': order_pk})
+            )
 
         if settings.DEBUG:
-            print("Printing order", url)
+            print("Printing full order", url)
         else:
             response = EYPrint.print_58(url)
             json_data = response.json()
-            if json_data.get('result') == 'success':
-                order.print_items.update(is_printed=True)
+    else:
+        items = order.items.filter(pk__in=item_ids)
+
+        if len(items) > 0:
+            url = "%s%s?items=%s" % (
+                settings.HOSTNAME,
+                reverse_lazy(
+                    'orders:order_printview', kwargs={'pk': order_pk}),
+                '+'.join([str(id) for id in item_ids])
+            )
+
+            if settings.DEBUG:
+                print("Printing order", url)
+            else:
+                response = EYPrint.print_58(url)
+                json_data = response.json()
+                if json_data.get('result') == 'success':
+                    order.print_items.update(is_printed=True)
 
 
 @shared_task

@@ -6,6 +6,7 @@
     <h5 style="font-size: 20px;margin:0;font-weight:normal">订单号码: {{ object.pk }}</h5>
     <h5 style="font-size: 14px;margin:0;font-weight:normal">消费人数: {{ object.customers }}</h5>
     <h5 style="font-size: 14px;margin:0;font-weight:normal">开始时间: {{ object.created|date:'Y-m-d H:i' }}</h5>
+    <h5 style="font-size: 14px;margin:0;font-weight:normal">结帐时间: {{ object.modified|date:'Y-m-d H:i' }}</h5>
     <div class="">
         <table width="">
             <col width="35%">
@@ -24,11 +25,16 @@
                 <tr>
                     <td colspan="4">---------------------------</td>
                 </tr>
-                {% for item in items %}
+                {% for item in object.order_items.all %}
                 <tr style="font-size: 14px;">
                     <td>{{ item.dish.name|truncatechars:7 }}{% if item.is_booking_order_item %}<br/>({{ item.to_table.name }}){% endif %}</td>
                     <td>&yen;{{ item.dish.price }}</td>
-                    <td>{{ item.amount }}{% if item.is_free %}(赠){% endif %}</td>
+                    <td>{{ item.amount }}
+                        {% if item.is_free %}
+                        (赠)
+                        {% elif item.is_canceled %}
+                        (退)
+                        {% endif %}</td>
                     <td>&yen;{{ item.subtotal }}</td>
                 </tr>
                 {% empty %}
@@ -41,16 +47,20 @@
             <tfoot>
                 <tr style="font-size: 14px;">
                     <td colspan="3">原价合计</td>
-                    <td>&yen;{{ total_sum }}</td>
+                    <td>&yen;{{ object.total_sum }}</td>
                 </tr>
                 <tr style="font-size: 14px;">
                     <td colspan="3">赠菜</td>
-                    <td>&yen;{{ free_sum }}</td>
+                    <td>&yen;{{ object.free_sum }}</td>
+                </tr>
+                <tr style="font-size: 14px;">
+                    <td colspan="3">退菜</td>
+                    <td>&yen;{{ object.canceled_sum }}</td>
                 </tr>
                 <tr style="font-size: 14px;">
                     <td colspan="2">小计</td>
-                    <td>{{ total_count }}</td>
-                    <td>&yen;{{ billing_price }}</td>
+                    <td>{{ object.order_items.all|length }}</td>
+                    <td>&yen;{{ object.total_billing_price }}</td>
                 </tr>
 		<tr>
                     <td colspan="4">---------------------------</td>

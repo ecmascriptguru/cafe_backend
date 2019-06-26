@@ -28,6 +28,11 @@ class OrderDetailView(LoginRequiredMixin, generic.DetailView):
     template_name = 'orders/order_detailview.html'
 
 
+class OrderFullPrintView(generic.DetailView):
+    model = Order
+    template_name = 'orders/order_full_printview.html'
+
+
 class OrderPrintView(generic.DetailView):
     model = Order
     template_name = 'orders/order_printview.html'
@@ -64,7 +69,8 @@ class OrdersPrintView(generic.TemplateView):
     def get_context_data(self, *args, **kwargs):
         params = super().get_context_data(*args, **kwargs)
         order_ids = [
-            pk for pk in self.request.GET.get('orders', '').split(' ') if pk != '']
+            pk for pk in self.request.GET.get('orders', '').split(' ')
+            if pk != '']
         print(order_ids)
         params['orders'] = Order.objects.filter(pk__in=order_ids)
         return params
@@ -160,6 +166,23 @@ class OrderViewSet(CafeModelViewSet):
     def checkout(self, request, *args, **kwargs):
         self.serializer_class = serializers.OrderCheckoutSerializer
         return super(OrderViewSet, self).update(request)
+
+    @action(
+        detail=True, methods=['post'], url_name='order_item_update')
+    def update_items(self, request, *args, **kwargs):
+        item_ids = request.POST.getlist('item_ids[]')
+        state = request.POST.get('state')
+        items = self.get_object().order_items.filter(
+            pk__in=item_ids).exclude(state=state)
+        return Response({'status': items.update(state=state)})
+
+    @action(
+        detail=True, methods=['get'], url_name='order_item_update')
+    def print(self, request, *args, **kwargs):
+        from .tasks import print_order
+        task = print_order.delay(self.get_object().pk, [], True)
+        return Response({
+            'status': task.id})
 
 
 class OrderItemViewSet(CafeModelViewSet):

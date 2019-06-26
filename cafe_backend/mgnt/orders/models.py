@@ -124,6 +124,19 @@ class Order(TimeStampedModel):
             return 0.0
 
     @property
+    def canceled_sum(self):
+        if len(self.order_items.filter(state=ORDER_STATE.canceled)) > 0:
+            return self.order_items.filter(state=ORDER_STATE.canceled).\
+                values('price', 'amount').aggregate(
+                    total_price=models.Sum(
+                        F('price') * F("amount"),
+                        output_field=models.FloatField()
+                    )
+                ).get('total_price', 0.0)
+        else:
+            return 0.0
+
+    @property
     def total_billing_price(self):
         return self.total_sum - self.free_sum
 
