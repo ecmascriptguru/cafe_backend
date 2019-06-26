@@ -111,7 +111,7 @@ class Order(TimeStampedModel):
             return 0.0
 
     @property
-    def total_free(self):
+    def free_sum(self):
         if len(self.items.filter(is_free=True)) > 0:
             return self.items.filter(is_free=True).values('price', 'amount')\
                 .aggregate(
@@ -125,7 +125,7 @@ class Order(TimeStampedModel):
 
     @property
     def total_billing_price(self):
-        return self.total_sum - self.total_free
+        return self.total_sum - self.free_sum
 
     @property
     def print_total_sum(self):
@@ -140,7 +140,7 @@ class Order(TimeStampedModel):
             return 0.0
 
     @property
-    def print_total_free(self):
+    def print_free_sum(self):
         if len(self.print_items.filter(is_free=True)) > 0:
             return self.print_items.filter(is_free=True)\
                 .values('price', 'amount').aggregate(
@@ -154,7 +154,7 @@ class Order(TimeStampedModel):
 
     @property
     def print_billing_price(self):
-        return self.print_total_sum - self.print_total_free
+        return self.print_total_sum - self.print_free_sum
 
     @property
     def total_amount(self):
@@ -202,7 +202,7 @@ class Order(TimeStampedModel):
             'female': self.table.female}
 
     @classmethod
-    def get_report(cls, start_date, end_date, tables=[]):
+    def get_orders_from_date_range(cls, start_date, end_date, tables=[]):
         if isinstance(start_date, str):
             start_date = make_aware(datetime.strptime(start_date, '%Y-%m-%d'))
 
@@ -217,8 +217,12 @@ class Order(TimeStampedModel):
 
         orders = cls.objects.filter(
             created__gte=start_date, created__lt=end_date,
-            table__in=tables).all()
+            table__in=tables, state=ORDER_STATE.archived).all()
+        return orders
 
+    @classmethod
+    def get_report(cls, start_date, end_date, tables=[]):
+        orders = cls.get_orders_from_date_range(start_date, end_date, tables)
         customers = Order.objects.filter(
             created__gte=start_date, created__lt=end_date).annotate(
             male=Cast(

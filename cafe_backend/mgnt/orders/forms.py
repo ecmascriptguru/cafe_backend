@@ -63,6 +63,8 @@ class OrderForm(forms.ModelForm):
             )
 
 
+# class OrderPrintForm(forms.Form)
+
 class FreeOrderItemForm(forms.ModelForm):
     class Meta:
         model = OrderItem

@@ -9,6 +9,9 @@ urlpatterns = [
         '', views.TableGridView.as_view(),
         name='table_gridview'),
     path(
+        'print', views.OrdersPrintView.as_view(),
+        name='orders_printview'),
+    path(
         '<int:pk>/', views.OrderDetailView.as_view(),
         name='order_detailview'),
     path(

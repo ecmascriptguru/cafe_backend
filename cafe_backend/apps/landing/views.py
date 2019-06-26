@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 from .forms import DashboardQueryForm
 from ...apps.users.models import Table
 from ...mgnt.orders.models import Order
+from ...mgnt.orders.tasks import print_orders
 
 
 class DashboardView(LoginRequiredMixin, generic.TemplateView):
@@ -32,4 +33,10 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
                 int(item) for item in tables.split(',') if item != ''])
         params['table_report'] = Table.get_report()
         params['tables'] = Table.using_tables()
+        if self.request.GET.get('print') in ['Yes', 'yes']:
+            print_orders.delay([
+                order.pk for order in Order.get_orders_from_date_range(
+                    start_date, end_date)])
+            self.request.GET = self.request.GET.copy()
+            self.request.GET.pop('print')
         return params

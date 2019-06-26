@@ -69,3 +69,24 @@ def mark_order_items_as_printed(order_item_ids):
     time.sleep(10)
     return OrderItem.objects.filter(pk__in=order_item_ids).update(
         is_printed=True)
+
+
+@shared_task
+def print_orders(order_ids):
+    orders = Order.objects.filter(pk__in=order_ids)
+    if len(orders) > 0:
+        url = "%s%s?orders=%s" % (
+            settings.HOSTNAME,
+            reverse_lazy(
+                'orders:orders_printview'),
+            '+'.join([str(id) for id in order_ids])
+        )
+
+        if settings.DEBUG:
+            print("Printing orders", url)
+        else:
+            response = EYPrint.print_58(url)
+            json_data = response.json()
+            return json_data
+    else:
+        return "Skipping Blank Data in printing orders report."

@@ -42,8 +42,9 @@
                         {% endfor %}
                     </select>
                 </div> -->
-                
+                <input type="hidden" name="print" id="dashboard-print-flag" />
                 <div class="pull-right">
+                    <button type="button" class="btn btn-seconday" id="dashboard-report-print" value="{% trans 'Print' %}"><i class="fa fa-print"></i> {% trans 'Print' %}</button>
                     <button type="submit" class="btn btn-primary"><i class="fa fa-refresh"></i> {% trans 'Refresh' %}</button>
                 </div>
             </form>
@@ -186,6 +187,12 @@
         $(document)
         .on('change', '#dashboard-table-selector', function() {
             $("#dashboard_tables").val($(this).val().join(','))
+        })
+        .on('click', '#dashboard-report-print', function() {
+            let $form = $(this).closest('form'),
+                $flag = $form.find('input:hidden#dashboard-print-flag')
+            $flag.val("Yes")
+            $form.submit()
         })
     })
     </script>

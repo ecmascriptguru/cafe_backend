@@ -58,6 +58,18 @@ class OrderPrintView(generic.DetailView):
         return params
 
 
+class OrdersPrintView(generic.TemplateView):
+    template_name = 'orders/orders_report_printview.html'
+
+    def get_context_data(self, *args, **kwargs):
+        params = super().get_context_data(*args, **kwargs)
+        order_ids = [
+            pk for pk in self.request.GET.get('orders', '').split(' ') if pk != '']
+        print(order_ids)
+        params['orders'] = Order.objects.filter(pk__in=order_ids)
+        return params
+
+
 class OrderPrintCallbackView(generic.DetailView):
     model = OrderItem
     template_name = 'orders/order_print_callbackview.html'
