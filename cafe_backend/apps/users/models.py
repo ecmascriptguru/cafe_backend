@@ -1,6 +1,7 @@
 from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MinValueValidator
 from django.utils.translation import ugettext_lazy as _
 from django_fsm import FSMField, transition
 from model_utils.models import TimeStampedModel
@@ -64,6 +65,9 @@ class Table(TimeStampedModel):
     is_online = models.BooleanField(default=False, verbose_name=_('Online?'))
     cleared = models.DateTimeField(
         auto_now_add=True, verbose_name=_('Cleared'))
+    deposit = models.FloatField(
+        verbose_name=_('Deposit'), validators=[MinValueValidator(0.0)],
+        default=0.0)
 
     def __str__(self):
         return self.name

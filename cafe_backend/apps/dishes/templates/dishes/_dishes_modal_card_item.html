@@ -1,0 +1,13 @@
+{% load i18n %}
+
+<div class="col-sm-6 col-xs-6 dish">
+    <div class="small-box order-item-card bg-green" data-dish-id="{{ item.pk }}" data-dish-name="{{ item.name }}" data-dish-price="{{ item.price }}">
+        <div class="inner">
+            <h2><strong>{{ item.name }}</strong></h2>
+            <p style="font-size: 20px">&yen;{{ item.price }}</p>
+        </div>
+        <div class="icon">
+            <i class="fa fa-check"></i>
+        </div>
+    </div>
+</div>

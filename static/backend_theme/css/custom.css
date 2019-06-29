@@ -10,6 +10,7 @@ div.dish img.dish-image {
   width: 100%;
   height: calc(100%-10px); }
 
+table.vertical-middle td,
 table.order-table td {
   vertical-align: middle !important; }
 
@@ -17,3 +18,12 @@ table.order-table td {
   .language-switcher {
     margin-top: 0;
     margin-bottom: 0; } }
+
+.order-item-card {
+  cursor: pointer;}
+  .order-item-card div.icon {
+    display: none;}
+    .order-item-card:hover div.icon {
+      display: block;}
+    .order-item-card.active div.icon {
+      display: block;}

@@ -18,7 +18,7 @@ class TableAdminForm(forms.ModelForm):
         model = Table
         fields = (
             'name', 'imei', 'size', 'female', 'socket_counter',
-            'male', 'state', 'is_vip', )
+            'male', 'state', 'is_vip', 'deposit',)
 
     def __init__(self, *args, **kwargs):
         super(TableAdminForm, self).__init__(*args, **kwargs)
@@ -61,7 +61,7 @@ class TableForm(forms.ModelForm):
     class Meta:
         model = Table
         fields = (
-            'size', 'male', 'female', 'is_vip', 'state', )
+            'size', 'male', 'female', 'is_vip', 'state', 'deposit', )
 
     def __init__(self, *args, **kwargs):
         super(TableForm, self).__init__(*args, **kwargs)
@@ -70,7 +70,7 @@ class TableForm(forms.ModelForm):
         self.helper = FormHelper()
         if self.instance.state == TABLE_STATE.blank:
             self.helper.layout = Layout(
-                'size', 'female', 'male', 'state', 'is_vip',
+                'size', 'female', 'male', 'deposit', 'state', 'is_vip',
                 ButtonHolder(
                     Submit(
                         'submit', _('Save Changes'),
@@ -83,7 +83,7 @@ class TableForm(forms.ModelForm):
                     len(self.instance.order.items.all()) > 0:
                 self.fields['state'].widget = forms.HiddenInput()
             self.helper.layout = Layout(
-                'size', 'female', 'male', 'state', 'is_vip',
+                'size', 'female', 'male', 'deposit', 'state', 'is_vip',
                 ButtonHolder(
                     Submit(
                         'submit', _('Save Changes'),
@@ -111,6 +111,9 @@ class TableForm(forms.ModelForm):
         if state == TABLE_STATE.using:
             if self.cleaned_data['male'] + self.cleaned_data['female'] == 0:
                 self.add_error('female', _('Using without any customers?'))
+
+        if self.cleaned_data['deposit'] < 0:
+            self.add_error('deposit', _("Deposit can't be less than 0."))
 
         data = super(TableForm, self).clean()
         if self.data['submit'].lower() == _('clear') and\

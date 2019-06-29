@@ -13,8 +13,9 @@ def send_order_status(sender, instance, created, **kwargs):
     send_changed_order.delay(instance.pk, created)
     if created:
         if instance.table.state == TABLE_STATE.blank:
-            instance.table.state = TABLE_STATE.reserved
-            instance.table.save()
+            table = instance.table
+            table.state = TABLE_STATE.reserved
+            table.save()
 
     if len(instance.print_items) > 0:
         ids = [item.pk for item in instance.print_items]

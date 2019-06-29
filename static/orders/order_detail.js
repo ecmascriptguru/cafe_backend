@@ -1,5 +1,7 @@
 $(document).ready(() => {
+    let selectedItems = {}
     const ORDER_ITEM_STATES = {delivered: 'e', canceled: 'c'},
+        $modalSelectedItemsTable = $('table#selected-order-items-container tbody'),
         $deliveredButton = $('button#delivered-confirm'),
         $canceledButton = $('button#canceled-confirm'),
         token = $('input:hidden[name=csrfmiddlewaretoken]').val(),
@@ -10,7 +12,8 @@ $(document).ready(() => {
             }
 
             $.ajax({
-                url, method, data,
+                url, method, data: JSON.stringify(data),
+                contentType: 'application/json',
                 success: (res) => {
                     if (res.status) {
                         success(res)
@@ -31,12 +34,58 @@ $(document).ready(() => {
             }
             send_request(`${API_BASE_URL}orders/${window.orderId}/update_items/`, data, 'post', success, failure)
         },
+        addItems = (items_data, success, failure) => {
+            items = []
+            for (let key in items_data) {
+                items.push(items_data[key])
+            }
+            send_request(`${API_BASE_URL}orders/${window.orderId}/add_items/`, {"items": items}, 'post', success, failure)
+        },
         markItemsDelivered = (item_ids, success, failure) => {
             markItems(item_ids, ORDER_ITEM_STATES.delivered, success, failure)
         },
         markItemscanceled = (item_ids, success, failure) => {
             markItems(item_ids, ORDER_ITEM_STATES.canceled, success, failure)
+        },
+        updateModalStatisticsData = () => {
+            let sum = 0,
+                free = 0,
+                billing = 0
+            
+            for (let key in selectedItems) {
+                let item = selectedItems[key]
+                sum += item.price * item.amount
+                free += (item.free ? item.price * item.amount : 0)
+            }
+            billing = sum - free
+            $('.additional-sum').text(sum)
+            $('.additional-free').text(free)
+            $('.additional-billing').text(billing)
         }
+
+        $.ajaxSetup({ 
+            beforeSend: function(xhr, settings) {
+                function getCookie(name) {
+                    var cookieValue = null;
+                    if (document.cookie && document.cookie != '') {
+                        var cookies = document.cookie.split(';');
+                        for (var i = 0; i < cookies.length; i++) {
+                            var cookie = jQuery.trim(cookies[i]);
+                            // Does this cookie string begin with the name we want?
+                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                }
+                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                    // Only send the token to relative URLs i.e. locally.
+                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                }
+            } 
+        });
 
     $(document)
     .on('change', 'table#order-items-table tr input:checkbox', function() {
@@ -57,6 +106,12 @@ $(document).ready(() => {
             window.location.reload()
         }, () => {alert('Someting went wrong!')})
     })
+    .on('click', 'button#send-additional-items-ok', function() {
+        addItems(selectedItems, (res) => {
+            window.location.reload()
+        }, () => {})
+        console.log(selectedItems)
+    })
     .on('click', 'button#print-order', function() {
         const $self = $(this)
         // To do
@@ -67,5 +122,53 @@ $(document).ready(() => {
         window.setTimeout(() => {
             $self.prop('disabled', false)
         }, 10000)
+    })
+    .on('click', 'div.order-item-card', function() {
+        let $self = $(this)
+
+        $self.toggleClass('active')
+        if ($self.hasClass('active')) {
+            let item = {
+                id: $self.data('dish-id'),
+                name: $self.data('dish-name'),
+                price: parseFloat($self.data('dish-price')),
+                amount: 1,
+                free: false
+            }
+            selectedItems[`dish_${item.id}`] = item
+            $modalSelectedItemsTable.append(
+                $(`<tr data-dish-id="${item.id}" class="modal-selected-dish-record">
+                    <td class="item-dish-name">${item.name}</td>
+                    <td>&yen;<span class="item-dish-price">${item.price}</span></td>
+                    <td><input type="number" class="form-control item-amount" value="1" /></td>
+                    <td><input type="checkbox" class="item-free" /></td>
+                    <td>&yen;<span class="item-sub-total">${item.price}</span></td>
+                </tr>`)
+            )
+        } else {
+            let dishId = $self.data('dish-id')
+            if (selectedItems[`dish_${dishId}`]) {
+                delete selectedItems[`dish_${dishId}`]
+            }
+            $modalSelectedItemsTable.find(`tr.modal-selected-dish-record[data-dish-id=${dishId}]`).remove()
+        }
+
+        updateModalStatisticsData()
+    })
+    .on('change', 'tr.modal-selected-dish-record input.item-amount', function() {
+        let $self = $(this),    
+            id = $self.closest('tr').data('dish-id')
+        const price = selectedItems[`dish_${id}`].price
+        $self.closest('tr').find('span.item-sub-total').text(price * $self.val())
+        selectedItems[`dish_${id}`]['amount'] = parseInt($self.val())
+        updateModalStatisticsData()
+    })
+    .on('change', 'tr.modal-selected-dish-record input.item-free', function() {
+        let $self = $(this),    
+            id = $self.closest('tr').data('dish-id')
+        const { price, amount } = selectedItems[`dish_${id}`]
+        $self.closest('tr').find('span.item-sub-total').text(price * amount)
+        selectedItems[`dish_${id}`]['free'] = $self.prop('checked')
+        updateModalStatisticsData()
     })
 })

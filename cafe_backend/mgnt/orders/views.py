@@ -10,6 +10,7 @@ from rest_framework.response import Response
 
 from cafe_backend.core.apis.viewsets import CafeModelViewSet
 from cafe_backend.apps.users.models import Table, TABLE_STATE
+from ...apps.dishes.models import Category
 from .models import Order, OrderItem
 from . import serializers
 from . import forms
@@ -26,6 +27,11 @@ class TableGridView(LoginRequiredMixin, generic.ListView):
 class OrderDetailView(LoginRequiredMixin, generic.DetailView):
     model = Order
     template_name = 'orders/order_detailview.html'
+
+    def get_context_data(self, *args, **kwargs):
+        params = super(OrderDetailView, self).get_context_data(*args, **kwargs)
+        params['categories'] = Category.objects.all()
+        return params
 
 
 class OrderFullPrintView(generic.DetailView):
@@ -170,8 +176,8 @@ class OrderViewSet(CafeModelViewSet):
     @action(
         detail=True, methods=['post'], url_name='order_item_update')
     def update_items(self, request, *args, **kwargs):
-        item_ids = request.POST.getlist('item_ids[]')
-        state = request.POST.get('state')
+        item_ids = request.data.get('item_ids')
+        state = request.data.get('state')
         items = self.get_object().order_items.filter(
             pk__in=item_ids).exclude(state=state)
         return Response({'status': items.update(state=state)})
@@ -183,6 +189,21 @@ class OrderViewSet(CafeModelViewSet):
         task = print_order.delay(self.get_object().pk, [], True)
         return Response({
             'status': task.id})
+
+    @action(
+        detail=True, methods=['post'], url_name='order_items_additions')
+    def add_items(self, request, *args, **kwargs):
+        items = request.data.get('items')
+        order = self.get_object()
+        try:
+            for item in items:
+                order.order_items.create(
+                    order=order, dish_id=item['id'], is_free=item['free'],
+                    amount=item['amount'], to_table=order.table,
+                    price=item['price'])
+            return Response({'status': True})
+        except Exception as e:
+            return Response({'status': True, 'msg': str(e)})
 
 
 class OrderItemViewSet(CafeModelViewSet):
