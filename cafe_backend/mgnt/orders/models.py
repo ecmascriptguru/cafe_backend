@@ -9,6 +9,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import make_aware
 from django.apps import apps
+from django.urls import reverse_lazy
 from django_fsm import FSMField
 from django_fsm import transition
 from model_utils.models import TimeStampedModel
@@ -46,6 +47,12 @@ class Order(TimeStampedModel):
     payment_method = FSMField(
         choices=PAYMENT_METHOD_CHOICES, default=PAYMENT_METHOD.wechat,
         verbose_name=_('Payment Method'))
+    wipe_zero = models.FloatField(
+        default=0.0, verbose_name=_('Wipe Zero'),
+        validators=[MinValueValidator(0)])
+    income = models.FloatField(default=0.0, verbose_name=_('Income'))
+    checkout_at = models.DateTimeField(
+        default=None, null=True, blank=True, verbose_name=_('Checkout Time'))
     details = JSONField(
         default={'customers': {'male': 1, 'female': 0}},
         verbose_name=_('Details'))
@@ -61,6 +68,9 @@ class Order(TimeStampedModel):
     def __str__(self):
         return "<%s (%d)|(%s)>" % (
             _('Order'), self.pk, self.state)
+
+    def get_absolute_url(self):
+        return reverse_lazy('orders:order_detailview', kwargs={'pk': self.pk})
 
     @property
     def customers(self):
@@ -97,6 +107,18 @@ class Order(TimeStampedModel):
     @property
     def is_delivered(self):
         return len(self.completed) == len(self.items)
+
+    @property
+    def sum(self):
+        if len(self.order_items.all()) > 0:
+            return self.items.values('price', 'amount').aggregate(
+                    total_price=models.Sum(
+                        F('price') * F("amount"),
+                        output_field=models.FloatField()
+                    )
+                ).get('total_price', 0.0)
+        else:
+            return 0.0
 
     @property
     def total_sum(self):

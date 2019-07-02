@@ -3,6 +3,7 @@
 {% load i18n %}
 {% load state_tags %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 <section class="content-header">
@@ -46,41 +47,103 @@
                     {% endfor %}
                 </tbody>
                 <tfoot style="font-size: 24px;">
+                    {% if object.table.deposit > 0 %}
                     <tr>
                         <td colspan="2"></td>
-                        <td colspan="3">{% trans 'Deposit' %}</td>
+                        <td colspan="4">{% trans 'Deposit' %}</td>
                         <td>&yen;{{ object.table.deposit }}</td>
                     </tr>
+                    {% endif %}
                     <tr>
                         <td colspan="2"></td>
-                        <td colspan="3">{% trans 'Total' %}</td>
-                        <td>&yen;{{ object.total_sum }}</td>
+                        <td colspan="4">{% trans 'Total' %}</td>
+                        <td>&yen;{{ object.sum }}</td>
                     </tr>
+                    {% if object.free_sum > 0 %}
                     <tr>
                         <td colspan="2"></td>
-                        <td colspan="3">{% trans 'Free' %}</td>
+                        <td colspan="4">{% trans 'Free' %}</td>
                         <td>&yen;{{ object.free_sum }}</td>
                     </tr>
+                    {% endif %}
+                    {% if object.canceled_sum > 0 %}
                     <tr>
                         <td colspan="2"></td>
-                        <td colspan="3">{% trans 'Billing amount' %}</td>
+                        <td colspan="4">{% trans 'Canceled' %}</td>
+                        <td>&yen;{{ object.canceled_sum }}</td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="4">{% trans 'Billing amount' %}</td>
                         <td>&yen;{{ object.total_billing_price }}</td>
                     </tr>
+                    {% if object.checkout_at %}
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="4">{% trans 'Checkout At' %}</td>
+                        <td colspan="2">{{ object.checkout_at|date:'m/d H:i' }}</td>
+                    </tr>
+                    {% endif %}
                 </tfoot>
             </table>
             <div class="">
-                <button id="print-order" class="btn btn-default pull-left" 
+                <button data-toggle="modal" data-target="#order-print-confirm-modal" class="btn btn-default pull-left" 
                     {% if object.order_items.all|length == 0 %}disabled{% endif %}>
                     <i class="fa fa-print"></i> {% trans 'Print Order' %}</button>
                 <!-- <a class="btn btn-default" href="{% url 'orders:table_gridview' %}">{% trans 'Back' %}</a>
                 <a class="btn btn-primary pull-right" href="{% url 'orders:order_updateview' object.pk %}">{% trans 'Edit' %}</a> -->
-                <button id="checkout-order" class="btn btn-primary pull-right" 
+                <button id="checkout-order" class="btn btn-primary pull-right" data-toggle="modal" data-target="#order-checkout-modal"
                     {% if object.order_items.all|length == 0 %}disabled{% endif %}>
                     <i class="fa fa-check-square-o"></i> {% trans 'Checkout' %}</button>
             </div>
         </div>
     </div>
 </section>
+<div class="modal" id="order-checkout-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">{% trans 'Order Checkout' %}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form method="POST" id="order-checkout-form">
+                        {% crispy form %}
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">{% trans 'No' %}</button>
+                <button type="button" id="checkout-order" class="btn btn-primary">{% trans 'Yes' %}</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal" id="order-print-confirm-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">{% trans 'Confirm' %}</h4>
+            </div>
+            <div class="modal-body">
+                <p>{% trans 'Are you sure that you want to print the current order details? ' %}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">{% trans 'No' %}</button>
+                <button type="button" id="print-order" class="btn btn-primary">{% trans 'Yes' %}</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 <div class="modal" id="deliver-confirm-modal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -205,4 +268,9 @@
 </script>
 <script type="text/javascript" src="{% static 'orders/order_detail.js' %}">
 </script>
+{% if form.errors %}
+<script>
+    $('div.modal#order-checkout-modal').modal('show')
+</script>
+{% endif %}
 {% endblock %}

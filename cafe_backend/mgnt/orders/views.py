@@ -24,9 +24,10 @@ class TableGridView(LoginRequiredMixin, generic.ListView):
         TABLE_STATE.using, TABLE_STATE.reserved])
 
 
-class OrderDetailView(LoginRequiredMixin, generic.DetailView):
+class OrderDetailView(LoginRequiredMixin, generic.UpdateView):
     model = Order
     template_name = 'orders/order_detailview.html'
+    form_class = forms.OrderCheckoutForm
 
     def get_context_data(self, *args, **kwargs):
         params = super(OrderDetailView, self).get_context_data(*args, **kwargs)

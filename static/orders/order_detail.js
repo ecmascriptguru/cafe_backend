@@ -61,6 +61,27 @@ $(document).ready(() => {
             $('.additional-sum').text(sum)
             $('.additional-free').text(free)
             $('.additional-billing').text(billing)
+        },
+        updateCheckoutForm = () => {
+            const $form = $('form#order-checkout-form'),
+                $deposit = $form.find('input[name=deposit]'),
+                $sum = $form.find('input[name=total]'),
+                $additional_money = $form.find('input[name=additional_money]'),
+                $wipe_zero = $form.find('input[name=wipe_zero]'),
+                $income = $form.find('input[name=earning]'),
+                $change = $form.find('input[name=change]')
+            
+            let data = {
+                    deposit: parseFloat($deposit.val()),
+                    sum: parseFloat($sum.val()),
+                    additional_money: parseFloat($additional_money.val() || 0),
+                    wipe_zero: parseFloat($wipe_zero.val()),
+                },
+                income = data.sum - data.wipe_zero,
+                change = data.deposit + data.additional_money - income
+
+            $income.val(income)
+            $change.val(change)
         }
 
         $.ajaxSetup({ 
@@ -122,6 +143,7 @@ $(document).ready(() => {
         window.setTimeout(() => {
             $self.prop('disabled', false)
         }, 10000)
+        $self.closest('div.modal').modal('hide')
     })
     .on('click', 'div.order-item-card', function() {
         let $self = $(this)
@@ -170,5 +192,12 @@ $(document).ready(() => {
         $self.closest('tr').find('span.item-sub-total').text(price * amount)
         selectedItems[`dish_${id}`]['free'] = $self.prop('checked')
         updateModalStatisticsData()
+    })
+    .on('change', 'form#order-checkout-form input[name=additional_money], form#order-checkout-form input[name=wipe_zero]', function() {
+        updateCheckoutForm()
+    })
+    .on('click', 'button#checkout-order', function() {
+        $form = $(this).closest('div.modal').find('form')
+        $form.submit()
     })
 })
