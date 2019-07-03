@@ -39,6 +39,7 @@ class SOCKET_MESSAGE_TYPE:
     dish_booking = 'dish_booking'
     qr_code = 'qr_code'
     ring = 'ring'
+    ring_accept = 'ring_accept'
     music_event = 'music_requested'
 
 

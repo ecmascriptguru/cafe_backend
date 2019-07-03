@@ -6,6 +6,7 @@ from ...apps.users.models import User, Table
 from ...apps.events.models import Event
 from ...apps.videos.models import Video
 from ...mgnt.orders.models import Order, OrderItem
+from ...mgnt.calls.models import Call
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -153,11 +154,31 @@ class ChatConsumer(AsyncWebsocketConsumer):
         elif message_type == SOCKET_MESSAGE_TYPE.ring:
             table_pk = json_data['table']
             table = Table.objects.get(pk=table_pk)
+            call = table.call
             await self.channel_layer.group_send(
                 self.room_group_name,
                 {
+                    'call_id': call.pk,
                     'type': message_type,
                     'table': table.to_json(),
+                    'to': to,
+                }
+            )
+        elif message_type == SOCKET_MESSAGE_TYPE.ring_accept:
+            call_pk = json_data['call_id']
+            call = Call.objects.get(pk=call_pk)
+            if not hasattr(self.user, 'employee'):
+                raise 'Something went wrong'
+            else:
+                call.employee = self.user.employee
+                call.save()
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'call_id': call.pk,
+                    'type': message_type,
+                    'table': table.to_json(),
+                    'employee': call.employee.to_json(),
                     'to': to,
                 }
             )

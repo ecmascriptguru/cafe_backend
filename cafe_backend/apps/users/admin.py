@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin
 from django.contrib.auth.admin import UserAdmin
-from .forms import TableAdminForm
-from .models import User, Table
+from .forms import TableAdminForm, EmployeeAdminForm
+from .models import User, Table, Employee
 
 
 class RestaurantUserAdmin(UserAdmin):
@@ -20,5 +20,11 @@ class TableAdmin(ModelAdmin):
         'pk', 'name', 'imei', 'size', 'is_online', 'state', 'is_vip', )
     form = TableAdminForm
 
+
+class EmployeeAdmin(ModelAdmin):
+    list_display = ('pk', 'name', 'imei')
+    form = EmployeeAdminForm
+
 admin.site.register(User, RestaurantUserAdmin)
 admin.site.register(Table, TableAdmin)
+admin.site.register(Employee, EmployeeAdmin)

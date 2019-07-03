@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from crispy_forms.layout import Layout, Submit, ButtonHolder, HTML, Div
 from crispy_forms.helper import FormHelper
 from ...core.constants.types import MONITOR_MESSAGE_TYPE
-from .models import Table, User, TABLE_STATE
+from .models import Table, User, TABLE_STATE, Employee
 from .tasks import send_command
 
 
@@ -182,3 +182,31 @@ class TableControlForm(forms.ModelForm):
             command = MONITOR_MESSAGE_TYPE.reboot
         send_command.delay(self.instance.pk, command)
         return self.instance
+
+
+class EmployeeAdminForm(forms.ModelForm):
+    imei = forms.CharField(
+        max_length=16, min_length=14, strip=True, label=_('imei'))
+    name = forms.CharField(max_length=12, label=_('name'))
+
+    class Meta:
+        model = Employee
+        fields = ('name', 'imei',)
+
+    def __init__(self, *args, **kwargs):
+        super(EmployeeAdminForm, self).__init__(*args, **kwargs)
+
+        self.fields['imei'].label = _('IMEI Code')
+        if self.instance.pk:
+            self.fields['name'].initial = self.instance.name
+            self.fields['imei'].initial = self.instance.imei
+
+    def save(self, commit=True):
+        if self.instance.pk is None:
+            user = User.objects.create_user(
+                self.cleaned_data['imei'], email=None,
+                password=self.cleaned_data['imei'], is_table=True)
+            self.instance.user = user
+        self.instance.imei = self.cleaned_data['imei']
+        self.instance.name = self.cleaned_data['name']
+        return super(EmployeeAdminForm, self).save(commit)

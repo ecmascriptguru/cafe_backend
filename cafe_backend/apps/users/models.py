@@ -1,3 +1,4 @@
+from datetime import timedelta
 from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import AbstractUser
@@ -143,10 +144,6 @@ class Table(TimeStampedModel):
         tables = cls.objects.all()
         return tuple([(t.pk, t.name) for t in tables])
 
-    # @property
-    # def is_online(self):
-    #     return self.socket_counter > 0
-
     @classmethod
     def get_report(cls):
         total = len(cls.objects.all())
@@ -157,3 +154,48 @@ class Table(TimeStampedModel):
     @classmethod
     def using_tables(cls):
         return cls.objects.filter(state=TABLE_STATE.using)
+
+    @property
+    def call(self):
+        end_time = timezone.now() + timedelta(minutes=1)
+        qs = self.calls.filter(updated__lte=end_time)
+        if qs.exists():
+            return qs.first()
+        else:
+            return self.calls.create(table=self)
+
+
+class Employee(TimeStampedModel):
+    class Meta:
+        ordering = ('pk', )
+        verbose_name = _('Employee')
+        verbose_name_plural = _('Employees')
+
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, primary_key=True,
+        verbose_name=_('User'))
+
+    @property
+    def imei(self):
+        return self.user.username
+
+    @imei.setter
+    def imei(self, value):
+        self.user.username = value
+        self.user.set_password(value)
+        self.user.save()
+
+    @property
+    def name(self):
+        return self.user.first_name
+
+    @name.setter
+    def name(self, value):
+        self.user.first_name = value
+        self.user.save()
+
+    def to_json(self):
+        return {
+            'id': self.pk,
+            'name': self.name
+        }
