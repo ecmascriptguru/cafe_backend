@@ -1,5 +1,6 @@
 {% load static %}
 {% load i18n %}
+{% load music_tags %}
 
 <script>
     window.new_order_notification_message = "{% trans 'A new order item was requested.' %}"
@@ -38,6 +39,19 @@
                     </form>
                 </li>
                 {% endif %}
+
+                <li class="dropdown messages-menu musics-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-music"></i>
+                        <span class="label label-danger new-music-count {% if ''|pending_playlist_length > 0 %}vibrate{% endif %}">{{ ''|pending_playlist_length }}</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="header"
+                            {% if pending_playlist_length > 0 %}style="display:none;"{% endif %}
+                            >{% trans 'You have no new music ordered.' %}</li>
+                        <li class="footer"><a href="{% url 'music:music_playlist_view' %}">{% trans 'See All Music Orders' %}</a></li>
+                    </ul>
+                </li>
 
                 <li class="dropdown messages-menu orders-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">

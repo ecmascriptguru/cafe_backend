@@ -78,6 +78,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     'video': video.to_json()
                 }
             )
+        elif message_type == SOCKET_MESSAGE_TYPE.music_event:
+            await self.channel_layer.group_send(
+                self.room_group_name, {
+                    'type': message_type,
+                    'to': to,
+                    'music': json_data['music']
+                }
+            )
         elif message_type == SOCKET_MESSAGE_TYPE.order:
             order_pk = json_data['order']
             created = json_data['created']
@@ -182,4 +190,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps(event))
 
     async def notification_video(self, event):
+        await self.send(text_data=json.dumps(event))
+
+    async def music_requested(self, event):
         await self.send(text_data=json.dumps(event))

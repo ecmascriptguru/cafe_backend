@@ -1,6 +1,7 @@
 from celery import shared_task
 from ...libs.spotify.browser import SpotifyBrowser
 from .models import Music, Playlist
+from ...core.channels.sockets import broadcast_music_event
 
 
 @shared_task
@@ -35,3 +36,8 @@ def spotify_add_music_to_playlist(self, ids=[]):
         print(str(e))
     finally:
         browser.close()
+
+
+@shared_task
+def send_music_notification_via_socket():
+    broadcast_music_event()

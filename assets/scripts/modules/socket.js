@@ -109,6 +109,15 @@ export const initSocket = () => {
                     }
                     break;
             
+                case 'music_requested':
+                    console.log(data)
+                    if (data.music > 0) {
+                        $('span.new-music-count').text(data.music)
+                    } else {
+                        $('span.new-music-count').text('')
+                    }
+                    break;
+
                 case 'notification_order_item':
                     // if (data.created) {
                         _handleOrderNotification(data)

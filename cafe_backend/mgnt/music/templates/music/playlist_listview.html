@@ -4,6 +4,7 @@
 {% load django_tables2 %}
 {% load bootstrap4 %}
 {% load i18n %}
+{% load static %}
 
 {% block content %}
 <section class="content-header">
@@ -39,3 +40,7 @@
     </div>
 </section>
 {% endblock content %}
+
+{% block custom_js %}
+<script src="{% static 'music/js/playlist.js' %}"></script>
+{% endblock %}

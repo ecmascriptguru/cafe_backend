@@ -1,6 +1,12 @@
 {% load i18n %}
 <div class="btn-block">
-    <a class="btn btn-xs playlist-move-up" target="_blank" href="https://open.spotify.com/track/{{ record.music.external_id }}" title="{% trans 'Add to Playlist' %}">
+    {% if record.state == 'a' %}
+    <button class="btn btn-xs" data-id="{{ record.pk }}" title="{% trans 'Added to Playlist' %}">
+        <i class="fa fa-check"></i>
+    </button>
+    {% else %}
+    <button class="btn btn-xs playlist-process" data-id="{{ record.pk }}" data-href="https://open.spotify.com/track/{{ record.music.external_id }}" title="{% trans 'Add to Playlist' %}">
         <i class="fa fa-plus"></i>
-    </a>
+    </button>
+    {% endif %}
 </div>

@@ -41,3 +41,8 @@ class MUSIC_STATE:
     downloading = DEFAULT_STATE.pending
     uploading = DEFAULT_STATE.in_progress
     ready = DEFAULT_STATE.approved
+
+
+class MUSIC_PLAYLIST_STATE:
+    default = DEFAULT_STATE.default
+    ready = DEFAULT_STATE.approved
