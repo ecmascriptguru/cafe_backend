@@ -1,13 +1,14 @@
 from datetime import timedelta, datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views import generic
+from django.views import generic, View
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from django.http import JsonResponse
 from django_tables2.views import SingleTableMixin
 from .forms import DashboardQueryForm
 from ...apps.users.models import Table
 from ...mgnt.orders.models import Order
-from ...mgnt.orders.tasks import print_orders
+from ...mgnt.orders.tasks import print_sales_report
 from . import tables
 
 
@@ -35,12 +36,6 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
                 int(item) for item in tables.split(',') if item != ''])
         params['table_report'] = Table.get_report()
         params['tables'] = Table.using_tables()
-        if self.request.GET.get('print') in ['Yes', 'yes']:
-            print_orders.delay([
-                order.pk for order in Order.get_orders_from_date_range(
-                    start_date, end_date)])
-            self.request.GET = self.request.GET.copy()
-            self.request.GET.pop('print')
         return params
 
 
@@ -90,3 +85,29 @@ class DishReportView(
             (timezone.now() - timedelta(days=29)).date().strftime('%Y-%m-%d'))
         params['categories'] = Order.get_dishes_report(start_date, end_date)
         return params
+
+
+class SalesReportPrintView(generic.TemplateView):
+    template_name = 'landing/sales_report_printview.html'
+
+    def get_context_data(self, *args, **kwargs):
+        params = super(
+            SalesReportPrintView, self).get_context_data(*args, **kwargs)
+        end_date = self.request.GET.get(
+            'end_date',
+            timezone.now().date().strftime('%Y-%m-%d'))
+        start_date = self.request.GET.get(
+            'start_date',
+            (timezone.now() - timedelta(days=29)).date().strftime('%Y-%m-%d'))
+        params['sales'] = Order.get_sales_report(start_date, end_date)
+        return params
+
+
+class DashboardPrintView(View):
+    def get(self, *args, **kwargs):
+        end_date = self.request.GET.get(
+            'end_date', None)
+        start_date = self.request.GET.get(
+            'start_date', None)
+        print_sales_report.delay(start_date, end_date)
+        return JsonResponse({'status': True})

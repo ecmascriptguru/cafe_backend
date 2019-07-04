@@ -103,3 +103,17 @@ def print_orders(order_ids):
             return json_data
     else:
         return "Skipping Blank Data in printing orders report."
+
+
+@shared_task
+def print_sales_report(start=None, end=None):
+    url = "%s%s" % (
+        settings.HOSTNAME,
+        reverse_lazy(
+            'landing:sales_printview')
+    )
+    if start and end:
+        url += "?start_date=%s&end_date=%s" % (start, end)
+    response = EYPrint.print_58(url)
+    json_data = response.json()
+    return json_data

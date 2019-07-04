@@ -1,0 +1,47 @@
+{% extends 'layouts/print_base.html' %}
+
+{% block content %}
+<style>
+    td {
+        text-align: center;
+    }
+</style>
+<body style="width:57mm;">
+    <h3 style="font-size: 20px;font-weight: normal;text-align: center;margin-bottom: 0px;">数据报告</h3>
+    {% if request.GET.end_date and request.GET.start_date %}
+    <h5 style="font-size: 14px;margin:0;font-weight:normal">开始日期: {{ request.GET.start_date }}</h5>
+    <h5 style="font-size: 14px;margin:0;font-weight:normal">结束日期: {{ request.GET.end_date }}</h5>
+    {% else %}
+    <h5 style="font-size: 14px;margin:0;font-weight:normal">今天报告</h5>
+    {% endif %}
+    <div class="">
+        <table width="100%">
+            <col width="55%">
+            <col width="45%">
+            <tbody>
+                <tr>
+                    <td>总和今可</td>
+                    <td>&yen;{{ sales.total }}</td>
+                </tr>
+                <tr>
+                    <td>赠送金额</td>
+                    <td>&yen;{{ sales.free }}</td>
+                </tr>
+                <tr>
+                    <td>退金额</td>
+                    <td>&yen;{{ sales.canceled }}</td>
+                </tr>
+                <tr>
+                    <td>抹零</td>
+                    <td>&yen;{{ sales.wipe_zero }}</td>
+                </tr>
+                <tr>
+                    <td>收入金额</td>
+                    <td>&yen;{{ sales.billed }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <h5 style="text-align: center;font-size: 14px;margin: 0;font-weight: normal">今夜酒吧欢迎您!<br/>18745568789</h5>
+    </div>
+</body>
+{% endblock content %}

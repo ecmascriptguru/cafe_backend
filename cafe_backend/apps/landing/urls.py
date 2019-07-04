@@ -20,4 +20,12 @@ urlpatterns = [
         'dishes', views.DishReportView.as_view(),
         name='dish_reportview'
     ),
+    path(
+        'sales/print', views.SalesReportPrintView.as_view(),
+        name='sales_printview'
+    ),
+    path(
+        'print', views.DashboardPrintView.as_view(),
+        name='dashboard_printview'
+    ),
 ]

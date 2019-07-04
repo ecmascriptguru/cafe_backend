@@ -160,7 +160,7 @@ class Order(TimeStampedModel):
 
     @property
     def total_billing_price(self):
-        return self.total_sum - self.free_sum
+        return self.sum - self.free_sum - self.canceled_sum - self.wipe_zero
 
     @property
     def print_total_sum(self):
@@ -278,10 +278,27 @@ class Order(TimeStampedModel):
                 }
             )
         results = list()
-        print(buffer)
         for key in buffer:
             results.append(buffer[key])
-        print(results)
+        return results
+
+    @classmethod
+    def get_sales_report(cls, start_date, end_date, tables=[]):
+        orders = cls.get_orders_from_date_range(start_date, end_date, tables)
+        results = {
+            'total': 0,
+            'free': 0,
+            'canceld': 0,
+            'wipe_zero': 0,
+            'billed': 0
+        }
+
+        for order in orders:
+            results['total'] += order.sum
+            results['free'] += order.free_sum
+            results['canceled'] = order.canceled_sum
+            results['wipe_zero'] = order.wipe_zero
+            results['billed'] = order.total_billing_price
         return results
 
     @classmethod
