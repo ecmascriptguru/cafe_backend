@@ -158,7 +158,7 @@ class Table(TimeStampedModel):
     @property
     def call(self):
         end_time = timezone.now() + timedelta(minutes=1)
-        qs = self.calls.filter(updated__lte=end_time)
+        qs = self.calls.filter(modified__lte=end_time)
         if qs.exists():
             return qs.first()
         else:

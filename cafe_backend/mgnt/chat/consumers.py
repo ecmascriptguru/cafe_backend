@@ -22,7 +22,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
 
         await self.accept()
-        if self.user.is_table:
+        if self.user.is_table and hasattr(self.user, 'table'):
             self.user.table.is_online = True
             self.user.table.save()
 
@@ -177,7 +177,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 {
                     'call_id': call.pk,
                     'type': message_type,
-                    'table': table.to_json(),
+                    'table': call.table.to_json(),
                     'employee': call.employee.to_json(),
                     'to': to,
                 }
@@ -214,4 +214,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps(event))
 
     async def music_requested(self, event):
+        await self.send(text_data=json.dumps(event))
+
+    async def ring_accept(self, event):
         await self.send(text_data=json.dumps(event))
