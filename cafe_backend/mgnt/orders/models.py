@@ -111,7 +111,7 @@ class Order(TimeStampedModel):
     @property
     def sum(self):
         if len(self.order_items.all()) > 0:
-            return self.items.values('price', 'amount').aggregate(
+            return self.order_items.values('price', 'amount').aggregate(
                     total_price=models.Sum(
                         F('price') * F("amount"),
                         output_field=models.FloatField()
@@ -251,15 +251,43 @@ class Order(TimeStampedModel):
             tables = [table.pk for table in Table.objects.all()]
 
         orders = cls.objects.filter(
-            created__gte=start_date, created__lt=end_date,
+            checkout_at__gte=start_date, checkout_at__lt=end_date,
             table__in=tables, state=ORDER_STATE.archived).all()
         return orders
 
     @classmethod
+    def get_dishes_report(cls, start_date, end_date, tables=[]):
+        orders = cls.get_orders_from_date_range(start_date, end_date, tables)
+        dishes = OrderItem.objects.filter(order__in=orders).\
+            exclude(state=ORDER_STATE.canceled).values(
+                'dish_id', 'dish__name', 'dish__category_id',
+                'dish__category__name',
+            ).order_by('dish_id').annotate(count=Sum('amount'))
+        buffer = {}
+        for dish in dishes:
+            if not buffer.get(dish['dish__category_id'], None):
+                buffer[dish['dish__category_id']] = {
+                    'id': dish['dish__category_id'],
+                    'name': dish['dish__category__name'],
+                    'dishes': []}
+            buffer[dish['dish__category_id']]['dishes'].append(
+                {
+                    'id': dish['dish_id'],
+                    'name': dish['dish__name'],
+                    'count': dish['count']
+                }
+            )
+        results = list()
+        print(buffer)
+        for key in buffer:
+            results.append(buffer[key])
+        print(results)
+        return results
+
+    @classmethod
     def get_report(cls, start_date, end_date, tables=[]):
         orders = cls.get_orders_from_date_range(start_date, end_date, tables)
-        customers = Order.objects.filter(
-            created__gte=start_date, created__lt=end_date).annotate(
+        customers = orders.annotate(
             male=Cast(
                 KeyTextTransform(
                     'male', KeyTextTransform(
@@ -281,12 +309,13 @@ class Order(TimeStampedModel):
 
         OrderItem = apps.get_model('orders', 'OrderItem')
         items = OrderItem.objects.filter(
-            order__in=orders).all().exclude(
-                state=ORDER_STATE.canceled)
+            order__in=orders).exclude(state=ORDER_STATE.canceled)
+        item_sales = sum([item['amount'] for item in items.values('amount')])
+        # .get('total', 0)
 
         if len(items) > 0:
             sales = {
-                'items': len(items),
+                'items': item_sales,
                 'earning': items.aggregate(
                     total=ExpressionWrapper(
                         Sum(F('price') * F('amount')),

@@ -53,7 +53,8 @@
     <div class="row">
         <div class="col-lg-3 col-xs-6">
             <!-- small box -->
-            <div class="small-box bg-aqua">
+            <div class="small-box bg-aqua"
+                onclick="window.location.href='{% url 'landing:customer_reportview' %}?{% if request.GET.start_date %}start_date={{ request.GET.start_date }}{% endif %}{% if request.GET.end_date %}&end_date={{ request.GET.end_date }}{% endif %}'">
                 <div class="inner">
                     <h3>{{ report.customers.count }}</h3>
         
@@ -66,7 +67,8 @@
         </div>
         <div class="col-lg-3 col-xs-6">
             <!-- small box -->
-            <div class="small-box bg-aqua">
+            <div class="small-box bg-aqua"
+            onclick="window.location.href='{% url 'landing:order_reportview' %}?{% if request.GET.start_date %}start_date={{ request.GET.start_date }}{% endif %}{% if request.GET.end_date %}&end_date={{ request.GET.end_date }}{% endif %}'">
                 <div class="inner">
                     <h3>{{ report.orders.count }}</h3>
         
@@ -79,7 +81,8 @@
         </div>
         <div class="col-lg-3 col-xs-6">
             <!-- small box -->
-            <div class="small-box bg-aqua">
+            <div class="small-box bg-aqua"
+            onclick="window.location.href='{% url 'landing:dish_reportview' %}?{% if request.GET.start_date %}start_date={{ request.GET.start_date }}{% endif %}{% if request.GET.end_date %}&end_date={{ request.GET.end_date }}{% endif %}'">
                 <div class="inner">
                     <h3>{{ report.sales.items }}</h3>
         

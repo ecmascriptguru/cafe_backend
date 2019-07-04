@@ -1,0 +1,28 @@
+{% extends 'layouts/adminlte_base.html' %}
+
+{% load crispy_forms_tags %}
+{% load django_tables2 %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+        <i class="fa fa-dashboard"></i>
+        {% trans 'Customers' %}
+    </h1>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            {% render_table table %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block custom_js %}
+<script>
+</script>
+{% endblock %}
