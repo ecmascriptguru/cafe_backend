@@ -22,7 +22,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td colspan="4">---------------------------</td>
+                    <td colspan="4">--------------------------</td>
                 </tr>
                 {% for item in items %}
                 <tr style="font-size: 14px;">
@@ -35,7 +35,7 @@
                 <tr><td colspan="4">没有.</td></tr>
                 {% endfor %}
                 <tr>
-                    <td colspan="4">---------------------------</td>
+                    <td colspan="4">--------------------------</td>
                 </tr>
             </tbody>
             <tfoot>
@@ -47,13 +47,19 @@
                     <td colspan="3">赠菜</td>
                     <td>&yen;{{ free_sum }}</td>
                 </tr>
+                {% if wipe_zero > 0 %}
+                <tr style="font-size: 14px;">
+                    <td colspan="3">抹零</td>
+                    <td>&yen;{{ wipe_zeor }}</td>
+                </tr>
+                {% endif %}
                 <tr style="font-size: 14px;">
                     <td colspan="2">小计</td>
                     <td>{{ total_count }}</td>
                     <td>&yen;{{ billing_price }}</td>
                 </tr>
 		<tr>
-                    <td colspan="4">---------------------------</td>
+                    <td colspan="4">--------------------------</td>
 		</tr>
             </tfoot>
         </table>

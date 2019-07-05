@@ -16,7 +16,7 @@
 <section class="content">
     <div class="row">
         <div class="col-xs-12 form-group">
-            <form method="GET" class="form">
+            <form method="GET" class="form" id="dashboard-query-form">
                 {% crispy filter_form %}
                 <button type="button" class="btn btn-default pull-left" id="daterange-btn">
                     <span>
@@ -183,6 +183,8 @@
                 $("#dashboard_end_date").val(end_date)
                 $("#dashboard_date_range_option").val(range_option)
                 $('#daterange-btn span').html(`${start_date} - ${end_date}`)
+
+                $('form#dashboard-query-form').submit()
             }
         )
 

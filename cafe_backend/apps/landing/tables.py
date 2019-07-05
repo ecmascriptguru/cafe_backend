@@ -69,12 +69,16 @@ class OrderTable(tables.Table):
         empty_values=(), verbose_name=_('Order Creation Time'))
     ended = tables.Column(
         empty_values=(), verbose_name=_('Order Checkout Time'))
+    actions = tables.Column(
+        empty_values=(), orderable=False, verbose_name=_('Actions'))
+    actions_template = 'landing/_order_table_actions_column.html'
 
     class Meta:
         model = Order
         template_name = 'django_tables2/bootstrap.html'
         fields = (
-            'table', 'total', 'free', 'canceled', 'billed', 'started', 'ended',)
+            'table', 'total', 'free', 'canceled', 'billed',
+            'started', 'ended',)
         sequence = ('number', 'table', )
 
     def __init__(self, *args, **kwargs):

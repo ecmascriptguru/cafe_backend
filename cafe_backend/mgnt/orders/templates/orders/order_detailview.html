@@ -66,6 +66,13 @@
                         <td>&yen;{{ object.free_sum }}</td>
                     </tr>
                     {% endif %}
+                    {% if object.wipe_zero > 0 %}
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="4">{% trans 'Wipe Zero' %}</td>
+                        <td>&yen;{{ object.wipe_zero }}</td>
+                    </tr>
+                    {% endif %}
                     {% if object.canceled_sum > 0 %}
                     <tr>
                         <td colspan="2"></td>

@@ -66,6 +66,7 @@ class OrderPrintView(generic.DetailView):
         params['total_sum'] = total_sum
         params['free_count'] = free_count
         params['free_sum'] = free_sum
+        params['wipe_zeor'] = order.wipe_zero
         params['billing_price'] = billing_amount
         return params
 

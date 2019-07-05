@@ -86,7 +86,7 @@ class OrderCheckoutForm(forms.ModelForm):
         else:
             self.fields['additional_money'].initial = 0
         self.fields['deposit'].initial = self.instance.table.deposit
-        self.fields['deposit'].widget.attrs['readonly'] = True
+        # self.fields['deposit'].widget.attrs['readonly'] = True
         self.fields['total'].initial = self.instance.total_billing_price
         self.fields['total'].widget.attrs['readonly'] = True
         if self.instance.income > 0:

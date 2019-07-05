@@ -92,8 +92,13 @@ class Table(TimeStampedModel):
         self.female = 0
         if self.order and self.order.state != ORDER_STATE.archived:
             order = self.order
+            order.details['customers']['male'] = self.male
+            order.details['customers']['female'] = self.female
             order.archive()
             order.save()
+
+        for attendee in self.user.attendees.all():
+            attendee.channel.messages.all().delete()
 
         # TODO: Clean bookings
         for booking in self.requested_bookings.all():
