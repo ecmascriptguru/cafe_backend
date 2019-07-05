@@ -161,10 +161,10 @@ $(document).ready(() => {
             $modalSelectedItemsTable.append(
                 $(`<tr data-dish-id="${item.id}" class="modal-selected-dish-record">
                     <td class="item-dish-name">${item.name}</td>
-                    <td>&yen;<span class="item-dish-price">${item.price}</span></td>
+                    <td>&yen; <span class="item-dish-price">${item.price}</span></td>
                     <td><input type="number" class="form-control item-amount" value="1" /></td>
                     <td><input type="checkbox" class="item-free" /></td>
-                    <td>&yen;<span class="item-sub-total">${item.price}</span></td>
+                    <td>&yen; <span class="item-sub-total">${item.price}</span></td>
                 </tr>`)
             )
         } else {

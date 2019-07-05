@@ -37,53 +37,61 @@
                     <tr>
                         <td><input type="checkbox" class="dish-selector" value="{{ item.pk }}" /></td>
                         <td style="font-size: 24px;">{{ item.dish.name }}{% if item.is_free %}({% trans 'Free' %}){% endif %}</td>
-                        <td>&yen;{{ item.dish.price }}</td>
+                        <td>&yen; {{ item.dish.price }}</td>
                         <td> x </td>
-                        <td>{{ item.amount }}</td>
+                        <td>
+                            <input type="number" {% if item.state == 'c' %}disabled{% endif %} style="width: 60px;" class="form-control dish-amount-input" value="{{ item.amount }}" />
+                        </td>
                         <td> = </td>
-                        <td style="font-size: 24px;">&yen;{{ item.subtotal }}</td>
+                        <td style="font-size: 24px;">&yen; {{ item.subtotal }}</td>
                         <td style="text-align: center"><span class="badge {{ item|order_item_state_bg_color }}">{{ item|state_text }}</span></td>
                     </tr>
                     {% endfor %}
                 </tbody>
                 <tfoot style="font-size: 24px;">
+                    <tr>
+                        <td colspan="8"> </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8"> </td>
+                    </tr>
                     {% if object.table.deposit > 0 %}
                     <tr>
                         <td colspan="2"></td>
                         <td colspan="4">{% trans 'Deposit' %}</td>
-                        <td>&yen;{{ object.table.deposit }}</td>
+                        <td>&yen; {{ object.table.deposit }}</td>
                     </tr>
                     {% endif %}
                     <tr>
                         <td colspan="2"></td>
                         <td colspan="4">{% trans 'Total' %}</td>
-                        <td>&yen;{{ object.sum }}</td>
+                        <td>&yen; {{ object.sum }}</td>
                     </tr>
                     {% if object.free_sum > 0 %}
                     <tr>
                         <td colspan="2"></td>
                         <td colspan="4">{% trans 'Free' %}</td>
-                        <td>&yen;{{ object.free_sum }}</td>
+                        <td>&yen; {{ object.free_sum }}</td>
                     </tr>
                     {% endif %}
                     {% if object.wipe_zero > 0 %}
                     <tr>
                         <td colspan="2"></td>
                         <td colspan="4">{% trans 'Wipe Zero' %}</td>
-                        <td>&yen;{{ object.wipe_zero }}</td>
+                        <td>&yen; {{ object.wipe_zero }}</td>
                     </tr>
                     {% endif %}
                     {% if object.canceled_sum > 0 %}
                     <tr>
                         <td colspan="2"></td>
                         <td colspan="4">{% trans 'Canceled' %}</td>
-                        <td>&yen;{{ object.canceled_sum }}</td>
+                        <td>&yen; {{ object.canceled_sum }}</td>
                     </tr>
                     {% endif %}
                     <tr>
                         <td colspan="2"></td>
                         <td colspan="4">{% trans 'Billing amount' %}</td>
-                        <td>&yen;{{ object.total_billing_price }}</td>
+                        <td>&yen; {{ object.total_billing_price }}</td>
                     </tr>
                     {% if object.checkout_at %}
                     <tr>
@@ -241,15 +249,15 @@
                         <tfoot>
                             <tr>
                                 <td colspan="3"><strong>{% trans 'Additional Sum' %}</strong></td>
-                                <td colspan="2">&yen;<span  class="additional-sum">0</span></td>
+                                <td colspan="2">&yen; <span  class="additional-sum">0</span></td>
                             </tr>
                             <tr>
                                 <td colspan="3"><strong>{% trans 'Additional Free' %}</strong></td>
-                                <td colspan="2">&yen;<span class="additional-free">0</span></td>
+                                <td colspan="2">&yen; <span class="additional-free">0</span></td>
                             </tr>
                             <tr>
                                 <td colspan="3"><strong>{% trans 'Additional Billing' %}</strong></td>
-                                <td colspan="2">&yen;<span class="additional-billing">0</span></td>
+                                <td colspan="2">&yen; <span class="additional-billing">0</span></td>
                             </tr>
                         </tfoot>
                     </table>

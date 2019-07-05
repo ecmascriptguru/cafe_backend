@@ -2,6 +2,7 @@
 
 {% block content %}
 <body style="width:79mm;">
+    <h2 style="font-size: 24px;font-weight:bold;text-align:center;margin-bottom:3px;">【{% include 'layouts/brand.txt' %}】</h2>
     <h3 style="text-align: center;font-size:20px;font-weight:normal;margin-bottom: 3px">【点菜分单】</h3>
     <h3 style="margin: 0;font-size:20px;">卓名: {{ object.to_table.name }}</h3>
     <h5 style="font-size: 14px;margin:0;font-weight:normal">人数: {{ object.order.customers }}  服务员: 管理员</h5>

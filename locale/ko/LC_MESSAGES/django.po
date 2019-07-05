@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-25 10:12+0800\n"
+"POT-Creation-Date: 2019-07-05 14:43+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -61,7 +61,7 @@ msgstr "유형"
 #: cafe_backend/apps/advertisements/models.py:30
 #: cafe_backend/apps/dishes/models.py:25 cafe_backend/apps/dishes/models.py:56
 #: cafe_backend/apps/events/models.py:46 cafe_backend/mgnt/chat/models.py:44
-#: cafe_backend/mgnt/music/models.py:201
+#: cafe_backend/mgnt/music/models.py:208
 msgid "Active?"
 msgstr "사용중"
 
@@ -94,8 +94,8 @@ msgstr "이미지"
 
 #: cafe_backend/apps/advertisements/tables.py:14
 #: cafe_backend/apps/emoticons/tables.py:14
-#: cafe_backend/apps/events/tables.py:14 cafe_backend/apps/videos/tables.py:14
-#: cafe_backend/mgnt/music/tables.py:14
+#: cafe_backend/apps/events/tables.py:14 cafe_backend/apps/landing/tables.py:73
+#: cafe_backend/apps/videos/tables.py:14 cafe_backend/mgnt/music/tables.py:14
 msgid "Actions"
 msgstr "액션"
 
@@ -115,7 +115,7 @@ msgstr "보기"
 #: cafe_backend/apps/videos/templates/videos/_video_table_actions_column.html:4
 #: cafe_backend/apps/videos/templates/videos/video_detailview.html:36
 #: cafe_backend/mgnt/bookings/templates/bookings/_booking_table_actions_column.html:4
-#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:63
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:102
 msgid "Edit"
 msgstr "수정"
 
@@ -174,7 +174,7 @@ msgstr "인터넷 동영상 광고"
 #: cafe_backend/apps/videos/templates/videos/video_detailview.html:16
 #: cafe_backend/apps/videos/templates/videos/video_formview.html:14
 #: cafe_backend/apps/videos/templates/videos/video_listview.html:16
-#: cafe_backend/mgnt/orders/templates/orders/_table_grid_item.html:43
+#: cafe_backend/mgnt/orders/templates/orders/_table_grid_item.html:54
 #: templates/layouts/admin_lte/sidebar.html:40
 msgid "Settings"
 msgstr "설정"
@@ -186,6 +186,11 @@ msgid "Are you sure that you want to delete this ads?"
 msgstr "해당 광고를 삭제하시겠습니까?"
 
 #: cafe_backend/apps/advertisements/templates/ads/ads_deleteview.html:33
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:126
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:146
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:166
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:186
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:259
 msgid "No"
 msgstr "아니"
 
@@ -193,6 +198,11 @@ msgstr "아니"
 #: cafe_backend/apps/emoticons/templates/emoticons/emoticon_deleteview.html:34
 #: cafe_backend/apps/events/templates/events/event_deleteview.html:34
 #: cafe_backend/apps/videos/templates/videos/video_deleteview.html:34
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:127
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:147
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:167
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:187
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:260
 msgid "Yes"
 msgstr "네"
 
@@ -212,7 +222,7 @@ msgstr "광고 상세히 보기"
 #: cafe_backend/apps/videos/templates/videos/video_detailview.html:18
 #: cafe_backend/apps/videos/templates/videos/video_listview.html:18
 #: cafe_backend/mgnt/bookings/templates/bookings/booking_listview.html:18
-#: cafe_backend/mgnt/music/templates/music/playlist_listview.html:22
+#: cafe_backend/mgnt/music/templates/music/playlist_listview.html:23
 #: cafe_backend/mgnt/orders/templates/orders/table_gridview.html:15
 msgid "List"
 msgstr "목록"
@@ -231,7 +241,7 @@ msgstr "광고목록"
 #: cafe_backend/apps/events/templates/events/event_listview.html:28
 #: cafe_backend/apps/videos/templates/videos/video_listview.html:28
 #: cafe_backend/mgnt/bookings/templates/bookings/booking_listview.html:28
-#: cafe_backend/mgnt/music/templates/music/playlist_listview.html:32
+#: cafe_backend/mgnt/music/templates/music/playlist_listview.html:33
 msgid "Filter"
 msgstr "검색"
 
@@ -245,6 +255,7 @@ msgstr "새로 추가"
 
 #: cafe_backend/apps/advertisements/templates/ads/ads_updateview.html:6
 #: cafe_backend/apps/dishes/templates/categories/category_updateview.html:16
+#: cafe_backend/apps/landing/templates/landing/_order_table_actions_column.html:4
 #: cafe_backend/apps/users/templates/tables/table_updateview.html:16
 #: cafe_backend/mgnt/bookings/templates/bookings/contact_detailview.html:17
 #: cafe_backend/mgnt/bookings/templates/bookings/dish_booking_detailview.html:17
@@ -265,6 +276,7 @@ msgid "dishes"
 msgstr "음식"
 
 #: cafe_backend/apps/dishes/filters.py:10
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:232
 msgid "Dish Name"
 msgstr "음식이름"
 
@@ -336,7 +348,7 @@ msgstr "음식명 혹은 설명으로 검색"
 #: cafe_backend/apps/dishes/models.py:163
 #: cafe_backend/apps/dishes/models.py:183
 #: cafe_backend/mgnt/bookings/models.py:19
-#: cafe_backend/mgnt/orders/models.py:292
+#: cafe_backend/mgnt/orders/models.py:377
 msgid "Dish"
 msgstr "음식"
 
@@ -346,6 +358,7 @@ msgstr "음식"
 #: cafe_backend/apps/dishes/templates/dishes/dish_listview.html:15
 #: cafe_backend/apps/dishes/templates/dishes/dish_updateview.html:10
 #: cafe_backend/apps/dishes/templates/dishes/dish_updateview.html:15
+#: cafe_backend/apps/landing/templates/landing/dishes_reportview.html:12
 #: templates/layouts/admin_lte/sidebar.html:53
 msgid "Dishes"
 msgstr "음식"
@@ -362,7 +375,8 @@ msgstr "음식파일"
 msgid "Dish Images"
 msgstr "음식파일"
 
-#: cafe_backend/apps/dishes/models.py:160 cafe_backend/apps/users/models.py:44
+#: cafe_backend/apps/dishes/models.py:160 cafe_backend/apps/users/models.py:46
+#: cafe_backend/mgnt/calls/models.py:14
 msgid "Table"
 msgstr "테이블"
 
@@ -421,7 +435,7 @@ msgstr "이벤트이름"
 
 #: cafe_backend/apps/emoticons/forms.py:19 cafe_backend/apps/users/forms.py:76
 #: cafe_backend/apps/users/forms.py:89 cafe_backend/apps/videos/forms.py:20
-#: cafe_backend/mgnt/orders/forms.py:61
+#: cafe_backend/mgnt/orders/forms.py:62
 msgid "Save Changes"
 msgstr "저장"
 
@@ -550,8 +564,8 @@ msgid "Event Time"
 msgstr "이벤트 시간"
 
 #: cafe_backend/apps/events/models.py:45
-#: cafe_backend/mgnt/bookings/models.py:49 cafe_backend/mgnt/music/models.py:46
-#: cafe_backend/mgnt/orders/models.py:51
+#: cafe_backend/mgnt/bookings/models.py:49 cafe_backend/mgnt/music/models.py:47
+#: cafe_backend/mgnt/orders/models.py:58
 msgid "Details"
 msgstr "상세히 보기"
 
@@ -603,6 +617,50 @@ msgstr "전체 광고"
 msgid "landing"
 msgstr "랜딩페지"
 
+#: cafe_backend/apps/landing/tables.py:12 cafe_backend/apps/users/models.py:58
+msgid "Male"
+msgstr "남성"
+
+#: cafe_backend/apps/landing/tables.py:14 cafe_backend/apps/users/models.py:60
+msgid "Female"
+msgstr "여성"
+
+#: cafe_backend/apps/landing/tables.py:16
+#: cafe_backend/apps/landing/templates/landing/_dashboard_table_item.html:25
+#: cafe_backend/apps/landing/templates/landing/customers_reportview.html:12
+#: cafe_backend/apps/landing/templates/landing/dashboard.html:60
+#: cafe_backend/apps/landing/templates/landing/orders_reportview.html:12
+#: cafe_backend/apps/users/templates/tables/_table_grid_item.html:29
+#: cafe_backend/mgnt/orders/templates/orders/_table_grid_item.html:17
+msgid "Customers"
+msgstr "고객"
+
+#: cafe_backend/apps/landing/tables.py:18
+#: cafe_backend/apps/landing/tables.py:69
+msgid "Order Creation Time"
+msgstr "시작시간"
+
+#: cafe_backend/apps/landing/tables.py:20
+#: cafe_backend/apps/landing/tables.py:71
+msgid "Order Checkout Time"
+msgstr "결재시간"
+
+#: cafe_backend/apps/landing/tables.py:61
+msgid "Total Price"
+msgstr "총가격"
+
+#: cafe_backend/apps/landing/tables.py:63
+msgid "Free Price"
+msgstr "써비스가격"
+
+#: cafe_backend/apps/landing/tables.py:65
+msgid "Canceled Price"
+msgstr "취소된 금액"
+
+#: cafe_backend/apps/landing/tables.py:67
+msgid "Billed Price"
+msgstr "지불액"
+
 #: cafe_backend/apps/landing/templates/landing/_dashboard_chart.html:8
 msgid "Monthly"
 msgstr "월당"
@@ -628,7 +686,8 @@ msgid "Separated link"
 msgstr "가름선"
 
 #: cafe_backend/apps/landing/templates/landing/_dashboard_chart.html:33
-#: cafe_backend/apps/landing/templates/landing/dashboard.html:98
+#: cafe_backend/apps/landing/templates/landing/dashboard.html:101
+#: cafe_backend/apps/landing/templates/landing/dishes_reportview.html:36
 msgid "Sales"
 msgstr "판매"
 
@@ -668,23 +727,17 @@ msgstr "수익액"
 msgid "GOAL COMPLETIONS"
 msgstr "목적달성지표"
 
-#: cafe_backend/apps/landing/templates/landing/_dashboard_table_item.html:25
-#: cafe_backend/apps/landing/templates/landing/dashboard.html:59
-#: cafe_backend/apps/users/templates/tables/_table_grid_item.html:29
-#: cafe_backend/mgnt/orders/templates/orders/_table_grid_item.html:17
-msgid "Customers"
-msgstr "고객"
-
 #: cafe_backend/apps/landing/templates/landing/_dashboard_table_item.html:33
 #: cafe_backend/apps/landing/templates/landing/_dashboard_table_item.html:41
 #: cafe_backend/apps/users/templates/tables/_table_grid_item.html:36
 #: cafe_backend/apps/users/templates/tables/_table_grid_item.html:56
-#: cafe_backend/mgnt/orders/models.py:38
-#: cafe_backend/mgnt/orders/templates/orders/_table_grid_item.html:25
-#: cafe_backend/mgnt/orders/templates/orders/_table_grid_item.html:49
+#: cafe_backend/mgnt/orders/models.py:39
+#: cafe_backend/mgnt/orders/templates/orders/_table_grid_item.html:26
+#: cafe_backend/mgnt/orders/templates/orders/_table_grid_item.html:37
+#: cafe_backend/mgnt/orders/templates/orders/_table_grid_item.html:60
 #: cafe_backend/mgnt/orders/templates/orders/free_order_item_createview.html:10
 #: cafe_backend/mgnt/orders/templates/orders/free_order_item_createview.html:15
-#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:11
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:12
 #: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:16
 #: cafe_backend/mgnt/orders/templates/orders/order_updateview.html:10
 #: cafe_backend/mgnt/orders/templates/orders/order_updateview.html:15
@@ -710,12 +763,12 @@ msgid "Custom Range"
 msgstr "고객"
 
 #: cafe_backend/apps/landing/templates/landing/dashboard.html:32
-#: cafe_backend/apps/landing/templates/landing/dashboard.html:166
+#: cafe_backend/apps/landing/templates/landing/dashboard.html:169
 msgid "Today"
 msgstr "오늘"
 
 #: cafe_backend/apps/landing/templates/landing/dashboard.html:39
-#: cafe_backend/apps/users/models.py:45
+#: cafe_backend/apps/users/models.py:47
 #: cafe_backend/apps/users/templates/tables/table_listview.html:9
 #: cafe_backend/apps/users/templates/tables/table_listview.html:14
 #: cafe_backend/apps/users/templates/tables/table_updateview.html:10
@@ -724,60 +777,68 @@ msgstr "오늘"
 msgid "Tables"
 msgstr "테이블"
 
+#: cafe_backend/apps/landing/templates/landing/dashboard.html:46
+msgid "Print"
+msgstr "인쇄됨"
+
 #: cafe_backend/apps/landing/templates/landing/dashboard.html:47
 msgid "Refresh"
 msgstr "갱신자료보기"
 
-#: cafe_backend/apps/landing/templates/landing/dashboard.html:72
+#: cafe_backend/apps/landing/templates/landing/dashboard.html:74
 msgid "New Orders"
 msgstr "주문"
 
-#: cafe_backend/apps/landing/templates/landing/dashboard.html:85
+#: cafe_backend/apps/landing/templates/landing/dashboard.html:88
 msgid "Item Sales"
 msgstr "음식판매"
 
-#: cafe_backend/apps/landing/templates/landing/dashboard.html:111
+#: cafe_backend/apps/landing/templates/landing/dashboard.html:114
 msgid "Table Usage"
 msgstr "테이블사용상태"
 
-#: cafe_backend/apps/landing/templates/landing/dashboard.html:150
+#: cafe_backend/apps/landing/templates/landing/dashboard.html:153
 msgid "days"
 msgstr "날자"
 
-#: cafe_backend/apps/landing/templates/landing/dashboard.html:167
+#: cafe_backend/apps/landing/templates/landing/dashboard.html:170
 msgid "Yesterday"
 msgstr "어제"
 
-#: cafe_backend/apps/landing/templates/landing/dashboard.html:168
+#: cafe_backend/apps/landing/templates/landing/dashboard.html:171
 msgid "Last 7 Days"
 msgstr "최근 7일"
 
-#: cafe_backend/apps/landing/templates/landing/dashboard.html:169
-#: cafe_backend/apps/landing/views.py:21
+#: cafe_backend/apps/landing/templates/landing/dashboard.html:172
+#: cafe_backend/apps/landing/views.py:25
 msgid "Last 30 Days"
 msgstr "최근 30일"
 
-#: cafe_backend/apps/landing/templates/landing/dashboard.html:170
+#: cafe_backend/apps/landing/templates/landing/dashboard.html:173
 msgid "This Month"
 msgstr "이번 달"
 
-#: cafe_backend/apps/landing/templates/landing/dashboard.html:171
+#: cafe_backend/apps/landing/templates/landing/dashboard.html:174
 msgid "Last Month"
 msgstr "전달"
+
+#: cafe_backend/apps/landing/templates/landing/dishes_reportview.html:35
+msgid "Dish name"
+msgstr "음식이름"
 
 #: cafe_backend/apps/users/apps.py:7
 msgid "users"
 msgstr "사용자"
 
-#: cafe_backend/apps/users/forms.py:14
+#: cafe_backend/apps/users/forms.py:14 cafe_backend/apps/users/forms.py:189
 msgid "imei"
 msgstr "식별번호"
 
-#: cafe_backend/apps/users/forms.py:15
+#: cafe_backend/apps/users/forms.py:15 cafe_backend/apps/users/forms.py:190
 msgid "name"
 msgstr "이름"
 
-#: cafe_backend/apps/users/forms.py:26
+#: cafe_backend/apps/users/forms.py:26 cafe_backend/apps/users/forms.py:199
 msgid "IMEI Code"
 msgstr "설비 식별번호"
 
@@ -797,92 +858,103 @@ msgstr "고객인원수를 입력하십시요."
 msgid "Clear"
 msgstr "클리어"
 
-#: cafe_backend/apps/users/forms.py:116 cafe_backend/apps/users/forms.py:122
-#: cafe_backend/apps/users/forms.py:123
+#: cafe_backend/apps/users/forms.py:116
+msgid "Deposit can't be less than 0."
+msgstr "예금은 0보다 작을수 없습니다."
+
+#: cafe_backend/apps/users/forms.py:119 cafe_backend/apps/users/forms.py:125
+#: cafe_backend/apps/users/forms.py:126
 msgid "clear"
 msgstr "클리어"
 
-#: cafe_backend/apps/users/forms.py:118
+#: cafe_backend/apps/users/forms.py:121
 msgid "Order is not complete yet."
 msgstr "주문이 완성되지 않았습니다."
 
-#: cafe_backend/apps/users/forms.py:142
+#: cafe_backend/apps/users/forms.py:145
 msgid "This table is online now."
 msgstr "이 식탁앱은 현재 정상가동중입니다."
 
-#: cafe_backend/apps/users/forms.py:147 cafe_backend/apps/users/forms.py:170
-#: cafe_backend/apps/users/forms.py:178
+#: cafe_backend/apps/users/forms.py:150 cafe_backend/apps/users/forms.py:173
+#: cafe_backend/apps/users/forms.py:181
 msgid "Reboot"
 msgstr "재시동"
 
-#: cafe_backend/apps/users/forms.py:150 cafe_backend/apps/users/forms.py:170
-#: cafe_backend/apps/users/forms.py:176
+#: cafe_backend/apps/users/forms.py:153 cafe_backend/apps/users/forms.py:173
+#: cafe_backend/apps/users/forms.py:179
 msgid "Stop"
 msgstr "정지"
 
-#: cafe_backend/apps/users/forms.py:157
+#: cafe_backend/apps/users/forms.py:160
 msgid "This table is offline now."
 msgstr "이 식탁앱은 정지상태입니다."
 
-#: cafe_backend/apps/users/forms.py:162 cafe_backend/apps/users/forms.py:170
-#: cafe_backend/apps/users/forms.py:174
+#: cafe_backend/apps/users/forms.py:165 cafe_backend/apps/users/forms.py:173
+#: cafe_backend/apps/users/forms.py:177
 msgid "Start"
 msgstr "기동"
 
-#: cafe_backend/apps/users/forms.py:171
+#: cafe_backend/apps/users/forms.py:174
 #, python-format
 msgid "Unknown command %s"
 msgstr "미정명령 %s"
 
-#: cafe_backend/apps/users/models.py:12
+#: cafe_backend/apps/users/models.py:14
 msgid "Table?"
 msgstr "식탁?"
 
-#: cafe_backend/apps/users/models.py:48
+#: cafe_backend/apps/users/models.py:50
 msgid "Blank"
 msgstr "비여있음"
 
-#: cafe_backend/apps/users/models.py:49
+#: cafe_backend/apps/users/models.py:51
 msgid "Using"
 msgstr "사용중"
 
-#: cafe_backend/apps/users/models.py:50
+#: cafe_backend/apps/users/models.py:52
 msgid "Reserved"
 msgstr "예약"
 
-#: cafe_backend/apps/users/models.py:54 cafe_backend/mgnt/chat/models.py:43
+#: cafe_backend/apps/users/models.py:56 cafe_backend/apps/users/models.py:181
+#: cafe_backend/mgnt/chat/models.py:43
 msgid "User"
 msgstr "사용자"
 
-#: cafe_backend/apps/users/models.py:55
+#: cafe_backend/apps/users/models.py:57
 msgid "Size"
 msgstr "싸이즈"
 
-#: cafe_backend/apps/users/models.py:56
-msgid "Male"
-msgstr "남성"
-
-#: cafe_backend/apps/users/models.py:58
-msgid "Female"
-msgstr "여성"
-
-#: cafe_backend/apps/users/models.py:59
+#: cafe_backend/apps/users/models.py:61
 msgid "VIP?"
 msgstr "VIP?"
 
-#: cafe_backend/apps/users/models.py:62 cafe_backend/mgnt/bookings/models.py:48
-#: cafe_backend/mgnt/music/models.py:45 cafe_backend/mgnt/orders/models.py:45
-#: cafe_backend/mgnt/orders/models.py:307
+#: cafe_backend/apps/users/models.py:64 cafe_backend/mgnt/bookings/models.py:48
+#: cafe_backend/mgnt/music/models.py:46 cafe_backend/mgnt/orders/models.py:46
+#: cafe_backend/mgnt/orders/models.py:392
 msgid "State"
 msgstr "상태"
 
-#: cafe_backend/apps/users/models.py:64
+#: cafe_backend/apps/users/models.py:66
 msgid "Online?"
 msgstr "온라인"
 
-#: cafe_backend/apps/users/models.py:66
+#: cafe_backend/apps/users/models.py:68
 msgid "Cleared"
 msgstr "클리어"
+
+#: cafe_backend/apps/users/models.py:70 cafe_backend/mgnt/orders/forms.py:68
+#: cafe_backend/mgnt/orders/templates/orders/_table_grid_item.html:21
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:53
+msgid "Deposit"
+msgstr "예금"
+
+#: cafe_backend/apps/users/models.py:176 cafe_backend/mgnt/calls/models.py:17
+msgid "Employee"
+msgstr "봉사원"
+
+#: cafe_backend/apps/users/models.py:177
+msgid "Employees"
+msgstr "봉사원"
 
 #: cafe_backend/apps/users/templates/tables/_table_grid_item.html:11
 #: templates/layouts/admin_lte/sidebar.html:15
@@ -956,8 +1028,8 @@ msgid "Detail view of videos"
 msgstr "동영상 상세히 보기"
 
 #: cafe_backend/apps/videos/templates/videos/video_detailview.html:35
-#: cafe_backend/mgnt/orders/forms.py:59
-#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:62
+#: cafe_backend/mgnt/orders/forms.py:60
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:101
 msgid "Back"
 msgstr "뒤로"
 
@@ -982,7 +1054,8 @@ msgid "Merge"
 msgstr "합병"
 
 #: cafe_backend/mgnt/bookings/models.py:26
-#: cafe_backend/mgnt/orders/models.py:21 cafe_backend/mgnt/orders/models.py:277
+#: cafe_backend/mgnt/music/models.py:196 cafe_backend/mgnt/orders/models.py:22
+#: cafe_backend/mgnt/orders/models.py:362
 msgid "Requested"
 msgstr "요청"
 
@@ -995,17 +1068,19 @@ msgid "Rejected"
 msgstr "거절"
 
 #: cafe_backend/mgnt/bookings/models.py:29
-#: cafe_backend/mgnt/orders/models.py:278
+#: cafe_backend/mgnt/orders/models.py:363
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:27
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:79
 msgid "Canceled"
 msgstr "취소"
 
 #: cafe_backend/mgnt/bookings/models.py:30
-#: cafe_backend/mgnt/orders/models.py:23
+#: cafe_backend/mgnt/orders/models.py:24
 msgid "Archived"
 msgstr "저장"
 
 #: cafe_backend/mgnt/bookings/models.py:38
-#: cafe_backend/mgnt/music/models.py:197
+#: cafe_backend/mgnt/music/models.py:204
 msgid "Requester"
 msgstr "요청자"
 
@@ -1084,7 +1159,7 @@ msgstr "컨택트"
 #: cafe_backend/mgnt/bookings/templates/bookings/table_booking_detailview.html:15
 #: cafe_backend/mgnt/chat/templates/chat/chat_list.html:18
 #: cafe_backend/mgnt/music/templates/music/music_demoview.html:18
-#: cafe_backend/mgnt/music/templates/music/playlist_listview.html:20
+#: cafe_backend/mgnt/music/templates/music/playlist_listview.html:21
 #: cafe_backend/mgnt/orders/templates/orders/free_order_item_createview.html:14
 #: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:15
 #: cafe_backend/mgnt/orders/templates/orders/order_updateview.html:14
@@ -1119,6 +1194,18 @@ msgstr "테이블 부킹"
 #: cafe_backend/mgnt/bookings/templates/bookings/table_booking_detailview.html:12
 msgid "Table Booking view of bookings"
 msgstr "테이블 부킹"
+
+#: cafe_backend/mgnt/calls/apps.py:7
+msgid "calls"
+msgstr "호출"
+
+#: cafe_backend/mgnt/calls/models.py:9
+msgid "Call"
+msgstr "호출"
+
+#: cafe_backend/mgnt/calls/models.py:10
+msgid "Calls"
+msgstr "호출"
 
 #: cafe_backend/mgnt/chat/apps.py:7
 msgid "chat"
@@ -1189,72 +1276,76 @@ msgstr "발송"
 msgid "music"
 msgstr "뮤직"
 
-#: cafe_backend/mgnt/music/filters.py:11 cafe_backend/mgnt/music/models.py:34
+#: cafe_backend/mgnt/music/filters.py:11 cafe_backend/mgnt/music/models.py:35
 msgid "Title"
 msgstr "제목"
 
-#: cafe_backend/mgnt/music/filters.py:14 cafe_backend/mgnt/music/models.py:35
+#: cafe_backend/mgnt/music/filters.py:14 cafe_backend/mgnt/music/models.py:36
 msgid "Author"
 msgstr "가수"
 
-#: cafe_backend/mgnt/music/models.py:19
+#: cafe_backend/mgnt/music/models.py:20
 msgid "Not available"
 msgstr "찾을수가 없습니다"
 
-#: cafe_backend/mgnt/music/models.py:20
+#: cafe_backend/mgnt/music/models.py:21
 msgid "Downloading"
 msgstr "다운로딩"
 
-#: cafe_backend/mgnt/music/models.py:21
+#: cafe_backend/mgnt/music/models.py:22
 msgid "Uploading"
 msgstr "업로딩"
 
-#: cafe_backend/mgnt/music/models.py:22
+#: cafe_backend/mgnt/music/models.py:23
 msgid "Ready"
 msgstr "준비"
 
-#: cafe_backend/mgnt/music/models.py:27
+#: cafe_backend/mgnt/music/models.py:28
 msgid "Ting"
 msgstr "Ting"
 
-#: cafe_backend/mgnt/music/models.py:28
+#: cafe_backend/mgnt/music/models.py:29
 msgid "KuGou"
 msgstr "KuGou"
 
-#: cafe_backend/mgnt/music/models.py:29
+#: cafe_backend/mgnt/music/models.py:30
 msgid "Spotify"
 msgstr "Spotify"
 
-#: cafe_backend/mgnt/music/models.py:36
+#: cafe_backend/mgnt/music/models.py:37
 msgid "Music url"
 msgstr "Music 주소"
 
-#: cafe_backend/mgnt/music/models.py:38
+#: cafe_backend/mgnt/music/models.py:39
 msgid "External ID"
 msgstr "외부 ID"
 
-#: cafe_backend/mgnt/music/models.py:39
+#: cafe_backend/mgnt/music/models.py:40
 msgid "Picture URL"
 msgstr "이미지 주소"
 
-#: cafe_backend/mgnt/music/models.py:42
+#: cafe_backend/mgnt/music/models.py:43
 msgid "Music Provider"
 msgstr "뮤직제공써비스"
 
-#: cafe_backend/mgnt/music/models.py:50 cafe_backend/mgnt/music/models.py:54
-#: cafe_backend/mgnt/music/models.py:200
+#: cafe_backend/mgnt/music/models.py:51 cafe_backend/mgnt/music/models.py:55
+#: cafe_backend/mgnt/music/models.py:207
 #: cafe_backend/mgnt/music/templates/music/music_demoview.html:19
-#: cafe_backend/mgnt/music/templates/music/playlist_listview.html:21
+#: cafe_backend/mgnt/music/templates/music/playlist_listview.html:22
 msgid "Music"
 msgstr "뮤직"
 
-#: cafe_backend/mgnt/music/models.py:51
+#: cafe_backend/mgnt/music/models.py:52
 #: templates/layouts/admin_lte/sidebar.html:96
 msgid "Musics"
 msgstr "뮤직"
 
-#: cafe_backend/mgnt/music/models.py:204 cafe_backend/mgnt/music/models.py:208
-#: cafe_backend/mgnt/music/models.py:209
+#: cafe_backend/mgnt/music/models.py:197
+msgid "Availiable"
+msgstr "준비됨"
+
+#: cafe_backend/mgnt/music/models.py:214 cafe_backend/mgnt/music/models.py:218
+#: cafe_backend/mgnt/music/models.py:219
 msgid "Playlist"
 msgstr "플레이 리스트"
 
@@ -1266,7 +1357,11 @@ msgstr "한곡 우로"
 msgid "Move Down"
 msgstr "한곡 아래로"
 
-#: cafe_backend/mgnt/music/templates/music/_playlist_table_actions_column.html:3
+#: cafe_backend/mgnt/music/templates/music/_playlist_table_actions_column.html:4
+msgid "Added to Playlist"
+msgstr "플레이 리스트에 추가됨"
+
+#: cafe_backend/mgnt/music/templates/music/_playlist_table_actions_column.html:8
 msgid "Add to Playlist"
 msgstr "플레이 리스트"
 
@@ -1288,11 +1383,11 @@ msgstr "검색"
 
 #: cafe_backend/mgnt/music/templates/music/music_player.html:6
 #: cafe_backend/mgnt/music/templates/music/music_player.html:16
-#: cafe_backend/mgnt/music/templates/music/playlist_listview.html:15
+#: cafe_backend/mgnt/music/templates/music/playlist_listview.html:16
 msgid "Music Player"
 msgstr "뮤직 플레이어"
 
-#: cafe_backend/mgnt/music/templates/music/playlist_listview.html:12
+#: cafe_backend/mgnt/music/templates/music/playlist_listview.html:13
 msgid "Music Playlist"
 msgstr "뮤직 플레이어"
 
@@ -1300,66 +1395,104 @@ msgstr "뮤직 플레이어"
 msgid "orders"
 msgstr "예약"
 
-#: cafe_backend/mgnt/orders/forms.py:49 cafe_backend/mgnt/orders/models.py:285
+#: cafe_backend/mgnt/orders/forms.py:50 cafe_backend/mgnt/orders/models.py:370
 msgid "Order Items"
 msgstr "주문 아이템"
 
-#: cafe_backend/mgnt/orders/forms.py:78
+#: cafe_backend/mgnt/orders/forms.py:70
+msgid "Additional Money"
+msgstr "추가금액"
+
+#: cafe_backend/mgnt/orders/forms.py:71
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:59
+msgid "Total"
+msgstr "합계"
+
+#: cafe_backend/mgnt/orders/forms.py:72
+msgid "Change"
+msgstr "잔돈"
+
+#: cafe_backend/mgnt/orders/forms.py:73 cafe_backend/mgnt/orders/models.py:53
+msgid "Income"
+msgstr "입금"
+
+#: cafe_backend/mgnt/orders/forms.py:118
+msgid "Wipe Zero can not be less than 0."
+msgstr "머링은 0보다 작을수 없습니다."
+
+#: cafe_backend/mgnt/orders/forms.py:147
 msgid "Send Free Item"
 msgstr "무료써비스"
 
-#: cafe_backend/mgnt/orders/models.py:22 cafe_backend/mgnt/orders/models.py:279
+#: cafe_backend/mgnt/orders/models.py:23 cafe_backend/mgnt/orders/models.py:364
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:26
 msgid "Delivered"
 msgstr "송달됨"
 
-#: cafe_backend/mgnt/orders/models.py:28
+#: cafe_backend/mgnt/orders/models.py:29
 msgid "Cash"
 msgstr "현금"
 
-#: cafe_backend/mgnt/orders/models.py:29
+#: cafe_backend/mgnt/orders/models.py:30
 msgid "WeChat"
 msgstr "웨이신페이"
 
-#: cafe_backend/mgnt/orders/models.py:30
+#: cafe_backend/mgnt/orders/models.py:31
 msgid "AliPay"
 msgstr "알리페이"
 
-#: cafe_backend/mgnt/orders/models.py:37 cafe_backend/mgnt/orders/models.py:63
-#: cafe_backend/mgnt/orders/models.py:289
+#: cafe_backend/mgnt/orders/models.py:38 cafe_backend/mgnt/orders/models.py:70
+#: cafe_backend/mgnt/orders/models.py:374
 msgid "Order"
 msgstr "주문"
 
-#: cafe_backend/mgnt/orders/models.py:42
+#: cafe_backend/mgnt/orders/models.py:43
 msgid "Customer"
 msgstr "고객"
 
-#: cafe_backend/mgnt/orders/models.py:48
+#: cafe_backend/mgnt/orders/models.py:49
 msgid "Payment Method"
 msgstr "지불방식"
 
-#: cafe_backend/mgnt/orders/models.py:284
+#: cafe_backend/mgnt/orders/models.py:51
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:72
+msgid "Wipe Zero"
+msgstr "꼬리자르기"
+
+#: cafe_backend/mgnt/orders/models.py:55
+msgid "Checkout Time"
+msgstr "결재" 시간"
+
+#: cafe_backend/mgnt/orders/models.py:369
 msgid "Order Item"
 msgstr "주문 아이템"
 
-#: cafe_backend/mgnt/orders/models.py:296
+#: cafe_backend/mgnt/orders/models.py:381
 msgid "Target Table"
 msgstr "타겟 테이블"
 
-#: cafe_backend/mgnt/orders/models.py:301
+#: cafe_backend/mgnt/orders/models.py:386
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:234
 msgid "Amount"
 msgstr "합계"
 
-#: cafe_backend/mgnt/orders/models.py:304
+#: cafe_backend/mgnt/orders/models.py:389
 msgid "Discount Rate"
 msgstr "할인율"
 
-#: cafe_backend/mgnt/orders/models.py:308
+#: cafe_backend/mgnt/orders/models.py:393
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:235
 msgid "Free?"
 msgstr "써비스?"
 
-#: cafe_backend/mgnt/orders/models.py:309
+#: cafe_backend/mgnt/orders/models.py:394
 msgid "Printed?"
 msgstr "인쇄됨?"
+
+#: cafe_backend/mgnt/orders/templates/orders/_table_grid_item.html:34
+#: cafe_backend/mgnt/orders/templates/orders/_table_grid_item.html:41
+msgid "Current Bill"
+msgstr "현재금액"
 
 #: cafe_backend/mgnt/orders/templates/orders/free_order_item_createview.html:11
 msgid "Create view of free order item"
@@ -1373,30 +1506,84 @@ msgstr "무료써비스"
 msgid "Free to Table"
 msgstr "해당 테블에 무료"
 
-#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:12
-msgid "Detail view of order"
-msgstr "광고 상세히 보기"
-
 #: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:24
-msgid "Order Details"
-msgstr "상세히 보기"
+msgid "Customers count"
+msgstr "고객수"
 
-#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:25
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:28
 msgid "Send Free"
 msgstr "무료봉사"
 
-#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:33
-#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:51
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:30
+msgid "New Order Item"
+msgstr "새 주문 아이템"
+
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:39
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:65
 msgid "Free"
 msgstr "무료써비스"
 
-#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:46
-msgid "Total"
-msgstr "합계"
-
-#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:56
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:85
 msgid "Billing amount"
 msgstr "지불액"
+
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:91
+msgid "Checkout At"
+msgstr "결재시간"
+
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:100
+msgid "Print Order"
+msgstr "주문인쇄"
+
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:105
+msgid "Checkout"
+msgstr "결제"
+
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:116
+msgid "Order Checkout"
+msgstr "주문결재"
+
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:140
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:160
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:180
+msgid "Confirm"
+msgstr "확인"
+
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:143
+msgid "Are you sure that you want to print the current order details? "
+msgstr "해당 주문아이템을 삭제하시겠습니까?"
+
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:163
+msgid "Are you sure that the selected items were delivered already? "
+msgstr "선택된 료리들이 이미 송달되였습니까?"
+
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:183
+msgid "Are you sure that the selected items were canceled by customers?"
+msgstr "해당 료리가 고객님이 삭제하였습니까?"
+
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:200
+msgid "Select Dishes"
+msgstr "료리선택"
+
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:233
+msgid "Unit price"
+msgstr "단가"
+
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:236
+msgid "Subtotal"
+msgstr "합계"
+
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:243
+msgid "Additional Sum"
+msgstr "추가금액"
+
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:247
+msgid "Additional Free"
+msgstr "추가된 써비스금액"
+
+#: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:251
+msgid "Additional Billing"
+msgstr "추가지불액"
 
 #: cafe_backend/mgnt/orders/templates/orders/order_updateview.html:11
 msgid "Update view of order"
@@ -1406,15 +1593,15 @@ msgstr "주문 갱신"
 msgid "Grid view of orders"
 msgstr "모든 주문"
 
-#: config/settings/base.py:153
+#: config/settings/base.py:154
 msgid "Chinese"
 msgstr "중국어"
 
-#: config/settings/base.py:154
+#: config/settings/base.py:155
 msgid "Korean"
 msgstr "조선어"
 
-#: config/settings/base.py:155
+#: config/settings/base.py:156
 msgid "English"
 msgstr "영어"
 
@@ -1434,47 +1621,55 @@ msgstr "판권"
 msgid "All rights reserved."
 msgstr "모든 합법적 권한을 보유하고 있습니다."
 
-#: templates/layouts/admin_lte/navbar.html:5
+#: templates/layouts/admin_lte/navbar.html:6
 msgid "A new order item was requested."
 msgstr "새 주문요청이 들어왔습니다."
 
-#: templates/layouts/admin_lte/navbar.html:9
+#: templates/layouts/admin_lte/navbar.html:10
 msgid "C"
 msgstr "술"
 
-#: templates/layouts/admin_lte/navbar.html:9
+#: templates/layouts/admin_lte/navbar.html:10
 msgid "A"
 msgstr "집"
 
-#: templates/layouts/admin_lte/navbar.html:10
+#: templates/layouts/admin_lte/navbar.html:11
 msgid "Cafe"
 msgstr "술집"
 
-#: templates/layouts/admin_lte/navbar.html:10
+#: templates/layouts/admin_lte/navbar.html:11
 msgid "Admin"
 msgstr "관리"
 
-#: templates/layouts/admin_lte/navbar.html:48
+#: templates/layouts/admin_lte/navbar.html:51
+msgid "You have no new music ordered."
+msgstr "새로운 음악요청이 없습니다."
+
+#: templates/layouts/admin_lte/navbar.html:52
+msgid "See All Music Orders"
+msgstr "주문"
+
+#: templates/layouts/admin_lte/navbar.html:62
 msgid "You have no new order."
 msgstr "새로운 주문이 없습니다."
 
-#: templates/layouts/admin_lte/navbar.html:54
+#: templates/layouts/admin_lte/navbar.html:68
 msgid "See All Orders"
 msgstr "주문"
 
-#: templates/layouts/admin_lte/navbar.html:64
+#: templates/layouts/admin_lte/navbar.html:78
 msgid "You have no unread notification."
 msgstr "읽지않은 메시지가 있습니다"
 
-#: templates/layouts/admin_lte/navbar.html:169
+#: templates/layouts/admin_lte/navbar.html:183
 msgid "Super Admin"
 msgstr "관리"
 
-#: templates/layouts/admin_lte/navbar.html:171
+#: templates/layouts/admin_lte/navbar.html:185
 msgid "DashBoard"
 msgstr "데이터 보고"
 
-#: templates/layouts/admin_lte/navbar.html:175
+#: templates/layouts/admin_lte/navbar.html:189
 msgid "Sign out"
 msgstr "로그아웃"
 
@@ -1493,6 +1688,12 @@ msgstr "술집"
 #: templates/layouts/brand.html:2
 msgid "Cafe backend"
 msgstr "술집관리"
+
+#~ msgid "Detail view of order"
+#~ msgstr "광고 상세히 보기"
+
+#~ msgid "Order Details"
+#~ msgstr "상세히 보기"
 
 #~ msgid "Select Date Range"
 #~ msgstr "날자범위를 선택하십시요."

@@ -48,9 +48,9 @@ class Order(TimeStampedModel):
         choices=PAYMENT_METHOD_CHOICES, default=PAYMENT_METHOD.wechat,
         verbose_name=_('Payment Method'))
     wipe_zero = models.FloatField(
-        default=0.0, verbose_name=_('Wipe Zero'),
+        default=0, verbose_name=_('Wipe Zero'),
         validators=[MinValueValidator(0)])
-    income = models.FloatField(default=0.0, verbose_name=_('Income'))
+    income = models.FloatField(default=0, verbose_name=_('Income'))
     checkout_at = models.DateTimeField(
         default=None, null=True, blank=True, verbose_name=_('Checkout Time'))
     details = JSONField(
@@ -116,9 +116,9 @@ class Order(TimeStampedModel):
                         F('price') * F("amount"),
                         output_field=models.FloatField()
                     )
-                ).get('total_price', 0.0)
+                ).get('total_price', 0)
         else:
-            return 0.0
+            return 0
 
     @property
     def total_sum(self):
@@ -128,9 +128,9 @@ class Order(TimeStampedModel):
                         F('price') * F("amount"),
                         output_field=models.FloatField()
                     )
-                ).get('total_price', 0.0)
+                ).get('total_price', 0)
         else:
-            return 0.0
+            return 0
 
     @property
     def free_sum(self):
@@ -141,9 +141,9 @@ class Order(TimeStampedModel):
                         F('price') * F("amount"),
                         output_field=models.FloatField()
                     )
-                ).get('total_price', 0.0)
+                ).get('total_price', 0)
         else:
-            return 0.0
+            return 0
 
     @property
     def canceled_sum(self):
@@ -154,9 +154,9 @@ class Order(TimeStampedModel):
                         F('price') * F("amount"),
                         output_field=models.FloatField()
                     )
-                ).get('total_price', 0.0)
+                ).get('total_price', 0)
         else:
-            return 0.0
+            return 0
 
     @property
     def total_billing_price(self):
@@ -170,9 +170,9 @@ class Order(TimeStampedModel):
                         F('price') * F("amount"),
                         output_field=models.FloatField()
                     )
-                ).get('total_price', 0.0)
+                ).get('total_price', 0)
         else:
-            return 0.0
+            return 0
 
     @property
     def print_free_sum(self):
@@ -183,9 +183,9 @@ class Order(TimeStampedModel):
                         F('price') * F("amount"),
                         output_field=models.FloatField()
                     )
-                ).get('total_price', 0.0)
+                ).get('total_price', 0)
         else:
-            return 0.0
+            return 0
 
     @property
     def print_billing_price(self):
@@ -339,7 +339,7 @@ class Order(TimeStampedModel):
                         output_field=models.FloatField()))['total']
             }
         else:
-            sales = {'items': 0, 'earning': 0.0}
+            sales = {'items': 0, 'earning': 0}
         return {
             'orders': {'count': len(orders)},
             'customers': {

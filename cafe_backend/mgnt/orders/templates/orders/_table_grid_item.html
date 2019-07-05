@@ -18,7 +18,7 @@
                     <p>
                         <i class="fa  fa-male"></i> {{ table.male }} + <i class="fa  fa-female"></i> {{ table.female }} / {{ table.size }}
                     </p>
-                    <p>{% trans 'Deposit' %}: &yen;{{ table.deposit }}</p>
+                    <p>{% trans 'Deposit' %}: &yen; {{ table.deposit }}</p>
                 </div>
                 <div class="col-xs-6">
                     {% if table.order %}
@@ -31,14 +31,14 @@
                         {% endif %}
                     </h4>
                     <p><i class="fa fa-check"></i> {{ table.order.progress }}</p>
-                    <p>{% trans 'Current Bill' %}: &yen;{% if table.order %}{{ table.order.total_billing_price }}{% else %}0.0{% endif %}</p>
+                    <p>{% trans 'Current Bill' %}: &yen; {% if table.order %}{{ table.order.total_billing_price }}{% else %}0.0{% endif %}</p>
                     {% else %}
                     <h4>
                             {% trans 'Orders' %}
                             <span class="badge bg-green">&nbsp;</span>
                         </h4>
                         <p><i class="fa fa-check"></i> 0 / 0</p>
-                        <p>{% trans 'Current Bill' %}: &yen;0.0</p>
+                        <p>{% trans 'Current Bill' %}: &yen; 0.0</p>
                     {% endif %}
                 </div>
             </div>
