@@ -11,10 +11,10 @@ from rest_framework.response import Response
 from cafe_backend.core.apis.viewsets import CafeModelViewSet
 from cafe_backend.apps.users.models import Table, TABLE_STATE
 from ...apps.dishes.models import Category
-from .models import Order, OrderItem
+from .models import Order, OrderItem, ORDER_STATE
 from . import serializers
 from . import forms
-from .tasks import mark_order_items_as_printed
+from .tasks import mark_order_items_as_printed, print_order_item_cancel
 
 
 class TableGridView(LoginRequiredMixin, generic.ListView):
@@ -129,6 +129,11 @@ class OrderItemPrintView(generic.DetailView):
     template_name = 'orders/order_item_printview.html'
 
 
+class OrderItemCancelPrintView(generic.DetailView):
+    model = OrderItem
+    template_name = 'orders/order_item_cancel_printview.html'
+
+
 class OrderUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Order
     form_class = forms.OrderForm
@@ -182,6 +187,9 @@ class OrderViewSet(CafeModelViewSet):
         state = request.data.get('state')
         items = self.get_object().order_items.filter(
             pk__in=item_ids).exclude(state=state)
+        if state == ORDER_STATE.canceled:
+            for item in items:
+                print_order_item_cancel.delay(item.pk)
         return Response({'status': items.update(state=state)})
 
     @action(

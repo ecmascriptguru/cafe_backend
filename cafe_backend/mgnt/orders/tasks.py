@@ -65,7 +65,6 @@ def print_order(order_pk, item_ids=[], print_all=False):
 
 @shared_task
 def print_order_item(order_item_pk):
-    time.sleep(1)
     item = OrderItem.objects.get(pk=order_item_pk)
     url = "%s%s" % (
         settings.HOSTNAME, reverse_lazy(
@@ -75,6 +74,19 @@ def print_order_item(order_item_pk):
         EYPrint.print_80(url)
     else:
         print("Printing order item", url)
+
+
+@shared_task
+def print_order_item_cancel(order_item_pk):
+    item = OrderItem.objects.get(pk=order_item_pk)
+    url = "%s%s" % (
+        settings.HOSTNAME, reverse_lazy(
+            'orders:order_item_cancel_printview', kwargs={'pk': order_item_pk}
+        ))
+    if not settings.DEBUG:
+        EYPrint.print_80(url)
+    else:
+        print("Printing canceled order item", url)
 
 
 @shared_task

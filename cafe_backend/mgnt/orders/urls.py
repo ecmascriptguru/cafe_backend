@@ -30,6 +30,10 @@ urlpatterns = [
         'items/<int:pk>/print', views.OrderItemPrintView.as_view(),
         name='order_item_printview'),
     path(
+        'items/<int:pk>/print_cancel',
+        views.OrderItemCancelPrintView.as_view(),
+        name='order_item_cancel_printview'),
+    path(
         '<int:order_pk>/items/new', views.FreeItemCreateView.as_view(),
         name='order_free_createview'),
 ]
