@@ -34,16 +34,21 @@
             <table class="table table-striped order-table" id="order-items-table">
                 <tbody style="font-size: 24px;">
                     {% for item in object.order_items.all %}
-                    <tr>
+                    <tr data-item-id="{{ item.pk }}">
                         <td><input type="checkbox" class="dish-selector" value="{{ item.pk }}" /></td>
-                        <td style="font-size: 24px;">{{ item.dish.name }}{% if item.is_free %}({% trans 'Free' %}){% endif %}</td>
-                        <td>&yen; {{ item.dish.price }}</td>
+                        <td style="font-size: 24px;">
+                            {{ item.dish.name }}{% if item.is_free %}({% trans 'Free' %}){% endif %}
+                        </td>
+                        <td>&yen; <span class="data-item-price">{{ item.dish.price }}</span></td>
                         <td> x </td>
                         <td>
-                            <input type="number" {% if item.state == 'c' %}disabled{% endif %} style="width: 60px;" class="form-control dish-amount-input" value="{{ item.amount }}" />
+                            <input type="number" 
+                                {% if item.state == 'c' %}disabled{% endif %}
+                                data-item-free='{{ item.is_free}}'
+                                style="width: 60px;" class="form-control dish-amount-input" value="{{ item.amount }}" />
                         </td>
                         <td> = </td>
-                        <td style="font-size: 24px;">&yen; {{ item.subtotal }}</td>
+                        <td style="font-size: 24px;">&yen; <span class="data-item-subtotal">{{ item.subtotal }}</span></td>
                         <td style="text-align: center"><span class="badge {{ item|order_item_state_bg_color }}">{{ item|state_text }}</span></td>
                     </tr>
                     {% endfor %}

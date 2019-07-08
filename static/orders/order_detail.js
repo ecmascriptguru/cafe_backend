@@ -41,6 +41,9 @@ $(document).ready(() => {
             }
             send_request(`${API_BASE_URL}orders/${window.orderId}/add_items/`, {"items": items}, 'post', success, failure)
         },
+        updateItem = (id, amount, success, failure) => {
+            send_request(`${API_BASE_URL}items/${id}/set_amount/`, { amount }, 'post', success, failure)
+        },
         markItemsDelivered = (item_ids, success, failure) => {
             markItems(item_ids, ORDER_ITEM_STATES.delivered, success, failure)
         },
@@ -199,5 +202,14 @@ $(document).ready(() => {
     .on('click', 'button#checkout-order', function() {
         $form = $(this).closest('div.modal').find('form')
         $form.submit()
+    })
+    .on('change', 'input.dish-amount-input', function() {
+        let $self = $(this),
+            id = $self.closest('tr').data('item-id'),
+            value = $self.val(),
+            is_free = JSON.parse($self.data('item-free').toLowerCase())
+        updateItem(id, value, (res) => {
+            window.location.reload()
+        })
     })
 })

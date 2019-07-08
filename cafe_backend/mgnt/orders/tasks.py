@@ -29,7 +29,7 @@ def send_dish_booking_status(order_item_pk, created):
 
 
 @shared_task
-def print_order(order_pk, item_ids=[], print_all=False):
+def print_order(order_pk, item_ids=[], mode=None, print_all=False):
     order = Order.objects.get(pk=order_pk)
     if print_all:
         url = "%s%s" % (
@@ -37,6 +37,9 @@ def print_order(order_pk, item_ids=[], print_all=False):
                 reverse_lazy(
                     'orders:order_full_printview', kwargs={'pk': order_pk})
             )
+
+        if mode:
+            url = "%s?mode=%s" % (url, mode)
 
         if settings.DEBUG:
             print("Printing full order", url)

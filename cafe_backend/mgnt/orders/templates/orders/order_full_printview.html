@@ -3,6 +3,15 @@
 {% block content %}
 <body style="width:57mm;">
     <h2 style="font-size: 24px;font-weight:bold;text-align:center;margin-bottom:3px;">{% include 'layouts/brand.txt' %}</h2>
+    <h2 style="font-size: 22px;font-weight:bold;text-align:center;margin-bottom:3px;">
+        {% if request.GET.mode == 'checkout' %}
+        结帐单
+        {% elif request.GET.mode == 'repeat' %}
+        返打单
+        {% else %}
+        颖打单
+        {% endif %}
+    </h2>
     <h3 style="font-size: 20px;font-weight: normal;text-align: center;margin-bottom: 0px;">卓名: {{ object.table.name }}</h3>
     <h5 style="font-size: 20px;margin:0;font-weight:normal">订单号码: {{ object.pk }}</h5>
     <h5 style="font-size: 14px;margin:0;font-weight:normal">消费人数: {{ object.customers }}</h5>

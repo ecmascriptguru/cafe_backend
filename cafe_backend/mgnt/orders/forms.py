@@ -7,7 +7,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import (
     Layout, ButtonHolder, Submit, Field, Fieldset, Div, HTML)
 from cafe_backend.core.layouts.formsets import Formset
-from .models import Order, OrderItem
+from .models import Order, OrderItem, ORDER_STATE
 from ...apps.users.models import Table
 from .tasks import print_order
 
@@ -128,7 +128,11 @@ class OrderCheckoutForm(forms.ModelForm):
 
     def save(self, commit=True):
         self.instance.income = self.cleaned_data.pop('income')
-        self.instance.checkout_at = timezone.now()
+        if self.instance.checkout_at is None:
+            self.instance.checkout_at = timezone.now()
+            print_order.delay(self.instance.pk, [], 'checkout', True)
+        else:
+            print_order.delay(self.instance.pk, [], 'repeat', True)
         return super(OrderCheckoutForm, self).save(commit)
 
 

@@ -226,3 +226,13 @@ class OrderItemViewSet(CafeModelViewSet):
                 order_id=self.kwargs.get('order_pk'))
         else:
             return self.queryset
+
+    @action(detail=True, methods=['post'], url_name='order_item_set_amount')
+    def set_amount(self, request, *args, **kwargs):
+        item = self.get_object()
+        item.amount = request.data.get('amount')
+        try:
+            item.save()
+            return Response({'status': True})
+        except Exception as e:
+            return Response({'status': False, 'msg': str(e)})
