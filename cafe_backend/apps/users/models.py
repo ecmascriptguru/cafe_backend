@@ -98,7 +98,7 @@ class Table(TimeStampedModel):
             order.save()
 
         for attendee in self.user.attendees.all():
-            attendee.channel.messages.all().delete()
+            attendee.channel.messages.filter(poster=self.user).delete()
 
         # TODO: Clean bookings
         for booking in self.requested_bookings.all():
