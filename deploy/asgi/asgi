@@ -1,0 +1,20 @@
+[Unit]
+Description=daphne daemon
+After=network.target
+
+
+[Service]
+PIDFile=/run/daphne/pid
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/temp/cafe_backend
+Environment="DJANGO_SETTINGS_MODULE=config.settings.production"
+ExecStart=/home/ubuntu/Envs/cafe_backend/bin/daphne --bind 0.0.0.0 --port 9000 --verbosity 0 config.asgi:application
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+Restart=on-abort
+PrivateTmp=true
+
+
+[Install]
+WantedBy=multi-user.target

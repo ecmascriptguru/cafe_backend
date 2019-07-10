@@ -1,0 +1,14 @@
+server {
+    listen 80;
+    server_name 35.171.154.81;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location /static/ {
+        root /home/ubuntu/temp/cafe_backend;
+    }
+
+    location / {
+        include         uwsgi_params;
+        uwsgi_pass      unix:/run/uwsgi/cafe_backend.sock;
+    }
+}

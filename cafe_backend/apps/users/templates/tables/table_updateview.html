@@ -1,0 +1,28 @@
+{% extends 'layouts/adminlte_base.html' %}
+
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+        <i class="fa fa-laptop"></i>
+        {% trans 'Tables' %}
+        <small>{% trans 'List view of tables' %}</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-cog"></i>{% trans 'Settings' %}</a></li>
+        <li><a href="#"><i class="fa fa-laptop"></i>{% trans 'Tables' %}</a></li>
+        <li class="active">{% trans 'Update' %}</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">
+            {% crispy form %}
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

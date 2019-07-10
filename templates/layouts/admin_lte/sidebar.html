@@ -1,0 +1,119 @@
+{% load static %}
+{% load startswith %}
+{% load i18n %}
+
+<aside class="main-sidebar">
+  <!-- sidebar: style can be found in sidebar.less -->
+  <section class="sidebar">
+    <!-- Sidebar user panel -->
+    <div class="user-panel">
+      <div class="pull-left image">
+        <img src="{% static 'backend_theme/img/user2-160x160.jpg' %}" class="img-circle" alt="User Image">
+      </div>
+      <div class="pull-left info">
+        <p>{{ request.user.name }}</p>
+        <a href="#"><i class="fa fa-circle text-success"></i> {% trans 'Online' %}</a>
+      </div>
+    </div>
+    <!-- search form -->
+    <!-- <form action="#" method="get" class="sidebar-form">
+      <div class="input-group">
+        <input type="text" name="q" class="form-control" placeholder="Search...">
+        <span class="input-group-btn">
+              <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+              </button>
+            </span>
+      </div>
+    </form> -->
+    <!-- /.search form -->
+    <!-- sidebar menu: : style can be found in sidebar.less -->
+    <ul class="sidebar-menu" data-widget="tree">
+      {% if request.user.is_superuser %}
+      <li class="">
+        <a href="{% url 'landing:dashboard' %}">
+          <i class="fa fa-dashboard"></i> <span>{% trans 'Dashboard' %}</span>
+        </a>
+      </li>
+      {% endif %}
+      <li class="treeview{% if request.path|startswith:'/settings/' %} active {% endif %}">
+        <a href="#">
+          <i class="fa fa-cog"></i> <span>{% trans 'Settings' %}</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li class="{% if request.path|startswith:'/settings/tables/' %} active {% endif %}">
+            <a href="{% url 'tables:table_listview' %}"><i class="fa fa-laptop"></i> {% trans 'Tables' %}</a>
+          </li>
+          <li class="{% if request.path|startswith:'/settings/categories/' %} active {% endif %}">
+            <a href="{% url 'dishes:category_listview' %}"><i class="fa fa-puzzle-piece"></i> {% trans 'Categories' %}</a>
+          </li>
+          <li class="{% if request.path|startswith:'/settings/dishes/' %} active {% endif %}">
+            <a href="{% url 'dishes:dish_listview' %}"><i class="fa fa-coffee"></i> {% trans 'Dishes' %}</a>
+          </li>
+          <li class="{% if request.path|startswith:'/settings/ads/' %} active {% endif %}">
+            <a href="{% url 'ads:ads_listview' %}"><i class="glyphicon glyphicon-file"></i> {% trans 'Ads' %}</a>
+          </li>
+          <li class="{% if request.path|startswith:'/settings/events/' %} active {% endif %}">
+            <a href="{% url 'events:event_listview' %}"><i class="fa fa-bomb"></i> {% trans 'Events' %}</a>
+          </li>
+          <li class="{% if request.path|startswith:'/settings/emoticons/' %} active {% endif %}">
+            <a href="{% url 'emoticons:emoticon_listview' %}"><i class="fa fa-paw"></i> {% trans 'Emoticons' %}</a>
+          </li>
+          <li class="{% if request.path|startswith:'/settings/videos/' %} active {% endif %}">
+            <a href="{% url 'videos:video_listview' %}"><i class="fa fa-video-camera"></i> {% trans 'Videos' %}</a>
+          </li>
+          <!-- 
+          <li class="{% if request.path|startswith:'/rs/targets/' %} active {% endif %}">
+            <a href=""><i class="glyphicon glyphicon-hdd"></i> Targets</a>
+          </li>
+          <li class="{% if request.path|startswith:'/rs/jobs/' %} active {% endif %}">
+            <a href=""><i class="glyphicon glyphicon-list"></i> Tasks</a>
+          </li> -->
+        </ul>
+      </li>
+      <li class="treeview{% if request.path|startswith:'/mgnt/' %} active {% endif %}">
+        <a href="#">
+          <i class="fa fa-folder-open-o"></i> <span>{% trans 'Management' %}</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li class="{% if request.path|startswith:'/mgnt/orders/' %} active {% endif %}">
+            <a href="{% url 'orders:table_gridview' %}" class='admin-mgnt-orders-link'>
+              <i class="fa fa-shopping-cart"></i> {% trans 'Orders' %} <span class="badge badge-dnager new-order-count"></span>
+            </a>
+          </li>
+          <li class="{% if request.path|startswith:'/mgnt/bookings/' %} active {% endif %}">
+            <a href="{% url 'bookings:booking_listview' %}"><i class="fa fa-paperclip"></i> {% trans 'Bookings' %}</a>
+          </li>
+          <li class="{% if request.path|startswith:'/mgnt/chat/' %} active {% endif %}">
+            <a href="{% url 'chat:chat_listview' %}"><i class="fa fa-weixin"></i> {% trans 'Chat' %}</a>
+          </li>
+          <li class="{% if request.path|startswith:'/mgnt/music/' %} active {% endif %}">
+            <a href="{% url 'music:music_playlist_view' %}"><i class="fa fa-music"></i> {% trans 'Musics' %}</a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- <li class="treeview">
+        <a href="#">
+          <i class="fa fa-wrench"></i> <span>Toolkit</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href=""><i class="fa fa-tasks"></i> Monitor</a></li>
+          <li><a href=""><i class="fa fa-trash"></i> Cleaner</a></li>
+          <li ><a href=""><i class="fa fa-calculator"></i> Evaluator</a></li>
+          <li ><a href=""><i class="fa fa-bug"></i> Trouble Shoot</a></li>
+        </ul>
+      </li> -->
+      
+    </ul>
+  </section>
+  <!-- /.sidebar -->
+</aside>

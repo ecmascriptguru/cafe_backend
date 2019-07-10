@@ -1,0 +1,15 @@
+# deploy/after_install/
+#!/bin/bash
+
+cd /home/ubuntu/temp/cafe_backend/
+git pull origin dev
+source /home/ubuntu/Envs/cafe_backend/bin/activate
+pip install -r requirements.txt
+python manage.py migrate --noinput
+python manage.py collectstatic --noinput
+sudo systemctl restart cafe_backend
+sudo systemctl restart daphane
+sudo /etc/init.d/celeryd restart
+sudo /etc/init.d/celerybeat restart
+sudo systemctl restart nginx
+echo 'Done!'

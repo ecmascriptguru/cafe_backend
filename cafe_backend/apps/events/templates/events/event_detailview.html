@@ -1,0 +1,29 @@
+{% extends 'layouts/adminlte_base.html' %}
+
+{% load render_table from django_tables2 %}
+{% load django_tables2 %}
+{% load bootstrap4 %}
+{% load i18n %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+        <i class="fa fa-bomb"></i>
+        {{ object.name }}
+        <small>{% trans 'Detail view of Events' %}</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-cog"></i>{% trans 'Settings' %}</a></li>
+        <li><a href="#"><i class="fa fa-bomb"></i>{% trans 'Events' %}</a></li>
+        <li class="active">{% trans 'List' %}</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <img src="{{ object.file.url }}" />
+        </div>
+    </div>
+</section>
+{% endblock content %}

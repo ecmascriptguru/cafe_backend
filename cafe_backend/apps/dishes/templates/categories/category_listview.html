@@ -1,0 +1,26 @@
+{% extends 'layouts/adminlte_base.html' %}
+
+{% load i18n %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+        <i class="fa fa-puzzle-piece"></i>
+        {% trans 'Categories' %}
+        <small>{% trans 'List view of categories' %}</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-cog"></i>{% trans 'Settings' %}</a></li>
+        <li><a href="#"><i class="fa fa-puzzle-piece"></i>{% trans 'Categories' %}</a></li>
+        <li class="active">{% trans 'List' %}</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        {% for item in object_list %}
+        {% include 'categories/_category_list_item.html' %}
+        {% endfor %}
+    </div>
+</section>
+{% endblock content %}

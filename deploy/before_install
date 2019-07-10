@@ -1,0 +1,4 @@
+# deploy/before_install
+#!/bin/bash
+sudo rm -f /home/ubuntu/temp/cafe_backend/deploy/index.html
+echo "Removed testing file".

@@ -1,0 +1,73 @@
+{% extends 'layouts/adminlte_base.html' %}
+
+{% load i18n %}
+{% load bootstrap4 %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+        <i class="fa fa-coffee"></i>
+        {% trans 'Dishes' %}
+        <small>{% trans 'List view of dishes' %}</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-cog"></i>{% trans 'Settings' %}</a></li>
+        <li><a href="#"><i class="fa fa-coffee"></i>{% trans 'Dishes' %}</a></li>
+        <li class="active">{% trans 'List' %}</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            {% if filter_form %}
+            <form action="" method="get" class="form form-inline">
+                {% bootstrap_form filter_form layout='inline' %}
+                <button class="btn btn-default">{% trans 'Filter' %}</button>
+                <a href="{% url 'dishes:dish_createview' %}" class="btn btn-xs pull-right"><i class="fa fa-plus"></i> {% trans 'Add New' %}</a>
+            </form>
+            {% endif %}
+        </div>
+        {% if is_paginated %}
+        <div class="col-sm-12">
+            <ul class="pagination pull-right">
+                {% if page_obj.has_previous %}
+                    <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                    <li class="disabled"><span>&laquo;</span></li>
+                {% endif %}
+                {% for i in paginator.page_range %}
+                    {% if page_obj.number == i %}
+                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                    {% else %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                    <li class="disabled"><span>&raquo;</span></li>
+                {% endif %}
+            </ul>
+        </div>
+        
+        {% endif %}
+        <div class="col-xs-12">
+            <div class="row">
+                {% for item in object_list %}
+                {% include 'dishes/_dish_list_item.html' %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+
+{% block custom_js %}
+<script>
+    $(document).ready(() => {
+        $('.rateit').rateit()
+    })
+</script>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% load i18n %}
+
+<div class="btn-block">
+    <a class="btn btn-xs" title="{% trans 'Edit' %}" href="{% url 'bookings:booking_detailview' record.pk %}">
+        <i class="fa fa-eye"></i>
+    </a>
+</div>

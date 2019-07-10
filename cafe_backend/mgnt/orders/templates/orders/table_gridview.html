@@ -1,0 +1,26 @@
+{% extends 'layouts/adminlte_base.html' %}
+
+{% load i18n %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+        <i class="fa fa-laptop"></i>
+        {% trans 'Orders' %}
+        <small>{% trans 'Grid view of orders' %}</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>{% trans 'Management' %}</a></li>
+        <li><a href="#"><i class="fa fa-laptop"></i>{% trans 'Orders' %}</a></li>
+        <li class="active">{% trans 'List' %}</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        {% for table in object_list %}
+        {% include 'orders/_table_grid_item.html' %}
+        {% endfor %}
+    </div>
+</section>
+{% endblock content %}

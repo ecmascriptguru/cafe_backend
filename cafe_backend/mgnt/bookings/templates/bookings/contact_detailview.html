@@ -1,0 +1,70 @@
+{% extends 'layouts/adminlte_base.html' %}
+
+{% load crispy_forms_tags %}
+{% load qr_code %}
+{% load i18n %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+        <i class="fa fa-weixin"></i>
+        {% trans 'Bookings' %}
+        <small>{% trans 'Contact view of bookings' %}</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-folder-open-o"></i>{% trans 'Management' %}</a></li>
+        <li><a href="#"><i class="fa fa-paperclip"></i>{% trans 'Bookings' %}</a></li>
+        <li class="active">{% trans 'Update' %}</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- DIRECT CHAT PRIMARY -->
+            <div class="box box-primary direct-chat direct-chat-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">{% trans 'Contact Booking' %}</h3>
+    
+                    <div class="box-tools pull-right">
+                        {% trans 'Messages' %} <span data-toggle="tooltip" title="3 New Messages" class="badge bg-light-blue">{{ object.messages.all|length }}</span>
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <!-- Conversations are loaded here -->
+                    
+                    <div class="direct-chat-messages">
+                        {% for msg in object.messages.all reversed %}
+                        <div class="direct-chat-msg{% if msg.is_reply %} right{% endif %}">
+                            <div class="direct-chat-info clearfix">
+                                <span class="direct-chat-name {% if msg.is_reply %}pull-right{% else %}pull-left{% endif %}">{{ msg.poster.name }}</span>
+                                <span class="direct-chat-timestamp {% if msg.is_reply %}pull-left{% else %}pull-right{% endif %}">{{ object.created }}</span>
+                            </div>
+                            <!-- /.direct-chat-info -->
+                            <div class="direct-chat-text">
+                                {% if forloop.first %}
+                                {% qr_from_text object.details.qr_code size="M" %}
+                                {% endif %}
+                                <br/>
+                                {{ msg.content }}
+                            </div>
+                            <!-- /.direct-chat-text -->
+                        </div>
+                        <!-- /.direct-chat-msg -->
+                        {% endfor %}
+                    </div>
+                    <!--/.direct-chat-messages-->
+    
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!--/.direct-chat -->
+        </div>
+        <!-- /.col -->
+    </div>
+</section>
+
+{% endblock content %}

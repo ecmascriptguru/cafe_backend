@@ -1,0 +1,96 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %} {% trans 'Music Player' %} {% endblock %}
+{% block main_css_block %}
+<link rel="stylesheet" href="{% static 'backend_theme/css/layout.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'music/css/music.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+        <i class="fa fa-music"></i>
+        {% trans 'Music Player' %}
+    </h1>
+</section>
+
+<section class="content container">
+    <div class="col-xs-12 col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12">
+        <div class="cafe-music-player-container col-sm-6 col-xs-12">
+            <div id="player" class="">
+                <div id="player-art">
+                    <div><img width="100%" height="100%" id="amplitude-album-art" /></div>
+                </div>
+                <div id="player-top">
+                    <div id="amplitude-play-pause" class="amplitude-play-pause amplitude-paused" data-amplitude-playlist="temp" amplitude-main-play-pause="true"></div>
+                    <div id="track-info-container" class="pull-left">
+                        Title: <span class="amplitude-now-playing-title" data-amplitude-song-info="title" data-amplitude-playlist="temp">Song Title</span><br>
+                        Author: <span class="amplitude-now-playing-artist">Artist</span>
+                    </div>
+                    <div id="time-info-container" class="current-time pull-right">
+                        <span class="amplitude-current-minutes">00</span>:<span class="amplitude-current-seconds"></span> / <span class="amplitude-duration-minutes">0</span>:<span class="amplitude-duration-seconds">00</span>
+                    </div>
+                    <div id="amplitude-song-slider">
+                        <progress id="song-played-progress" class="amplitude-song-played-progress amplitude-track-progress" amplitude-main-song-played-progress="true" ></progress>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xs-12">
+            <div id="player-playlist">
+            </div>
+            <script type="text/javascript">
+                amplitude_config = {
+                    'amplitude_shuffle_callback': 'change_shuffle_image'
+                }
+                var open_playlist = false;
+                function toggle_playlist(){
+                    if(open_playlist){
+                        document.getElementById('player-playlist').style.display = 'none';
+                        open_playlist = false;
+                    }else{
+                        document.getElementById('player-playlist').style.display = 'block';
+                        open_playlist = true;
+                    }
+                }
+                function change_shuffle_image(){
+                    if(amplitude_shuffle){
+                        document.getElementById('shuffle-on-image').style.display = 'inline-block';
+                        document.getElementById('shuffle-off-image').style.display = 'none';
+                    }else{
+                        document.getElementById('shuffle-on-image').style.display = 'none';
+                        document.getElementById('shuffle-off-image').style.display = 'inline-block';
+                    }
+                }
+            </script>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+{% block main_js_block %}
+<script>
+    window.userId = parseInt("{{ request.user.pk }}")
+</script>
+<script src="{% static 'backend_theme/js/bundle.js' %}"></script>
+<!-- <script type="text/javascript" src="{% static 'music/js/amplitude.js' %}"></script> -->
+<script type="text/javascript" src="{% static 'music/js/music_player.js' %}"></script>
+<script>
+    var open_playlist = false;
+    function toggle_playlist(){
+        if(open_playlist){
+            document.getElementById('player-playlist').style.display = 'none';
+            open_playlist = false;
+        }else{
+            document.getElementById('player-playlist').style.display = 'block';
+            open_playlist = true;
+        }
+    }
+</script>
+{% endblock %}
+
+{% block page_specific_content %}
+{% endblock page_specific_content %}

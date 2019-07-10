@@ -1,0 +1,14 @@
+version: 0.0
+os: linux
+files:
+  - source: /deploy/index.html
+    destination: /home/ubuntu/temp/cafe_backend/deploy/
+hooks:
+  BeforeInstall:
+    - location: deploy/before_install
+      timeout: 1
+      runas: ubuntu
+  AfterInstall:
+    - location: deploy/restart_server
+      timeout: 60
+      runas: ubuntu

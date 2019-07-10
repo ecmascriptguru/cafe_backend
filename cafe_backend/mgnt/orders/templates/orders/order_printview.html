@@ -1,0 +1,32 @@
+{% extends 'layouts/print_base.html' %}
+
+{% block content %}
+<body style="margin:0; font-size:14px; width:48mm; margin:auto;">
+    <h3>{{ object.table.name }}</h3>
+    <div style="text-align: right" >{{ object.created }}</div>
+    <table style="width: 100%" class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th></th>
+                <th></th>
+                <th>To</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in object.print_items.all %}
+            <tr>
+                <td>{{ item.dish.name }}</td>
+                <td>&yen;{{ item.dish.price }}</td>
+                <td>{{ item.amount }}</td>
+                <td>{{ item.to_table.name }}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td>Total</td>
+                <td colspan="3">&yen;{{ object.total_sum }}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+{% endblock content %}

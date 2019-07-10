@@ -1,0 +1,30 @@
+{% extends 'layouts/adminlte_base.html' %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+        <i class="fa fa-file"></i>
+        {% trans 'New Ads' %}
+        <small>{% trans 'Grid view of advertisements' %}</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-cog"></i>{% trans 'Settings' %}</a></li>
+        <li><a href="{% url 'ads:ads_listview' %}"><i class="fa fa-file"></i>{% trans 'Advertisements' %}</a></li>
+        <li class="active">
+            {% block breadcrumb_action_detail %}
+            {% trans 'Create' %}
+            {% endblock %}
+        </li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12">
+            {% crispy form %}
+        </div>
+    </div>
+</section>
+{% endblock content %}

@@ -1,0 +1,45 @@
+{% load state_tags %}
+{% load i18n %}
+
+<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+    <div class="small-box {{ table|table_state_bg_color }}">
+        <div class="inner">
+            <h3>{{ table.name }} <span class="badge pull-right">{{ table|state_text }}</span></h3>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <h4>{% trans 'Customers' %}</h4>
+                    <p>
+                        <i class="fa  fa-male"></i> {{ table.male }} + <i class="fa  fa-female"></i> {{ table.female }} / {{ table.size }}
+                    </p>
+                </div>
+                <div class="col-xs-6">
+                    {% if table.order %}
+                    <h4>{% trans 'Orders' %}</h4>
+                    <p><i class="fa fa-check"></i> {{ table.order.progress }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+        </div>
+        <div class="icon">
+            <!-- <i class="fa fa-shopping-cart"></i> -->
+        </div>
+        <div class="box-footer">
+            <div class="row">
+                <div class="col-xs-6">
+                    <a href="{% url 'tables:table_updateview' pk=table.pk %}">
+                        <i class="fa fa-cog"></i> {% trans 'Settings' %}
+                    </a>
+                </div>
+                <div class="col-xs-6">
+                    {% if table.order %}
+                        <a href="{% url 'orders:order_detailview' pk=table.order.pk %}" class="pull-right">
+                            <i class="fa fa-check"></i> {% trans 'Orders' %}
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

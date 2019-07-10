@@ -1,0 +1,66 @@
+{% load static %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% if title %}{{ title }} | {% endif %}{% trans 'Administration' %}</title>
+
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'backend_theme/img/favicon.jpg' %}">
+    <link rel="stylesheet" href="{% static 'backend_theme/css/layout.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'backend_theme/css/custom.css' %}">
+    {% if form and form.media %}
+    {{ form.media }}
+    {% endif %}
+    
+    {% block custom_css %}
+    {% endblock %}
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+        {% include "layouts/admin_lte/navbar.html" %}
+        {% include "layouts/admin_lte/sidebar.html" %}
+
+        <div class="content-wrapper">
+            <audio src="{% static 'backend_theme/sounds/ring.mp3' %}" id="table-ring-tone"></audio>
+            <audio src="{% static 'backend_theme/sounds/order-alert.mp3' %}" id="order-alert"></audio>
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            {% comment %} <div class="alert alert-warning alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                Show something here
+            </div> {% endcomment %}
+
+            {% block content %}
+            {% endblock %}
+        </div>        
+        
+        {% include "layouts/admin_lte/footer.html" %}
+
+        <div class="control-sidebar-bg"></div>
+    </div>
+    
+    {% block page_specific_content %}
+    {% endblock page_specific_content %}
+
+    <script>
+        window.userId = parseInt("{{ request.user.pk }}")
+    </script>
+    <script src="{% static 'backend_theme/js/bundle.js' %}"></script>
+    
+    {% block custom_js %}
+    {% endblock %}
+    
+</body>
+</html>
