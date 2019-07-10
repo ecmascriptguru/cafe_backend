@@ -9,6 +9,9 @@ urlpatterns = [
         '', views.TableGridView.as_view(),
         name='table_gridview'),
     path(
+        'print', views.OrdersPrintView.as_view(),
+        name='orders_printview'),
+    path(
         '<int:pk>/', views.OrderDetailView.as_view(),
         name='order_detailview'),
     path(
@@ -18,6 +21,19 @@ urlpatterns = [
         '<int:pk>/print', views.OrderPrintView.as_view(),
         name='order_printview'),
     path(
+        '<int:pk>/print_all', views.OrderFullPrintView.as_view(),
+        name='order_full_printview'),
+    path(
+        '<int:pk>/print_callback', views.OrderPrintCallbackView.as_view(),
+        name='order_print_callbackview'),
+    path(
         'items/<int:pk>/print', views.OrderItemPrintView.as_view(),
         name='order_item_printview'),
+    path(
+        'items/<int:pk>/print_cancel',
+        views.OrderItemCancelPrintView.as_view(),
+        name='order_item_cancel_printview'),
+    path(
+        '<int:order_pk>/items/new', views.FreeItemCreateView.as_view(),
+        name='order_free_createview'),
 ]

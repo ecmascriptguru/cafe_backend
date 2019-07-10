@@ -2,7 +2,7 @@
 #!/bin/bash
 
 cd /home/ubuntu/temp/cafe_backend/
-git pull origin dev
+git pull
 source /home/ubuntu/Envs/cafe_backend/bin/activate
 pip install -r requirements.txt
 python manage.py migrate --noinput

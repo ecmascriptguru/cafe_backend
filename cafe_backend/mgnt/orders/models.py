@@ -9,6 +9,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import make_aware
 from django.apps import apps
+from django.urls import reverse_lazy
 from django_fsm import FSMField
 from django_fsm import transition
 from model_utils.models import TimeStampedModel
@@ -46,6 +47,12 @@ class Order(TimeStampedModel):
     payment_method = FSMField(
         choices=PAYMENT_METHOD_CHOICES, default=PAYMENT_METHOD.wechat,
         verbose_name=_('Payment Method'))
+    wipe_zero = models.FloatField(
+        default=0, verbose_name=_('Wipe Zero'),
+        validators=[MinValueValidator(0)])
+    income = models.FloatField(default=0, verbose_name=_('Income'))
+    checkout_at = models.DateTimeField(
+        default=None, null=True, blank=True, verbose_name=_('Checkout Time'))
     details = JSONField(
         default={'customers': {'male': 1, 'female': 0}},
         verbose_name=_('Details'))
@@ -61,6 +68,14 @@ class Order(TimeStampedModel):
     def __str__(self):
         return "<%s (%d)|(%s)>" % (
             _('Order'), self.pk, self.state)
+
+    def get_absolute_url(self):
+        return reverse_lazy('orders:order_detailview', kwargs={'pk': self.pk})
+
+    @property
+    def customers(self):
+        return self.details['customers']['male'] +\
+            self.details['customers']['female']
 
     @property
     def items(self):
@@ -94,16 +109,105 @@ class Order(TimeStampedModel):
         return len(self.completed) == len(self.items)
 
     @property
-    def total_sum(self):
+    def sum(self):
         if len(self.order_items.all()) > 0:
+            return self.order_items.values('price', 'amount').aggregate(
+                    total_price=models.Sum(
+                        F('price') * F("amount"),
+                        output_field=models.FloatField()
+                    )
+                ).get('total_price', 0)
+        else:
+            return 0
+
+    @property
+    def total_sum(self):
+        if len(self.items.all()) > 0:
             return self.items.values('price', 'amount').aggregate(
                     total_price=models.Sum(
                         F('price') * F("amount"),
                         output_field=models.FloatField()
                     )
-                ).get('total_price', 0.0)
+                ).get('total_price', 0)
         else:
-            return 0.0
+            return 0
+
+    @property
+    def free_sum(self):
+        if len(self.items.filter(is_free=True)) > 0:
+            return self.items.filter(is_free=True).values('price', 'amount')\
+                .aggregate(
+                    total_price=models.Sum(
+                        F('price') * F("amount"),
+                        output_field=models.FloatField()
+                    )
+                ).get('total_price', 0)
+        else:
+            return 0
+
+    @property
+    def canceled_sum(self):
+        if len(self.order_items.filter(state=ORDER_STATE.canceled)) > 0:
+            return self.order_items.filter(state=ORDER_STATE.canceled).\
+                values('price', 'amount').aggregate(
+                    total_price=models.Sum(
+                        F('price') * F("amount"),
+                        output_field=models.FloatField()
+                    )
+                ).get('total_price', 0)
+        else:
+            return 0
+
+    @property
+    def total_billing_price(self):
+        return self.sum - self.free_sum - self.canceled_sum - self.wipe_zero
+
+    @property
+    def print_total_sum(self):
+        if len(self.print_items) > 0:
+            return self.print_items.values('price', 'amount').aggregate(
+                    total_price=models.Sum(
+                        F('price') * F("amount"),
+                        output_field=models.FloatField()
+                    )
+                ).get('total_price', 0)
+        else:
+            return 0
+
+    @property
+    def print_free_sum(self):
+        if len(self.print_items.filter(is_free=True)) > 0:
+            return self.print_items.filter(is_free=True)\
+                .values('price', 'amount').aggregate(
+                    total_price=models.Sum(
+                        F('price') * F("amount"),
+                        output_field=models.FloatField()
+                    )
+                ).get('total_price', 0)
+        else:
+            return 0
+
+    @property
+    def print_billing_price(self):
+        return self.print_total_sum - self.print_free_sum
+
+    @property
+    def total_amount(self):
+        if len(self.items.all()) > 0:
+            return self.items.values('amount').aggregate(
+                        total_amount=models.Sum("amount")
+                    ).get('total_amount', 0)
+        else:
+            return 0
+
+    @property
+    def print_total_amount(self):
+        if len(self.print_items.all()) > 0:
+            return self.print_items.values('amount').aggregate(
+                        total_amount=models.Sum("amount")
+                    ).get('total_amount', 0)
+        else:
+            return 0
 
     @classmethod
     def all(cls):
@@ -133,7 +237,7 @@ class Order(TimeStampedModel):
             'female': self.table.female}
 
     @classmethod
-    def get_report(cls, start_date, end_date, tables=[]):
+    def get_orders_from_date_range(cls, start_date, end_date, tables=[]):
         if isinstance(start_date, str):
             start_date = make_aware(datetime.strptime(start_date, '%Y-%m-%d'))
 
@@ -147,10 +251,60 @@ class Order(TimeStampedModel):
             tables = [table.pk for table in Table.objects.all()]
 
         orders = cls.objects.filter(
-            created__gte=start_date, created__lt=end_date,
-            table__in=tables).all()
+            checkout_at__gte=start_date, checkout_at__lt=end_date,
+            table__in=tables, state=ORDER_STATE.archived).all()
+        return orders
 
-        customers = Order.objects.annotate(
+    @classmethod
+    def get_dishes_report(cls, start_date, end_date, tables=[]):
+        orders = cls.get_orders_from_date_range(start_date, end_date, tables)
+        dishes = OrderItem.objects.filter(order__in=orders).\
+            exclude(state=ORDER_STATE.canceled).values(
+                'dish_id', 'dish__name', 'dish__category_id',
+                'dish__category__name',
+            ).order_by('dish_id').annotate(count=Sum('amount'))
+        buffer = {}
+        for dish in dishes:
+            if not buffer.get(dish['dish__category_id'], None):
+                buffer[dish['dish__category_id']] = {
+                    'id': dish['dish__category_id'],
+                    'name': dish['dish__category__name'],
+                    'dishes': []}
+            buffer[dish['dish__category_id']]['dishes'].append(
+                {
+                    'id': dish['dish_id'],
+                    'name': dish['dish__name'],
+                    'count': dish['count']
+                }
+            )
+        results = list()
+        for key in buffer:
+            results.append(buffer[key])
+        return results
+
+    @classmethod
+    def get_sales_report(cls, start_date, end_date, tables=[]):
+        orders = cls.get_orders_from_date_range(start_date, end_date, tables)
+        results = {
+            'total': 0,
+            'free': 0,
+            'canceld': 0,
+            'wipe_zero': 0,
+            'billed': 0
+        }
+
+        for order in orders:
+            results['total'] += order.sum
+            results['free'] += order.free_sum
+            results['canceled'] = order.canceled_sum
+            results['wipe_zero'] = order.wipe_zero
+            results['billed'] = order.total_billing_price
+        return results
+
+    @classmethod
+    def get_report(cls, start_date, end_date, tables=[]):
+        orders = cls.get_orders_from_date_range(start_date, end_date, tables)
+        customers = orders.annotate(
             male=Cast(
                 KeyTextTransform(
                     'male', KeyTextTransform(
@@ -163,21 +317,36 @@ class Order(TimeStampedModel):
                     IntegerField())).values('male', 'female').aggregate(
                         total_male=Sum('male'),
                         total_female=Sum('female'))
+
+        # Validation of data for NoneType
+        if customers['total_male'] is None:
+            customers['total_male'] = 0
+        if customers['total_female'] is None:
+            customers['total_female'] = 0
+
         OrderItem = apps.get_model('orders', 'OrderItem')
         items = OrderItem.objects.filter(
-            order__in=orders).all().exclude(
-                state=ORDER_STATE.canceled)
-        return {
-            'orders': {'count': len(orders)},
-            'customers': {
-                'count': customers['total_male'] + customers['total_female']
-            },
-            'sales': {
-                'items': len(items),
+            order__in=orders).exclude(state=ORDER_STATE.canceled)
+        item_sales = sum([item['amount'] for item in items.values('amount')])
+        # .get('total', 0)
+
+        if len(items) > 0:
+            sales = {
+                'items': item_sales,
                 'earning': items.aggregate(
                     total=ExpressionWrapper(
                         Sum(F('price') * F('amount')),
-                        output_field=models.FloatField()))['total']},
+                        output_field=models.FloatField()))['total']
+            }
+        else:
+            sales = {'items': 0, 'earning': 0}
+        return {
+            'orders': {'count': len(orders)},
+            'customers': {
+                'count': customers.get('total_male', 0) +
+                customers.get('total_female', 0)
+            },
+            'sales': sales,
             # 'chart': {
             #     'earning_by_date': items.annotate(
             #         date=TruncDate('created')).values('date').aggregate(
@@ -221,6 +390,7 @@ class OrderItem(TimeStampedModel):
     state = FSMField(
         choices=ORDER_ITEM_STATE_CHOICES, default=ORDER_STATE.default,
         verbose_name=_('State'))
+    is_free = models.BooleanField(default=False, verbose_name=_('Free?'))
     is_printed = models.BooleanField(default=False, verbose_name=_('Printed?'))
 
     @property
@@ -230,6 +400,10 @@ class OrderItem(TimeStampedModel):
     @property
     def is_canceled(self):
         return self.state == ORDER_STATE.canceled
+
+    @property
+    def to_table_name(self):
+        return self.to_table.name
 
     @property
     def is_delivered(self):

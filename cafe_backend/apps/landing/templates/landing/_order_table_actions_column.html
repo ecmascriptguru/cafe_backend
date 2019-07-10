@@ -1,0 +1,7 @@
+{% load i18n %}
+
+<div class="btn-block">
+    <a class="btn btn-xs" title="{% trans 'Update' %}" href="{% url 'orders:order_detailview' record.pk %}">
+        <i class="fa fa-pencil"></i>
+    </a>
+</div>

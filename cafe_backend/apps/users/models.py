@@ -1,6 +1,8 @@
+from datetime import timedelta
 from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MinValueValidator
 from django.utils.translation import ugettext_lazy as _
 from django_fsm import FSMField, transition
 from model_utils.models import TimeStampedModel
@@ -27,6 +29,7 @@ class User(AbstractUser):
     def to_json(self):
         return {
             'id': self.pk,
+            'is_superuser': self.is_superuser,
             'name': self.name}
 
     def get_channel(self, to=None):
@@ -59,8 +62,13 @@ class Table(TimeStampedModel):
     state = FSMField(
         choices=TABLE_STATE_OPTIONS, default=TABLE_STATE.blank,
         verbose_name=_('State'))
+    socket_counter = models.PositiveSmallIntegerField(default=0)
+    is_online = models.BooleanField(default=False, verbose_name=_('Online?'))
     cleared = models.DateTimeField(
         auto_now_add=True, verbose_name=_('Cleared'))
+    deposit = models.FloatField(
+        verbose_name=_('Deposit'), validators=[MinValueValidator(0.0)],
+        default=0.0)
 
     def __str__(self):
         return self.name
@@ -84,8 +92,13 @@ class Table(TimeStampedModel):
         self.female = 0
         if self.order and self.order.state != ORDER_STATE.archived:
             order = self.order
+            order.details['customers']['male'] = self.male
+            order.details['customers']['female'] = self.female
             order.archive()
             order.save()
+
+        for attendee in self.user.attendees.all():
+            attendee.channel.messages.all().delete()
 
         # TODO: Clean bookings
         for booking in self.requested_bookings.all():
@@ -135,3 +148,59 @@ class Table(TimeStampedModel):
     def get_choices(cls):
         tables = cls.objects.all()
         return tuple([(t.pk, t.name) for t in tables])
+
+    @classmethod
+    def get_report(cls):
+        total = len(cls.objects.all())
+        using = len(cls.objects.filter(state=TABLE_STATE.using))
+        percent = int(using / total * 100)
+        return {'total': total, 'using': using, 'percent': percent}
+
+    @classmethod
+    def using_tables(cls):
+        return cls.objects.filter(state=TABLE_STATE.using)
+
+    @property
+    def call(self):
+        end_time = timezone.now() + timedelta(minutes=1)
+        qs = self.calls.filter(modified__lte=end_time)
+        if qs.exists():
+            return qs.first()
+        else:
+            return self.calls.create(table=self)
+
+
+class Employee(TimeStampedModel):
+    class Meta:
+        ordering = ('pk', )
+        verbose_name = _('Employee')
+        verbose_name_plural = _('Employees')
+
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, primary_key=True,
+        verbose_name=_('User'))
+
+    @property
+    def imei(self):
+        return self.user.username
+
+    @imei.setter
+    def imei(self, value):
+        self.user.username = value
+        self.user.set_password(value)
+        self.user.save()
+
+    @property
+    def name(self):
+        return self.user.first_name
+
+    @name.setter
+    def name(self, value):
+        self.user.first_name = value
+        self.user.save()
+
+    def to_json(self):
+        return {
+            'id': self.pk,
+            'name': self.name
+        }

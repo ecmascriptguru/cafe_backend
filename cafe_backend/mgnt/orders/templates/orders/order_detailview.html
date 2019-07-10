@@ -2,14 +2,14 @@
 
 {% load i18n %}
 {% load state_tags %}
-{% load thumbnail %}
+{% load static %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 <section class="content-header">
     <h1>
         <i class="fa fa-shopping-cart"></i>
-        {% trans 'Orders' %}
-        <small>{% trans 'Detail view of order' %}</small>
+        {% trans 'Orders' %}({{ object.table.name }})
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-folder-open-o"></i>{% trans 'Management' %}</a></li>
@@ -21,38 +21,276 @@
 <section class="content">
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 table-responsive">
-            <h3>{% trans 'Order Details' %}</h3>
-            <table class="table table-striped order-table">
-                <tbody>
+            <h3>{% trans 'Customers count' %}: {{ object.customers }}
+                <span class="pull-right">
+                    <button id="delivered-confirm" data-toggle="modal" data-target="#deliver-confirm-modal" class="btn btn-sm btn-success" disabled><i class="fa fa-check"></i>{% trans 'Delivered' %}</button>
+                    <button id="canceled-confirm" data-toggle="modal" data-target="#cancel-confirm-modal" class="btn btn-sm btn-danger" disabled><i class="fa fa-trash"></i>{% trans 'Canceled' %}</button>
+                    <!-- <a href="{% url 'orders:order_free_createview' object.pk %}" class="btn btn-sm btn-default"><i class="fa fa-plus"></i> {% trans 'Send Free' %}</a> -->
+                    <button id="new-item-confirm" data-toggle="modal" data-target="#dish-select-modal" class="btn btn-sm btn-default">
+                        <i class="fa fa-plus"></i> {% trans 'New Order Item' %}
+                    </button>
+                </span>
+            </h3>
+            <table class="table table-striped order-table" id="order-items-table">
+                <tbody style="font-size: 24px;">
                     {% for item in object.order_items.all %}
-                    <tr>
-                        <td>
-                            <img src="{{ item.dish.img.tiny }}" class="order-item-dish-image">
+                    <tr data-item-id="{{ item.pk }}">
+                        <td><input type="checkbox" class="dish-selector" value="{{ item.pk }}" /></td>
+                        <td style="font-size: 24px;">
+                            {{ item.dish.name }}{% if item.is_free %}({% trans 'Free' %}){% endif %}
                         </td>
-                        <td>{{ item.dish.name }}</td>
-                        <td>{{ item.dish.price }}</td>
+                        <td>&yen; <span class="data-item-price">{{ item.dish.price }}</span></td>
                         <td> x </td>
-                        <td>{{ item.amount }}</td>
+                        <td>
+                            <input type="number" 
+                                {% if item.state == 'c' %}disabled{% endif %}
+                                data-item-free='{{ item.is_free}}'
+                                style="width: 60px;" class="form-control dish-amount-input" value="{{ item.amount }}" />
+                        </td>
                         <td> = </td>
-                        <td>&yen;{{ item.subtotal }}</td>
-                        <td><span class="badge {{ item|order_item_state_bg_color }}">{{ item|state_text }}</span></td>
+                        <td style="font-size: 24px;">&yen; <span class="data-item-subtotal">{{ item.subtotal }}</span></td>
+                        <td style="text-align: center"><span class="badge {{ item|order_item_state_bg_color }}">{{ item|state_text }}</span></td>
                     </tr>
                     {% endfor %}
                 </tbody>
-                <tfoot>
+                <tfoot style="font-size: 24px;">
+                    <tr>
+                        <td colspan="8"> </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8"> </td>
+                    </tr>
+                    {% if object.table.deposit > 0 %}
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="4">{% trans 'Deposit' %}</td>
+                        <td>&yen; {{ object.table.deposit }}</td>
+                    </tr>
+                    {% endif %}
                     <tr>
                         <td colspan="2"></td>
                         <td colspan="4">{% trans 'Total' %}</td>
-                        <td>&yen;{{ object.total_sum }}</td>
+                        <td>&yen; {{ object.sum }}</td>
                     </tr>
+                    {% if object.free_sum > 0 %}
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="4">{% trans 'Free' %}</td>
+                        <td>&yen; {{ object.free_sum }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if object.wipe_zero > 0 %}
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="4">{% trans 'Wipe Zero' %}</td>
+                        <td>&yen; {{ object.wipe_zero }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if object.canceled_sum > 0 %}
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="4">{% trans 'Canceled' %}</td>
+                        <td>&yen; {{ object.canceled_sum }}</td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="4">{% trans 'Billing amount' %}</td>
+                        <td>&yen; {{ object.total_billing_price }}</td>
+                    </tr>
+                    {% if object.checkout_at %}
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="4">{% trans 'Checkout At' %}</td>
+                        <td colspan="2">{{ object.checkout_at|date:'m/d H:i' }}</td>
+                    </tr>
+                    {% endif %}
                 </tfoot>
             </table>
             <div class="">
-                <a class="btn btn-default" href="{% url 'orders:table_gridview' %}">{% trans 'Back' %}</a>
-                <a class="btn btn-primary pull-right" href="{% url 'orders:order_updateview' object.pk %}">{% trans 'Edit' %}</a>
+                <button data-toggle="modal" data-target="#order-print-confirm-modal" class="btn btn-default pull-left" 
+                    {% if object.order_items.all|length == 0 %}disabled{% endif %}>
+                    <i class="fa fa-print"></i> {% trans 'Print Order' %}</button>
+                <!-- <a class="btn btn-default" href="{% url 'orders:table_gridview' %}">{% trans 'Back' %}</a>
+                <a class="btn btn-primary pull-right" href="{% url 'orders:order_updateview' object.pk %}">{% trans 'Edit' %}</a> -->
+                <button id="checkout-order" class="btn btn-primary pull-right" data-toggle="modal" data-target="#order-checkout-modal"
+                    {% if object.order_items.all|length == 0 %}disabled{% endif %}>
+                    <i class="fa fa-check-square-o"></i> {% trans 'Checkout' %}</button>
             </div>
         </div>
     </div>
 </section>
-
+<div class="modal" id="order-checkout-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">{% trans 'Order Checkout' %}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form method="POST" id="order-checkout-form">
+                        {% crispy form %}
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">{% trans 'No' %}</button>
+                <button type="button" id="checkout-order" class="btn btn-primary">{% trans 'Yes' %}</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal" id="order-print-confirm-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">{% trans 'Confirm' %}</h4>
+            </div>
+            <div class="modal-body">
+                <p>{% trans 'Are you sure that you want to print the current order details? ' %}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">{% trans 'No' %}</button>
+                <button type="button" id="print-order" class="btn btn-primary">{% trans 'Yes' %}</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal" id="deliver-confirm-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">{% trans 'Confirm' %}</h4>
+            </div>
+            <div class="modal-body">
+                <p>{% trans 'Are you sure that the selected items were delivered already? ' %}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">{% trans 'No' %}</button>
+                <button type="button" class="btn btn-primary update-items-ok" data-value='delivered'>{% trans 'Yes' %}</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal modal-danger" id="cancel-confirm-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">{% trans 'Confirm' %}</h4>
+            </div>
+            <div class="modal-body">
+                <p>{% trans 'Are you sure that the selected items were canceled by customers?' %}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">{% trans 'No' %}</button>
+                <button type="button" class="btn btn-outline update-items-ok" data-value='canceled'>{% trans 'Yes' %}</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal modal-bg" id="dish-select-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">{% trans 'Select Dishes' %}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        {% for category in categories %}
+                        <li class="{% if forloop.first %}active{% endif %}">
+                            <a href="#category-{{ category.pk }}" data-toggle="tab" aria-expanded="true">{{ category.name }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="tab-content">
+                        {% for category in categories %}
+                        <div class="tab-pane {% if forloop.first %}active{% endif %}" id="category-{{ category.pk }}">
+                            <div class="row">
+                                {% for item in category.dishes.all %}
+                                {% include 'dishes/_dishes_modal_card_item.html' %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table vertical-middle" id="selected-order-items-container">
+                        <col width="40%">
+                        <col width="220px">
+                        <col width="260px">
+                        <col width="120px">
+                        <col width="120px">
+                        <thead>
+                            <tr>
+                                <th>{% trans 'Dish Name' %}</th>
+                                <th>{% trans 'Unit price' %}</th>
+                                <th>{% trans 'Amount' %}</th>
+                                <th>{% trans 'Free?' %}</th>
+                                <th>{% trans 'Subtotal' %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3"><strong>{% trans 'Additional Sum' %}</strong></td>
+                                <td colspan="2">&yen; <span  class="additional-sum">0</span></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><strong>{% trans 'Additional Free' %}</strong></td>
+                                <td colspan="2">&yen; <span class="additional-free">0</span></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><strong>{% trans 'Additional Billing' %}</strong></td>
+                                <td colspan="2">&yen; <span class="additional-billing">0</span></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">{% trans 'No' %}</button>
+                <button type="button" class="btn btn-primary" id="send-additional-items-ok" data-value='delivered'>{% trans 'Yes' %}</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 {% endblock content %}
+
+{% block page_specific_content %}
+{% endblock page_specific_content %}
+
+{% block custom_js %}
+<script>
+    window.orderId = parseInt("{{ object.pk }}")
+</script>
+<script type="text/javascript" src="{% static 'orders/order_detail.js' %}">
+</script>
+{% if form.errors %}
+<script>
+    $('div.modal#order-checkout-modal').modal('show')
+</script>
+{% endif %}
+{% endblock %}

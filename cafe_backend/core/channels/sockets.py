@@ -6,6 +6,7 @@ from cafe_backend.core.constants.types import SOCKET_MESSAGE_TYPE
 from cafe_backend.apps.users.models import User
 from cafe_backend.mgnt.chat.models import Channel, CHAT_ROOM_TYPE
 from cafe_backend.apps.videos.models import Video
+from cafe_backend.mgnt.music.models import Playlist
 
 
 async def send_message_to_socket_server(uri, message):
@@ -132,6 +133,20 @@ def broadcast_video_event(video_pk):
     message = {
         "type": SOCKET_MESSAGE_TYPE.video_event,
         "video": video_pk, 'to': public_channel.pk}
+    try:
+        send_message_to_mobile(admin.pk, message)
+    except Exception as e:
+        pass
+
+
+def broadcast_music_event():
+    admin = User.objects.filter(is_superuser=True).first()
+    public_channel = Channel.get_public_channel()
+
+    count = 0
+    message = {
+        "type": SOCKET_MESSAGE_TYPE.music_event,
+        "music": len(Playlist.pendings())}
     try:
         send_message_to_mobile(admin.pk, message)
     except Exception as e:

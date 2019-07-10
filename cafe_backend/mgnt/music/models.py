@@ -11,7 +11,8 @@ from django.contrib.postgres.fields import JSONField
 from model_utils.models import TimeStampedModel
 from cafe_backend.libs.ting.api import TingMusicAPI as Ting
 from cafe_backend.libs.spotify.api import Spotify
-from cafe_backend.core.constants.states import MUSIC_STATE
+from cafe_backend.core.constants.states import (
+    MUSIC_STATE, MUSIC_PLAYLIST_STATE)
 from cafe_backend.core.constants.types import MUSIC_PROVIDER
 
 
@@ -191,6 +192,12 @@ class Music(TimeStampedModel):
         return cls.objects.filter(provider=MUSIC_PROVIDER.spotify)
 
 
+MUSIC_PLAYLIST_STATE_CHOICES = (
+    (MUSIC_PLAYLIST_STATE.default, _('Requested')),
+    (MUSIC_PLAYLIST_STATE.ready, _('Availiable')),
+)
+
+
 class Playlist(TimeStampedModel):
     table = models.ForeignKey(
         'users.Table', on_delete=models.SET_DEFAULT, null=True,
@@ -199,6 +206,9 @@ class Playlist(TimeStampedModel):
         Music, on_delete=models.CASCADE, related_name='playlist',
         verbose_name=_('Music'))
     is_active = models.BooleanField(default=True, verbose_name=_('Active?'))
+    state = FSMField(
+        choices=MUSIC_PLAYLIST_STATE_CHOICES,
+        default=MUSIC_PLAYLIST_STATE.default)
 
     def __str__(self):
         return "<%s(%d):%s>" % (_('Playlist'), self.pk, self.music.title)
@@ -241,3 +251,10 @@ class Playlist(TimeStampedModel):
     @property
     def identifier(self):
         return self.music.external_id
+
+    @classmethod
+    def pendings(cls):
+        return cls.objects.filter(
+            state=MUSIC_PLAYLIST_STATE.default, is_active=True,
+            music__provider=MUSIC_PROVIDER.spotify,
+            music__state=MUSIC_STATE.ready)

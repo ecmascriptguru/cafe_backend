@@ -1,7 +1,8 @@
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from cafe_backend.mgnt.chat.models import Channel, CHAT_ROOM_TYPE
-from .models import User, Table
+from ...mgnt.orders.models import Order
+from .models import User, Table, TABLE_STATE
 from .tasks import send_table_change_to_all
 
 
@@ -31,6 +32,16 @@ def create_channes_for_new_table(sender, instance, created, **kwargs):
     else:
         # Should send message via socket.
         send_table_change_to_all.delay(instance.pk)
+
+    if instance.state == TABLE_STATE.using and instance.order is None:
+        Order.objects.create(table=instance)
+
+    if instance.order is not None:
+        order = instance.order
+        order.details['customers'] = {
+            'male': instance.male,
+            'female': instance.female}
+        order.save()
 
 
 @receiver(post_delete, sender=Table)

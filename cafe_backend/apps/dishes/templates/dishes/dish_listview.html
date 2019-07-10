@@ -28,35 +28,26 @@
             </form>
             {% endif %}
         </div>
-        {% if is_paginated %}
         <div class="col-sm-12">
-            <ul class="pagination pull-right">
-                {% if page_obj.has_previous %}
-                    <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
-                {% else %}
-                    <li class="disabled"><span>&laquo;</span></li>
-                {% endif %}
-                {% for i in paginator.page_range %}
-                    {% if page_obj.number == i %}
-                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-                    {% else %}
-                        <li><a href="?page={{ i }}">{{ i }}</a></li>
-                    {% endif %}
-                {% endfor %}
-                {% if page_obj.has_next %}
-                    <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
-                {% else %}
-                    <li class="disabled"><span>&raquo;</span></li>
-                {% endif %}
-            </ul>
-        </div>
-        
-        {% endif %}
-        <div class="col-xs-12">
-            <div class="row">
-                {% for item in object_list %}
-                {% include 'dishes/_dish_list_item.html' %}
-                {% endfor %}
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    {% for category in object_list %}
+                    <li class="{% if forloop.first %}active{% endif %}">
+                        <a href="#category-{{ category.pk }}" data-toggle="tab" aria-expanded="true">{{ category.name }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <div class="tab-content">
+                    {% for category in object_list %}
+                    <div class="tab-pane {% if forloop.first %}active{% endif %}" id="category-{{ category.pk }}">
+                        <div class="row">
+                            {% for item in category.dishes.all %}
+                            {% include 'dishes/_dish_card_item.html' %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
-from .models import Order, OrderItem
+from .models import Order, OrderItem, ORDER_STATE
 from ...apps.users.models import Table, TABLE_STATE
 from ...core.constants.types import DISH_POSITION
 from .tasks import (
@@ -13,11 +13,15 @@ def send_order_status(sender, instance, created, **kwargs):
     send_changed_order.delay(instance.pk, created)
     if created:
         if instance.table.state == TABLE_STATE.blank:
-            instance.table.state = TABLE_STATE.reserved
-            instance.table.save()
+            table = instance.table
+            table.state = TABLE_STATE.reserved
+            table.save()
 
-    if len(instance.print_items.all()) > 0:
-        print_order.delay(instance.pk)
+    if len(instance.print_items) > 0 and\
+            instance.state != ORDER_STATE.archived and\
+            instance.checkout_at is None:
+        ids = [item.pk for item in instance.print_items]
+        print_order.delay(instance.pk, ids)
 
 
 @receiver(post_save, sender=OrderItem)

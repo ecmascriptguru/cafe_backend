@@ -1,0 +1,14 @@
+{% load i18n %}
+
+<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 dish">
+    <a href="{% url 'dishes:dish_updateview' pk=item.pk %}">
+        <div class="small-box bg-green">
+            <div class="box-header">
+                <h2><strong>{{ item.name }}</strong></h2>
+            </div>
+            <div class="box-body">
+                <span style="font-size: 20px">&yen; {{ item.price }}</span><br/>
+            </div>
+        </div>
+    </a>
+</div>

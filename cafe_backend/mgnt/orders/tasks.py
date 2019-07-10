@@ -29,30 +29,106 @@ def send_dish_booking_status(order_item_pk, created):
 
 
 @shared_task
-def print_order(order_pk):
+def print_order(order_pk, item_ids=[], mode=None, print_all=False):
     order = Order.objects.get(pk=order_pk)
-    items = order.print_items.all()
-    if len(items):
+    if print_all:
         url = "%s%s" % (
-            settings.HOSTNAME, reverse_lazy(
-                'orders:order_printview', kwargs={'pk': order_pk})
-        )
+                settings.HOSTNAME,
+                reverse_lazy(
+                    'orders:order_full_printview', kwargs={'pk': order_pk})
+            )
 
-        EYPrint.print_58(url)
+        if mode:
+            url = "%s?mode=%s" % (url, mode)
+
+        if settings.DEBUG:
+            print("Printing full order", url)
+        else:
+            response = EYPrint.print_58(url)
+            json_data = response.json()
+    else:
+        items = order.items.filter(pk__in=item_ids)
+
+        if len(items) > 0:
+            url = "%s%s?items=%s" % (
+                settings.HOSTNAME,
+                reverse_lazy(
+                    'orders:order_printview', kwargs={'pk': order_pk}),
+                '+'.join([str(id) for id in item_ids])
+            )
+
+            if settings.DEBUG:
+                print("Printing order", url)
+            else:
+                response = EYPrint.print_58(url)
+                json_data = response.json()
+                if json_data.get('result') == 'success':
+                    order.print_items.update(is_printed=True)
 
 
 @shared_task
 def print_order_item(order_item_pk):
-    time.sleep(1)
     item = OrderItem.objects.get(pk=order_item_pk)
     url = "%s%s" % (
         settings.HOSTNAME, reverse_lazy(
             'orders:order_item_printview', kwargs={'pk': order_item_pk}
         ))
-    EYPrint.print_80(url)
+    if not settings.DEBUG:
+        EYPrint.print_80(url)
+    else:
+        print("Printing order item", url)
 
 
 @shared_task
-def mark_order_items_as_printed(order_items):
-    OrderItem.objects.filter(pk__in=order_items).update(
+def print_order_item_cancel(order_item_pk):
+    item = OrderItem.objects.get(pk=order_item_pk)
+    url = "%s%s" % (
+        settings.HOSTNAME, reverse_lazy(
+            'orders:order_item_cancel_printview', kwargs={'pk': order_item_pk}
+        ))
+    if not settings.DEBUG:
+        EYPrint.print_80(url)
+    else:
+        print("Printing canceled order item", url)
+
+
+@shared_task
+def mark_order_items_as_printed(order_item_ids):
+    time.sleep(10)
+    return OrderItem.objects.filter(pk__in=order_item_ids).update(
         is_printed=True)
+
+
+@shared_task
+def print_orders(order_ids):
+    orders = Order.objects.filter(pk__in=order_ids)
+    if len(orders) > 0:
+        url = "%s%s?orders=%s" % (
+            settings.HOSTNAME,
+            reverse_lazy(
+                'orders:orders_printview'),
+            '+'.join([str(id) for id in order_ids])
+        )
+
+        if settings.DEBUG:
+            print("Printing orders", url)
+        else:
+            response = EYPrint.print_58(url)
+            json_data = response.json()
+            return json_data
+    else:
+        return "Skipping Blank Data in printing orders report."
+
+
+@shared_task
+def print_sales_report(start=None, end=None):
+    url = "%s%s" % (
+        settings.HOSTNAME,
+        reverse_lazy(
+            'landing:sales_printview')
+    )
+    if start and end:
+        url += "?start_date=%s&end_date=%s" % (start, end)
+    response = EYPrint.print_58(url)
+    json_data = response.json()
+    return json_data

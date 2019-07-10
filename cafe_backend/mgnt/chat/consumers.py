@@ -6,6 +6,7 @@ from ...apps.users.models import User, Table
 from ...apps.events.models import Event
 from ...apps.videos.models import Video
 from ...mgnt.orders.models import Order, OrderItem
+from ...mgnt.calls.models import Call
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -21,6 +22,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
 
         await self.accept()
+        if self.user.is_table and hasattr(self.user, 'table'):
+            self.user.table.is_online = True
+            self.user.table.save()
 
     async def disconnect(self, close_code):
         # Leave room group
@@ -28,6 +32,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
+
+        if self.user.is_table:
+            self.user.table.is_online = False
+            self.user.table.save()
 
     # Receive message from WebSocket
     async def receive(self, text_data):
@@ -69,6 +77,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     'type': message_type,
                     'to': to,
                     'video': video.to_json()
+                }
+            )
+        elif message_type == SOCKET_MESSAGE_TYPE.music_event:
+            await self.channel_layer.group_send(
+                self.room_group_name, {
+                    'type': message_type,
+                    'to': to,
+                    'music': json_data['music']
                 }
             )
         elif message_type == SOCKET_MESSAGE_TYPE.order:
@@ -138,11 +154,31 @@ class ChatConsumer(AsyncWebsocketConsumer):
         elif message_type == SOCKET_MESSAGE_TYPE.ring:
             table_pk = json_data['table']
             table = Table.objects.get(pk=table_pk)
+            call = table.call
             await self.channel_layer.group_send(
                 self.room_group_name,
                 {
+                    'call_id': call.pk,
                     'type': message_type,
                     'table': table.to_json(),
+                    'to': to,
+                }
+            )
+        elif message_type == SOCKET_MESSAGE_TYPE.ring_accept:
+            call_pk = json_data['call_id']
+            call = Call.objects.get(pk=call_pk)
+            if not hasattr(self.user, 'employee'):
+                raise 'Something went wrong'
+            else:
+                call.employee = self.user.employee
+                call.save()
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'call_id': call.pk,
+                    'type': message_type,
+                    'table': call.table.to_json(),
+                    'employee': call.employee.to_json(),
                     'to': to,
                 }
             )
@@ -175,4 +211,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps(event))
 
     async def notification_video(self, event):
+        await self.send(text_data=json.dumps(event))
+
+    async def music_requested(self, event):
+        await self.send(text_data=json.dumps(event))
+
+    async def ring_accept(self, event):
         await self.send(text_data=json.dumps(event))

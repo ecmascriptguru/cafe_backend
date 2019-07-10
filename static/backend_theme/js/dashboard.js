@@ -92,6 +92,7 @@ $(function () {
   // - PIE CHART -
   // -------------
   // Get context with jQuery - using jQuery's .get() method.
+  /**
   var pieChartCanvas = $('#pieChart').get(0).getContext('2d');
   var pieChart       = new Chart(pieChartCanvas);
   var PieData        = [
@@ -161,6 +162,7 @@ $(function () {
   // Create pie or douhnut chart
   // You can switch between pie and douhnut using the method below.
   pieChart.Doughnut(PieData, pieOptions);
+  */
   // -----------------
   // - END PIE CHART -
   // -----------------
@@ -169,6 +171,8 @@ $(function () {
    * ------------
    * Create a world map with markers
    */
+
+   /**
   $('#world-map-markers').vectorMap({
     map              : 'world_mill_en',
     normalizeFunction: 'polynomial',
@@ -227,7 +231,7 @@ $(function () {
       { latLng: [0.33, 6.73], name: 'São Tomé and Príncipe' }
     ]
   });
-
+  */
   /* SPARKLINE CHARTS
    * ----------------
    * Create a inline charts with spark line

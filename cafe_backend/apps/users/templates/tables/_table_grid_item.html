@@ -2,9 +2,27 @@
 {% load i18n %}
 
 <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-    <div class="small-box {{ table|table_state_bg_color }}">
+    <div class="small-box bg-green" onclick="window.location.href='{% url 'tables:table_updateview' pk=table.pk %}'">
         <div class="inner">
-            <h3>{{ table.name }} <span class="badge pull-right">{{ table|state_text }}</span></h3>
+            <h3>{{ table.name }} 
+                <span class="badge pull-right">{{ table|state_text }}<br/></span>
+                <span style="font-size: 12px" title="
+                {% if table.is_online %}
+                    {% trans 'Online' %}
+                {% else %}
+                    {% trans 'Offline' %}
+                {% endif %}">
+                    <a href="{% url 'tables:table_controlview' table.pk %}">
+                        <i class="fa fa-circle 
+                            {% if table.is_online %}
+                                text-success
+                            {% else %}
+                                text-danger
+                            {% endif %}">
+                        </i>
+                    </a>
+                </span>
+            </h3>
 
             <div class="row">
                 <div class="col-xs-6">
@@ -25,7 +43,7 @@
         <div class="icon">
             <!-- <i class="fa fa-shopping-cart"></i> -->
         </div>
-        <div class="box-footer">
+        <!-- <div class="box-footer">
             <div class="row">
                 <div class="col-xs-6">
                     <a href="{% url 'tables:table_updateview' pk=table.pk %}">
@@ -40,6 +58,6 @@
                     {% endif %}
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>

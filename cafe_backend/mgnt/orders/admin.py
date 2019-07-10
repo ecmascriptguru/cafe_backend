@@ -13,7 +13,9 @@ class OrderAdmin(ModelAdmin):
     class Meta:
         model = Order
 
-    list_display = ('table', 'total_sum', )
+    list_display = (
+        'table', 'sum', 'free_sum', 'canceled_sum', 'wipe_zero',
+        'total_billing_price', 'state', 'created', 'checkout_at')
     inlines = (OrderItemInline, )
     # exclude = ('details', )
     # form = OrderForm

@@ -1,0 +1,66 @@
+{% extends 'layouts/adminlte_base.html' %}
+
+{% load crispy_forms_tags %}
+{% load django_tables2 %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+        <i class="fa fa-dashboard"></i>
+        {% trans 'Dishes' %}
+    </h1>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    {% for category in categories %}
+                    <li class="{% if forloop.first %}active{% endif %}">
+                        <a href="#category-{{ category.id }}" data-toggle="tab" aria-expanded="true">{{ category.name }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <div class="tab-content">
+                    {% for category in categories %}
+                    <div class="tab-pane {% if forloop.first %}active{% endif %}" id="category-{{ category.id }}">
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>{% trans 'Dish name' %}</th>
+                                        <th>{% trans 'Sales' %}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in category.dishes %}
+                                    <tr class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ item.name }}</td>
+                                        <td>{{ item.count }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block custom_js %}
+<script>
+</script>
+{% endblock %}

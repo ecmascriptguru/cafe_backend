@@ -2,7 +2,7 @@ from django.conf.urls import url
 
 from . import consumers
 
-websocket_urlpatterns = [
+chat_socket_urlpatterns = [
     url(
         r'^ws/chat/(?P<user_pk>[^/]+)/$', consumers.ChatConsumer),
 ]
