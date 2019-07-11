@@ -14,7 +14,9 @@ from ...apps.dishes.models import Category
 from .models import Order, OrderItem, ORDER_STATE
 from . import serializers
 from . import forms
-from .tasks import mark_order_items_as_printed, print_order_item_cancel
+from .tasks import (
+    mark_order_items_as_printed, print_order_item_cancel,
+    send_changed_order_item)
 
 
 class TableGridView(LoginRequiredMixin, generic.ListView):
@@ -190,6 +192,8 @@ class OrderViewSet(CafeModelViewSet):
         if state == ORDER_STATE.canceled:
             for item in items:
                 print_order_item_cancel.delay(item.pk)
+        for item in items:
+            send_changed_order_item.delay(item.pk, False)
         return Response({'status': items.update(state=state)})
 
     @action(
