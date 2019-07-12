@@ -42,7 +42,7 @@ class User(AbstractUser):
 
 class Table(TimeStampedModel):
     class Meta:
-        ordering = ('pk', )
+        ordering = ('user__first_name', )
         verbose_name = _('Table')
         verbose_name_plural = _('Tables')
 
