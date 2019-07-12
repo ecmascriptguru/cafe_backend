@@ -34,8 +34,8 @@ class Category(TimeStampedModel):
 
 class Dish(TimeStampedModel):
     DISH_POSITION_CHOICES = (
-        (DISH_POSITION.counter, _('Counter')),
-        (DISH_POSITION.chicken, _('Chicken')))
+        (DISH_POSITION.restaurant_counter, _('Rest Counter')),
+        (DISH_POSITION.kitchen, _('Kitchen')))
 
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, related_name='dishes',
@@ -56,7 +56,7 @@ class Dish(TimeStampedModel):
         default=True, verbose_name=_('Active?'))
     rate = models.FloatField(default=0.0)
     position = FSMField(
-        choices=DISH_POSITION_CHOICES, default=DISH_POSITION.chicken,
+        choices=DISH_POSITION_CHOICES, default=DISH_POSITION.kitchen,
         verbose_name=_('Dish Position'))
 
     class Meta:

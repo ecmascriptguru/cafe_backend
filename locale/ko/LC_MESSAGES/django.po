@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-12 16:41+0800\n"
+"POT-Creation-Date: 2019-07-13 04:02+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -236,7 +236,7 @@ msgid "List view of Advertisements"
 msgstr "광고목록"
 
 #: cafe_backend/apps/advertisements/templates/ads/ads_listview.html:28
-#: cafe_backend/apps/dishes/templates/dishes/dish_listview.html:26
+#: cafe_backend/apps/dishes/templates/dishes/dish_listview.html:27
 #: cafe_backend/apps/emoticons/templates/emoticons/emoticon_listview.html:28
 #: cafe_backend/apps/events/templates/events/event_listview.html:28
 #: cafe_backend/apps/videos/templates/videos/video_listview.html:28
@@ -246,7 +246,7 @@ msgid "Filter"
 msgstr "검색"
 
 #: cafe_backend/apps/advertisements/templates/ads/ads_listview.html:30
-#: cafe_backend/apps/dishes/templates/dishes/dish_listview.html:27
+#: cafe_backend/apps/dishes/templates/dishes/dish_listview.html:28
 #: cafe_backend/apps/emoticons/templates/emoticons/emoticon_listview.html:30
 #: cafe_backend/apps/events/templates/events/event_listview.html:30
 #: cafe_backend/apps/videos/templates/videos/video_listview.html:30
@@ -280,15 +280,21 @@ msgstr "음식"
 msgid "Dish Name"
 msgstr "음식이름"
 
-#: cafe_backend/apps/dishes/forms.py:67
+#: cafe_backend/apps/dishes/forms.py:32 cafe_backend/apps/dishes/forms.py:80
+#: cafe_backend/apps/dishes/models.py:185
+#: cafe_backend/apps/dishes/models.py:189
+msgid "Price"
+msgstr "가격"
+
+#: cafe_backend/apps/dishes/forms.py:68
 msgid "save"
 msgstr "저장"
 
-#: cafe_backend/apps/dishes/forms.py:116
+#: cafe_backend/apps/dishes/forms.py:114
 msgid "Submit"
 msgstr "신청"
 
-#: cafe_backend/apps/dishes/forms.py:128
+#: cafe_backend/apps/dishes/forms.py:126
 msgid "Dish Name or Description"
 msgstr "음식명 혹은 설명으로 검색"
 
@@ -320,11 +326,11 @@ msgid "Categories"
 msgstr "유형"
 
 #: cafe_backend/apps/dishes/models.py:37
-msgid "Counter"
-msgstr "합계"
+msgid "Rest Counter"
+msgstr "카운더"
 
 #: cafe_backend/apps/dishes/models.py:38
-msgid "Chicken"
+msgid "Kitchen"
 msgstr "주방"
 
 #: cafe_backend/apps/dishes/models.py:50 cafe_backend/mgnt/chat/models.py:17
@@ -396,11 +402,6 @@ msgstr "댓글"
 msgid "Dish Reviews"
 msgstr "댓글"
 
-#: cafe_backend/apps/dishes/models.py:185
-#: cafe_backend/apps/dishes/models.py:189
-msgid "Price"
-msgstr "가격"
-
 #: cafe_backend/apps/dishes/models.py:190
 msgid "Prices"
 msgstr "가격"
@@ -424,6 +425,10 @@ msgstr "음식추가"
 #: cafe_backend/apps/dishes/templates/dishes/dish_updateview.html:11
 msgid "List view of dishes"
 msgstr "모든 음식"
+
+#: cafe_backend/apps/dishes/templates/dishes/dish_listview.html:17
+msgid "New dish"
+msgstr "음식추가"
 
 #: cafe_backend/apps/emoticons/apps.py:7
 msgid "emoticons"
@@ -1693,12 +1698,3 @@ msgstr "술집"
 #: templates/layouts/brand.html:2
 msgid "Cafe backend"
 msgstr "술집관리"
-
-#~ msgid "Detail view of order"
-#~ msgstr "광고 상세히 보기"
-
-#~ msgid "Order Details"
-#~ msgstr "상세히 보기"
-
-#~ msgid "Select Date Range"
-#~ msgstr "날자범위를 선택하십시요."
