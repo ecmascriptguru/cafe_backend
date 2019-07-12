@@ -200,7 +200,7 @@ class OrderViewSet(CafeModelViewSet):
         detail=True, methods=['get'], url_name='order_item_update')
     def print(self, request, *args, **kwargs):
         from .tasks import print_order
-        task = print_order.delay(self.get_object().pk, [], True)
+        task = print_order.delay(self.get_object().pk, [], None, True)
         return Response({
             'status': task.id})
 
