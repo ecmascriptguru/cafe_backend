@@ -69,7 +69,7 @@ class OrderCheckoutForm(forms.ModelForm):
     additional_money = forms.FloatField(
         label=_('Additional Money'), min_value=0, required=False)
     total = forms.FloatField(label=_('Total'))
-    change = forms.FloatField(label=_('Change'))
+    change = forms.FloatField(label=_('Change Money'))
     earning = forms.FloatField(label=_('Income'))
 
     class Meta:

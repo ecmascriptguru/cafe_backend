@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-12 08:24+0800\n"
+"POT-Creation-Date: 2019-07-12 16:41+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -95,7 +95,7 @@ msgstr "图片"
 #: cafe_backend/apps/advertisements/tables.py:14
 #: cafe_backend/apps/emoticons/tables.py:14
 #: cafe_backend/apps/events/tables.py:14 cafe_backend/apps/landing/tables.py:73
-#: cafe_backend/apps/videos/tables.py:14 cafe_backend/mgnt/music/tables.py:15
+#: cafe_backend/apps/videos/tables.py:14 cafe_backend/mgnt/music/tables.py:16
 msgid "Actions"
 msgstr "操作"
 
@@ -348,7 +348,7 @@ msgstr "打印发送到"
 #: cafe_backend/apps/dishes/models.py:163
 #: cafe_backend/apps/dishes/models.py:183
 #: cafe_backend/mgnt/bookings/models.py:19
-#: cafe_backend/mgnt/orders/models.py:377
+#: cafe_backend/mgnt/orders/models.py:374
 msgid "Dish"
 msgstr "饮食"
 
@@ -526,7 +526,7 @@ msgstr "选择日期"
 msgid "Save changes"
 msgstr "保存更改"
 
-#: cafe_backend/apps/events/models.py:19
+#: cafe_backend/apps/events/models.py:19 cafe_backend/apps/videos/models.py:22
 #: cafe_backend/apps/videos/templates/videos/video_listview.html:12
 msgid "Video"
 msgstr "视频"
@@ -932,8 +932,8 @@ msgid "VIP?"
 msgstr "VIP?"
 
 #: cafe_backend/apps/users/models.py:64 cafe_backend/mgnt/bookings/models.py:48
-#: cafe_backend/mgnt/music/models.py:46 cafe_backend/mgnt/music/tables.py:13
-#: cafe_backend/mgnt/orders/models.py:46 cafe_backend/mgnt/orders/models.py:392
+#: cafe_backend/mgnt/music/models.py:46 cafe_backend/mgnt/music/tables.py:14
+#: cafe_backend/mgnt/orders/models.py:46 cafe_backend/mgnt/orders/models.py:389
 msgid "State"
 msgstr "状态"
 
@@ -1013,11 +1013,7 @@ msgstr "顾客"
 msgid "Video File"
 msgstr "视频文件"
 
-#: cafe_backend/apps/videos/templates/videos/video_deleteview.html:11
-#: cafe_backend/apps/videos/templates/videos/video_formview.html:11
-msgid "Grid view of videos"
-msgstr "视频目录"
-
+#: cafe_backend/apps/videos/models.py:23
 #: cafe_backend/apps/videos/templates/videos/video_deleteview.html:15
 #: cafe_backend/apps/videos/templates/videos/video_detailview.html:17
 #: cafe_backend/apps/videos/templates/videos/video_formview.html:15
@@ -1025,6 +1021,11 @@ msgstr "视频目录"
 #: templates/layouts/admin_lte/sidebar.html:65
 msgid "Videos"
 msgstr "视频"
+
+#: cafe_backend/apps/videos/templates/videos/video_deleteview.html:11
+#: cafe_backend/apps/videos/templates/videos/video_formview.html:11
+msgid "Grid view of videos"
+msgstr "视频目录"
 
 #: cafe_backend/apps/videos/templates/videos/video_detailview.html:13
 msgid "Detail view of videos"
@@ -1058,7 +1059,7 @@ msgstr "合并"
 
 #: cafe_backend/mgnt/bookings/models.py:26
 #: cafe_backend/mgnt/music/models.py:196 cafe_backend/mgnt/orders/models.py:22
-#: cafe_backend/mgnt/orders/models.py:362
+#: cafe_backend/mgnt/orders/models.py:359
 msgid "Requested"
 msgstr "请求"
 
@@ -1071,7 +1072,7 @@ msgid "Rejected"
 msgstr "拒绝"
 
 #: cafe_backend/mgnt/bookings/models.py:29
-#: cafe_backend/mgnt/orders/models.py:363
+#: cafe_backend/mgnt/orders/models.py:360
 #: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:27
 #: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:92
 msgid "Canceled"
@@ -1398,7 +1399,7 @@ msgstr "音乐播放器"
 msgid "orders"
 msgstr "订单"
 
-#: cafe_backend/mgnt/orders/forms.py:50 cafe_backend/mgnt/orders/models.py:370
+#: cafe_backend/mgnt/orders/forms.py:50 cafe_backend/mgnt/orders/models.py:367
 msgid "Order Items"
 msgstr "订单饮食"
 
@@ -1412,7 +1413,7 @@ msgid "Total"
 msgstr "合计"
 
 #: cafe_backend/mgnt/orders/forms.py:72
-msgid "Change"
+msgid "Change Money"
 msgstr "零钱"
 
 #: cafe_backend/mgnt/orders/forms.py:73 cafe_backend/mgnt/orders/models.py:53
@@ -1427,7 +1428,7 @@ msgstr "抹零不能小于 0"
 msgid "Send Free Item"
 msgstr "赠送"
 
-#: cafe_backend/mgnt/orders/models.py:23 cafe_backend/mgnt/orders/models.py:364
+#: cafe_backend/mgnt/orders/models.py:23 cafe_backend/mgnt/orders/models.py:361
 #: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:26
 msgid "Delivered"
 msgstr "已上菜"
@@ -1445,7 +1446,7 @@ msgid "AliPay"
 msgstr "支付宝"
 
 #: cafe_backend/mgnt/orders/models.py:38 cafe_backend/mgnt/orders/models.py:70
-#: cafe_backend/mgnt/orders/models.py:374
+#: cafe_backend/mgnt/orders/models.py:371
 msgid "Order"
 msgstr "订单"
 
@@ -1466,29 +1467,29 @@ msgstr "抹零"
 msgid "Checkout Time"
 msgstr "结帐时间"
 
-#: cafe_backend/mgnt/orders/models.py:369
+#: cafe_backend/mgnt/orders/models.py:366
 msgid "Order Item"
 msgstr "订单饮食"
 
-#: cafe_backend/mgnt/orders/models.py:381
+#: cafe_backend/mgnt/orders/models.py:378
 msgid "Target Table"
 msgstr "目标餐桌"
 
-#: cafe_backend/mgnt/orders/models.py:386
+#: cafe_backend/mgnt/orders/models.py:383
 #: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:247
 msgid "Amount"
 msgstr "数量"
 
-#: cafe_backend/mgnt/orders/models.py:389
+#: cafe_backend/mgnt/orders/models.py:386
 msgid "Discount Rate"
 msgstr "折扣率"
 
-#: cafe_backend/mgnt/orders/models.py:393
+#: cafe_backend/mgnt/orders/models.py:390
 #: cafe_backend/mgnt/orders/templates/orders/order_detailview.html:248
 msgid "Free?"
 msgstr "赠送？"
 
-#: cafe_backend/mgnt/orders/models.py:394
+#: cafe_backend/mgnt/orders/models.py:391
 msgid "Printed?"
 msgstr "是否已经打印？"
 
