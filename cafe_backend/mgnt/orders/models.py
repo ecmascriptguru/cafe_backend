@@ -290,7 +290,8 @@ class Order(TimeStampedModel):
             'free': 0,
             'canceld': 0,
             'wipe_zero': 0,
-            'billed': 0
+            'billed': 0,
+            'income': 0,
         }
 
         for order in orders:
@@ -299,6 +300,7 @@ class Order(TimeStampedModel):
             results['canceled'] = order.canceled_sum
             results['wipe_zero'] = order.wipe_zero
             results['billed'] = order.total_billing_price
+            results['income'] = order.income
         return results
 
     @classmethod
@@ -328,15 +330,17 @@ class Order(TimeStampedModel):
         items = OrderItem.objects.filter(
             order__in=orders).exclude(state=ORDER_STATE.canceled)
         item_sales = sum([item['amount'] for item in items.values('amount')])
-        # .get('total', 0)
+        total_earning = int(
+            sum(order['income'] for order in orders.values('income')))
 
         if len(items) > 0:
             sales = {
                 'items': item_sales,
-                'earning': items.aggregate(
-                    total=ExpressionWrapper(
-                        Sum(F('price') * F('amount')),
-                        output_field=models.FloatField()))['total']
+                'earning': total_earning,
+                # items.aggregate(
+                #     total=ExpressionWrapper(
+                #         Sum(F('price') * F('amount')),
+                #         output_field=models.FloatField()))['total']
             }
         else:
             sales = {'items': 0, 'earning': 0}
@@ -347,13 +351,6 @@ class Order(TimeStampedModel):
                 customers.get('total_female', 0)
             },
             'sales': sales,
-            # 'chart': {
-            #     'earning_by_date': items.annotate(
-            #         date=TruncDate('created')).values('date').aggregate(
-            #             sub_total=Sum(
-            #                 F('price') * F('amount')),
-            #             output_field=models.FloatField())
-            # }
         }
 
 

@@ -129,6 +129,11 @@ def print_sales_report(start=None, end=None):
     )
     if start and end:
         url += "?start_date=%s&end_date=%s" % (start, end)
-    response = EYPrint.print_58(url)
-    json_data = response.json()
-    return json_data
+
+    if settings.DEBUG:
+        print("Printing dashboard %s" % url)
+        return url
+    else:
+        response = EYPrint.print_58(url)
+        json_data = response.json()
+        return json_data

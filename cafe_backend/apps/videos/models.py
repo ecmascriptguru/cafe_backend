@@ -16,3 +16,8 @@ class Video(TimeStampedModel):
         return {
             'name': self.name,
             'url': self.file.url}
+
+    class Meta:
+        ordering = ('-created', )
+        verbose_name = _('Video')
+        verbose_name_plural = _('Videos')

@@ -14,7 +14,7 @@ def send_order_status(sender, instance, created, **kwargs):
     if created:
         if instance.table.state == TABLE_STATE.blank:
             table = instance.table
-            table.state = TABLE_STATE.reserved
+            table.state = TABLE_STATE.using
             table.save()
 
     if len(instance.print_items) > 0 and\

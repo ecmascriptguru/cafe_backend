@@ -7,9 +7,9 @@
         {% if request.GET.mode == 'checkout' %}
         结帐单
         {% elif request.GET.mode == 'repeat' %}
-        返打单
+        返结单
         {% else %}
-        颖打单
+        颖结单
         {% endif %}
     </h2>
     <h3 style="font-size: 20px;font-weight: normal;text-align: center;margin-bottom: 0px;">卓名: {{ object.table.name }}</h3>
@@ -81,7 +81,7 @@
 		</tr>
             </tfoot>
         </table>
-        <h5 style="text-align: center;font-size: 14px;margin: 0;font-weight: normal">今夜酒吧欢迎您!<br/>18745568789</h5>
+        <h5 style="text-align: center;font-size: 14px;margin: 0;font-weight: normal">布莱纹酒吧欢迎您!<br/>132-0237-1111</h5>
     </div>
 </body>
 {% endblock content %}

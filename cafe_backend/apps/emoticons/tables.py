@@ -12,6 +12,8 @@ class EmoticonTable(tables.Table):
         empty_values=(), orderable=False, verbose_name=_('File'))
     actions = tables.Column(
         empty_values=(), orderable=False, verbose_name=_('Actions'))
+    modified = tables.Column(
+        empty_values=(), orderable=False, verbose_name=_('Updated At'))
     file_template = 'emoticons/_emoticon_table_file_column.html'
     actions_template = 'emoticons/_emoticon_table_actions_column.html'
 
