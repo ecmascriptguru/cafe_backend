@@ -12,14 +12,16 @@ from .models import Order, OrderItem
 @shared_task
 def send_changed_order(order_pk, created):
     order = Order.objects.get(pk=order_pk)
-    broadcast_order_status(order, created)
+    if order:
+        broadcast_order_status(order, created)
 
 
 @shared_task
 def send_changed_order_item(order_item_pk, created):
     time.sleep(1)
     order_item = OrderItem.objects.get(pk=order_item_pk)
-    broadcast_order_item_status(order_item, created)
+    if order_item:
+        broadcast_order_item_status(order_item, created)
 
 
 @shared_task
@@ -30,6 +32,7 @@ def send_dish_booking_status(order_item_pk, created):
 
 @shared_task
 def print_order(order_pk, item_ids=[], mode=None, print_all=False):
+    time.sleep(3)
     order = Order.objects.get(pk=order_pk)
     if print_all:
         url = "%s%s" % (
@@ -68,6 +71,7 @@ def print_order(order_pk, item_ids=[], mode=None, print_all=False):
 
 @shared_task
 def print_order_item(order_item_pk):
+    time.sleep(3)
     item = OrderItem.objects.get(pk=order_item_pk)
     url = "%s%s" % (
         settings.HOSTNAME, reverse_lazy(

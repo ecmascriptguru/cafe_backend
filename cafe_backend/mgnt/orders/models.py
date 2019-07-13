@@ -87,7 +87,7 @@ class Order(TimeStampedModel):
 
     @property
     def print_chicken_items(self):
-        return self.print_items.filter(dish__position=DISH_POSITION.chicken)
+        return self.print_items.filter(dish__position=DISH_POSITION.kitchen)
 
     @property
     def pending_items(self):
