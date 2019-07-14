@@ -106,7 +106,8 @@ class Order(TimeStampedModel):
 
     @property
     def is_delivered(self):
-        return len(self.completed) == len(self.items)
+        return len(self.completed) == len(self.items) and\
+            self.checkout_at is not None
 
     @property
     def sum(self):

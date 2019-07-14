@@ -118,17 +118,15 @@ class TableForm(forms.ModelForm):
         data = super(TableForm, self).clean()
         if self.data['submit'].lower() == _('clear') and\
                 not self.instance.can_clear():
-            self.add_error('state', _('Order is not complete yet.'))
+            self.add_error(None, _('Order is not complete yet.'))
         return self.cleaned_data
 
     def save(self, commit=True):
-        print(self.data['submit'].lower() == _('clear'))
+        instance = super().save(commit=False)
         if self.data['submit'].lower() == _('clear'):
-            self.instance.clear()
-            self.instance.save()
-            return self.instance
-        else:
-            return super().save(commit=commit)
+            instance.clear()
+        instance.save()
+        return instance
 
 
 class TableControlForm(forms.ModelForm):

@@ -88,14 +88,15 @@ class Table(TimeStampedModel):
         source=(TABLE_STATE.using, TABLE_STATE.reserved),
         target=TABLE_STATE.blank)
     def clear(self):
-        self.male = 0
-        self.female = 0
         if self.order and self.order.state != ORDER_STATE.archived:
             order = self.order
             order.details['customers']['male'] = self.male
             order.details['customers']['female'] = self.female
             order.archive()
             order.save()
+
+        self.male = 0
+        self.female = 0
 
         for attendee in self.user.attendees.all():
             attendee.channel.messages.filter(poster=self.user).delete()
