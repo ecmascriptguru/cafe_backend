@@ -62,9 +62,9 @@ class OrderSerializer(CafeModelSerializer):
             if order_item.dish.position == DISH_POSITION.kitchen:
                 item_pks.append(order_item.pk)
         print_order.delay(order.pk, item_pks)
-        # for pk in item_pks:
-        #     print_order_item.delay(pk)
-        bulk_print_order_items.delay(item_pks)
+        for pk in item_pks:
+            print_order_item.delay(pk)
+        # bulk_print_order_items.delay(item_pks)
         return order
 
     def update(self, instance, validated_data):
@@ -84,12 +84,12 @@ class OrderSerializer(CafeModelSerializer):
         if len(added_items) > 0:
             order_pk = added_items[0].order.pk
             print_order.delay(order_pk, [item.pk for item in added_items])
-            bulk_print_order_items.delay([
-                item.pk for item in added_items
-                if item.dish.position == DISH_POSITION.kitchen])
-            # for item in added_items:
-            #     if item.dish.position == DISH_POSITION.kitchen:
-            #         print_order_item.delay(item.pk)
+            # bulk_print_order_items.delay([
+            #     item.pk for item in added_items
+            #     if item.dish.position == DISH_POSITION.kitchen])
+            for item in added_items:
+                if item.dish.position == DISH_POSITION.kitchen:
+                    print_order_item.delay(item.pk)
         return instance
 
 

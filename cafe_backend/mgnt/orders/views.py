@@ -230,11 +230,12 @@ class OrderViewSet(CafeModelViewSet):
                     price=item['price'])
                 order_items.append(order_item)
             print_order.delay(order.pk, [item.pk for item in order_items])
-            bulk_print_order_items.delay([
-                item.pk for item in order_items
-                if item.dish.position == DISH_POSITION.kitchen])
-                # if order_item.dish.position == DISH_POSITION.kitchen:
-                #     print_order_item.delay(order_item.pk)
+            # bulk_print_order_items.delay([
+            #     item.pk for item in order_items
+            #     if item.dish.position == DISH_POSITION.kitchen])
+            for order_item in order_items:
+                if order_item.dish.position == DISH_POSITION.kitchen:
+                    print_order_item.delay(order_item.pk)
             return Response({'status': True})
         except Exception as e:
             return Response({'status': True, 'msg': str(e)})
