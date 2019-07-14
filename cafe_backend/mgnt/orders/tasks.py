@@ -85,6 +85,19 @@ def print_order_item(order_item_pk):
 
 
 @shared_task
+def bulk_print_order_items(order_item_pks):
+    time.sleep(1)
+    ids = '+'.join([str(pk) for pk in order_item_pks])
+    url = "%s%s?ids=%s" % (
+        settings.HOSTNAME,
+        reverse_lazy('orders:order_item_bulk_printview'), ids)
+    if not settings.DEBUG:
+        EYPrint.print_80(url)
+    else:
+        print("Printing order item", url)
+
+
+@shared_task
 def print_order_item_cancel(order_item_pk):
     item = OrderItem.objects.get(pk=order_item_pk)
     url = "%s%s" % (

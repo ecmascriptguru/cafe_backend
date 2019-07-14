@@ -16,7 +16,8 @@ from . import serializers
 from . import forms
 from .tasks import (
     mark_order_items_as_printed, print_order_item_cancel,
-    send_changed_order_item, print_order, print_order_item)
+    send_changed_order_item, print_order, print_order_item,
+    bulk_print_order_items)
 
 
 class TableGridView(LoginRequiredMixin, generic.ListView):
@@ -131,6 +132,17 @@ class OrderItemPrintView(generic.DetailView):
     template_name = 'orders/order_item_printview.html'
 
 
+class OrderItemsBulkPrintView(generic.TemplateView):
+    model = OrderItem
+    template_name = 'orders/order_item_bulk_printview.html'
+
+    def get_context_data(self, **kwargs):
+        params = super().get_context_data(**kwargs)
+        ids = self.request.GET.get('ids', '').split(' ')
+        params['order_items'] = OrderItem.objects.filter(pk__in=ids)
+        return params
+
+
 class OrderItemCancelPrintView(generic.DetailView):
     model = OrderItem
     template_name = 'orders/order_item_cancel_printview.html'
@@ -218,9 +230,11 @@ class OrderViewSet(CafeModelViewSet):
                     price=item['price'])
                 order_items.append(order_item)
             print_order.delay(order.pk, [item.pk for item in order_items])
-            for order_item in order_items:
-                if order_item.dish.position == DISH_POSITION.kitchen:
-                    print_order_item.delay(order_item.pk)
+            bulk_print_order_items.delay([
+                item.pk for item in order_items
+                if item.dish.position == DISH_POSITION.kitchen])
+                # if order_item.dish.position == DISH_POSITION.kitchen:
+                #     print_order_item.delay(order_item.pk)
             return Response({'status': True})
         except Exception as e:
             return Response({'status': True, 'msg': str(e)})
