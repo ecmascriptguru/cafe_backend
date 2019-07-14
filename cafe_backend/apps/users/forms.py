@@ -18,7 +18,7 @@ class TableAdminForm(forms.ModelForm):
         model = Table
         fields = (
             'name', 'imei', 'size', 'female', 'socket_counter',
-            'male', 'state', 'is_vip', 'deposit',)
+            'male', 'state', 'is_online', 'is_vip', 'deposit',)
 
     def __init__(self, *args, **kwargs):
         super(TableAdminForm, self).__init__(*args, **kwargs)
