@@ -180,7 +180,7 @@
                         <li class="user-footer">
                             <div class="pull-left">
                                 {% if request.user.is_superuser %}
-                                    <a href="{% url 'admin:index' %}" class="btn btn-default btn-flat">{% trans 'Super Admin' %}</a>
+                                    <a href="{% url 'admin:index' %}" target="_blank" class="btn btn-default btn-flat">{% trans 'Super Admin' %}</a>
                                 {% else %}
                                     <a href="{% url 'root_url' %}" class="btn btn-default btn-flat">{% trans 'DashBoard' %}</a>
                                 {% endif %}

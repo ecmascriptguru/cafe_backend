@@ -47,11 +47,14 @@ class Dish(TimeStampedModel):
     name_ko = models.CharField(
         max_length=128, verbose_name=_('Korean name'))
     description = models.TextField(
-        max_length=1024, verbose_name=_('Description'))
+        max_length=1024, null=True, blank=True, default=None,
+        verbose_name=_('Description'))
     description_en = models.TextField(
-        max_length=1024, verbose_name=_('English Description'))
+        max_length=1024, null=True, blank=True, default=None,
+        verbose_name=_('English Description'))
     description_ko = models.TextField(
-        max_length=1024, verbose_name=_('Korean Description'))
+        max_length=1024, null=True, blank=True, default=None,
+        verbose_name=_('Korean Description'))
     is_active = models.BooleanField(
         default=True, verbose_name=_('Active?'))
     rate = models.FloatField(default=0.0)
