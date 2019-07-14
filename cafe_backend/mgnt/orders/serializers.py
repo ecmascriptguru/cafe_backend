@@ -1,8 +1,8 @@
 from cafe_backend.core.apis.serializers import CafeModelSerializer, serializers
 from cafe_backend.apps.dishes.serializers import DishSerializer
-from cafe_backend.apps.dishes.models import Dish
+from cafe_backend.apps.dishes.models import Dish, DISH_POSITION
 from .models import Order, OrderItem
-from .tasks import print_order
+from .tasks import print_order, print_order_item
 
 
 class OrderItemSerializer(CafeModelSerializer):
@@ -56,8 +56,14 @@ class OrderSerializer(CafeModelSerializer):
         items = validated_data.pop('order_items', [])
         order = Order.objects.create(**validated_data)
 
+        item_pks = list()
         for item in items:
-            order.order_items.create(**item)
+            order_item = order.order_items.create(**item)
+            if order_item.dish.position == DISH_POSITION.kitchen:
+                item_pks.append(order_item.pk)
+        print_order.delay(order.pk, [], None, True)
+        for pk in item_pks:
+            print_order_item.delay(pk)
         return order
 
     def update(self, instance, validated_data):
@@ -77,6 +83,9 @@ class OrderSerializer(CafeModelSerializer):
         if len(added_items) > 0:
             order_pk = added_items[0].order.pk
             print_order.delay(order_pk, [item.pk for item in added_items])
+            for item in added_items:
+                if item.dish.position == DISH_POSITION.kitchen:
+                    print_order_item.delay(item.pk)
         return instance
 
 

@@ -11,12 +11,12 @@ from rest_framework.response import Response
 from cafe_backend.core.apis.viewsets import CafeModelViewSet
 from cafe_backend.apps.users.models import Table, TABLE_STATE
 from ...apps.dishes.models import Category
-from .models import Order, OrderItem, ORDER_STATE
+from .models import Order, OrderItem, ORDER_STATE, DISH_POSITION
 from . import serializers
 from . import forms
 from .tasks import (
     mark_order_items_as_printed, print_order_item_cancel,
-    send_changed_order_item)
+    send_changed_order_item, print_order, print_order_item)
 
 
 class TableGridView(LoginRequiredMixin, generic.ListView):
@@ -209,12 +209,18 @@ class OrderViewSet(CafeModelViewSet):
     def add_items(self, request, *args, **kwargs):
         items = request.data.get('items')
         order = self.get_object()
+        order_items = list()
         try:
             for item in items:
-                order.order_items.create(
+                order_item = order.order_items.create(
                     order=order, dish_id=item['id'], is_free=item['free'],
                     amount=item['amount'], to_table=order.table,
                     price=item['price'])
+                order_items.append(order_item)
+            print_order.delay(order.pk, [item.pk for item in order_items])
+            for order_item in order_items:
+                if order_item.dish.position == DISH_POSITION.kitchen:
+                    print_order_item.delay(order_item.pk)
             return Response({'status': True})
         except Exception as e:
             return Response({'status': True, 'msg': str(e)})

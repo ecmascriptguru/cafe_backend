@@ -417,7 +417,7 @@ class OrderItem(TimeStampedModel):
             "id": self.pk,
             "order": self.order.pk,
             "dish": self.dish.pk,
-            "dish_img": self.dish.img.file.url,
+            "dish_img": self.dish.default_image,
             "to_table": self.to_table.pk,
             "to_table_name": self.to_table.name,
             "price": self.price,
