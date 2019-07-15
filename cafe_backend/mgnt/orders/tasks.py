@@ -77,7 +77,7 @@ def print_order(order_pk, item_ids=[], mode=None, print_all=False):
 
 @shared_task
 def print_order_item(order_item_pk):
-    if not OrderItem.objects.filter(pk=order_pk).exists():
+    if not OrderItem.objects.filter(pk=order_item_pk).exists():
         time.sleep(0.1)
     item = OrderItem.objects.get(pk=order_item_pk)
     url = "%s%s" % (
