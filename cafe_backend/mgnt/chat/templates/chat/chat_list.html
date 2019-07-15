@@ -22,47 +22,48 @@
 </section>
 
 <section class="content">
-    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
-        <ul class="channel-list nav">
-            {% for channel in channels %}
-            <li class="channel nav-item" data-channel-id="{{ channel.pk }}">{{ channel.name }}</li>
-            {% endfor %}
-        </ul>
-    </div>
-    <div class="col-lg-10 col-md-9 col-sm-8 col-xs-12">
-        <div class="box box-primary direct-chat direct-chat-primary">
-            <div class="box-header with-border">
-                <h3 class="box-title channel-name">{% trans 'Direct Chat' %}</h3>
-
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                    </button>
+    <div class="row">
+        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
+            <ul class="channel-list nav">
+                {% for channel in channels %}
+                <li class="channel nav-item" data-channel-id="{{ channel.pk }}">{{ channel.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-lg-10 col-md-9 col-sm-8 col-xs-12">
+            <div class="box box-primary direct-chat direct-chat-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title channel-name">{% trans 'Direct Chat' %}</h3>
+    
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-                <!-- Conversations are loaded here -->
-                <div class="direct-chat-messages">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <!-- Conversations are loaded here -->
+                    <div class="direct-chat-messages">
+                    </div>
+                    <!--/.direct-chat-messages-->
                 </div>
-                <!--/.direct-chat-messages-->
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <div class="input-group">
-                    <input type="text" id="chat-message-input" name="message" placeholder="{% trans 'Type Message ...' %}" class="form-control">
-                    <span class="input-group-btn">
-                        <button id="chat-message-submit" class="btn btn-primary btn-flat">{% trans 'Send' %}</button>
-                    </span>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <div class="input-group">
+                        <input type="text" id="chat-message-input" name="message" placeholder="{% trans 'Type Message ...' %}" class="form-control">
+                        <span class="input-group-btn">
+                            <button id="chat-message-submit" class="btn btn-primary btn-flat">{% trans 'Send' %}</button>
+                        </span>
+                    </div>
                 </div>
+                <!-- /.box-footer-->
             </div>
-            <!-- /.box-footer-->
         </div>
     </div>
 </section>
 {% endblock content %}
 
 {% block custom_js %}
-<!-- <script src="{% static 'chat/js/chatroom.js' %}"></script> -->
 {% endblock %}
 
 {% block page_specific_content %}

@@ -221,18 +221,6 @@ export const initSocket = () => {
             
                 messageInputDom.value = '';
             })
-            .on('click', 'li.channel', function(e) {
-                currentChannel = $(this).data('channel-id')
-                $('li.channel.active').removeClass('active')
-                getChannel(currentChannel, (res) => {
-                    $(this).addClass('active').find('span.badge').remove()
-                    $(".channel-name").text(res.name)
-                    if (res.message_set) {
-                        drawChatHistory(res.message_set)
-                    }
-                })
-            })
-            
         },
 
         init = () => {
@@ -286,10 +274,6 @@ export const initSocket = () => {
                 _initChatRoomEventListeners()
 
                 document.querySelector('#chat-message-input').focus();
-                $('li.channel').first().click()
-            }
-
-            if ($('li.channel').length > 0) {
                 $('li.channel').first().click()
             }
         }
