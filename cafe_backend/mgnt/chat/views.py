@@ -14,10 +14,10 @@ class ChatListView(LoginRequiredMixin, generic.TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         data = super(ChatListView, self).get_context_data(*args, **kwargs)
-        if self.request.user.is_superuser:
-            data['channels'] = Channel.objects.all()
-        else:
-            data['channels'] = self.request.user.get_active_channels()
+        # if self.request.user.is_superuser:
+        data['channel'] = Channel.get_public_channel()
+        # else:
+        #     data['channels'] = self.request.user.get_active_channels()
         return data
 
 
