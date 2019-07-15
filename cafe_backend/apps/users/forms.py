@@ -17,7 +17,7 @@ class TableAdminForm(forms.ModelForm):
     class Meta:
         model = Table
         fields = (
-            'name', 'imei', 'size', 'female', 'socket_counter',
+            'name', 'imei', 'size', 'female',
             'male', 'state', 'is_online', 'is_vip', 'deposit',)
 
     def __init__(self, *args, **kwargs):

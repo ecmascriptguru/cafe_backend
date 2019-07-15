@@ -1,5 +1,6 @@
 import json
 from django.shortcuts import render
+from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.safestring import mark_safe
 from django.views import generic
@@ -14,10 +15,10 @@ class ChatListView(LoginRequiredMixin, generic.TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         data = super(ChatListView, self).get_context_data(*args, **kwargs)
-        # if self.request.user.is_superuser:
-        data['channel'] = Channel.get_public_channel()
-        # else:
-        #     data['channels'] = self.request.user.get_active_channels()
+        if settings.DEBUG:
+            data['channels'] = Channel.objects.all()
+        else:
+            data['channels'] = [Channel.get_public_channel()]
         return data
 
 

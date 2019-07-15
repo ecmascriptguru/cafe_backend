@@ -62,7 +62,6 @@ class Table(TimeStampedModel):
     state = FSMField(
         choices=TABLE_STATE_OPTIONS, default=TABLE_STATE.blank,
         verbose_name=_('State'))
-    socket_counter = models.PositiveSmallIntegerField(default=0)
     is_online = models.BooleanField(default=False, verbose_name=_('Online?'))
     cleared = models.DateTimeField(
         auto_now_add=True, verbose_name=_('Cleared'))
