@@ -15,9 +15,8 @@ from .models import Order, OrderItem, ORDER_STATE, DISH_POSITION
 from . import serializers
 from . import forms
 from .tasks import (
-    mark_order_items_as_printed, print_order_item_cancel,
-    send_changed_order_item, print_order, print_order_item,
-    bulk_print_order_items)
+    print_order_item_cancel, send_changed_order_item,
+    print_order, print_order_item, bulk_print_order_items)
 
 
 class TableGridView(LoginRequiredMixin, generic.ListView):
@@ -236,6 +235,11 @@ class OrderViewSet(CafeModelViewSet):
             for order_item in order_items:
                 if order_item.dish.position == DISH_POSITION.kitchen:
                     print_order_item.delay(order_item.pk)
+
+            # Change table state
+            if order.table.state != TABLE_STATE.using:
+                order.table.state = TABLE_STATE.using
+                order.table.save()
             return Response({'status': True})
         except Exception as e:
             return Response({'status': True, 'msg': str(e)})

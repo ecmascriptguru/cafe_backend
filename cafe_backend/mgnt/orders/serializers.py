@@ -1,6 +1,7 @@
 from cafe_backend.core.apis.serializers import CafeModelSerializer, serializers
 from cafe_backend.apps.dishes.serializers import DishSerializer
 from cafe_backend.apps.dishes.models import Dish, DISH_POSITION
+from ...apps.users.models import TABLE_STATE
 from .models import Order, OrderItem
 from .tasks import print_order, print_order_item, bulk_print_order_items
 
@@ -49,6 +50,13 @@ class OrderSerializer(CafeModelSerializer):
 
         return data
 
+    def check_table_state(self, state=TABLE_STATE.using, **kwargs):
+        if not hasattr(self, 'table'):
+            return False
+        if self.table.state != state:
+            self.table.state = state
+            self.table.save()
+
     def create(self, validated_data):
         if hasattr(self, 'table'):
             validated_data['table'] = self.table
@@ -65,6 +73,9 @@ class OrderSerializer(CafeModelSerializer):
         for pk in item_pks:
             print_order_item.delay(pk)
         # bulk_print_order_items.delay(item_pks)
+
+        # Check table state and change when a new order was made.
+        self.check_table_state(TABLE_STATE.using)
         return order
 
     def update(self, instance, validated_data):
@@ -90,6 +101,10 @@ class OrderSerializer(CafeModelSerializer):
             for item in added_items:
                 if item.dish.position == DISH_POSITION.kitchen:
                     print_order_item.delay(item.pk)
+
+            # Check table state and change when a new additional order item
+            # was made.
+            self.check_table_state(TABLE_STATE.using)
         return instance
 
 
