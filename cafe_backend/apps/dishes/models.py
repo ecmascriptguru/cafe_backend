@@ -139,7 +139,7 @@ class DishImage(ImageThumbnailMixin, TimeStampedModel):
         base_image = Image.open(self.file)
         base_image.paste(watermark, (40, 20))
         output = BytesIO()
-        base_image.save(output, format='JPEG', quality=75)
+        base_image.save(output, format='PNG', quality=75)
         output.seek(0)
         self.file = File(output, self.file.name)
         return super(DishImage, self).save()
