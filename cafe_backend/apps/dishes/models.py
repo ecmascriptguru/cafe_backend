@@ -134,14 +134,14 @@ class DishImage(ImageThumbnailMixin, TimeStampedModel):
         verbose_name_plural = _('Dish Images')
 
     def save(self):
-        watermark = Image.open(settings.WATERMARK_IMAGE)
+        # watermark = Image.open(settings.WATERMARK_IMAGE)
 
-        base_image = Image.open(self.file)
-        base_image.paste(watermark, (40, 20))
-        output = BytesIO()
-        base_image.save(output, format='PNG', quality=75)
-        output.seek(0)
-        self.file = File(output, self.file.name)
+        # base_image = Image.open(self.file)
+        # base_image.paste(watermark, (40, 20))
+        # output = BytesIO()
+        # base_image.save(output, format='PNG', quality=75)
+        # output.seek(0)
+        # self.file = File(output, self.file.name)
         return super(DishImage, self).save()
 
     def __str__(self):
