@@ -104,22 +104,22 @@ class TableForm(forms.ModelForm):
 
     def clean(self):
         super(TableForm, self).clean()
-        male = self.cleaned_data['male']
-        female = self.cleaned_data['female']
-        state = self.cleaned_data['state']
+        male = self.cleaned_data.get('male', 0)
+        female = self.cleaned_data.get('female', 0)
+        state = self.cleaned_data.get('state')
 
-        if male > self.cleaned_data['size']:
+        if male > self.cleaned_data.get('size', 0):
             self.add_error('male', _("Male can't be greater than size!"))
 
-        if male + female > self.cleaned_data['size']:
+        if male + female > self.cleaned_data.get('size', 0):
             self.add_error('female', _('Male + Femail should not be greater\
                 than size!'))
 
         if state == TABLE_STATE.using:
-            if self.cleaned_data['male'] + self.cleaned_data['female'] == 0:
+            if male + female < 1:
                 self.add_error('female', _('Using without any customers?'))
 
-        if self.cleaned_data['deposit'] < 0:
+        if self.cleaned_data.get('deposit', 0) < 0:
             self.add_error('deposit', _("Deposit can't be less than 0."))
 
         data = super(TableForm, self).clean()
