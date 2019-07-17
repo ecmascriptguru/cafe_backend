@@ -71,7 +71,7 @@ class DishForm(forms.ModelForm):
 
     def save(self, commit=True):
         self.instance = super(DishForm, self).save(commit=True)
-        self.instance.price = self.cleaned_data['price']
+        self.instance.price = self.cleaned_data.get('price')
         return super(DishForm, self).save(commit=commit)
 
 
@@ -95,7 +95,7 @@ class DishAdminForm(forms.ModelForm):
 
     def save(self, commit=True):
         self.instance = super(DishAdminForm, self).save(commit=True)
-        self.instance.price = self.cleaned_data['price']
+        self.instance.price = self.cleaned_data.get('price')
         return super(DishAdminForm, self).save(commit=commit)
 
 

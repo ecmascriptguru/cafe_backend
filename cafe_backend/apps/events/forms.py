@@ -59,7 +59,7 @@ class EventAdminForm(forms.ModelForm):
                 self.instance.details.get('weekdays', {}).get(week_day, False)
 
     def save(self, commit=True):
-        if self.cleaned_data['repeat'] == EVENT_REPEAT_TYPE.every_week:
+        if self.cleaned_data.get('repeat') == EVENT_REPEAT_TYPE.every_week:
             buffer = dict()
             for week_day, value in WEEK_DAYS:
                 buffer[week_day] = self.cleaned_data[week_day]
