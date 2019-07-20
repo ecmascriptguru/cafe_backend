@@ -79,6 +79,11 @@ class Message(TimeStampedModel):
             _('Message'), self.pk, self.poster.name, self.content)
 
     def to_json(self):
+        male = 0
+        female = 0
+        if hasattr(self.poster, 'table'):
+            male = self.poster.table.male
+            female = self.poster.table.female
         return {
             'channel_id': self.channel.pk,
             'id': self.pk,
@@ -86,5 +91,8 @@ class Message(TimeStampedModel):
             'content': self.content,
             'poster': self.poster.pk,
             'poster_name': self.poster.first_name,
+            'is_table': self.poster.is_table,
+            'male': male,
+            'female': female,
             'created': str(self.created)
         }
