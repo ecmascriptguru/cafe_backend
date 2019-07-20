@@ -122,10 +122,10 @@ class TableForm(forms.ModelForm):
         if self.cleaned_data.get('deposit', 0) < 0:
             self.add_error('deposit', _("Deposit can't be less than 0."))
 
-        data = super(TableForm, self).clean()
-        if self.data['submit'].lower() == _('clear') and\
-                not self.instance.can_clear():
-            self.add_error(None, _('Order is not complete yet.'))
+        # data = super(TableForm, self).clean()
+        # if self.data['submit'].lower() == _('clear') and\
+        #         not self.instance.can_clear():
+        #     self.add_error(None, _('Order is not complete yet.'))
         return self.cleaned_data
 
     def save(self, commit=True):
