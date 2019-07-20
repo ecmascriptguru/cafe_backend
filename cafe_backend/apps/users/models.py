@@ -100,6 +100,8 @@ class Table(TimeStampedModel):
         for attendee in self.user.attendees.all():
             attendee.channel.messages.filter(poster=self.user).delete()
 
+        pc = Channel.get_public_channel()
+        pc.messages.filter(poster=self.user).delete()
         # TODO: Clean bookings
         for booking in self.requested_bookings.all():
             booking.archive()
