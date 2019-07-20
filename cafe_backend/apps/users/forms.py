@@ -33,7 +33,7 @@ class TableAdminForm(forms.ModelForm):
     def clean_size(self):
         if self.cleaned_data.get('size', 0) < 1:
             self.add_error('size', _('Size can not be 0.'))
-        return 0
+        return self.cleaned_data.get('size', 0)
 
     def clean(self):
         super(TableAdminForm, self).clean()
