@@ -98,9 +98,13 @@ class Order(TimeStampedModel):
         return self.items.filter(state=ORDER_STATE.delivered)
 
     @property
+    def canceled(self):
+        return self.items.filter(state=ORDER_STATE.canceled)
+
+    @property
     def progress(self):
-        if len(self.items) > 0:
-            return "%d / %d" % (len(self.completed), len(self.items))
+        if len(self.order_items) > 0:
+            return "%d / %d" % (len(self.completed) + len(self.canceled), len(self.order_items))
         else:
             return "N / A"
 
