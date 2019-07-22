@@ -85,3 +85,8 @@ class PlaylistViewSet(viewsets.ModelViewSet):
             return Response({'status': True})
         except Exception as e:
             return Response({'status': False, 'msg': str(e)})
+
+    @action(detail=False, methods=['post'], url_name='clear_playlist')
+    def clear(self, request, **kwargs):
+        response = Playlist.objects.all().delete()
+        return Response({'status': True})
