@@ -62,7 +62,6 @@ class Table(TimeStampedModel):
     state = FSMField(
         choices=TABLE_STATE_OPTIONS, default=TABLE_STATE.blank,
         verbose_name=_('State'))
-    socket_counter = models.PositiveSmallIntegerField(default=0)
     is_online = models.BooleanField(default=False, verbose_name=_('Online?'))
     cleared = models.DateTimeField(
         auto_now_add=True, verbose_name=_('Cleared'))
@@ -88,8 +87,6 @@ class Table(TimeStampedModel):
         source=(TABLE_STATE.using, TABLE_STATE.reserved),
         target=TABLE_STATE.blank)
     def clear(self):
-        self.male = 0
-        self.female = 0
         if self.order and self.order.state != ORDER_STATE.archived:
             order = self.order
             order.details['customers']['male'] = self.male
@@ -97,9 +94,14 @@ class Table(TimeStampedModel):
             order.archive()
             order.save()
 
+        self.male = 0
+        self.female = 0
+
         for attendee in self.user.attendees.all():
             attendee.channel.messages.filter(poster=self.user).delete()
 
+        pc = Channel.get_public_channel()
+        pc.messages.filter(poster=self.user).delete()
         # TODO: Clean bookings
         for booking in self.requested_bookings.all():
             booking.archive()

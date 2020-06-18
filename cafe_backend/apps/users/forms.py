@@ -17,8 +17,8 @@ class TableAdminForm(forms.ModelForm):
     class Meta:
         model = Table
         fields = (
-            'name', 'imei', 'size', 'female', 'socket_counter',
-            'male', 'state', 'is_vip', 'deposit',)
+            'name', 'imei', 'size', 'female',
+            'male', 'state', 'is_online', 'is_vip', 'deposit',)
 
     def __init__(self, *args, **kwargs):
         super(TableAdminForm, self).__init__(*args, **kwargs)
@@ -27,22 +27,29 @@ class TableAdminForm(forms.ModelForm):
         if self.instance.pk:
             self.fields['name'].initial = self.instance.name
             self.fields['imei'].initial = self.instance.imei
+        else:
+            self.fields['size'].initial = 4
+
+    def clean_size(self):
+        if self.cleaned_data.get('size', 0) < 1:
+            self.add_error('size', _('Size can not be 0.'))
+        return self.cleaned_data.get('size', 0)
 
     def clean(self):
         super(TableAdminForm, self).clean()
-        male = self.cleaned_data['male']
-        female = self.cleaned_data['female']
-        state = self.cleaned_data['state']
+        male = self.cleaned_data.get('male', 0)
+        female = self.cleaned_data.get('female', 0)
+        state = self.cleaned_data.get('state')
 
-        if male > self.cleaned_data['size']:
+        if male > self.cleaned_data.get('size', 0):
             self.add_error('male', _("Male can't be greater than size!"))
 
-        if male + female > self.cleaned_data['size']:
+        if male + female > self.cleaned_data.get('size', 0):
             self.add_error('female', _('Male + Femail should not be greater\
                 than size!'))
 
         if state == TABLE_STATE.using:
-            if self.cleaned_data['male'] + self.cleaned_data['female'] == 0:
+            if male + female < 1:
                 self.add_error('female', _('Using without any customers?'))
         return self.cleaned_data
 
@@ -65,8 +72,6 @@ class TableForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(TableForm, self).__init__(*args, **kwargs)
-
-        self.fields['size'].widget.attrs['readonly'] = True
         self.helper = FormHelper()
         if self.instance.state == TABLE_STATE.blank:
             self.helper.layout = Layout(
@@ -97,38 +102,36 @@ class TableForm(forms.ModelForm):
 
     def clean(self):
         super(TableForm, self).clean()
-        male = self.cleaned_data['male']
-        female = self.cleaned_data['female']
-        state = self.cleaned_data['state']
+        male = self.cleaned_data.get('male', 0)
+        female = self.cleaned_data.get('female', 0)
+        state = self.cleaned_data.get('state')
 
-        if male > self.cleaned_data['size']:
+        if male > self.cleaned_data.get('size', 0):
             self.add_error('male', _("Male can't be greater than size!"))
 
-        if male + female > self.cleaned_data['size']:
+        if male + female > self.cleaned_data.get('size', 0):
             self.add_error('female', _('Male + Femail should not be greater\
                 than size!'))
 
         if state == TABLE_STATE.using:
-            if self.cleaned_data['male'] + self.cleaned_data['female'] == 0:
+            if male + female < 1:
                 self.add_error('female', _('Using without any customers?'))
 
-        if self.cleaned_data['deposit'] < 0:
+        if self.cleaned_data.get('deposit', 0) < 0:
             self.add_error('deposit', _("Deposit can't be less than 0."))
 
-        data = super(TableForm, self).clean()
-        if self.data['submit'].lower() == _('clear') and\
-                not self.instance.can_clear():
-            self.add_error('state', _('Order is not complete yet.'))
+        # data = super(TableForm, self).clean()
+        # if self.data['submit'].lower() == _('clear') and\
+        #         not self.instance.can_clear():
+        #     self.add_error(None, _('Order is not complete yet.'))
         return self.cleaned_data
 
     def save(self, commit=True):
-        print(self.data['submit'].lower() == _('clear'))
+        instance = super().save(commit=False)
         if self.data['submit'].lower() == _('clear'):
-            self.instance.clear()
-            self.instance.save()
-            return self.instance
-        else:
-            return super().save(commit=commit)
+            instance.clear()
+        instance.save()
+        return instance
 
 
 class TableControlForm(forms.ModelForm):

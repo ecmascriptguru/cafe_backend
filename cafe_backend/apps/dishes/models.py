@@ -34,8 +34,8 @@ class Category(TimeStampedModel):
 
 class Dish(TimeStampedModel):
     DISH_POSITION_CHOICES = (
-        (DISH_POSITION.counter, _('Counter')),
-        (DISH_POSITION.chicken, _('Chicken')))
+        (DISH_POSITION.restaurant_counter, _('Rest Counter')),
+        (DISH_POSITION.kitchen, _('Kitchen')))
 
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, related_name='dishes',
@@ -47,16 +47,19 @@ class Dish(TimeStampedModel):
     name_ko = models.CharField(
         max_length=128, verbose_name=_('Korean name'))
     description = models.TextField(
-        max_length=1024, verbose_name=_('Description'))
+        max_length=1024, null=True, blank=True, default=None,
+        verbose_name=_('Description'))
     description_en = models.TextField(
-        max_length=1024, verbose_name=_('English Description'))
+        max_length=1024, null=True, blank=True, default=None,
+        verbose_name=_('English Description'))
     description_ko = models.TextField(
-        max_length=1024, verbose_name=_('Korean Description'))
+        max_length=1024, null=True, blank=True, default=None,
+        verbose_name=_('Korean Description'))
     is_active = models.BooleanField(
         default=True, verbose_name=_('Active?'))
     rate = models.FloatField(default=0.0)
     position = FSMField(
-        choices=DISH_POSITION_CHOICES, default=DISH_POSITION.chicken,
+        choices=DISH_POSITION_CHOICES, default=DISH_POSITION.kitchen,
         verbose_name=_('Dish Position'))
 
     class Meta:
@@ -131,14 +134,14 @@ class DishImage(ImageThumbnailMixin, TimeStampedModel):
         verbose_name_plural = _('Dish Images')
 
     def save(self):
-        watermark = Image.open(settings.WATERMARK_IMAGE)
+        # watermark = Image.open(settings.WATERMARK_IMAGE)
 
-        base_image = Image.open(self.file)
-        base_image.paste(watermark, (40, 20))
-        output = BytesIO()
-        base_image.save(output, format='JPEG', quality=75)
-        output.seek(0)
-        self.file = File(output, self.file.name)
+        # base_image = Image.open(self.file)
+        # base_image.paste(watermark, (40, 20))
+        # output = BytesIO()
+        # base_image.save(output, format='PNG', quality=75)
+        # output.seek(0)
+        # self.file = File(output, self.file.name)
         return super(DishImage, self).save()
 
     def __str__(self):

@@ -31,6 +31,7 @@
             <form action="" method="get" class="form form-inline">
                 {% bootstrap_form filter.form layout='inline' %}
                 <button class="btn btn-default">{% trans 'Filter' %}</button>
+                <button type="button" id="music-clear-button" class="btn btn-danger">{% trans 'Clear' %}</button>
             </form>
             {% endif %}
         </div>

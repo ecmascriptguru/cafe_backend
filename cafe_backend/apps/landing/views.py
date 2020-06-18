@@ -21,7 +21,8 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
             timezone.now().date().strftime('%Y-%m-%d'))
         start_date = self.request.GET.get(
             'start_date',
-            (timezone.now() - timedelta(days=29)).date().strftime('%Y-%m-%d'))
+            timezone.now().date().strftime('%Y-%m-%d'))
+        # (timezone.now() - timedelta(days=29)).date().strftime('%Y-%m-%d'))
         range_option = self.request.GET.get('range_option', _('Last 30 Days'))
         tables = self.request.GET.get('tables', '')
         params = super(DashboardView, self).get_context_data(*args, **kwargs)

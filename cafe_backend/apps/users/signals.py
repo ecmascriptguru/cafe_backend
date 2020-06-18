@@ -33,15 +33,15 @@ def create_channes_for_new_table(sender, instance, created, **kwargs):
         # Should send message via socket.
         send_table_change_to_all.delay(instance.pk)
 
-    if instance.state == TABLE_STATE.using and instance.order is None:
-        Order.objects.create(table=instance)
+    # if instance.state == TABLE_STATE.using and instance.order is None:
+    #     Order.objects.create(table=instance)
 
-    if instance.order is not None:
-        order = instance.order
-        order.details['customers'] = {
-            'male': instance.male,
-            'female': instance.female}
-        order.save()
+    # if instance.order is not None:
+    #     order = instance.order
+    #     order.details['customers'] = {
+    #         'male': instance.male,
+    #         'female': instance.female}
+    #     order.save()
 
 
 @receiver(post_delete, sender=Table)

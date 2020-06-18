@@ -56,8 +56,8 @@ class PAYMENT_METHOD:
 
 
 class DISH_POSITION:
-    counter = 'c'
-    chicken = 'n'
+    restaurant_counter = 'c'
+    kitchen = 'n'
 
 
 class MUSIC_PROVIDER:

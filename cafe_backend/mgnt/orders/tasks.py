@@ -11,25 +11,34 @@ from .models import Order, OrderItem
 
 @shared_task
 def send_changed_order(order_pk, created):
+    if not Order.objects.filter(pk=order_pk).exists():
+        time.sleep(0.1)
     order = Order.objects.get(pk=order_pk)
-    broadcast_order_status(order, created)
+    if order:
+        broadcast_order_status(order, created)
 
 
 @shared_task
 def send_changed_order_item(order_item_pk, created):
-    time.sleep(1)
+    if not OrderItem.objects.filter(pk=order_item_pk).exists():
+        time.sleep(0.1)
     order_item = OrderItem.objects.get(pk=order_item_pk)
-    broadcast_order_item_status(order_item, created)
+    if order_item:
+        broadcast_order_item_status(order_item, created)
 
 
 @shared_task
 def send_dish_booking_status(order_item_pk, created):
+    if not OrderItem.objects.filter(pk=order_item_pk).exists():
+        time.sleep(0.1)
     order_item = OrderItem.objects.get(pk=order_item_pk)
     notify_dish_booking_status(order_item, created)
 
 
 @shared_task
 def print_order(order_pk, item_ids=[], mode=None, print_all=False):
+    if not Order.objects.filter(pk=order_pk).exists():
+        time.sleep(0.1)
     order = Order.objects.get(pk=order_pk)
     if print_all:
         url = "%s%s" % (
@@ -68,11 +77,26 @@ def print_order(order_pk, item_ids=[], mode=None, print_all=False):
 
 @shared_task
 def print_order_item(order_item_pk):
+    if not OrderItem.objects.filter(pk=order_item_pk).exists():
+        time.sleep(0.1)
     item = OrderItem.objects.get(pk=order_item_pk)
     url = "%s%s" % (
         settings.HOSTNAME, reverse_lazy(
             'orders:order_item_printview', kwargs={'pk': order_item_pk}
         ))
+    if not settings.DEBUG:
+        EYPrint.print_80(url)
+    else:
+        print("Printing order item", url)
+
+
+@shared_task
+def bulk_print_order_items(order_item_pks):
+    time.sleep(0.1)
+    ids = '+'.join([str(pk) for pk in order_item_pks])
+    url = "%s%s?ids=%s" % (
+        settings.HOSTNAME,
+        reverse_lazy('orders:order_item_bulk_printview'), ids)
     if not settings.DEBUG:
         EYPrint.print_80(url)
     else:
@@ -90,13 +114,6 @@ def print_order_item_cancel(order_item_pk):
         EYPrint.print_80(url)
     else:
         print("Printing canceled order item", url)
-
-
-@shared_task
-def mark_order_items_as_printed(order_item_ids):
-    time.sleep(10)
-    return OrderItem.objects.filter(pk__in=order_item_ids).update(
-        is_printed=True)
 
 
 @shared_task

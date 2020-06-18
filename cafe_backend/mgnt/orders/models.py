@@ -87,7 +87,7 @@ class Order(TimeStampedModel):
 
     @property
     def print_chicken_items(self):
-        return self.print_items.filter(dish__position=DISH_POSITION.chicken)
+        return self.print_items.filter(dish__position=DISH_POSITION.kitchen)
 
     @property
     def pending_items(self):
@@ -95,18 +95,25 @@ class Order(TimeStampedModel):
 
     @property
     def completed(self):
-        return self.items.filter(state=ORDER_STATE.delivered)
+        return self.order_items.filter(state=ORDER_STATE.delivered)
+
+    @property
+    def canceled(self):
+        return self.order_items.filter(state=ORDER_STATE.canceled)
 
     @property
     def progress(self):
-        if len(self.items) > 0:
-            return "%d / %d" % (len(self.completed), len(self.items))
+        if len(self.order_items) > 0:
+            return "%d / %d" % (
+                len(self.completed) + len(self.canceled),
+                len(self.order_items))
         else:
             return "N / A"
 
     @property
     def is_delivered(self):
-        return len(self.completed) == len(self.items)
+        return len(self.completed) == len(self.items) and\
+            self.checkout_at is not None
 
     @property
     def sum(self):
@@ -417,7 +424,7 @@ class OrderItem(TimeStampedModel):
             "id": self.pk,
             "order": self.order.pk,
             "dish": self.dish.pk,
-            "dish_img": self.dish.img.file.url,
+            "dish_img": self.dish.default_image,
             "to_table": self.to_table.pk,
             "to_table_name": self.to_table.name,
             "price": self.price,

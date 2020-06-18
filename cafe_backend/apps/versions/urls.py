@@ -6,5 +6,7 @@ app_name = 'cafe_backend.apps.versions'
 
 urlpatterns = [
     path(
-        '', views.AppDownloadView.as_view(), name='app_downloadview'),
+        '/', views.AppDownloadView.as_view(), name='app_downloadview'),
+    path(
+        '', views.AppDownloadView.as_view(), name='app_downloadview_1'),
 ]

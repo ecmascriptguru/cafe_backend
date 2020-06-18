@@ -28,7 +28,8 @@ DishImageFormSet = inlineformset_factory(
 
 
 class DishForm(forms.ModelForm):
-    price = forms.FloatField(min_value=0, required=False)
+    price = forms.IntegerField(
+        min_value=0, required=True, label=_('Price'))
 
     class Meta:
         model = Dish
@@ -47,7 +48,7 @@ class DishForm(forms.ModelForm):
         if self.instance.pk:
             self.fields['price'].initial = self.instance.price
         else:
-            self.fields['price'].widget.attrs['readonly'] = True
+            self.fields['price'].initial = 10
         self.helper = FormHelper()
         self.helper.form_tag = True
         self.helper.form_class = 'form-horizontal'
@@ -68,15 +69,15 @@ class DishForm(forms.ModelForm):
                 )
             )
 
-    @transaction.atomic()
     def save(self, commit=True):
-        if self.instance.pk:
-            self.instance.price = self.cleaned_data['price']
+        self.instance = super(DishForm, self).save(commit=True)
+        self.instance.price = self.cleaned_data.get('price')
         return super(DishForm, self).save(commit=commit)
 
 
 class DishAdminForm(forms.ModelForm):
-    price = forms.FloatField(required=False)
+    price = forms.IntegerField(
+        min_value=0, required=True, label=_('Price'))
 
     class Meta:
         model = Dish
@@ -90,15 +91,12 @@ class DishAdminForm(forms.ModelForm):
         if self.instance.pk:
             self.fields['price'].initial = self.instance.price
         else:
-            self.fields['price'].widget.attrs['disabled'] = True
+            self.fields['price'].initial = 10
 
-    @transaction.atomic()
     def save(self, commit=True):
-        price = self.cleaned_data['price']
-        instance = super(DishAdminForm, self).save(commit=commit)
-        if self.instance.pk:
-            instance.price = price
-        return instance
+        self.instance = super(DishAdminForm, self).save(commit=True)
+        self.instance.price = self.cleaned_data.get('price')
+        return super(DishAdminForm, self).save(commit=commit)
 
 
 class CategoryForm(forms.ModelForm):

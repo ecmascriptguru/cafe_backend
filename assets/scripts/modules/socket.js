@@ -1,7 +1,8 @@
 export const initSocket = () => {
     const WS_BASE_URL = `ws://${window.location.host}/ws/chat/${userId}/`,
         API_BASE_URL = `http://${window.location.host}/api/channels/`,
-        MONITOR_BASE_URL = `ws://${window.location.host}/ws/monitor/${userId}/`
+        MONITOR_BASE_URL = `ws://${window.location.host}/ws/monitor/${userId}/`,
+        token = $('input:hidden[name=csrfmiddlewaretoken]').val()
 
     let chatSocket = null,
         $messagesContainer = $(".direct-chat-messages"),
@@ -172,6 +173,18 @@ export const initSocket = () => {
             })
         },
 
+        clearChannel = (channelId, callback) => {
+            const data = { 'csrfmiddlewaretoken': token }
+            $.ajax({
+                url: `${API_BASE_URL}${channelId}/clear/`,
+                method: 'post',
+                data,
+                success: (res) => {
+                    (callback && typeof callback === 'function') && callback(res)
+                }
+            })
+        },
+
         getHtmlMsg = (msg) => {
             const isMine = (userId == msg.poster)
 
@@ -221,18 +234,6 @@ export const initSocket = () => {
             
                 messageInputDom.value = '';
             })
-            .on('click', 'li.channel', function(e) {
-                currentChannel = $(this).data('channel-id')
-                $('li.channel.active').removeClass('active')
-                getChannel(currentChannel, (res) => {
-                    $(this).addClass('active').find('span.badge').remove()
-                    $(".channel-name").text(res.name)
-                    if (res.message_set) {
-                        drawChatHistory(res.message_set)
-                    }
-                })
-            })
-            
         },
 
         init = () => {
@@ -256,6 +257,14 @@ export const initSocket = () => {
                 }));
             
                 messageInputDom.value = '';
+            })
+            .on('click', 'button#clear-chat-history', function(e) {
+                clearChannel(currentChannel, (res) => {
+                    if (res.status) {
+                        $('div.direct-chat-primary div.direct-chat-messages').children().remove()
+                    }
+                    $('#channel-clear-confirm-modal').modal('hide')
+                })
             })
             .on('click', 'li.channel', function(e) {
                 currentChannel = $(this).data('channel-id')
@@ -286,10 +295,6 @@ export const initSocket = () => {
                 _initChatRoomEventListeners()
 
                 document.querySelector('#chat-message-input').focus();
-                $('li.channel').first().click()
-            }
-
-            if ($('li.channel').length > 0) {
                 $('li.channel').first().click()
             }
         }
